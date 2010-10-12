@@ -34,7 +34,7 @@
  *
  * @package phery
  * @author Paulo Cesar <gahgneh@gmail.com>
- * @version 0.1 beta
+ * @version 0.2 beta
  * @license http://opensource.org/licenses/gpl-3.0.html GNU Public License
  */
 
@@ -64,9 +64,20 @@ class phery{
   private static $instance = null;
   /**
    * Config
+   * <code>
+   * 'exit_allowed',
+   * 'no_stripslashes',
+   * 'exceptions'
+   * </code>
+   * @var array
+   * @see config()
    */
-  public $config;
-
+  public $config = null;
+  /**
+   * Last response
+   * @var mixed
+   */
+  public $last_response = null;
   /**
    * Construct the new phery instance
    */
@@ -75,10 +86,11 @@ class phery{
       'pre' => array(),
       'post' => array()
     );
-    
+
     $this->config = array(
       'exit_allowed' => true,
-      'no_stripslashes' => false
+      'no_stripslashes' => false,
+      'exceptions' => false
     );
 
     if (isset($config)){
@@ -87,7 +99,9 @@ class phery{
   }
 
   /**
-   * Set callbacks for pre and post filters
+   * Set callbacks for pre and post filters. Callbacks are useful for example, if you have 2
+   * or more AJAX functions, and you need to perform the same data manipulation, like removing an 'id'
+   * from the $_POST['args'], or to check for potential CSRF or SQL injection attempts on all the functions
    * @param array $callbacks
    * <code>
    * 'pre' => array|function // Set a function to be called BEFORE processing the request, if it's an AJAX to be processed request, can be an array of callbacks
@@ -98,13 +112,14 @@ class phery{
    * // $additional_args is passed using the callback_data() function
    * function callback($additional_args){
    *   // Do stuff
-   *   $_POST['args']['one'] = null;
+   *   $_POST['args']['id'] = $additional_args['id'];
    *   return true;
    * }
    * </code>
    * Returning false on the callback will make the process to RETURN and won't exit. You may manually exit on the post
    * callback if desired
-   * Any data that should be modified will be inside $_POST['args'] (can be accessed freely on 'pre')
+   * Any data that should be modified will be inside $_POST['args'] (can be accessed freely on 'pre', will be passed to the
+   * AJAX function)
    * @return phery
   */
   function callback(array $callbacks){
@@ -144,7 +159,7 @@ class phery{
     $this->callbacks_data = func_get_args();
     return $this;
   }
-  
+
   /**
    * Check if the current call is an ajax call
    * @return bool
@@ -159,7 +174,7 @@ class phery{
     if (is_string($variable))
       return stripslashes($variable);
 
-    if (is_array($variable)) 
+    if (is_array($variable))
       foreach ($variable as $i => $value)
         $variable[$i] = $this->strip_slashes_recursive($value);
 
@@ -171,13 +186,13 @@ class phery{
    */
   function process(){
     if (self::is_ajax()){
-      
+
       foreach($this->callbacks['pre'] as $func)
         if (call_user_func($func, $this->callbacks_data) === false) return;
-      
+
       $remote = $_POST['remote'];
       unset($_POST['remote']);
-      
+
       if (isset($this->functions[$remote])){
         $args = array();
 
@@ -191,7 +206,7 @@ class phery{
         }
 
         $response = call_user_func_array($this->functions[$remote], array($args, $this->callbacks_data));
-        
+
         if ($response instanceof phery_response){
           header("Cache-Control: no-cache, must-revalidate");
           header("Expires: 0");
@@ -199,7 +214,8 @@ class phery{
         }
         echo $response;
       } else{
-        throw 'No function registered with that name';
+        if($this->config['exceptions'])
+          throw new phery_exception('No function "'.$remote.'" set');
       }
 
       foreach($this->callbacks['post'] as $func)
@@ -215,6 +231,7 @@ class phery{
    * <code>
    * 'exit_allowed' => true/false // Defaults to true, stop further script execution
    * 'no_stripslashes' => true/false // Don't apply stripslashes on the args
+   * 'exceptions' => true/false // Throw exceptions on errors
    * </code>
    * @return phery
    */
@@ -225,6 +242,9 @@ class phery{
       }
       if (isset($config['no_stripslashes'])){
         $this->config['no_stripslashes'] = (bool)$config['no_stripslashes'];
+      }
+      if (isset($config['exceptions'])){
+        $this->config['exceptions'] = (bool)$config['exceptions'];
       }
     }
     return $this;
@@ -246,7 +266,7 @@ class phery{
   /**
    * Sets the functions to respond to the ajax call..
    * These functions should not be available for direct POST/GET requests.
-   * These will be triggered only for AJAX requests.
+   * These will be set only for AJAX requests.
    * Answer function:
    * <code>
    * // $args = associative array with arguments or just one value, depending on your call
@@ -264,9 +284,19 @@ class phery{
     if (is_array($functions)){
       foreach ($functions as $name => $func){
         if (is_callable($func)){
+          if(isset($this->functions[$name])){
+            if($this->config['exceptions'])
+              throw new phery_exception ('The function "'.$name.'" already exists and will be rewritten');
+          }
           $this->functions[$name] = $func;
+        } else {
+          if($this->config['exceptions'])
+            throw new phery_exception('Provided function "'.$name.' isnt a valid function or method');
         }
       }
+    } else {
+      if($this->config['exceptions'])
+        throw new phery_exception('Call to "set" must be provided an array');
     }
     return $this;
   }
@@ -287,12 +317,27 @@ class phery{
    * <code>
    * 'confirm' => 'Are you sure?' // Display confirmation on click
    * 'tag' => 'a' // The tag for the item, defaults to a
-   * 'uri' => '/path/to/url' // Define another URI for the AJAX call, this refines the HREF of A 
+   * 'uri' => '/path/to/url' // Define another URI for the AJAX call, this defines the HREF of A
    * 'args' => array(1, "a") // Extra arguments to pass to the AJAX function, will be stored in the args attribute as a JSON notation
+   * 'data-type' => 'json' // Define the data-type for the communication
    * </code>
+   * @param phery $phery Pass the current instance of phery, so it can check if the functions are defined, and throw exceptions
    * @return string
    */
-  static function link_to($title, $function, array $attributes = array()){
+  static function link_to($title, $function, array $attributes = array(), phery $phery = null){
+    if($function == ''){
+      if($phery){
+        if($phery->config['exceptions'])
+          throw new phery_exception('The "function" argument must be provided to "link_to"');
+      }
+      return '';
+    }
+    if($phery){
+      if(!isset($phery->functions[$function])){
+        if($phery->config['exceptions'])
+          throw new phery_exception('The function "'.$function.'" provided in "link_to" hasnt been set');
+      }
+    }
 
     $tag = 'a';
     if (isset($attributes['tag'])){
@@ -306,10 +351,16 @@ class phery{
     }
 
     if (isset($attributes['args'])){
-      $attributes['args'] = json_encode($attributes['args']);
+      $attributes['data-args'] = json_encode($attributes['args']);
+      unset($attributes['args']);
     }
 
-    $attributes['remote'] = $function;
+    if (isset($attributes['confirm'])){
+      $attributes['data-confirm'] = $attributes['confirm'];
+      unset($attributes['confirm']);
+    }
+
+    $attributes['data-remote'] = $function;
 
     $ret = array();
     $ret[] = "<{$tag}";
@@ -321,22 +372,53 @@ class phery{
   }
 
   /**
-   * Create a <form> tag for usage with . Must be closed
-   * @param string $action where to go
+   * Create a <form> tag with ajax enabled. Must be closed with </form>
+   * @param string $action where to go, can be empty
+   * @param string $function Registered function name 
    * @param array $attributes
    * <code>
-   * 'method' => 'POST',
-   * 'remote' => true,
+   * 'data-method' => 'POST', // can be different from form "method", just for the AJAX
    * 'confirm' => 'Are you sure?',
    * 'data-type' => 'json'
    * </code>
+   * @param phery $phery Pass the current instance of phery, so it can check if the functions are defined, and throw exceptions
    * @return void Echoes automatically
    */
-  static function form_for($action, $function, array $attributes = array()){
-    if (!isset($attributes['method'])) $attributes['method'] = 'POST';
+  static function form_for($action, $function, array $attributes = array(), phery $phery = null){
+    if($function == ''){
+      if($phery){
+        if($phery->config['exceptions'])
+          throw new phery_exception('The "function" argument must be provided to "form_for"');
+      }
+      return '';
+    }
+    if($phery){
+      if(!isset($phery->functions[$function])){
+        if($phery->config['exceptions'])
+          throw new phery_exception('The function "'.$function.'" provided in "form_for" hasnt been set');
+      }
+    }
+    
+    if (isset($attributes['args'])){
+      $attributes['data-args'] = json_encode($attributes['args']);
+      unset($attributes['args']);
+    }
+    
+    if (!isset($attributes['data-method']))
+      $attributes['data-method'] = 'POST';
+
+    if (isset($attributes['confirm'])){
+      $attributes['data-confirm'] = $attributes['confirm'];
+      unset($attributes['confirm']);
+    }
+
+    if (isset($attributes['submit'])){
+      $attributes['data-submit'] = json_encode($attributes['submit']);
+      unset($attributes['submit']);
+    }
 
     $ret = array();
-    $ret[] = '<form action="' . $action . '" remote="' . $function . '"';
+    $ret[] = '<form action="' . $action . '" data-remote="' . $function . '"';
     foreach ($attributes as $attribute => $value){
       $ret[] = "{$attribute}=\"" . htmlentities($value, ENT_COMPAT, 'UTF-8', false) . "\"";
     }
@@ -347,13 +429,29 @@ class phery{
 
 /**
  * Standard response for the json parser
+ * @method phery_response replaceWith() replaceWith($newContent) The content to insert. May be an HTML string, DOM element, or jQuery object.
+ * @method phery_response css() css($propertyName, $value) propertyName: A CSS property name. value: A value to set for the property.
+ * @method phery_response toggle() toggle($speed) Toggle an object visible or hidden, can be animated with 'fast','slow','normal'
+ * @method phery_response hide() hide($speed) Hide an object, can be animated with 'fast','slow','normal'
+ * @method phery_response show() show($speed) Show an object, can be animated with 'fast','slow','normal'
+ * @method phery_response toggleClass() toggleClass($className) Add/Remove a class from an element
+ * @method phery_response addClass() addClass($className) Add a class from an element
+ * @method phery_response removeClass() removeClass($className) Remove a class from an element
+ * @method phery_response animate() animate($prop, $dur, $easing, $cb) Animate an element
+ * @method phery_response fadeIn() fadeIn($prop, $dur, $easing, $cb) Animate an element
+ * @method phery_response fadeOut() fadeOut($prop, $dur, $easing, $cb) Animate an element
+ * @method phery_response slideUp() slideUp($dur, $cb) Hide with slide up animation
+ * @method phery_response slideDown() slideDown($dur, $cb) Show with slide down animation
+ * @method phery_response slideToggle() slideToggle($dur, $cb) Toggle show/hide the element, using slide animation
+ * @method phery_response unbind() unbind($name) Unbind an event from an element
+ * @method phery_response die() die($name) Unbind an event from an element set by live()
  */
 class phery_response{
 
-  public $selector = null;
+  public $last_selector = null;
   private $data = array();
   private $arguments = array();
-  
+
   function __construct(){}
 
   /**
@@ -386,7 +484,7 @@ class phery_response{
    * @return phery_response
    */
   function jquery($selector){
-    $this->selector = $selector;
+    $this->last_selector = $selector;
     return $this;
   }
 
@@ -399,32 +497,51 @@ class phery_response{
    * @return phery_response
    */
   function alert($msg){
-    $this->cmd(1, array($msg));
+    $this->cmd(1, array(
+      $msg
+    ));
     return $this;
   }
 
   /**
    * Remove the current jQuery selector
+   * @param string $children_selector Set a children selector
    * @param string $selector [optional] Provide the jQuery selector directly
    * @return phery_response
    */
-  function remove($selector = null){
-    $this->cmd(2, array(
-      $this->coalesce($selector, $this->selector)
-    ));
+  function remove($children_selector = null, $selector = null){
+    $this->cmd(0xff, array(
+      'remove',
+      $children_selector
+    ),
+    $selector);
     return $this;
   }
 
   /**
    * Add a command to the response
    * @param int $cmd Integer for command, see phery.js for more info
+   * @param array $args Array to pass to the response
+   * @param string $selector Insert the jquery selector
    * @return phery_response
    */
-  function cmd($cmd, $args){
-    $this->data[] = array(
-      'c' => $cmd,
-      'a' => $args
-    );
+  function cmd($cmd, array $args, $selector = null){
+    $selector = $this->coalesce($this->last_selector, $selector);
+    if ($selector === null){
+    $this->data[] =
+      array(
+        'c' => $cmd,
+        'a' => $args
+      );
+    } else {
+      if(!isset($this->data[$selector])) $this->data[$selector] = array();
+      $this->data[$selector][] =
+      array(
+        'c' => $cmd,
+        'a' => $args
+      );
+    }
+    
     return $this;
   }
 
@@ -439,11 +556,12 @@ class phery_response{
    * @return phery_response
    */
   function attr($attr, $data, $selector = null){
-    $this->cmd(3, array(
-      $this->coalesce($selector, $this->selector),
+    $this->cmd(0xff, array(
+      'attr',
       $attr,
       $data
-    ));
+    ),
+    $selector);
     return $this;
   }
 
@@ -456,7 +574,8 @@ class phery_response{
   function call(){
     $args = func_get_args();
     $func_name = array_shift($args);
-    $this->cmd(5, array(
+    
+    $this->cmd(2, array(
       $func_name,
       $args
     ));
@@ -464,7 +583,7 @@ class phery_response{
   }
 
   /**
-   * Clear the selected attribute. Alias for attr('name', '')
+   * Clear the selected attribute. Alias for attr('attrname', '')
    * @see attr()
    * @param string $attr Name of the attribute to clear, such as 'innerHTML', 'style', 'href', etc
    * @param string $selector [optional] Provide the jQuery selector directly
@@ -483,11 +602,12 @@ class phery_response{
    */
   function trigger($event_name, $selector = null){
     $args = array_slice(func_get_args(), 2);
-    $this->cmd(6, array(
-      $this->coalesce($selector, $this->selector),
+    $this->cmd(0xff, array(
+      'trigger',
       $event_name,
       $args
-    ));
+    ),
+    $selector);
     return $this;
   }
 
@@ -498,10 +618,11 @@ class phery_response{
    * @return phery_response
    */
   function html($content, $selector = null){
-    $this->cmd(4, array(
-      $this->coalesce($selector, $this->selector),
+    $this->cmd(0xff, array(
+      'html',
       $content
-    ));
+    ),
+    $selector);
     return $this;
   }
 
@@ -513,23 +634,27 @@ class phery_response{
    */
   function text($content, $selector = null){
     $this->cmd(0xff, array(
-      $this->coalesce($selector, $this->selector),
       'text',
       $content
-    ));
+    ),
+    $selector);
     return $this;
   }
 
   /**
-   * Compile a script and call it on-the-fly. 
-   * @param string $script Script content
+   * Compile a script and call it on-the-fly. There is a closure on this script,
+   * so global variables need to be assigned using
+   * @param string|array $script Script content. If provided an array, it will be joined with ;\n
    * <code>
-   * if(confirm('Are you really sure?')) $('*').remove(); 
+   * if(confirm('Are you really sure?')) $('*').remove();
    * </code>
    * @return phery_response
    */
   function script($script){
-    $this->cmd(7, array(
+    if (is_array($script))
+      $script = join(";\n", $script);
+    
+    $this->cmd(3, array(
       $script
     ));
     return $this;
@@ -553,10 +678,10 @@ class phery_response{
    */
   function prepend($content, $selector = null){
     $this->cmd(0xff, array(
-      $this->coalesce($selector, $this->selector),
       'prepend',
       $content
-    ));
+    ),
+    $selector);
     return $this;
   }
 
@@ -568,10 +693,10 @@ class phery_response{
    */
   function append($content, $selector = null){
     $this->cmd(0xff, array(
-      $this->coalesce($selector, $this->selector),
-      'prepend',
+      'append',
       $content
-    ));
+    ),
+    $selector);
     return $this;
   }
 
@@ -581,17 +706,10 @@ class phery_response{
    * be able to work. To reach this magically called functions, the jquery() selector
    * must be provided
    * @see jquery()
-   * @method phery_response replaceWith()
-   * @method phery_response css()
-   * @method phery_response toggle()
-   * @method phery_response hide()
-   * @method phery_response show()
-   * @method phery_response toggleClass()
    * @return phery_response
    */
   function __call($name, $arguments){
     $this->cmd(0xff, array(
-      $this->selector,
       $name,
       $arguments
     ));
@@ -604,22 +722,63 @@ class phery_response{
   public function __set($name, $value){
     $this->arguments[$name] = $value;
   }
-  
+
   /**
    * Magic function to get data appended to the response object
    */
   public function __get($name){
-    if(isset($this->arguments[$name])) 
+    if(isset($this->arguments[$name]))
       return $this->arguments[$name];
     else
       return null;
   }
 
-  function execute(){
-    return json_encode($this->data);
+  function render(){
+    return json_encode((object)$this->data);
   }
 
   function __toString(){
-    return $this->execute();
+    return $this->render();
   }
 }
+
+interface IException
+{
+    /* Protected methods inherited from Exception class */
+    public function getMessage();                 // Exception message
+    public function getCode();                    // User-defined Exception code
+    public function getFile();                    // Source filename
+    public function getLine();                    // Source line
+    public function getTrace();                   // An array of the backtrace()
+    public function getTraceAsString();           // Formated string of trace
+
+    /* Overrideable methods inherited from Exception class */
+    public function __toString();                 // formated string for display
+    public function __construct($message = null, $code = 0);
+}
+
+abstract class CustomException extends Exception implements IException
+{
+    protected $message = 'Unknown exception';     // Exception message
+    private   $string;                            // Unknown
+    protected $code    = 0;                       // User-defined exception code
+    protected $file;                              // Source filename of exception
+    protected $line;                              // Source line of exception
+    private   $trace;                             // Unknown
+
+    public function __construct($message = null, $code = 0)
+    {
+        if (!$message) {
+            throw new $this('Unknown '. get_class($this));
+        }
+        parent::__construct($message, $code);
+    }
+
+    public function __toString()
+    {
+        return get_class($this) . " '{$this->message}' in {$this->file}({$this->line})\n"
+                                . "{$this->getTraceAsString()}";
+    }
+}
+
+class phery_exception extends CustomException {}

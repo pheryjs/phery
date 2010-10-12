@@ -9,8 +9,19 @@ jQuery(function ($) {
     if(this.console){
       console.log( Array.prototype.slice.call(arguments) );
     }
-  };
+  }
   
+  function countProperties(obj) {
+      var count = 0;
+
+      for(var prop in obj) {
+          if(obj.hasOwnProperty(prop))
+                  ++count;
+      }
+
+      return count;
+  }
+
   $.fn.extend({
     triggerAndReturn: function (name, data) {
         var event = new $.Event(name);
@@ -20,15 +31,21 @@ jQuery(function ($) {
     },
     /**
      * Serialize a form with many levels deep
+     * @param bool disabled Submit disabled elements
      */
-    serializeForm:function(){
+    serializeForm:function(opt){
+      if (typeof opt['disabled'] == 'undefined' || opt['disabled'] == null) opt['disabled'] = false;
+      if (typeof opt['all'] == 'undefined' || opt['all'] == null) opt['all'] = false;
+      
       var
         result = {}
         formValues =
         $(this)
         .find('input,textarea,select')
         .filter(function(){
-          return $.trim(this.name);
+          var ret = true;
+          if (!opt['disabled']) ret = !this.disabled;
+          return ret && $.trim(this.name);
         })
         .map(function(){
           var $this = $(this),
@@ -36,6 +53,7 @@ jQuery(function ($) {
 
           if ($this.is(':radio') || $this.is(':checkbox')){
             if($this.is(':checked')) value = $this.val();
+            type = 'checkbox';
           } else if ($this.is('select')) {
             options = $this.find('option:selected');
             if($this.attr('multiple')){
@@ -43,23 +61,30 @@ jQuery(function ($) {
             } else {
               value = options.val() || options.text();
             }
+            type = 'select';
           } else {
-            value = $this.text() || $this.val();
+            value = $this.val();
+            type = 'input';
           }
-          return {'name': this.name, 'value': value};
+          return {'name': this.name, 'value': value, 'type': type};
         }).get();
-        
+
       if (formValues){
         var i, value, name;
-        
+
         for (i = 0; i < formValues.length; i++){
           name = formValues[i].name;
           value = formValues[i].value;
-          
-          if (value === null || !name) continue;
 
-          $matches = name.split(/\[/);
+          if (!opt['all']){
+            if (value === null) continue;
+          } else {
+            if (value === null) value = '';
+          }
+          if (!name) continue;
           
+          $matches = name.split(/\[/);
+
           var len = $matches.length;
 
           for(var j = 1; j < len; j++){
@@ -86,8 +111,8 @@ jQuery(function ($) {
           }
 
           joined = fields.join('');
-          
-          if(!$matches[len-1]) {
+
+          if(!$matches[len-1]) { // Check if the last is [], as in food[]
             create(fields, true);
             if(value.constructor == Array){
               for(x = 0; x < value.length; x++){
@@ -96,41 +121,51 @@ jQuery(function ($) {
             } else {
               eval('result' + joined + '.push(value);');
             }
-          } else {
+          } else { // Single value like 'field[name]' or 'name'
             create(fields, false);
             eval('result' + joined + ' = value;');
           }
         }
       }
-      
+
       return result;
     },
     callRemote: function () {
       this.trigger('ajax:before');
 
       var el      = this,
-                    method  = el.attr('method') || 'POST',
+                    method  = el.attr('data-method') || 'POST',
                     url     = el.attr('action') || el.attr('href') || window.location.href,
                     type    = el.attr('data-type') || 'json';
-      
+
       var data = {};
 
-      if (el.attr('args')) {
-        data['args'] = jQuery.parseJSON(el.attr('args'));
+      if (el.attr('data-args')) {
+        data['args'] = jQuery.parseJSON(el.attr('data-args'));
       }
-      
+
       if (el.is('form')) {
         try {
-          data['args'] = el.serializeForm();
+          data['args'] = 
+            $.extend(
+              {},
+              data['args'],
+              el.serializeForm(
+                $.extend(
+                  {},
+                  $.parseJSON(el.attr('data-submit'))
+                )
+              )
+            );
         } catch (exception) {
           log(exception);
         }
       }
-      
+
       data['method'] = method;
-      data['remote'] = el.attr('remote');
+      data['remote'] = el.attr('data-remote');
       data['requested'] = new Date().getTime();
-      
+
       $.ajax({
         url: url + (url.indexOf('?')>-1?'&':'?') + '_=' + data['requested'],
         data: data,
@@ -141,17 +176,41 @@ jQuery(function ($) {
           'X-Requested-With': 'XMLHttpRequest'
         },
         beforeSend: function (xhr) {
+          $('body,html').css({'cursor':'wait'});
           el.trigger('ajax:beforeSend', [xhr]);
         },
         success: function (data, text, xhr) {
           if (!el.triggerAndReturn('ajax:success', [data, text, xhr])) return;
 
-          if (data && data.length){
+          if (data && countProperties(data)){
             for(x in data){
-              if (typeof data[x]['c'] != 'undefined'){
+              is_selector = (x.toString().search(/^[0-9]+$/) == -1); // check if it has a selector
+
+              if (is_selector){
+                if (data[x].length){
+                  $jq = $(x);
+                  
+                  if($jq.size()){
+                    for(i in data[x]){
+                      argv = data[x][i]['a'];
+                      try {
+                        func_name = argv.shift();
+                        if(argv[0].constructor == Array){
+                          $jq = $jq[func_name].apply($jq, argv[0] || null);
+                        } else {
+                          $jq = $jq[func_name].apply($jq, argv || null);
+                        }
+                      } catch (exception) {
+                        log(exception, argv);
+                      }
+                    }
+                  }
+                } else {
+                  log('no commands to issue');
+                }
+              } else {
                 argc = data[x]['a'].length;
                 argv = data[x]['a'];
-                
                 switch (parseInt(data[x]['c'], 10)) {
                   // alert
                   case 1:
@@ -161,71 +220,24 @@ jQuery(function ($) {
                       log('missing message for alert()', argv);
                     }
                     break;
-                  // remove
-                  case 2:
-                    if(argc == 1){
-                      $(argv[0]).remove();
-                    } else {
-                      log('missing selector for remove()', argv)
-                    }
-                    break;
-                  // attr
-                  case 3:
-                    if(argc == 3){
-                      $(argv[0]).attr(argv[1], argv[2]);
-                    } else {
-                      log('$.attr needs 3 arguments, ' + argc + ' provided', argv)
-                    }
-                    break;
-                  // html
-                  case 4:
-                    if(argc == 2){
-                      $(argv[0]).html(argv[1]);
-                    }
-                    break;
                   // call
-                  case 5:
+                  case 2:
                     try {
-                      if(argc > 0){
-                        window[argv.shift()].apply(null, argv[0] || null);
-                      }
+                      window[argv.shift()].apply(null, argv[0] || null);
                     } catch (exception) {
                       log(exception, argv);
                     }
                     break;
-                  // trigger
-                  case 6:
-                    if (argc > 1){
-                      $obj = $(argv.shift());
-                      $obj['trigger'].apply($obj, argv || null);
-                    } else{
-                      log('$.trigger need 2 or more arguments', argv);
-                    }
-                    break;
                   // script
-                  case 7:
+                  case 3:
                     try {
-                      eval('(function(){' + argv[0] + '})()');
+                      eval('(function(){ ' + argv[0] + ' })();');
                     } catch (exception) {
                       log(exception);
                     }
                     break;
-                  // map magic __call to jquery functions
-                  case 0xFF:
-                    if(argc > 1){
-                      if(typeof argv[0] != 'undefined' && argv[0] && argv[1]){
-                        try {
-                          $obj = $(argv.shift());
-                          $obj[argv.shift()].apply($obj, argv[0] || null);
-                        } catch (exception) {
-                          log(exception, argv);
-                        }
-                      } else {
-                        log('no selector provided in mapping to jquery', argv);
-                      }
-                    } else {
-                      log('mapping to jquery require 2 or more arguments, ' + argc + ' provided', argv)
-                    }
+                  default:
+                    log('invalid command issued');
                     break;
                 }
               }
@@ -233,9 +245,11 @@ jQuery(function ($) {
           }
         },
         complete: function (xhr) {
+          $('body,html').css({'cursor':'auto'});
           el.trigger('ajax:complete', [xhr]);
         },
         error: function (xhr, status, error) {
+          $('body,html').css({'cursor':'auto'});
           el.trigger('ajax:error', [xhr, status, error]);
         }
       });
@@ -244,18 +258,22 @@ jQuery(function ($) {
     }
   });
 
-  $('[confirm]:not(form)').livequery('click', function () {
-    if (!confirm($(this).attr('confirm'))) return false;
+  $('[data-confirm]:not(form)').livequery('click', function () {
+    if (!confirm($(this).attr('data-confirm'))) return false;
     return true;
   });
 
-  $('form[remote]').livequery('submit', function (e) {
-    $(this).callRemote();
+  $('form[data-remote]').livequery('submit', function (e) {
+    var $this = $(this);
+    if($this.attr('data-confirm')){
+      if (!confirm($this.attr('data-confirm'))) return false;
+    }
+    $this.callRemote();
     e.preventDefault();
     return false;
   });
 
-  $('[remote]:not(form)').livequery('click', function (e) {
+  $('[data-remote]:not(form)').livequery('click', function (e) {
     $(this).callRemote();
     e.preventDefault();
     return false;
@@ -485,6 +503,6 @@ $.extend($.livequery, {
 $.livequery.registerPlugin('append', 'prepend', 'after', 'before', 'wrap', 'attr', 'removeAttr', 'addClass', 'removeClass', 'toggleClass', 'empty', 'remove', 'html');
 
 // Run Live Queries when the Document is ready
-$(function() { $.livequery.play(); });
+$(function() {$.livequery.play();});
 
 })(jQuery);
