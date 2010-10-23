@@ -10,7 +10,7 @@ jQuery(function ($) {
       console.log( Array.prototype.slice.call(arguments) );
     }
   }
-  
+
   function countProperties(obj) {
       var count = 0;
 
@@ -36,7 +36,7 @@ jQuery(function ($) {
     serializeForm:function(opt){
       if (typeof opt['disabled'] == 'undefined' || opt['disabled'] == null) opt['disabled'] = false;
       if (typeof opt['all'] == 'undefined' || opt['all'] == null) opt['all'] = false;
-      
+
       var
         result = {}
         formValues =
@@ -82,7 +82,7 @@ jQuery(function ($) {
             if (value === null) value = '';
           }
           if (!name) continue;
-          
+
           $matches = name.split(/\[/);
 
           var len = $matches.length;
@@ -146,7 +146,7 @@ jQuery(function ($) {
 
       if (el.is('form')) {
         try {
-          data['args'] = 
+          data['args'] =
             $.extend(
               {},
               data['args'],
@@ -159,6 +159,20 @@ jQuery(function ($) {
             );
         } catch (exception) {
           log(exception);
+        }
+      }
+
+      if(typeof data['args'] != 'undefined' && (countProperties(data['args']) || data['args'].length)){
+        if(data['args'].constructor == Object || data['args'].constructor == Array){
+          for(i in data['args']){
+            if (typeof(data['args'][i]) == 'string' && data['args'][i].toString().match(/.\([^\)]*\)/)){
+              data['args'][i] = eval(data['args'][i]);
+            }
+          }
+        } else if(typeof data['args'] == 'string'){
+          if (data['args'].match(/.\([^\)]*\)/)){
+            data['args'] = eval(data['args']);
+          }
         }
       }
 
@@ -189,7 +203,7 @@ jQuery(function ($) {
               if (is_selector){
                 if (data[x].length){
                   $jq = $(x);
-                  
+
                   if($jq.size()){
                     for(i in data[x]){
                       argv = data[x][i]['a'];

@@ -374,7 +374,7 @@ class phery{
   /**
    * Create a <form> tag with ajax enabled. Must be closed with </form>
    * @param string $action where to go, can be empty
-   * @param string $function Registered function name 
+   * @param string $function Registered function name
    * @param array $attributes
    * <code>
    * 'data-method' => 'POST', // can be different from form "method", just for the AJAX
@@ -398,12 +398,12 @@ class phery{
           throw new phery_exception('The function "'.$function.'" provided in "form_for" hasnt been set');
       }
     }
-    
+
     if (isset($attributes['args'])){
       $attributes['data-args'] = json_encode($attributes['args']);
       unset($attributes['args']);
     }
-    
+
     if (!isset($attributes['data-method']))
       $attributes['data-method'] = 'POST';
 
@@ -541,7 +541,7 @@ class phery_response{
         'a' => $args
       );
     }
-    
+
     return $this;
   }
 
@@ -574,7 +574,7 @@ class phery_response{
   function call(){
     $args = func_get_args();
     $func_name = array_shift($args);
-    
+
     $this->cmd(2, array(
       $func_name,
       $args
@@ -620,7 +620,7 @@ class phery_response{
   function html($content, $selector = null){
     $this->cmd(0xff, array(
       'html',
-      $content
+      "{$content}"
     ),
     $selector);
     return $this;
@@ -635,7 +635,7 @@ class phery_response{
   function text($content, $selector = null){
     $this->cmd(0xff, array(
       'text',
-      $content
+      "{$content}"
     ),
     $selector);
     return $this;
@@ -653,7 +653,7 @@ class phery_response{
   function script($script){
     if (is_array($script))
       $script = join(";\n", $script);
-    
+
     $this->cmd(3, array(
       $script
     ));
