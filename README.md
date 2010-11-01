@@ -1,4 +1,4 @@
-## Introduction
+# Introduction
 Really simple unobstrutive, yet powerful, AJAX library with direct integration with PHP and jQuery, maps to any jQuery function, even extended ones from $.fn
 
     <?php
@@ -30,6 +30,7 @@ Really simple unobstrutive, yet powerful, AJAX library with direct integration w
     ?>
     <!doctype html>
     <html>
+      <script src="jquery.js"></script>
       <script src="phery.js"></script>
       <?php echo phery::form_for('', 'alert', array('confirm' => 'Are you sure?')); //Generates <form data-remote="alert" action="" data-confirm="Are you sure?"> ?>
         <input type="text" name="field[text]" required>
