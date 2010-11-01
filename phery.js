@@ -1,6 +1,6 @@
 /**
  * Part of phery
- * @author Paulo Cesar
+ * @author gahgneh
  */
 jQuery(function ($) {
   window.log = function(){

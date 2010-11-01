@@ -33,8 +33,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  * @package phery
- * @author Paulo Cesar <gahgneh@gmail.com>
- * @version 0.2 beta
+ * @author Gahgneh gahgneh@gmail.com
+ * @version 0.3 beta
  * @license http://opensource.org/licenses/gpl-3.0.html GNU Public License
  */
 
