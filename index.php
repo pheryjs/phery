@@ -10,7 +10,8 @@
       // turn everything to a string, because
       // "1" + "2" = "12"
       // 1 + 2 = 3
-      return phery_response::factory()->call('test', (int)$args[0], (int)$args[1]);
+      foreach($args as &$arg) $arg = (int)$arg;
+      return phery_response::factory()->call('test', $args);
     }
     function data(){
       return
@@ -46,11 +47,19 @@
     return phery_response::factory()->html(print_r($data, true), 'div.test2');
   }
 
+  function thisone(){
+    return phery_response::factory()->alert('Ajax submitted form'); // When being called from non AJAX call, will be processed later in the body
+  }
+
   $instance = new myClass;
+  $phery = new phery;
 
   try{
-    phery::factory(
-      array('exceptions' => true) // Throw exceptions and return them in form of phery_response, usually for debug purposes
+    $phery->config(
+      array(
+        'exceptions' => true, // Throw exceptions and return them in form of phery_response, usually for debug purposes
+        'unobstrutive' => array('thisone')
+      )
     )
     ->set(array(
       'test' => array($instance, 'test'), // instance method call
@@ -60,12 +69,14 @@
       'test5' => function(){ return phery_response::factory()->redirect('http://www.google.com'); }, // Lambda
       'data' => array($instance, 'data'), // Unbind ajax from all elements
       'trigger' => 'trigger', // Trigger even on another element
-      'form' => 'form' // Trigger even on another element
+      'form' => 'form', // Trigger even on another element
+      'thisone' => 'thisone' // Call this function even if it's not been submitted by AJAX, but IS a post
     ))
     ->process();
   } catch (phery_exception $exc){
     // will trigger for "nonexistant"
     // This will only be reached if 'exceptions' is set to TRUE
+    // Otherwise it will fail silently
     echo phery_response::factory()->alert($exc->getMessage());
     exit;
   }
@@ -77,8 +88,17 @@
     <script type="text/javascript" src="phery.js"></script>
     <script type="text/javascript">
       /* <![CDATA[ */
-      function test(x, y) {
-        alert(x + y);
+      $(function(){
+        // Unobstrutive response? inside javascript...? who knows
+        <?php echo $phery->answer_for('#unob_form', 'thisone'); ?>
+      });
+
+      function test(number_array) {
+        total = 0;
+        for (x in number_array){
+          total += number_array[x];
+        }
+        alert(total);
       }
       
       $(function(){
@@ -140,11 +160,12 @@
       <li><?php echo phery::link_to('Instance method call', 'test', array('confirm' => 'Are you sure?', 'args' => array('hi' => 'test'))); ?> (magic call to jquery toggle() on 'div.test' using filter(':eq(1)'))</li>
       <li><?php echo phery::link_to('Regular function', 'test2', array('confirm' => 'Are you sure?', 'id' => 'special', 'args' => array('hello' => 'Im a named argument :D'))); ?> (returns plain text in this case)</li>
       <li><?php echo phery::link_to('Call to lambda', 'test3', array('confirm' => 'Are you sure?', 'args' => array('first','second'))); ?> (call a lambda function that returns an alert according to the data here, which is 'first', then 'second')</li>
-      <li><?php echo phery::link_to('Static call from class', 'test4', array('confirm' => 'Execute addition 1 + 2?', 'args' => array(1, 2))); ?> (call to an existing javascript function with two parameters)</li>
+      <li><?php echo phery::link_to('Static call from class', 'test4', array('confirm' => 'Execute addition?', 'args' => array(1, 2, 4, 6, 19))); ?> (call to an existing javascript function with two parameters)</li>
       <li><?php echo phery::link_to('Redirect to google.com', 'test5', array('confirm' => 'Are you sure?', 'tag' => 'button')); ?> (leaves the page, tag is a 'button')</li>
       <li><?php echo phery::link_to('Test data and check it on callback ajax:complete', 'data', array('tag' => 'b', 'id' => 'special2')); ?> (using 'b' tag, chain commands for css() and animate())</li>
       <li><?php echo phery::link_to('Trigger event', 'trigger'); ?> (Trigger event 'test' on both divs)</li>
       <li><?php echo phery::link_to('Call a non-existant function', 'nonexistant'); ?> (Call a non-existant function with 'exceptions' turned on)</li>
+      <li><a onclick="$.callRemote('test', {'hi': 'test'}, true);">Inline onclick event</a> (manual callRemote() onclick event)</li>
     </ul>
     
     <div class="test" style="border:solid 1px #000; padding: 20px;">Div.test</div>
@@ -152,8 +173,11 @@
 
     <?php
       // form_for is a helper function that will create a form that is ready to be submitted through phery
-      // any additional arguments can be passed through 'args', works kinda like an input hidden
+      // any additional arguments can be passed through 'args', works kinda like an input hidden,
+      // but will only be submitted if javascript is enabled
+      // -------
       // 'all' on 'submit' will submit every field, even checkboxes that are not checked
+      // 'disabled' on 'submit' will submit fields that are disabled
       echo phery::form_for('', 'form', array('confirm' => 'Submit the form now?!', 'submit' => array('disabled' => false, 'all' => false), 'args' => array('whadyousay' => 'OH YEAH')));
     ?>
       <fieldset>
@@ -185,6 +209,17 @@
         <input type="text" name="disabled-input" value="this is disabled and wont be submitted" disabled>
         <p><input type="submit" value="Send form"></p>
         
+      </fieldset>
+    </form>
+    <?php echo phery::form_for('', 'thisone', array('id' => 'unob_form')); ?>
+      <fieldset>
+        <h5>This is an unobstrutive form. Disable javascript to check it out</h5>
+        <?php if ($phery->answer_for(null, 'thisone')) 
+          echo '<h1>This form was submitted without javascript + $_POST["f"] = '.htmlentities($_POST['f']).'</h1>';
+        ?>
+        <label>Data</label>
+        <input name="f" type="text" value="testing">
+        <p><input type="submit" value="Send form"></p>
       </fieldset>
     </form>
   </body>

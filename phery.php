@@ -1,23 +1,7 @@
 <?php
 /**
  * PHP + jQuery + AJAX = phery
- * phery creates a seamless integration with jQuery AJAX to PHP functions,
- * with unobstrutive Javascript, original concept by siong1987 @ http://github.com/rails/jquery-ujs
- *
- * Uses HTML5 attributes to achieve this. Links and forms will still be able to send GET/POST
- * requests and function properly without triggering phery.
- *
- * Strict standards for PHP 5.3 and advised to use jQuery 1.4.2+
- *
- * magic_quotes_gpc prefered to be off. you are always responsible for the security of your
- * data, so escape your text accordingly to avoid SQL injection or XSS attacks
- *
- * Uses livequery plugin from http://docs.jquery.com/Plugins/livequery
- *
- * Also, relies on JSON on PHP. All AJAX requests are sent as POST by default, so it can still
- * interact with GET requests, like paginations and such.
- *
- * Copyright (C) 2010 Paulo Cesar
+ * Copyright (C) 2010 gahgneh
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,7 +17,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  * @package phery
- * @author Gahgneh gahgneh@gmail.com
+ * @url http://github.com/gahgneh/phery
+ * @author gahgneh@gmail.com
  * @version 0.3 beta
  * @license http://opensource.org/licenses/gpl-3.0.html GNU Public License
  */
@@ -63,11 +48,23 @@ class phery{
    */
   private static $instance = null;
   /**
+   * Will call the functions defined in this variable even
+   * if it wasn't sent by AJAX, use it wisely. (good for SEO though)
+   * @var array
+   */
+  public $unobstrutive = array();
+  /**
+   * @var array
+   */
+  private $answers = array();
+
+  /**
    * Config
    * <code>
    * 'exit_allowed',
    * 'no_stripslashes',
-   * 'exceptions'
+   * 'exceptions',
+   * 'unobstrutive'
    * </code>
    * @var array
    * @see config()
@@ -109,14 +106,19 @@ class phery{
    * </code>
    * The callback function should be
    * <code>
-   * // $additional_args is passed using the callback_data() function
-   * function callback($additional_args){
+   * // $additional_args is passed using the callback_data() function, in this case, a pre callback
+   * function pre_callback($additional_args){
    *   // Do stuff
    *   $_POST['args']['id'] = $additional_args['id'];
    *   return true;
    * }
+   * // post callback would be to save the data perhaps? Just to keep the code D.R.Y.
+   * function post_callback(){
+   *   $this->database->update();
+   *   return true;
+   * }
    * </code>
-   * Returning false on the callback will make the process to RETURN and won't exit. You may manually exit on the post
+   * Returning false on the callback will make the process() phase to RETURN, but won't exit. You may manually exit on the post
    * callback if desired
    * Any data that should be modified will be inside $_POST['args'] (can be accessed freely on 'pre', will be passed to the
    * AJAX function)
@@ -153,9 +155,10 @@ class phery{
 
   /**
    * Set any data to pass to the callbacks
+   * @param mixed $args,... Parameters, can be anything
    * @return phery
    */
-  function callback_data(){
+  function callback_data($args){
     $this->callbacks_data = func_get_args();
     return $this;
   }
@@ -166,8 +169,9 @@ class phery{
    */
   static function is_ajax(){
     return (bool)(isset($_SERVER['HTTP_X_REQUESTED_WITH']) AND
-    strcasecmp($_SERVER['HTTP_X_REQUESTED_WITH'], 'XMLHttpRequest') == 0 AND
-    strtoupper($_SERVER['REQUEST_METHOD']) == 'POST');
+      strcasecmp($_SERVER['HTTP_X_REQUESTED_WITH'], 'XMLHttpRequest') == 0 AND
+      strtoupper($_SERVER['REQUEST_METHOD']) == 'POST' AND
+      isset($_POST['remote']));
   }
 
   private function strip_slashes_recursive($variable){
@@ -182,46 +186,85 @@ class phery{
   }
 
   /**
-   * Process the AJAX requests if any
+   * Return a processRequest call for the unobstrutive function call
+   * @param string $element_selector
+   * @param string $alias
+   * @return string JSON string
    */
-  function process(){
-    if (self::is_ajax()){
+  function answer_for($element_selector, $alias){
+    if(isset($this->answers[$alias])){
+      if ($element_selector){
+        return "$('{$element_selector}').processRequest(JSON.parse('{$this->answers[$alias]}'));\n";
+      } else {
+        return $this->answers[$alias];
+      }
+    }
+    return null;
+  }
 
-      foreach($this->callbacks['pre'] as $func)
-        if (call_user_func($func, $this->callbacks_data) === false) return;
+  private function _process($unobstrutive){
+    foreach($this->callbacks['pre'] as $func)
+      if (call_user_func($func, $this->callbacks_data) === false) return;
 
-      $remote = $_POST['remote'];
-      unset($_POST['remote']);
+    $remote = $_POST['remote'];
+    unset($_POST['remote']);
 
-      if (isset($this->functions[$remote])){
-        $args = array();
+    if (isset($this->functions[$remote])){
+      $args = array();
 
+      if($unobstrutive === true) {
+        if($this->config['no_stripslashes'] === false){
+          $args = $this->strip_slashes_recursive($_POST);
+        } else {
+          $args = $_POST;
+        }
+      } else {
         if (isset($_POST['args'])){
-          if($this->config['no_stripslashes'] == false){
+          if($this->config['no_stripslashes'] === false){
             $args = $this->strip_slashes_recursive($_POST['args']);
           } else {
             $args = $_POST['args'];
           }
           unset($_POST['args']);
         }
+      }
 
-        $response = call_user_func_array($this->functions[$remote], array($args, $this->callbacks_data));
+      $response = call_user_func_array($this->functions[$remote], array($args, $this->callbacks_data));
 
+      if ($unobstrutive === false){
         if ($response instanceof phery_response){
           header("Cache-Control: no-cache, must-revalidate");
           header("Expires: 0");
           header('Content-Type: application/json');
         }
         echo $response;
-      } else{
-        if($this->config['exceptions'])
-          throw new phery_exception('No function "'.$remote.'" set');
+      } else {
+        $this->answers[$remote] = $response;
       }
+    } else{
+      if ($this->config['exceptions'])
+        throw new phery_exception('No function "'.$remote.'" set');
+    }
 
-      foreach($this->callbacks['post'] as $func)
-        if (call_user_func($func, $this->callbacks_data) === false) return;
+    foreach($this->callbacks['post'] as $func)
+      if (call_user_func($func, $this->callbacks_data) === false) return;
 
-      if($this->config['exit_allowed'] == TRUE) exit;
+    if ($unobstrutive === false)
+      if ($this->config['exit_allowed'] === true) exit;
+  }
+
+  /**
+   * Process the AJAX requests if any
+   */
+  function process(){
+    if (self::is_ajax()){
+      // AJAX call
+      $this->_process(false);
+    } elseif (strtoupper($_SERVER['REQUEST_METHOD']) == 'POST' AND 
+              isset($_POST['remote']) AND
+              in_array($_POST['remote'], $this->unobstrutive)){
+      // Regular processing, unobstrutive post, pass the $_POST variable to the function anyway
+      $this->_process(true);
     }
   }
 
@@ -232,6 +275,7 @@ class phery{
    * 'exit_allowed' => true/false // Defaults to true, stop further script execution
    * 'no_stripslashes' => true/false // Don't apply stripslashes on the args
    * 'exceptions' => true/false // Throw exceptions on errors
+   * 'unobstrutive' => array('function-alias-1','function-alias-2') // Set the functions that will be called even if is a POST but not an AJAX call
    * </code>
    * @return phery
    */
@@ -245,6 +289,12 @@ class phery{
       }
       if (isset($config['exceptions'])){
         $this->config['exceptions'] = (bool)$config['exceptions'];
+      }
+      if (isset($config['unobstrutive']) AND is_array($config['unobstrutive'])){
+        $this->unobstrutive += array_merge(
+          $this->unobstrutive,
+          $config['unobstrutive']
+        );
       }
     }
     return $this;
@@ -279,7 +329,8 @@ class phery{
    * @return phery
    */
   function set($functions){
-    if (!self::is_ajax()) return $this;
+    if (strtoupper($_SERVER['REQUEST_METHOD']) != 'POST' AND !isset($_POST['remote']))
+      return $this;
 
     if (is_array($functions)){
       foreach ($functions as $name => $func){
@@ -377,9 +428,9 @@ class phery{
    * @param string $function Registered function name
    * @param array $attributes
    * <code>
-   * 'data-method' => 'POST', // can be different from form "method", just for the AJAX
    * 'confirm' => 'Are you sure?',
-   * 'data-type' => 'json'
+   * 'data-type' => 'json',
+   * 'submit' => array('all' => true, 'disabled' => true) // 'all' submits all elements on the form, even if empty or not checked, disabled also submit disabled elements
    * </code>
    * @param phery $phery Pass the current instance of phery, so it can check if the functions are defined, and throw exceptions
    * @return void Echoes automatically
@@ -404,9 +455,6 @@ class phery{
       unset($attributes['args']);
     }
 
-    if (!isset($attributes['data-method']))
-      $attributes['data-method'] = 'POST';
-
     if (isset($attributes['confirm'])){
       $attributes['data-confirm'] = $attributes['confirm'];
       unset($attributes['confirm']);
@@ -418,11 +466,11 @@ class phery{
     }
 
     $ret = array();
-    $ret[] = '<form action="' . $action . '" data-remote="' . $function . '"';
+    $ret[] = '<form method="POST" action="' . $action . '" data-remote="' . $function . '"';
     foreach ($attributes as $attribute => $value){
       $ret[] = "{$attribute}=\"" . htmlentities($value, ENT_COMPAT, 'UTF-8', false) . "\"";
     }
-    $ret[] = '>';
+    $ret[] = '><input type="hidden" name="remote" value="'.$function.'"/>';
     return join(' ', $ret);
   }
 }
@@ -448,7 +496,13 @@ class phery{
  */
 class phery_response{
 
+  /**
+   * @var string
+   */
   public $last_selector = null;
+  /**
+   * @var array
+   */
   private $data = array();
   private $arguments = array();
 
@@ -479,6 +533,16 @@ class phery_response{
   }
 
   /**
+   * Merge another response to this one
+   * @param phery_response $phery Another phery_response object
+   * @return phery_response
+   */
+  function merge(phery_response $phery){
+    $this->data += $phery->data;
+    return $this;
+  }
+
+  /**
    * Sets the selector, so you can chain many calls to it
    * @param string $selector Sets the current selector for subsequent chaining
    * @return phery_response
@@ -497,6 +561,7 @@ class phery_response{
    * @return phery_response
    */
   function alert($msg){
+    $this->last_selector = null;
     $this->cmd(1, array(
       $msg
     ));
@@ -506,13 +571,11 @@ class phery_response{
   /**
    * Remove the current jQuery selector
    * @param string $children_selector Set a children selector
-   * @param string $selector [optional] Provide the jQuery selector directly
    * @return phery_response
    */
-  function remove($children_selector = null, $selector = null){
+  function remove($selector = null){
     $this->cmd(0xff, array(
-      'remove',
-      $children_selector
+      'remove'
     ),
     $selector);
     return $this;
@@ -526,8 +589,8 @@ class phery_response{
    * @return phery_response
    */
   function cmd($cmd, array $args, $selector = null){
-    $selector = $this->coalesce($this->last_selector, $selector);
-    if ($selector === null){
+    $selector = $this->coalesce($selector, $this->last_selector);
+    if ($selector === null OR !is_string($selector)){
     $this->data[] =
       array(
         'c' => $cmd,
@@ -566,7 +629,7 @@ class phery_response{
   }
 
   /**
-   * Call a javascript function
+   * Call a javascript function. Warning: calling this function will reset the selector jQuery selector previously stated
    * @param string $func_name Function name
    * @param mixed $args,... Any additional arguments to pass to the function
    * @return phery_response
@@ -574,7 +637,8 @@ class phery_response{
   function call(){
     $args = func_get_args();
     $func_name = array_shift($args);
-
+    $this->last_selector = null;
+    
     $this->cmd(2, array(
       $func_name,
       $args
@@ -597,7 +661,7 @@ class phery_response{
    * Trigger an event on elements
    * @param string $event_name Name of the event to trigger
    * @param string $selector [optional] Provide the jQuery selector directly
-   * @param mixed $args [optional] any additional arguments to be passed to the trigger function
+   * @param mixed $args,... [optional] any additional arguments to be passed to the trigger function
    * @return phery_response
    */
   function trigger($event_name, $selector = null){
@@ -612,7 +676,7 @@ class phery_response{
   }
 
   /**
-   * Set the HTML of an element
+   * Set the HTML of an element. Automatically cast the content to string, so classes that response to __toString() will be converted automatically
    * @param string $content
    * @param string $selector [optional] Provide the jQuery selector directly
    * @return phery_response
@@ -643,7 +707,8 @@ class phery_response{
 
   /**
    * Compile a script and call it on-the-fly. There is a closure on this script,
-   * so global variables need to be assigned using
+   * so global variables need to be assigned using. Warning: calling this function will reset the selector jQuery
+   * selector previously stated
    * @param string|array $script Script content. If provided an array, it will be joined with ;\n
    * <code>
    * if(confirm('Are you really sure?')) $('*').remove();
@@ -651,6 +716,8 @@ class phery_response{
    * @return phery_response
    */
   function script($script){
+    $this->last_selector = null;
+
     if (is_array($script))
       $script = join(";\n", $script);
 
@@ -702,9 +769,10 @@ class phery_response{
 
   /**
    * Magically map to any additional jQuery function. Note that not every
-   * function will work, some that require callbacks like map or filter won't
-   * be able to work. To reach this magically called functions, the jquery() selector
-   * must be provided
+   * function will work, some that require function callbacks like map or filter won't
+   * be able to work, unless you define them on your page and pass a string as argument.
+   * To reach this magically called functions, the jquery() selector must be called prior
+   * to any jquery specific call
    * @see jquery()
    * @return phery_response
    */
