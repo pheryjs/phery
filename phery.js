@@ -282,6 +282,22 @@ $(function() {$.livequery.play();});
     return (directCall?$div.callRemote():$div);
   }
 
+	$.phery = {
+		'events': {
+			'before': function ($element) { },
+			'beforeSend': function ($element, xhr) { },
+			'success': function ($element, data, text, xhr) {return true;},
+			'complete': function ($element, xhr) { },
+			'error': function ($element, xhr, status, error) { },
+			'after': function ($element) { }
+		},
+		'options':{
+			'cursor': true,
+			'per_element_events': true
+		}
+	};
+	
+
   $.fn.extend({
     triggerAndReturn: function (name, data) {
         var event = new $.Event(name);
@@ -297,12 +313,13 @@ $(function() {$.livequery.play();});
     serializeForm:function(opt){
       if (typeof opt['disabled'] == 'undefined' || opt['disabled'] == null) opt['disabled'] = false;
       if (typeof opt['all'] == 'undefined' || opt['all'] == null) opt['all'] = false;
-      
+      var $form = $(this);
+
       var
         result = {}
         formValues =
-        $(this)
-        .find('input,textarea,select')
+        $form
+        .find('input,textarea,select,keygen')
         .filter(function(){
           var ret = true;
           if (!opt['disabled']) ret = !this.disabled;
@@ -312,9 +329,17 @@ $(function() {$.livequery.play();});
           var $this = $(this),
               value = null;
 
-          if ($this.is(':radio') || $this.is(':checkbox')){
-            if($this.is(':checked')) value = $this.val();
-            type = 'checkbox';
+          if ($this.is('input:radio') || $this.is('input:checkbox')){
+						if ($this.is('input:radio')) {
+							radios = $form.find('input:radio[name="' + this.name + '"]');
+							if (radios.filter(':checked').size()) {
+								value = radios.filter(':checked').val();
+							}
+							type = 'radio';
+						} else if ($this.is('input:checked')) {
+							value = $this.val();
+	            type = 'checkbox';
+						}
           } else if ($this.is('select')) {
             options = $this.find('option:selected');
             if($this.attr('multiple')){
@@ -327,6 +352,7 @@ $(function() {$.livequery.play();});
             value = $this.val();
             type = 'input';
           }
+					
           return {'name': this.name, 'value': value, 'type': type};
         }).get();
 
@@ -342,6 +368,7 @@ $(function() {$.livequery.play();});
           } else {
             if (value === null) value = '';
           }
+					
           if (!name) continue;
           
           $matches = name.split(/\[/);
@@ -352,39 +379,40 @@ $(function() {$.livequery.play();});
             $matches[j] = $matches[j].replace(/\]/g, '');
           }
 
-          var fields = [];
+          var fields = [], strpath = [];
+
 
           for(j = 0; j < len; j++){
             if ($matches[j]){
-              fields.push('["' + $matches[j] + '"]');
+              fields.push($matches[j]);
             }
           }
 
-          create = function(fields, create_array){
-            var field;
+          create = function(create_array, res, path){
+            var field = fields.shift();
 
-            for (j = 0; j < len; j++){
-              field = fields.slice(0, j).join('');
-              if (field){
-                eval('if (typeof result' + field + ' == "undefined" || !result' + field + ') result' + field + ' = ' + (create_array?'[]':'{}') + ';');
-              }
-            }
+						if (field){
+							if (typeof res[field] == "undefined" || !res[field]) res[field] = (create_array?[]:{});
+							path.push('["' + field + '"]');
+							create(create_array, res[field], path);
+						}
           }
 
-          joined = fields.join('');
+          if (!$matches[len-1]) { // Check if the last is [], as in food[]
+						create(true, result, strpath);
+						eval('res = result' + strpath.join('') + ';');
 
-          if(!$matches[len-1]) { // Check if the last is [], as in food[]
-            create(fields, true);
-            if(value.constructor == Array){
+						if(value.constructor == Array){
+
               for(x = 0; x < value.length; x++){
-                eval('result' + joined + '.push(value[x]);');
+								res.push(value[x]);
               }
             } else {
-              eval('result' + joined + '.push(value);');
+							res.push(value);
             }
-          }else { // Single value like 'field[name]' or 'name'
-            create(fields, false);
-            eval('result' + joined + ' = value;');
+          } else { // Single value like 'field[name]' or 'name'
+            create(false, result, strpath);
+						eval('result' + strpath.join('') + ' = value;');
           }
         }
       }
@@ -400,7 +428,14 @@ $(function() {$.livequery.play();});
 
           if (is_selector){
             if (data[x].length){
-              $jq = $(x);
+
+							if (x.toLowerCase() == 'window') {
+								$jq = $(window);
+							} else if (x.toLowerCase() == 'document') {
+								$jq = $(document);
+							} else {
+								$jq = $(x);
+							}
 
               if ($jq.size()){
                 for (i in data[x]){
@@ -427,10 +462,11 @@ $(function() {$.livequery.play();});
           } else {
             argc = data[x]['a'].length;
             argv = data[x]['a'];
+						
             switch (parseInt(data[x]['c'], 10)) {
               // alert
               case 1:
-                if (typeof argv[0] === 'string'){
+                if (typeof argv[0] != 'undefined' && typeof argv[0] === 'string'){
                   alert(argv[0]);
                 } else {
                   log('missing message for alert()', argv);
@@ -458,7 +494,7 @@ $(function() {$.livequery.play();});
                 }
                 break;
               default:
-                log('invalid command issued');
+                log('invalid command "' + data[x]['c'] + '" issued');
                 break;
             }
           }
@@ -466,11 +502,16 @@ $(function() {$.livequery.play();});
       }
     },
     callRemote: function () {
-      this.trigger('ajax:before');
+      if ($.phery.options.per_element_events == true) {
+				this.trigger('ajax:before');
+			}
+			
+			$.phery.events.before(this);
 
       var el      = this,
-                    url     = el.attr('action') || el.attr('href') || window.location.href,
-                    type    = el.data('type') || 'json';
+                    url       = el.attr('action') || el.attr('href') || window.location.href,
+                    type      = el.data('type') || 'json',
+										submit_id = el.attr('id');
 
       var data = {};
 
@@ -491,7 +532,7 @@ $(function() {$.livequery.play();});
               el.serializeForm(
                 $.extend(
                   {},
-                  el.data('submit')?el.data('data'):{}
+                  el.data('submit')?el.data('submit'):{}
                 )
               )
             );
@@ -500,6 +541,10 @@ $(function() {$.livequery.play();});
         }
       }
 
+			if (submit_id) {
+				data['submit_id'] = submit_id;
+			}
+			
       data['remote'] = el.data('remote');
       requested = new Date().getTime();
 
@@ -516,26 +561,48 @@ $(function() {$.livequery.play();});
           'X-Requested-With': 'XMLHttpRequest'
         },
         beforeSend: function (xhr) {
-          $('body,html').css({'cursor':'wait'});
-          el.trigger('ajax:beforeSend', [xhr]);
+					if ($.phery.options.cursor) {
+						$('body,html').css({'cursor':'wait'});
+					}
+					if ($.phery.options.per_element_events) {
+						el.trigger('ajax:beforeSend', [xhr]);
+					}
+					$.phery.events.beforeSend(el, xhr);
         },
         success: function (data, text, xhr) {
           if ( ! el.triggerAndReturn('ajax:success', [data, text, xhr])) return;
+					if ( ! $.phery.events.success(el, data, text, xhr)) return;
           el.processRequest(data);
         },
         complete: function (xhr) {
-          $('body,html').css({'cursor':'auto'});
-          el.trigger('ajax:complete', [xhr]);
-          if(el.data('temp')) el.remove();
+					if ($.phery.options.cursor) {
+						$('body,html').css({'cursor':'auto'});
+					}
+					if ($.phery.options.per_element_events) {
+						el.trigger('ajax:complete', [xhr]);
+					}
+					$.phery.events.complete(el, xhr);
+          if (el.data('temp')) el.remove();
         },
         error: function (xhr, status, error) {
-          $('body,html').css({'cursor':'auto'});
-          el.trigger('ajax:error', [xhr, status, error]);
-          if(el.data('temp')) el.remove();
+					if ($.phery.options.cursor) {
+						$('body,html').css({'cursor':'auto'});
+					}
+					if ($.phery.options.per_element_events) {
+						el.trigger('ajax:error', [xhr, status, error]);
+					}
+
+					$.phery.events.error(el, xhr, status, error);
+					
+          if (el.data('temp')) el.remove();
         }
       });
 
-      el.trigger('ajax:after');
+			if ($.phery.options.per_element_events) {
+				el.trigger('ajax:after');
+			}
+			
+			$.phery.events.after(el);
     }
   });
 
