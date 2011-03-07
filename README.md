@@ -41,7 +41,7 @@ It's really simple (mostly) as
     <?php
     phery::instance()->set(array(
       'function_name' => function($data){
-         return phery::factory()->alert(print_r($data, true));
+         return phery_response::factory()->alert(print_r($data, true));
       }
     ))->process();
     ?>
