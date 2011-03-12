@@ -7,7 +7,22 @@
 	class myClass{
 		function test($ajax_data, $callback_data)
 		{
-			return phery_response::factory('div.test')->filter(':eq(1)')->toggle('fast')->html($ajax_data['hi']);
+			return
+				phery_response::factory('div.test')
+				->filter(':eq(1)')
+				->toggle('fast')
+				->html($ajax_data['hi'])
+				->jquery('a')
+				// Create callbacks directly from PHP! No need to do this, just to show it's possible
+				// White space doesnt matter to JSON, it just adds extra bytes to the response afterall
+				->each('  function(i, el){
+					if (typeof console != "undefined") {
+						console.log("inside each!", i);
+					}
+					if ($(this).text().length > 17) {
+						$(this).css({"color":"green","textDecoration":"none"});
+					}
+				}');
 		}
 
 		static function test2($ajax_data, $callback_data)
@@ -33,7 +48,10 @@
 					'marginLeft' => "0.6in",
 					'fontSize' => "1em",
 					'borderWidth' => "10px"
-				), 1500);
+				), 1500, 'linear',
+				'function(){ 
+					$(this).append("<br>yes Ive finished animating and fired inside PHP callback rawr!");
+				}');
 		}
 	}
 
@@ -157,6 +175,9 @@
 			'surprise' => function ($data){
 				return
 					phery_response::factory()->script('window.location.reload(true)');
+			},
+			'invalid' => function(){
+				return phery_response::factory()->script('if notvalid javscript')->jquery('a')->blah();
 			}
 		))
 		->process(false);
@@ -191,7 +212,7 @@
 <!doctype html>
 <html>
 	<head>
-		<script src="jquery.js"></script>
+		<script src="http://code.jquery.com/jquery-1.5.1.js"></script>
 		<script src="phery.js"></script>
 		<script>
 			/* <![CDATA[ */
@@ -213,7 +234,7 @@
 
 				$('div.test').bind({
 					'test':function(){ // bind a custom event to the DIVs
-						$(this).show().html('triggered custom event "TEST"!');
+						$(this).show(0).html('triggered custom event "TEST"!');
 					}
 				});
 
@@ -232,8 +253,10 @@
 				/* Bind the ajax:complete, after data was received, and there was no error */
 				$('#special2').bind({
 					'ajax:complete':function(xhr){
-						if ( $(this).data('testing'))
-							$('div.test2').text(('$.data for item "nice" is "' + $(this).data('testing')['nice']) + '"');
+						var $this = $(this);
+						$this.show(0);
+						if ( $this.data('testing'))
+							$('div.test2').text(('$.data for item "nice" is "' + $this.data('testing')['nice']) + '"');
 					}
 				});
 
@@ -282,6 +305,10 @@
 
 				$.phery.events.error = function(){
 					$loading.addClass('error');
+				}
+
+				$.phery.events.exception = function(el, exception){
+					alert(exception)
 				}
 
 				$loading.fadeOut(0);
@@ -374,7 +401,7 @@
 			</li>
 			<li>
 				<h1>Call to a function that returns an animate() with a callback and executes pre and post callbacks</h1>
-				<?php echo phery::link_to('Testing callbacks', 'the_one_with_expr', array('args' => array(1,2,3,'a','b','c'))); ?>
+				<?php echo phery::link_to('Testing callbacks', 'the_one_with_expr', array('id'=> 'look-i-have-an-id', 'args' => array(1,2,3,'a','b','c'))); ?>
 			</li>
 			<li>
 				<h1>Manual callRemote() onclick , with arguments</h1>
@@ -391,6 +418,10 @@
 			<li>
 				<h1>On-purpose 404 ajax call</h1>
 				<?php echo phery::link_to('Trigger global error and change background to red', 'nonexistant', array('href' => '/pointnowhere')); ?>
+			</li>
+			<li>
+				<h1>Global exception handler</h1>
+				<?php echo phery::link_to('Trigger global exception callback returning invalid javascript', 'invalid'); ?>
 			</li>
 		</ul>
 
@@ -455,7 +486,7 @@
 		</form>
 		<?php echo phery::form_for('', 'thisone', array('id' => 'unob_form')); ?>
 			<fieldset>
-				<h5>This is an unobstructive form. Disable javascript to check it out</h5>
+				<h5>This is an unobstructive form (means it doesn't need javascript/AJAX to function, but work both ways). The data will still be submitted and available. Disable javascript and submit the form to check it out</h5>
 				<?php
 					if (($answer = $phery->answer_for('thisone')))
 					{

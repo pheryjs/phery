@@ -19,6 +19,8 @@ Also, relies on JSON on PHP. All AJAX requests are sent as POST only, so it can 
 like paginations and such. Compatible with all major browsers, Firefox 3+, Opera 10+, Chrome 5+, Internet Explorer 7+
 And tested in the new upcoming browsers, Firefox 4, Chrome 11 and IE9, and there are no browser specific hacks.
 
+Even though it works in Internet Explorer 6, I don't care and don't test in it.
+
 The code is mostly commented using phpDoc and jsDoc, for a less-steep learning curve, using doc-enabled IDEs.
 Also, most of the important and most used functions in jQuery were added as phpDoc, as a magic method of the phery_response class.
 
@@ -28,6 +30,7 @@ Check the a lot of examples and code at <https://github.com/gahgneh/phery/raw/ma
     
 ## Releases
 
++   **0.5b**:  Added $.phery.options.default_href, added ability to call anonymous functions callbacks directly from PHP, removed closed from script() call, added exception event - 11st Mar. 2011
 +   **0.4b**:  Added more error checking, fixed some bugs, improved both PHP and js code, included jQuery 1.5.1, changed the way the callbacks are executed and handled, removed external JSON parser - 4th Mar. 2011
 +   **0.3b2**: Removed some mal functioning code from js, corrected minor things in PHP and example - 15th Nov. 2010
 +   **0.3b1**: Test changes to function parsing client-side, added $.callRemote(), and changes to PHP code - 23rd Oct. 2010
@@ -299,6 +302,8 @@ These events are triggered globally, independently if called from an existing DO
     When an error happens when requesting to the provided URL. It won't be triggered if the PHP code fails to execute
 +   **$.phery.events.after**: function ($element)
     Right after the AJAX call was made (asynchronously), it doesn't wait for the complete/error/success callbacks to be fired.
++   **$.phery.events.exception**: function ($element, exception)
+    Will be called if any problem happens while processing data, or executing jquery calls
 
 ***
 #### $.phery.options
@@ -307,6 +312,7 @@ The current options that are available
 
 +   **per_element_events**: Boolean, enable or disable per element events. See below. Enabled by default
 +   **cursor**: Boolean, change the body and html cursor to wait while the processing is happening and change back to auto after it's completed or error'ed out. Enabled by default
++   **default_href**: String, if you have a default controller that will take all ajax calls, specify it here. It will be overwritten if you provide `href`, `data-target` or `action` on elements. False by default
 ***
 #### Per element events
 
@@ -319,3 +325,4 @@ parameters list, they don't take the $element. Refer to $.phery.events above for
 +   **ajax:complete**: function (xhr)
 +   **ajax:error**: function (xhr, status, error)
 +   **ajax:after**: function ()
++   **ajax:exception**: function (exception)

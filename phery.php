@@ -17,9 +17,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  * @package phery
- * @url http://github.com/gahgneh/phery
+ * @url https://github.com/gahgneh/phery
  * @author gahgneh
- * @version 0.4 beta
+ * @version 0.5 beta
  * @license http://opensource.org/licenses/gpl-3.0.html GNU Public License
  */
 
@@ -491,8 +491,9 @@ class phery {
 	 * <code>
 	 * 'confirm' => 'Are you sure?' // Display confirmation on click
 	 * 'tag' => 'a' // The tag for the item, defaults to a
-	 * 'uri' => '/path/to/url' // Define another URI for the AJAX call, this defines the HREF of A
+	 * 'href' => '/path/to/url' // Define another URI for the AJAX call, this defines the HREF of A
 	 * 'args' => array(1, "a") // Extra arguments to pass to the AJAX function, will be stored in the args attribute as a JSON notation
+	 * 'target' => '/default/ajax/controller' // Set the "href" attriute for non-anchor (a) AJAX tags (like buttons or spans). Works for A links too, it won't function without javascript
 	 * 'data-type' => 'json' // Define the data-type for the communication
 	 * </code>
 	 * @param phery $phery Pass the current instance of phery, so it can check if the functions are defined, and throw exceptions
@@ -524,10 +525,10 @@ class phery {
 			unset($attributes['tag']);
 		}
 
-		if (isset($attributes['uri']))
+		if (isset($attributes['target']))
 		{
-			$attributes['href'] = $attributes['uri'];
-			unset($attributes['uri']);
+			$attributes['data-target'] = $attributes['target'];
+			unset($attributes['target']);
 		}
 
 		if (isset($attributes['args']))
@@ -923,8 +924,8 @@ class phery_response {
 	}
 
 	/**
-	 * Compile a script and call it on-the-fly. There is a closure on this script,
-	 * so global variables need to be assigned using window.global_var = value.
+	 * Compile a script and call it on-the-fly. There is a closure on the executed function, so
+	 * to reach out global variables, you need to use window.variable
 	 * Warning: calling this function will reset the selector jQuery selector previously stated
 	 * @param string|array $script Script content. If provided an array, it will be joined with ;\n
 	 * <code>

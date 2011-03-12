@@ -233,8 +233,8 @@ if (typeof jQuery['livequery'] == 'undefined') {
 }
 
 /**
- * Javascript library of phery v0.4b
- * @url http://github.com/gahgneh/phery
+ * Javascript library of phery v0.5b
+ * @url https://github.com/gahgneh/phery
  */
 (function ($) {
 	window.log = function(){
@@ -243,6 +243,7 @@ if (typeof jQuery['livequery'] == 'undefined') {
 		if(this.console){
 			console.log( Array.prototype.slice.call(arguments) );
 		}
+		return Array.prototype.slice.call(arguments).join("\n\n");
 	}
 
 	function countProperties(obj) {
@@ -269,23 +270,23 @@ if (typeof jQuery['livequery'] == 'undefined') {
 	$.callRemote = function(functionName, args, attr, directCall){
 		if( ! functionName) return false;
 
-		$div = $('<div/>');
+		$a = $('<a/>');
 
-		$div.data('remote', functionName);
-		$div.data('temp', true);
+		$a.data('remote', functionName);
+		$a.data('temp', true);
 
-		if (typeof args != 'undefined' && args !== null){
-			$div.data('args', args);
+		if (typeof args !== 'undefined' && args !== null){
+			$a.data('args', args);
 		}
 
-		if (typeof attr != 'undefined') {
-			$div.attr(attr);
+		if (typeof attr !== 'undefined') {
+			$a.attr(attr);
 		}
 
-		if (typeof directCall == 'undefined')
+		if (typeof directCall === 'undefined')
 			directCall = true;
 
-		return (directCall?$div.callRemote():$div);
+		return (directCall?$a.callRemote():$a);
 	}
 
 	$.phery = {
@@ -297,14 +298,58 @@ if (typeof jQuery['livequery'] == 'undefined') {
 			},
 			'complete': function ($element, xhr) { },
 			'error': function ($element, xhr, status, error) { },
-			'after': function ($element) { }
+			'after': function ($element) { },
+			'exception': function ($element, exception) {}
 		},
 		'options':{
 			'cursor': true,
-			'per_element_events': true
+			'per_element_events': true,
+			'default_href': false
 		}
 	};
 
+	var call_cache = [];
+
+	str_is_function = function(str){
+		if (jQuery.type(str) !== 'string' || ! /^\s*?function/i.test(str) || ! /\}$/m.test(str)) return false;
+		return true;
+	}
+
+	String.prototype.apply = function(obj){
+		if ( ! str_is_function(this) ) return false;
+
+		var str = this.toString(), cache_len = call_cache.length;
+		fn = null;
+
+		for(i = 0; i < cache_len; i++){
+			if (call_cache[i].str === str) {
+				fn = call_cache[i].fn;
+				break;
+			}
+		}
+
+		if (typeof fn != 'function'){
+			$.globalEval('var fn = ' + str);
+			call_cache.push({'str': str, 'fn': fn});
+			cache_len = call_cache.length;
+		}
+
+		args = Array.prototype.slice.call(arguments, 1);
+		
+		if (typeof args[0] != 'undefined' && args[0].constructor === Array){
+			args = args[0];
+		}
+
+		return fn.apply(obj, args);
+	}
+	
+	String.prototype.call = function(obj){
+		this.apply(obj, Array.prototype.slice.call(arguments, 1));
+	}
+
+	$.isFunction = function( obj ) {
+		return jQuery.type(obj) === "function" || (str_is_function(obj));
+	}
 
 	$.fn.extend({
 		triggerAndReturn: function (name, data) {
@@ -316,11 +361,14 @@ if (typeof jQuery['livequery'] == 'undefined') {
 
 		/**
 		 * Serialize a form with many levels deep
+		 * Input names must be arrays style
+		 * name="food[]" or name="name[first]"
+		 * Supports input, keygen, select, textarea
 		 * @param bool disabled Submit disabled elements
 		 */
 		serializeForm:function(opt){
-			if (typeof opt['disabled'] == 'undefined' || opt['disabled'] == null) opt['disabled'] = false;
-			if (typeof opt['all'] == 'undefined' || opt['all'] == null) opt['all'] = false;
+			if (typeof opt['disabled'] === 'undefined' || opt['disabled'] === null) opt['disabled'] = false;
+			if (typeof opt['all'] === 'undefined' || opt['all'] === null) opt['all'] = false;
 			var $form = $(this);
 
 			var
@@ -402,22 +450,30 @@ if (typeof jQuery['livequery'] == 'undefined') {
 						}
 					}
 
+					/*
+					 * this function ensures that the object of unknown depth
+					 * exists, otherwise the javascript console will trigger for eg:
+					 * "result.one is undefined"
+					 */
 					create = function(create_array, res, path){
 						var field = fields.shift();
 
 						if (field){
-							if (typeof res[field] == "undefined" || !res[field]) res[field] = (create_array?[]:{});
-							path.push('["' + field + '"]');
+							if (typeof res[field] === "undefined" || !res[field]) res[field] = (create_array?[]:{});
+							path.push('[\''+field+'\']');
 							create(create_array, res[field], path);
 						}
 					}
 
 					if (!$matches[len-1]) { // Check if the last is [], as in food[]
 						create(true, result, strpath);
+						/*
+						 * build a multidimensional array of unknown size
+						 * result["one"]["two"]["three"]["..."]
+						 */
 						eval('res = result' + strpath.join('') + ';');
-
-						if(value.constructor == Array){
-
+						
+						if(value.constructor === Array){
 							for(x = 0; x < value.length; x++){
 								res.push(value[x]);
 							}
@@ -426,6 +482,15 @@ if (typeof jQuery['livequery'] == 'undefined') {
 						}
 					} else { // Single value like 'field[name]' or 'name'
 						create(false, result, strpath);
+						/*
+						 * Since we don't know the depth of the object
+						 * we eval() it so we can assign to
+						 * result["one"]["two"]["three"]["..."] = value;
+						 * 
+						 * where value will be converted properly, either to
+						 * a integer, string, array or object, so it must go
+						 * inside eval() as well
+						 */
 						eval('result' + strpath.join('') + ' = value;');
 					}
 				}
@@ -437,15 +502,17 @@ if (typeof jQuery['livequery'] == 'undefined') {
 			if( ! this.data('remote')) return;
 
 			if (data && countProperties(data)){
+				var $jq, x, i, argv, func_name, logz, $this = this;
+
 				for(x in data){
 					is_selector = (x.toString().search(/^[0-9]+$/) == -1); // check if it has a selector
 
 					if (is_selector){
 						if (data[x].length){
 
-							if (x.toLowerCase() == 'window') {
+							if (x.toLowerCase() === 'window') {
 								$jq = $(window);
-							} else if (x.toLowerCase() == 'document') {
+							} else if (x.toLowerCase() === 'document') {
 								$jq = $(document);
 							} else {
 								$jq = $(x);
@@ -457,21 +524,33 @@ if (typeof jQuery['livequery'] == 'undefined') {
 									try {
 										func_name = argv.shift();
 										if (typeof $jq[func_name] === 'function'){
-											if (typeof argv[0] != 'undefined' && argv[0].constructor == Array){
+											if (typeof argv[0] != 'undefined' && argv[0].constructor === Array){
 												$jq = $jq[func_name].apply($jq, argv[0] || null);
-											} else if (argv.constructor == Array) {
+											} else if (argv.constructor === Array) {
 												$jq = $jq[func_name].apply($jq, argv || null);
 											} else {
 												$jq = $jq[func_name].call($jq, argv || null);
 											}
-										} else throw 'no jquery function "' + func_name + '" found';
+										} else throw 'no function "' + func_name + '" found in jQuery object';
 									} catch (exception) {
-										log(exception, argv);
+										logz = log(exception, argv);
+										
+										if ($.phery.options.per_element_events) {
+											$this.trigger('ajax:exception', [logz]);
+										}
+
+										$.phery.events.exception($this, logz);
 									}
 								}
 							}
 						} else {
-							log('no commands to issue');
+							logz = log('no commands to issue');
+
+							if ($.phery.options.per_element_events) {
+								$this.trigger('ajax:exception', [logz]);
+							}
+
+							$.phery.events.exception($this, logz);
 						}
 					} else {
 						argc = data[x]['a'].length;
@@ -483,7 +562,13 @@ if (typeof jQuery['livequery'] == 'undefined') {
 								if (typeof argv[0] != 'undefined' && typeof argv[0] === 'string'){
 									alert(argv[0]);
 								} else {
-									log('missing message for alert()', argv);
+									logz = log('missing message for alert()', argv);
+									
+									if ($.phery.options.per_element_events) {
+										$this.trigger('ajax:exception', [logz]);
+									}
+
+									$.phery.events.exception($this, logz);
 								}
 								break;
 							// call
@@ -493,22 +578,40 @@ if (typeof jQuery['livequery'] == 'undefined') {
 									if (typeof window[funct] === 'function'){
 										window[funct].apply(null, argv[0] || null);
 									} else {
-										throw 'no function "' + funct + '" found';
+										throw 'no global function "' + funct + '" found';
 									}
 								} catch (exception) {
-									log(exception, argv);
+									logz = log(exception, argv);
+									
+									if ($.phery.options.per_element_events) {
+										$this.trigger('ajax:exception', [logz]);
+									}
+
+									$.phery.events.exception($this, logz);
 								}
 								break;
 							// script
 							case 3:
 								try {
-									eval('(function(){ ' + argv[0] + ' })();');
+									eval('(function(){ ' + argv[0] + '})();');
 								} catch (exception) {
-									log(exception);
+									logz = log(exception, argv[0]);
+
+									if ($.phery.options.per_element_events) {
+										$this.trigger('ajax:exception', [logz]);
+									}
+
+									$.phery.events.exception($this, logz);
 								}
 								break;
 							default:
-								log('invalid command "' + data[x]['c'] + '" issued');
+								logz = log('invalid command "' + data[x]['c'] + '" issued');
+								
+								if ($.phery.options.per_element_events) {
+									$this.trigger('ajax:exception', [logz]);
+								}
+
+								$.phery.events.exception($this, logz);
 								break;
 						}
 					}
@@ -516,14 +619,14 @@ if (typeof jQuery['livequery'] == 'undefined') {
 			}
 		},
 		callRemote: function () {
-			if ($.phery.options.per_element_events == true) {
+			if ($.phery.options.per_element_events === true) {
 				this.trigger('ajax:before');
 			}
 
 			$.phery.events.before(this);
 
 			var el      = this,
-			url       = el.attr('action') || el.attr('href') || window.location.href,
+			url       = el.attr('action') || el.attr('href') || el.data('target') || $.phery.options.default_href || window.location.href,
 			type      = el.data('type') || 'json',
 			submit_id = el.attr('id');
 
@@ -551,7 +654,13 @@ if (typeof jQuery['livequery'] == 'undefined') {
 							)
 						);
 				} catch (exception) {
-					log(exception);
+					logz = log(exception);
+					
+					if ($.phery.options.per_element_events) {
+						el.trigger('ajax:exception', [logz]);
+					}
+
+					$.phery.events.exception(el, logz);
 				}
 			}
 
