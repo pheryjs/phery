@@ -19,7 +19,7 @@
  * @package phery
  * @url https://github.com/gahgneh/phery
  * @author gahgneh
- * @version 0.5 beta
+ * @version 0.5.1 beta
  * @license http://opensource.org/licenses/gpl-3.0.html GNU Public License
  */
 
@@ -234,15 +234,15 @@ class phery {
 	/**
 	 * Return the data associatated with a processed unobstructive POST call
 	 * @param string $alias The name of the alias for the process function
-	 * @return mixed Return NULL if no data available
+	 * @return mixed Return $default if no data available, defaults to NULL
 	 */
-	function answer_for($alias)
+	function answer_for($alias, $default = NULL)
 	{
 		if (isset($this->answers[$alias]) && !empty($this->answers[$alias]))
 		{
 			return $this->answers[$alias];
 		}
-		return null;
+		return $default;
 	}
 
 	private function _process($unobstructive, $last_call)

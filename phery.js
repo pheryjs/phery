@@ -1,257 +1,38 @@
-if (typeof jQuery['livequery'] == 'undefined') {
-
-	/*! Copyright (c) 2010 Brandon Aaron (http://brandonaaron.net)
-	 * Dual licensed under the MIT (MIT_LICENSE.txt)
-	 * and GPL Version 2 (GPL_LICENSE.txt) licenses.
-	 *
-	 * Version: 1.1.1
-	 * Requires jQuery 1.3+
-	 * Docs: http://docs.jquery.com/Plugins/livequery
-	 */
-
-	(function($) {
-
-		$.extend($.fn, {
-			livequery: function(type, fn, fn2) {
-				var self = this, q;
-
-				// Handle different call patterns
-				if ($.isFunction(type))
-					fn2 = fn, fn = type, type = undefined;
-
-				// See if Live Query already exists
-				$.each( $.livequery.queries, function(i, query) {
-					if ( self.selector == query.selector && self.context == query.context &&
-						type == query.type && (!fn || fn.$lqguid == query.fn.$lqguid) && (!fn2 || fn2.$lqguid == query.fn2.$lqguid) )
-						// Found the query, exit the each loop
-						return (q = query) && false;
-				});
-
-				// Create new Live Query if it wasn't found
-				q = q || new $.livequery(this.selector, this.context, type, fn, fn2);
-
-				// Make sure it is running
-				q.stopped = false;
-
-				// Run it immediately for the first time
-				q.run();
-
-				// Contnue the chain
-				return this;
-			},
-
-			expire: function(type, fn, fn2) {
-				var self = this;
-
-				// Handle different call patterns
-				if ($.isFunction(type))
-					fn2 = fn, fn = type, type = undefined;
-
-				// Find the Live Query based on arguments and stop it
-				$.each( $.livequery.queries, function(i, query) {
-					if ( self.selector == query.selector && self.context == query.context &&
-						(!type || type == query.type) && (!fn || fn.$lqguid == query.fn.$lqguid) && (!fn2 || fn2.$lqguid == query.fn2.$lqguid) && !this.stopped )
-						$.livequery.stop(query.id);
-				});
-
-				// Continue the chain
-				return this;
-			}
-		});
-
-		$.livequery = function(selector, context, type, fn, fn2) {
-			this.selector = selector;
-			this.context  = context;
-			this.type     = type;
-			this.fn       = fn;
-			this.fn2      = fn2;
-			this.elements = [];
-			this.stopped  = false;
-
-			// The id is the index of the Live Query in $.livequery.queries
-			this.id = $.livequery.queries.push(this)-1;
-
-			// Mark the functions for matching later on
-			fn.$lqguid = fn.$lqguid || $.livequery.guid++;
-			if (fn2) fn2.$lqguid = fn2.$lqguid || $.livequery.guid++;
-
-			// Return the Live Query
-			return this;
-		};
-
-		$.livequery.prototype = {
-			stop: function() {
-				var query = this;
-
-				if ( this.type )
-					// Unbind all bound events
-					this.elements.unbind(this.type, this.fn);
-				else if (this.fn2)
-					// Call the second function for all matched elements
-					this.elements.each(function(i, el) {
-						query.fn2.apply(el);
-					});
-
-				// Clear out matched elements
-				this.elements = [];
-
-				// Stop the Live Query from running until restarted
-				this.stopped = true;
-			},
-
-			run: function() {
-				// Short-circuit if stopped
-				if ( this.stopped ) return;
-				var query = this;
-
-				var oEls = this.elements,
-				els  = $(this.selector, this.context),
-				nEls = els.not(oEls);
-
-				// Set elements to the latest set of matched elements
-				this.elements = els;
-
-				if (this.type) {
-					// Bind events to newly matched elements
-					nEls.bind(this.type, this.fn);
-
-					// Unbind events to elements no longer matched
-					if (oEls.length > 0)
-						$.each(oEls, function(i, el) {
-							if ( $.inArray(el, els) < 0 )
-								$.event.remove(el, query.type, query.fn);
-						});
-				}
-				else {
-					// Call the first function for newly matched elements
-					nEls.each(function() {
-						query.fn.apply(this);
-					});
-
-					// Call the second function for elements no longer matched
-					if ( this.fn2 && oEls.length > 0 )
-						$.each(oEls, function(i, el) {
-							if ( $.inArray(el, els) < 0 )
-								query.fn2.apply(el);
-						});
-				}
-			}
-		};
-
-		$.extend($.livequery, {
-			guid: 0,
-			queries: [],
-			queue: [],
-			running: false,
-			timeout: null,
-
-			checkQueue: function() {
-				if ( $.livequery.running && $.livequery.queue.length ) {
-					var length = $.livequery.queue.length;
-					// Run each Live Query currently in the queue
-					while ( length-- )
-						$.livequery.queries[ $.livequery.queue.shift() ].run();
-				}
-			},
-
-			pause: function() {
-				// Don't run anymore Live Queries until restarted
-				$.livequery.running = false;
-			},
-
-			play: function() {
-				// Restart Live Queries
-				$.livequery.running = true;
-				// Request a run of the Live Queries
-				$.livequery.run();
-			},
-
-			registerPlugin: function() {
-				$.each( arguments, function(i,n) {
-					// Short-circuit if the method doesn't exist
-					if (!$.fn[n]) return;
-
-					// Save a reference to the original method
-					var old = $.fn[n];
-
-					// Create a new method
-					$.fn[n] = function() {
-						// Call the original method
-						var r = old.apply(this, arguments);
-
-						// Request a run of the Live Queries
-						$.livequery.run();
-
-						// Return the original methods result
-						return r;
-					}
-				});
-			},
-
-			run: function(id) {
-				if (id != undefined) {
-					// Put the particular Live Query in the queue if it doesn't already exist
-					if ( $.inArray(id, $.livequery.queue) < 0 )
-						$.livequery.queue.push( id );
-				}
-				else
-					// Put each Live Query in the queue if it doesn't already exist
-					$.each( $.livequery.queries, function(id) {
-						if ( $.inArray(id, $.livequery.queue) < 0 )
-							$.livequery.queue.push( id );
-					});
-
-				// Clear timeout if it already exists
-				if ($.livequery.timeout) clearTimeout($.livequery.timeout);
-				// Create a timeout to check the queue and actually run the Live Queries
-				$.livequery.timeout = setTimeout($.livequery.checkQueue, 20);
-			},
-
-			stop: function(id) {
-				if (id != undefined)
-					// Stop are particular Live Query
-					$.livequery.queries[ id ].stop();
-				else
-					// Stop all Live Queries
-					$.each( $.livequery.queries, function(id) {
-						$.livequery.queries[ id ].stop();
-					});
-			}
-		});
-
-		// Register core DOM manipulation methods
-		$.livequery.registerPlugin('append', 'prepend', 'after', 'before', 'wrap', 'attr',
-			'removeAttr', 'addClass', 'removeClass', 'toggleClass', 'empty', 'remove', 'html');
-
-		// Run Live Queries when the Document is ready
-		$(function() {
-			$.livequery.play();
-		});
-
-	})(jQuery);
-
-}
-
 /**
- * Javascript library of phery v0.5b
+ * Javascript library of phery v0.5.1 beta
  * @url https://github.com/gahgneh/phery
  */
 (function ($) {
 	window.log = function(){
+		var 
+			args = Array.prototype.slice.call(arguments);
+			
 		log.history = log.history || []; // store logs to an array for reference
 		log.history.push(arguments);
-		if(this.console){
-			console.log( Array.prototype.slice.call(arguments) );
+		
+		if (this.console){
+			if(typeof console.log === 'object')	{
+				// IE is still a malign force
+				console.log(Array.prototype.slice.call(arguments));
+			}	else {
+				// Good browsers
+				console.log.apply(null, args);
+			}
 		}
-		return Array.prototype.slice.call(arguments).join("\n\n");
+		return args.join("\n");
 	}
 
 	function countProperties(obj) {
 		var count = 0;
-
-		for(var prop in obj) {
-			if(obj.hasOwnProperty(prop))
-				++count;
+		
+		if (typeof obj === 'object') {
+			for(var prop in obj) {
+				if(obj.hasOwnProperty(prop))
+					++count;
+			}
+		} else {
+			if (typeof obj['length'] !== 'undefined')
+				count = obj.length;
 		}
 
 		return count;
@@ -291,15 +72,13 @@ if (typeof jQuery['livequery'] == 'undefined') {
 
 	$.phery = {
 		'events': {
-			'before': function ($element) { },
-			'beforeSend': function ($element, xhr) { },
-			'success': function ($element, data, text, xhr) {
-				return true;
-			},
-			'complete': function ($element, xhr) { },
-			'error': function ($element, xhr, status, error) { },
-			'after': function ($element) { },
-			'exception': function ($element, exception) {}
+			'before': function ($element) { return true;},
+			'beforeSend': function ($element, xhr) { return true;},
+			'success': function ($element, data, text, xhr) {return true;},
+			'complete': function ($element, xhr) {return true;},
+			'error': function ($element, xhr, status, error) {return true;},
+			'after': function ($element) {return true;},
+			'exception': function ($element, exception) {return true;}
 		},
 		'options':{
 			'cursor': true,
@@ -311,7 +90,7 @@ if (typeof jQuery['livequery'] == 'undefined') {
 	var call_cache = [];
 
 	str_is_function = function(str){
-		if (jQuery.type(str) !== 'string' || ! /^\s*?function/i.test(str) || ! /\}$/m.test(str)) return false;
+		if ($.type(str) !== 'string' || ! /^\s*?function/i.test(str) || ! /\}$/m.test(str)) return false;
 		return true;
 	}
 
@@ -347,16 +126,36 @@ if (typeof jQuery['livequery'] == 'undefined') {
 		this.apply(obj, Array.prototype.slice.call(arguments, 1));
 	}
 
-	$.isFunction = function( obj ) {
-		return jQuery.type(obj) === "function" || (str_is_function(obj));
+	if (typeof $['type'] === 'undefined') {
+		$.type = function( obj ) {
+			return obj == null ?
+				String( obj ) :
+				class2type[ toString.call(obj) ] || "object";
+		};
 	}
 
+	$.isFunction = function( obj ) {
+		return $.type(obj) === "function" || (str_is_function(obj));
+	}
+	
 	$.fn.extend({
 		triggerAndReturn: function (name, data) {
-			var event = new $.Event(name);
+			var event = $.Event(name);
 			this.trigger(event, data);
 
 			return event.result !== false;
+		},
+		
+		triggerPheryEvent: function (event_name, data) {
+			data = data || [];
+			
+			if ($.phery.events[event_name].apply(null, [this].concat(data)) === false) return false;
+			
+			if ($.phery.options.per_element_events) {
+				return this.triggerAndReturn('ajax:' + event_name, data);
+			}
+			
+			return true;
 		},
 
 		/**
@@ -367,8 +166,11 @@ if (typeof jQuery['livequery'] == 'undefined') {
 		 * @param bool disabled Submit disabled elements
 		 */
 		serializeForm:function(opt){
+			opt = $.extend({}, opt);
+			
 			if (typeof opt['disabled'] === 'undefined' || opt['disabled'] === null) opt['disabled'] = false;
 			if (typeof opt['all'] === 'undefined' || opt['all'] === null) opt['all'] = false;
+			
 			var $form = $(this);
 
 			var
@@ -535,22 +337,14 @@ if (typeof jQuery['livequery'] == 'undefined') {
 									} catch (exception) {
 										logz = log(exception, argv);
 										
-										if ($.phery.options.per_element_events) {
-											$this.trigger('ajax:exception', [logz]);
-										}
-
-										$.phery.events.exception($this, logz);
+										$this.triggerPheryEvent('exception', [logz]);
 									}
 								}
 							}
 						} else {
 							logz = log('no commands to issue');
 
-							if ($.phery.options.per_element_events) {
-								$this.trigger('ajax:exception', [logz]);
-							}
-
-							$.phery.events.exception($this, logz);
+							$this.triggerPheryEvent('exception', [logz]);
 						}
 					} else {
 						argc = data[x]['a'].length;
@@ -564,11 +358,7 @@ if (typeof jQuery['livequery'] == 'undefined') {
 								} else {
 									logz = log('missing message for alert()', argv);
 									
-									if ($.phery.options.per_element_events) {
-										$this.trigger('ajax:exception', [logz]);
-									}
-
-									$.phery.events.exception($this, logz);
+									$this.triggerPheryEvent('exception', [logz]);
 								}
 								break;
 							// call
@@ -583,11 +373,7 @@ if (typeof jQuery['livequery'] == 'undefined') {
 								} catch (exception) {
 									logz = log(exception, argv);
 									
-									if ($.phery.options.per_element_events) {
-										$this.trigger('ajax:exception', [logz]);
-									}
-
-									$.phery.events.exception($this, logz);
+									$this.triggerPheryEvent('exception', [logz]);
 								}
 								break;
 							// script
@@ -597,21 +383,14 @@ if (typeof jQuery['livequery'] == 'undefined') {
 								} catch (exception) {
 									logz = log(exception, argv[0]);
 
-									if ($.phery.options.per_element_events) {
-										$this.trigger('ajax:exception', [logz]);
-									}
-
-									$.phery.events.exception($this, logz);
+									$this.triggerPheryEvent('exception', [logz]);
 								}
 								break;
 							default:
 								logz = log('invalid command "' + data[x]['c'] + '" issued');
 								
-								if ($.phery.options.per_element_events) {
-									$this.trigger('ajax:exception', [logz]);
-								}
-
-								$.phery.events.exception($this, logz);
+								$this.triggerPheryEvent('exception', [logz]);
+								
 								break;
 						}
 					}
@@ -619,11 +398,7 @@ if (typeof jQuery['livequery'] == 'undefined') {
 			}
 		},
 		callRemote: function () {
-			if ($.phery.options.per_element_events === true) {
-				this.trigger('ajax:before');
-			}
-
-			$.phery.events.before(this);
+			if (this.triggerPheryEvent('before') === false) return false;
 
 			var el      = this,
 			url       = el.attr('action') || el.attr('href') || el.data('target') || $.phery.options.default_href || window.location.href,
@@ -634,7 +409,7 @@ if (typeof jQuery['livequery'] == 'undefined') {
 
 			if (el.data('args')) {
 				try {
-					data['args'] = el.data('args');
+					data['args'] = $.extend({}, el.data('args'));
 				} catch (exception) {
 					log(exception);
 				}
@@ -656,11 +431,7 @@ if (typeof jQuery['livequery'] == 'undefined') {
 				} catch (exception) {
 					logz = log(exception);
 					
-					if ($.phery.options.per_element_events) {
-						el.trigger('ajax:exception', [logz]);
-					}
-
-					$.phery.events.exception(el, logz);
+					el.triggerPheryEvent('exception', [logz]);
 				}
 			}
 
@@ -689,14 +460,11 @@ if (typeof jQuery['livequery'] == 'undefined') {
 							'cursor':'wait'
 						});
 					}
-					if ($.phery.options.per_element_events) {
-						el.trigger('ajax:beforeSend', [xhr]);
-					}
-					$.phery.events.beforeSend(el, xhr);
+					
+					if (el.triggerPheryEvent('beforeSend', [xhr]) === false) return false; 
 				},
 				success: function (data, text, xhr) {
-					if ( ! el.triggerAndReturn('ajax:success', [data, text, xhr])) return;
-					if ( ! $.phery.events.success(el, data, text, xhr)) return;
+					if (el.triggerPheryEvent('success', [data, text, xhr]) === false) return false;
 					el.processRequest(data);
 				},
 				complete: function (xhr) {
@@ -705,10 +473,7 @@ if (typeof jQuery['livequery'] == 'undefined') {
 							'cursor':'auto'
 						});
 					}
-					if ($.phery.options.per_element_events) {
-						el.trigger('ajax:complete', [xhr]);
-					}
-					$.phery.events.complete(el, xhr);
+					if (el.triggerPheryEvent('complete', [xhr]) === false) return false;
 					if (el.data('temp')) el.remove();
 				},
 				error: function (xhr, status, error) {
@@ -717,25 +482,18 @@ if (typeof jQuery['livequery'] == 'undefined') {
 							'cursor':'auto'
 						});
 					}
-					if ($.phery.options.per_element_events) {
-						el.trigger('ajax:error', [xhr, status, error]);
-					}
-
-					$.phery.events.error(el, xhr, status, error);
+					
+					if (el.triggerPheryEvent('error', [xhr, status, error]) === false) return false;
 
 					if (el.data('temp')) el.remove();
 				}
 			});
 
-			if ($.phery.options.per_element_events) {
-				el.trigger('ajax:after');
-			}
-
-			$.phery.events.after(el);
+			if (el.triggerPheryEvent('after') === false) return false;
 		}
 	});
 
-	$('[data-confirm]:not(form)').livequery('click', function (e) {
+	$('[data-confirm]:not(form)').live('click', function (e) {
 		e.preventDefault();
 		if (!confirm($(this).data('confirm'))) {
 			if (typeof e['stopImmediatePropagation'] === 'function') e.stopImmediatePropagation()
@@ -745,7 +503,7 @@ if (typeof jQuery['livequery'] == 'undefined') {
 		return true;
 	});
 
-	$('form[data-remote]').livequery('submit', function (e) {
+	$('form[data-remote]').live('submit', function (e) {
 		var $this = $(this);
 		if($this.data('confirm')){
 			if (!confirm($this.data('confirm'))) return false;
@@ -756,7 +514,7 @@ if (typeof jQuery['livequery'] == 'undefined') {
 		return false;
 	});
 
-	$('[data-remote]:not(form)').livequery('click', function (e) {
+	$('[data-remote]:not(form)').live('click', function (e) {
 		$(this).callRemote();
 		e.preventDefault();
 		return false;

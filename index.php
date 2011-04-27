@@ -14,11 +14,9 @@
 				->html($ajax_data['hi'])
 				->jquery('a')
 				// Create callbacks directly from PHP! No need to do this, just to show it's possible
-				// White space doesnt matter to JSON, it just adds extra bytes to the response afterall
+				// White space (CRLF, tabs, spaces) doesnt matter to JSON, it just adds extra bytes to the response afterall
 				->each('  function(i, el){
-					if (typeof console != "undefined") {
-						console.log("inside each!", i);
-					}
+					log("inside each!", i);
 					if ($(this).text().length > 17) {
 						$(this).css({"color":"green","textDecoration":"none"});
 					}
@@ -50,7 +48,7 @@
 					'borderWidth' => "10px"
 				), 1500, 'linear',
 				'function(){ 
-					$(this).append("<br>yes Ive finished animating and fired inside PHP callback rawr!");
+					$(this).append("<br>yes Ive finished animating and fired from inside PHP as an animate() completion callback rawr!");
 				}');
 		}
 	}
@@ -71,7 +69,7 @@
 			->trigger('test')
 			->jquery('<li/>') // Create a new element and append to the ul
 			->css('backgroundColor', '#0f0')
-			->html('<h1>Dynamically added, it already bound with AJAX upon creation</h1><a data-remote="surprise">Click me (execute script calling window.location.reload)</a>')
+			->html('<h1>Dynamically added, its already bound with phery AJAX upon creation because of jquery live()</h1><a data-remote="surprise">Click me (execute script calling window.location.reload)</a>')
 			->appendTo('#add');
 	}
 
@@ -130,7 +128,10 @@
 	}
 
 	$memory_start = 0;
-
+	
+	/**
+	 * Callbacks to measure the memory used, for benchmarking reasons ;)
+	 */
 	function mem_start($data, $callback)
 	{
 		global $memory_start;
@@ -148,62 +149,113 @@
 
 		return true;
 	}
-
+	
+	/**
+	 * New instances of phery and our test class
+	 */
 	$instance = new myClass;
 	$phery = new phery;
 
 	try{
 		$phery->config(
 			array(
-				'exceptions' => true, // Throw exceptions and return them in form of phery_exception, usually for debug purposes
-				'unobstructive' => array('thisone')
+				/**
+				 * Throw exceptions and return them in form of phery_exception, 
+				 * usually for debug purposes. If set to false (default), it fails 
+				 * silently
+				 */
+				'exceptions' => true,
+				/**
+				 * Unobstructive allows the responses to receive data EVEN if 
+				 * not called by ajax (ie on a browser with javascript disabled/blocked).
+				 * Good to ensure forms submission
+				 */
+				'unobstructive' => array('thisone') 
 			)
 		)
+		/**
+		 * Set the callbacks for this batch of functions
+		 */
 		->callback(array(
 			'pre' => 'mem_start',
 			'post' => 'mem_end'
 		))
+		/**
+		 * Set the aliases for the AJAX calls
+		 */
 		->set(array(
-			'test' => array($instance, 'test'), // instance method call
-			'test2' => 'test', // regular function
-			'test4' => array('myClass', 'test2'), // static function
-			'test5' => function(){ return phery_response::factory()->redirect('http://www.google.com'); }, // Lambda
-			'data' => array($instance, 'data'), // Unbind ajax from all elements
-			'trigger' => 'trigger', // Trigger even on another element
-			'form' => 'form', // Trigger even on another element
-			'thisone' => 'thisone', // Call this function even if it's not been submitted by AJAX, but IS a post
+			// instance method call
+			'test' => array($instance, 'test'), 
+			// regular function
+			'test2' => 'test', 
+			// static function
+			'test4' => array('myClass', 'test2'), 
+			// Lambda
+			'test5' => function(){ return phery_response::factory()->redirect('http://www.google.com'); }, 
+			// Use PHP-side animate() callback!
+			'data' => array($instance, 'data'), 
+			// Trigger even on another element
+			'trigger' => 'trigger', 
+			// Trigger even on another element
+			'form' => 'form', 
+			// Call this function even if it's not been submitted by AJAX, but IS a post
+			'thisone' => 'thisone', 
+			// Lambda, reload the page
 			'surprise' => function ($data){
 				return
 					phery_response::factory()->script('window.location.reload(true)');
 			},
+			// Invalid Javascript to trigger "EXCEPTION" callback
 			'invalid' => function(){
 				return phery_response::factory()->script('if notvalid javscript')->jquery('a')->blah();
 			}
 		))
+		/**
+		 * process(false) mean we will call phery again with 
+		 * process(true)/process() to end the processing, so it doesn't
+		 * block the execution of the other process() call
+		 */
 		->process(false);
 
-		// To separate the callback from the rest of the other functions,
-		// just call a second process()
+		/**
+		 * To separate the callback from the rest of the other functions,
+		 * just call a second process()
+		 */
 		$phery
 		->set(array(
+			// Set lambda with two alerts
 			'test3' => function($args, $callback)
 			{ // Lambda/anonymous function, without named parameters, using ordinal indexes
 					return phery_response::factory()->alert($args[0])->alert($args[1]);
 			},
+			// 
 			'the_one_with_expr' => 'the_one_with_expr',
 		))
+		/**
+		 * Set the callbacks ONLY for "test3" and "the_one_with_expr"
+		 */
 		->callback(array(
 			'pre' => 'pre_callback',
 			'post' => 'post_callback'
 		))
+		/**
+		 * Some extra data that will be passed to aliases functions 
+		 * and callbacks
+		 */
 		->data('param1', 'param2')
-		->
-		process();
+		/**
+		 * Finally, process for "test3" or "the_one_with_expr"
+		 */
+		->process();
+			
 	} catch (phery_exception $exc){
-		// will trigger for "nonexistant"
-		// This will only be reached if 'exceptions' is set to TRUE
-		// Otherwise it will fail silently, and return an empty
-		// JSON response object {}
+		/** 
+		 * will trigger for "nonexistant"
+		 * This will only be reached if 'exceptions' is set to TRUE
+		 * Otherwise it will fail silently, and return an empty
+		 * JSON response object {}
+		 * 
+		 */
 		echo phery_response::factory()->alert($exc->getMessage());
 		exit;
 	}
@@ -212,7 +264,8 @@
 <!doctype html>
 <html>
 	<head>
-		<script src="http://code.jquery.com/jquery-1.5.1.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
+		<script src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.8/jquery.validate.min.js"></script>
 		<script src="phery.js"></script>
 		<script>
 			/* <![CDATA[ */
@@ -229,6 +282,7 @@
 				$usage;
 
 			$(function(){
+				// cache our DOM elements that will receive the memory info
 				$peak = $('#peak'),
 				$usage = $('#usage');
 
@@ -237,20 +291,33 @@
 						$(this).show(0).html('triggered custom event "TEST"!');
 					}
 				});
+				
+				/*
+				 *
+				 * Manually process the result of ajax call, can be anything
+				 * 
+				 */
+				$('#special').bind({
+					'ajax:success': function(data, text, xhr){
+						// The object will receive the text, return data from 'test' function, it's a JSON string
+						alert(text);
+						// Now lets convert back to an object
+						var obj = $.parseJSON(text);
+						log(obj);
+						// Do stuff with new obj
+						// Returning false will prevent the parser to continue executing the commands and parsing
+						// for jquery calls, because this text/html answer won't have any.'
+						return false;
+					}
+				})
+				// The data-type must override the type to 'html', since the default is 'json'
+				.data('type', 'html'); 
 
-				/* Manually process the result of ajax call, can be anything */
-				$('#special').bind('ajax:success', function(data, text, xhr){
-					// The object will receive the text, return data from 'test' function, it's a JSON string
-					alert(text);
-					// Now lets convert back to an object
-					var obj = $.parseJSON(text);
-					window.log(obj);
-					// Do stuff with new obj
-					// Returning false will prevent the parser to continue executing the commands
-					return false;
-				}).data('type', 'html'); // The data-type must override the type to 'html', since the default is 'json'
-
-				/* Bind the ajax:complete, after data was received, and there was no error */
+				/*
+				 * 
+				 * Bind the ajax:complete, after data was received, and there was no error 
+				 * 
+				 */
 				$('#special2').bind({
 					'ajax:complete':function(xhr){
 						var $this = $(this);
@@ -259,17 +326,43 @@
 							$('div.test2').text(('$.data for item "nice" is "' + $this.data('testing')['nice']) + '"');
 					}
 				});
-
-				// Let's just bind to the form, so we can apply some formatting to the text coming from print_r() PHP
+				
+				/*
+				 * Apply validate plugin to the forms, greedy ;P
+				 */
+				var 
+					$validate = 
+					$('form').validate({
+						'rules':{
+							'field[name][first]':{
+								required: true
+							},
+							'field[name][last]':{
+								required: true
+							}
+						}
+					});
+					
+				/*
+				 * 
+				 * Let's just bind to the form, so we can apply some formatting to the text coming from print_r() PHP
+				 * 
+				 */
 				$('form').bind({
 					'ajax:complete':function(){
 						$div = $('div.test:eq(0)');
 						var text = $div.html();
 						// This doesnt work for IE7 or IE8, no idea why, the CRLF wont be replaced by <br>
-						$div.html(text.replace(/\r\n|\n/g, '<br/>').replace(/\s/g, "&nbsp;&nbsp;"));
+						$div.html(text.replace(/(\r\n|\n)/g, "<br/>").replace(/\s/g, "&nbsp;&nbsp;"));
+					},
+					// Let's use jQuery client-side validation here, before allowing to send
+					'ajax:beforeSend':function(){
+						return $validate.valid();
 					}
 				})
-
+				
+				
+				
 				$form = $('#testform');
 
 				var f = function(el, name){
@@ -293,13 +386,19 @@
 
 				var
 					$loading = $('#loading');
-
-				// You can set global events to be triggered, in this case, fadeIn and out the loading div
-				$.phery.events.before = function(){
+					
+				/*
+				 *
+				 * Global phery events
+				 * 
+				 * You can set global events to be triggered, in this case, fadeIn and out the loading div
+				 * 
+				 */
+				$.phery.events.before = function($element){
 					$loading.removeClass('error').fadeIn('fast');
 				}
 
-				$.phery.events.complete = function(){
+				$.phery.events.complete = function($element, xhr){
 					$loading.fadeOut('fast');
 				}
 
@@ -396,7 +495,7 @@
 				<?php echo phery::link_to('Redirect to google.com', 'test5', array('confirm' => 'Are you sure?', 'tag' => 'button')); ?>
 			</li>
 			<li>
-				<h1>Call a non-existant function with 'exceptions' turned on</h1>
+				<h1>Call a non-existant function with 'exceptions' set to true</h1>
 				<?php echo phery::link_to('Call a non-existant function', 'nonexistant'); ?>
 			</li>
 			<li>
@@ -445,36 +544,36 @@
 			echo phery::form_for('', 'form', array('id' => 'testform', 'submit' => array('disabled' => false, 'all' => false), 'args' => array('whadyousay' => 'OH YEAH')));
 		?>
 			<fieldset>
-				<label>First Name:</label>
-				<input type="text" name="field[name][first]" maxlength="12">
-				<label>Last Name:</label>
-				<input type="text" name="field[name][last]" maxlength="36">
+				<label for="first_name">First Name:</label>
+				<input id="first_name" type="text" name="field[name][first]" maxlength="12">
+				<label for="last_name">Last Name:</label>
+				<input id="last_name" type="text" name="field[name][last]" maxlength="36">
 
 				<label>Gender:</label>
-				<label>Male:</label>
-				<input type="radio" name="gender" value="Male">
-				<label>Female:</label>
-				<input type="radio" name="gender" value="Female">
+				<label for="gender_male">Male:</label>
+				<input type="radio" name="gender" id="gender_male" value="Male">
+				<label for="gender_female">Female:</label>
+				<input type="radio" id="gender_female" name="gender" value="Female">
 				<input type="hidden" name="super[unnecessarily][deep][name][for][a][input]" value="really">
 				<label>Favorite Food:</label>
-				<label>Steak:</label>
-				<input type="checkbox" name="food[]" value="Steak"> <!-- The correct would be food[steak] unless there's a huge list of unknown size -->
-				<label>Pizza:</label>
-				<input type="checkbox" name="food[]" value="Pizza"> <!-- The correct would be food[pizza] unless there's a huge list of unknown size -->
-				<label>Chicken:</label>
-				<input type="checkbox" name="food[]" value="Chicken"> <!-- The correct would be food[chicken]	unless there's a huge list of unknown size -->
-				<label>Nuggets (no value):</label>
-				<input type="checkbox" name="nuggets"> <!-- Best to always provide a value. In this case it will be submitted as "on" when checked -->
+				<label for="food_steak">Steak:</label>
+				<input type="checkbox" id="food_steak" name="food[]" value="Steak"> <!-- The correct would be food[steak] unless there's a huge list of unknown size -->
+				<label for="food_pizza">Pizza:</label>
+				<input type="checkbox" id="food_pizza" name="food[]" value="Pizza"> <!-- The correct would be food[pizza] unless there's a huge list of unknown size -->
+				<label for="food_chicken">Chicken:</label>
+				<input type="checkbox" id="food_chicken" name="food[]" value="Chicken"> <!-- The correct would be food[chicken]	unless there's a huge list of unknown size -->
+				<label for="food_nuggest">Nuggets (no value):</label>
+				<input type="checkbox" id="food_nuggest" name="nuggets"> <!-- Best to always provide a value. In this case it will be submitted as "on" when checked -->
 				<label>&nbsp;</label>
-				<textarea wrap="physical" cols="20" name="quote" rows="5">Enter your favorite quote!</textarea>
-				<label>Select a Level of Education:</label>
-				<select name="education">
+				<textarea cols="20" name="quote" rows="5">Enter your favorite quote!</textarea>
+				<label for="level_education">Select a Level of Education:</label>
+				<select id="level_education" name="education">
 					<option value="Jr.High">Jr.High</option>
 					<option value="HighSchool">HighSchool</option>
 					<option value="College">College</option>
 				</select>
-				<label>Select your favorite time of day:</label>
-				<select size="3" name="TofD" multiple> <!-- The correct would be TofD, but phery takes in account the 'multiple' attribute -->
+				<label for="TofD">Select your favorite time of day:</label>
+				<select size="3" id="TofD" name="TofD" multiple> <!-- The correct would be TofD, but phery takes in account the 'multiple' attribute -->
 					<option value="Morning">Morning</option>
 					<option value="Day">Day</option>
 					<option value="Night">Night</option>
@@ -494,8 +593,8 @@
 						echo '<h2>This is the function result: "'.htmlentities(print_r($answer, true)).'" without the quotes</h2>';
 					}
 				?>
-				<label>Data</label>
-				<input name="f" type="text" value="testing">
+				<label for="f">Data</label>
+				<input name="f" id="f" type="text" value="testing">
 				<p><input type="submit" value="Send form"></p>
 			</fieldset>
 		</form>
