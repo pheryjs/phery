@@ -1,0 +1,912 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs For Class phery_response</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name">Class phery_response</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+													<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+						|											<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Standard response for the json parser</p>
+	<ul class="tags">
+				<li><span class="field">method:</span> <a href="../phery_package/phery_response.html">phery_response</a> detach(): detach() Detach a DOM element retaining the events attached to it</li>
+				<li><span class="field">method:</span> <a href="../phery_package/phery_response.html">phery_response</a> prependTo(): pretendTo($target) Prepend DOM element to target</li>
+				<li><span class="field">method:</span> <a href="../phery_package/phery_response.html">phery_response</a> appendTo(): appendTo($target) Append DOM element to target</li>
+				<li><span class="field">method:</span> <a href="../phery_package/phery_response.html">phery_response</a> replaceWith(): replaceWith($newContent) The content to insert. May be an HTML string, DOM element, or jQuery object.</li>
+				<li><span class="field">method:</span> <a href="../phery_package/phery_response.html">phery_response</a> css(): css($propertyName, $value) propertyName: A CSS property name. value: A value to set for the property.</li>
+				<li><span class="field">method:</span> <a href="../phery_package/phery_response.html">phery_response</a> toggle(): toggle($speed) Toggle an object visible or hidden, can be animated with 'fast','slow','normal'</li>
+				<li><span class="field">method:</span> <a href="../phery_package/phery_response.html">phery_response</a> hide(): hide($speed) Hide an object, can be animated with 'fast','slow','normal'</li>
+				<li><span class="field">method:</span> <a href="../phery_package/phery_response.html">phery_response</a> show(): show($speed) Show an object, can be animated with 'fast','slow','normal'</li>
+				<li><span class="field">method:</span> <a href="../phery_package/phery_response.html">phery_response</a> toggleClass(): toggleClass($className) Add/Remove a class from an element</li>
+				<li><span class="field">method:</span> <a href="../phery_package/phery_response.html">phery_response</a> data(): data($name, $data) Add data to element</li>
+				<li><span class="field">method:</span> <a href="../phery_package/phery_response.html">phery_response</a> addClass(): addClass($className) Add a class from an element</li>
+				<li><span class="field">method:</span> <a href="../phery_package/phery_response.html">phery_response</a> removeClass(): removeClass($className) Remove a class from an element</li>
+				<li><span class="field">method:</span> <a href="../phery_package/phery_response.html">phery_response</a> animate(): animate($prop, $dur, $easing, $cb) Animate an element</li>
+				<li><span class="field">method:</span> <a href="../phery_package/phery_response.html">phery_response</a> trigger(): trigger($eventName, [$args]) Trigger an event</li>
+				<li><span class="field">method:</span> <a href="../phery_package/phery_response.html">phery_response</a> fadeIn(): fadeIn($prop, $dur, $easing, $cb) Animate an element</li>
+				<li><span class="field">method:</span> <a href="../phery_package/phery_response.html">phery_response</a> filter(): filter($selector) Filter elements</li>
+				<li><span class="field">method:</span> <a href="../phery_package/phery_response.html">phery_response</a> fadeTo(): fadeTo($dur, $opacity) Animate an element</li>
+				<li><span class="field">method:</span> <a href="../phery_package/phery_response.html">phery_response</a> fadeOut(): fadeOut($prop, $dur, $easing, $cb) Animate an element</li>
+				<li><span class="field">method:</span> <a href="../phery_package/phery_response.html">phery_response</a> slideUp(): slideUp($dur, $cb) Hide with slide up animation</li>
+				<li><span class="field">method:</span> <a href="../phery_package/phery_response.html">phery_response</a> slideDown(): slideDown($dur, $cb) Show with slide down animation</li>
+				<li><span class="field">method:</span> <a href="../phery_package/phery_response.html">phery_response</a> slideToggle(): slideToggle($dur, $cb) Toggle show/hide the element, using slide animation</li>
+				<li><span class="field">method:</span> <a href="../phery_package/phery_response.html">phery_response</a> unbind(): unbind($name) Unbind an event from an element</li>
+				<li><span class="field">method:</span> <a href="../phery_package/phery_response.html">phery_response</a> stop(): stop() Stop animation on elements</li>
+				<li><span class="field">method:</span> <a href="../phery_package/phery_response.html">phery_response</a> live(): live($name) Bind a live event to the selected elements</li>
+				<li><span class="field">method:</span> <a href="../phery_package/phery_response.html">phery_response</a> die(): die($name) Unbind an event from an element set by live()</li>
+				<li><span class="field">method:</span> <a href="../phery_package/phery_response.html">phery_response</a> val(): val($content) Set the value of an element</li>
+				<li><span class="field">method:</span> <a href="../phery_package/phery_response.html">phery_response</a> removeData(): removeData($element, $name) Remove element data added with data()</li>
+				<li><span class="field">method:</span> <a href="../phery_package/phery_response.html">phery_response</a> removeAttr(): removeAttr($name) Remove an attribute from an element</li>
+				<li><span class="field">method:</span> <a href="../phery_package/phery_response.html">phery_response</a> scrollTop(): scrollTop($val) Set the scroll from the top</li>
+				<li><span class="field">method:</span> <a href="../phery_package/phery_response.html">phery_response</a> scrollLeft(): scrollLeft($val) Set the scroll from the left</li>
+				<li><span class="field">method:</span> <a href="../phery_package/phery_response.html">phery_response</a> height(): height($val) Set the height from the left</li>
+				<li><span class="field">method:</span> <a href="../phery_package/phery_response.html">phery_response</a> width(): width($val) Set the width from the left</li>
+				<li><span class="field">method:</span> <a href="../phery_package/phery_response.html">phery_response</a> slice(): slice($start, $end) Reduce the set of matched elements to a subset specified by a range of indices.</li>
+				<li><span class="field">method:</span> <a href="../phery_package/phery_response.html">phery_response</a> not(): not($val) Remove elements from the set of matched elements.</li>
+				<li><span class="field">method:</span> <a href="../phery_package/phery_response.html">phery_response</a> eq(): eq($selector) Reduce the set of matched elements to the one at the specified index.</li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_phery.php.html">/phery.php</a> (line <span class="field">685</span>)
+		</p>
+		
+				
+		<pre></pre>
+	
+			</div>
+</div>
+
+
+
+	<a name="sec-var-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variable Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+						<span class="disabled">Vars</span> (<a href="#sec-vars">details</a>)
+							| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+								</div>
+		<div class="info-box-body">
+			<div class="var-summary">
+																								<div class="var-title">
+					<span class="var-type">string</span>
+					<a href="#$last_selector" title="details" class="var-name">$last_selector</a>
+				</div>
+											</div>
+		</div>
+	</div>
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+																		<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+				 
+				|
+						<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																																																																				<div class="method-definition">
+					static 						<span class="method-result"><a href="../phery_package/phery_response.html">phery_response</a></span>
+										<a href="#factory" title="details" class="method-name">factory</a>
+											([<span class="var-type">string</span>&nbsp;<span class="var-name">$selector</span> = <span class="var-default">null</span>])
+									</div>
+																																																																																																																								
+												<div class="method-definition">
+											<span class="method-result">phery_response</span>
+										<a href="#__construct" title="details" class="method-name">__construct</a>
+											([<span class="var-type">string</span>&nbsp;<span class="var-name">$selector</span> = <span class="var-default">null</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result"><a href="../phery_package/phery_response.html">phery_response</a></span>
+										<a href="#alert" title="details" class="method-name">alert</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$msg</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result"><a href="../phery_package/phery_response.html">phery_response</a></span>
+										<a href="#append" title="details" class="method-name">append</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$content</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$selector</span> = <span class="var-default">null</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result"><a href="../phery_package/phery_response.html">phery_response</a></span>
+										<a href="#attr" title="details" class="method-name">attr</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$attr</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$data</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$selector</span> = <span class="var-default">null</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result"><a href="../phery_package/phery_response.html">phery_response</a></span>
+										<a href="#call" title="details" class="method-name">call</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$func_name</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$args,...</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result"><a href="../phery_package/phery_response.html">phery_response</a></span>
+										<a href="#clear" title="details" class="method-name">clear</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$attr</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$selector</span> = <span class="var-default">null</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result"><a href="../phery_package/phery_response.html">phery_response</a></span>
+										<a href="#cmd" title="details" class="method-name">cmd</a>
+											(<span class="var-type">int</span>&nbsp;<span class="var-name">$cmd</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$args</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$selector</span> = <span class="var-default">null</span>])
+									</div>
+																								<div class="method-definition">
+											<span class="method-result"><a href="../phery_package/phery_response.html">phery_response</a></span>
+										<a href="#html" title="details" class="method-name">html</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$content</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$selector</span> = <span class="var-default">null</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result"><a href="../phery_package/phery_response.html">phery_response</a></span>
+										<a href="#j" title="details" class="method-name">j</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$selector</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result"><a href="../phery_package/phery_response.html">phery_response</a></span>
+										<a href="#jquery" title="details" class="method-name">jquery</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$selector</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result"><a href="../phery_package/phery_response.html">phery_response</a></span>
+										<a href="#merge" title="details" class="method-name">merge</a>
+											(<span class="var-type"><a href="../phery_package/phery_response.html">phery_response</a></span>&nbsp;<span class="var-name">$phery</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result"><a href="../phery_package/phery_response.html">phery_response</a></span>
+										<a href="#prepend" title="details" class="method-name">prepend</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$content</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$selector</span> = <span class="var-default">null</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result"><a href="../phery_package/phery_response.html">phery_response</a></span>
+										<a href="#redirect" title="details" class="method-name">redirect</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$url</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result"><a href="../phery_package/phery_response.html">phery_response</a></span>
+										<a href="#remove" title="details" class="method-name">remove</a>
+											([<span class="var-type"></span>&nbsp;<span class="var-name">$selector</span> = <span class="var-default">null</span>], <span class="var-type">string</span>&nbsp;<span class="var-name">$children_selector</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#render" title="details" class="method-name">render</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result"><a href="../phery_package/phery_response.html">phery_response</a></span>
+										<a href="#script" title="details" class="method-name">script</a>
+											(<span class="var-type">string|array</span>&nbsp;<span class="var-name">$script</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result"><a href="../phery_package/phery_response.html">phery_response</a></span>
+										<a href="#text" title="details" class="method-name">text</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$content</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$selector</span> = <span class="var-default">null</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result"><a href="../phery_package/phery_response.html">phery_response</a></span>
+										<a href="#__call" title="details" class="method-name">__call</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$name</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$arguments</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#__get" title="details" class="method-name">__get</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$name</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#__set" title="details" class="method-name">__set</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$name</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$value</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#__toString" title="details" class="method-name">__toString</a>
+										()
+									</div>
+								</div>
+		</div>
+	</div>		
+
+	<a name="sec-vars"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variables</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+										<a href="#sec-var-summary">Vars</a> (<span class="disabled">details</span>)
+						
+			
+										| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+					</div>
+		<div class="info-box-body">
+			<a name="var$last_selector" id="$last_selector"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">string</span>
+			<span class="var-name">$last_selector</span>
+			 = <span class="var-default"> null</span>			(line <span class="line-number">690</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+						
+		</div>
+	</div>
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+															<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+																	<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+<a name="methodfactory" id="factory"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">static method factory</span> (line <span class="line-number">730</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Create a new phery_response instance for chaining, for one liners</p>
+<p class="description"><p><div class="src-code"><ol><li><div class="src-line">&nbsp;<span class="src-key">function&nbsp;</span><span class="src-id">answer</span><span class="src-sym">(</span><span class="src-sym">)</span></div></li>
+<li><div class="src-line">&nbsp;<span class="src-sym">{</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;<span class="src-key">return&nbsp;</span><span class="src-id"><a href="../phery_package/phery_response.html">phery_response</a></span><span class="src-sym">::</span><a href="../phery_package/phery_response.html#methodfactory">factory</a><span class="src-sym">(</span><span class="src-str">'a#link'</span><span class="src-sym">)</span><span class="src-sym">-&gt;</span><a href="../phery_package/phery_response.html#methodattr">attr</a><span class="src-sym">(</span><span class="src-str">'href'</span><span class="src-sym">,&nbsp;</span><span class="src-str">'#'</span><span class="src-sym">)</span><span class="src-sym">-&gt;</span><a href="../phery_package/phery_response.html#methodalert">alert</a><span class="src-sym">(</span><span class="src-str">'done'</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;<span class="src-sym">}</span></div></li>
+</ol></div></p></p>
+	
+	<div class="method-signature">
+	    static
+		<span class="method-result"><a href="../phery_package/phery_response.html">phery_response</a></span>
+		<span class="method-name">
+			factory
+		</span>
+					([<span class="var-type">string</span>&nbsp;<span class="var-name">$selector</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$selector</span>			</li>
+				</ul>
+		
+			
+	</div>
+
+<a name="method__construct" id="__construct"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">Constructor __construct</span> (line <span class="line-number">700</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">phery_response</span>
+		<span class="method-name">
+			__construct
+		</span>
+					([<span class="var-type">string</span>&nbsp;<span class="var-name">$selector</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$selector</span><span class="var-description">: Create the object already selecting the DOM element</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodalert" id="alert"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">alert</span> (line <span class="line-number">782</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Show an alert box</p>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../phery_package/phery_response.html">phery_response</a></span>
+		<span class="method-name">
+			alert
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$msg</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$msg</span><span class="var-description">: Message to be displayed</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodappend" id="append"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">append</span> (line <span class="line-number">980</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Append string/HTML to target(s)</p>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../phery_package/phery_response.html">phery_response</a></span>
+		<span class="method-name">
+			append
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$content</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$selector</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$content</span><span class="var-description">: Content to be appended to the selected element</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$selector</span><span class="var-description">: [optional] Optional jquery selector string</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodattr" id="attr"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">attr</span> (line <span class="line-number">846</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Set the attribute of a jQuery selector</p>
+<p class="description"><p>Example:<br />  <div class="src-code"><ol><li><div class="src-line">&nbsp;<span class="src-var">$phery_response</span><span class="src-sym">-&gt;</span><a href="../phery_package/phery_response.html#methodattr">attr</a><span class="src-sym">(</span><span class="src-str">'href'</span><span class="src-sym">,&nbsp;</span><span class="src-str">'http://url.com'</span><span class="src-sym">,&nbsp;</span><span class="src-str">'a#link-'&nbsp;</span>.&nbsp;<span class="src-var">$args</span><span class="src-sym">[</span><span class="src-str">'id'</span><span class="src-sym">]</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+</ol></div></p></p>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../phery_package/phery_response.html">phery_response</a></span>
+		<span class="method-name">
+			attr
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$attr</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$data</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$selector</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$attr</span><span class="var-description">: HTML attribute of the item</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$selector</span><span class="var-description">: [optional] Provide the jQuery selector directly</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$data</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodcall" id="call"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">call</span> (line <span class="line-number">863</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Call a javascript function. Warning: calling this function will reset the selector jQuery selector previously stated</p>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../phery_package/phery_response.html">phery_response</a></span>
+		<span class="method-name">
+			call
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$func_name</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$args,...</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$func_name</span><span class="var-description">: Function name</span>			</li>
+					<li>
+				<span class="var-type">mixed</span>
+				<span class="var-name">$args,...</span><span class="var-description">: Any additional arguments to pass to the function</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodclear" id="clear"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">clear</span> (line <span class="line-number">883</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Clear the selected attribute. Alias for attr('attrname', '')</p>
+	<ul class="tags">
+				<li><span class="field">see:</span> <a href="../phery_package/phery_response.html#methodattr">phery_response::attr()</a></li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../phery_package/phery_response.html">phery_response</a></span>
+		<span class="method-name">
+			clear
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$attr</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$selector</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$attr</span><span class="var-description">: Name of the attribute to clear, such as 'innerHTML', 'style', 'href', etc</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$selector</span><span class="var-description">: [optional] Provide the jQuery selector directly</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodcmd" id="cmd"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">cmd</span> (line <span class="line-number">812</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Add a command to the response</p>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../phery_package/phery_response.html">phery_response</a></span>
+		<span class="method-name">
+			cmd
+		</span>
+					(<span class="var-type">int</span>&nbsp;<span class="var-name">$cmd</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$args</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$selector</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">int</span>
+				<span class="var-name">$cmd</span><span class="var-description">: Integer for command, see phery.js for more info</span>			</li>
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$args</span><span class="var-description">: Array to pass to the response</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$selector</span><span class="var-description">: Insert the jquery selector</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodhtml" id="html"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">html</span> (line <span class="line-number">895</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Set the HTML content of an element. Automatically typecasted to string, so classes that</p>
+<p class="description"><p>respond to __toString() will be converted automatically</p></p>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../phery_package/phery_response.html">phery_response</a></span>
+		<span class="method-name">
+			html
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$content</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$selector</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$content</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$selector</span><span class="var-description">: [optional] Provide the jQuery selector directly</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodj" id="j"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">j</span> (line <span class="line-number">772</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Shortcut/alias for jquery($selector)</p>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../phery_package/phery_response.html">phery_response</a></span>
+		<span class="method-name">
+			j
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$selector</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$selector</span><span class="var-description">: Sets the current selector for subsequent chaining</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodjquery" id="jquery"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">jquery</span> (line <span class="line-number">761</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Sets the selector, so you can chain many calls to it</p>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../phery_package/phery_response.html">phery_response</a></span>
+		<span class="method-name">
+			jquery
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$selector</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$selector</span><span class="var-description">: Sets the current selector for subsequent chaining</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodmerge" id="merge"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">merge</span> (line <span class="line-number">750</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Merge another response to this one.</p>
+<p class="description"><p>Selectors with the same name will be added in order, for example:  <div class="src-code"><ol><li><div class="src-line">&nbsp;<span class="src-key">function&nbsp;</span><span class="src-id">process</span><span class="src-sym">(</span><span class="src-sym">)</span></div></li>
+<li><div class="src-line">&nbsp;<span class="src-sym">{</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-var">$response</span><span class="src-sym">-&gt;</span><a href="../phery_package/phery_response.html#methodjquery">jquery</a><span class="src-sym">(</span><span class="src-str">'a.links'</span><span class="src-sym">)</span><span class="src-sym">-&gt;</span><a href="../phery_package/phery_response.html#methodremove">remove</a><span class="src-sym">(</span><span class="src-sym">)</span><span class="src-sym">;&nbsp;</span><span class="src-comm">//from&nbsp;$response</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-comm">//&nbsp;will&nbsp;execute&nbsp;before</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-var">$response2</span><span class="src-sym">-&gt;</span><a href="../phery_package/phery_response.html#methodjquery">jquery</a><span class="src-sym">(</span><span class="src-str">'a.links'</span><span class="src-sym">)</span><span class="src-sym">-&gt;</span><span class="src-id">addClass</span><span class="src-sym">(</span><span class="src-str">'red'</span><span class="src-sym">)</span><span class="src-sym">;&nbsp;</span><span class="src-comm">//&nbsp;there&nbsp;will&nbsp;be&nbsp;no&nbsp;more&nbsp;&quot;a.links&quot;,&nbsp;so&nbsp;the&nbsp;addClass()&nbsp;will&nbsp;fail&nbsp;silently</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-key">return&nbsp;</span><span class="src-var">$response</span><span class="src-sym">-&gt;</span><a href="../phery_package/phery_response.html#methodmerge">merge</a><span class="src-sym">(</span><span class="src-var">$response2</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;<span class="src-sym">}</span></div></li>
+</ol></div></p></p>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../phery_package/phery_response.html">phery_response</a></span>
+		<span class="method-name">
+			merge
+		</span>
+					(<span class="var-type"><a href="../phery_package/phery_response.html">phery_response</a></span>&nbsp;<span class="var-name">$phery</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../phery_package/phery_response.html">phery_response</a></span>
+				<span class="var-name">$phery</span><span class="var-description">: Another phery_response object</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodprepend" id="prepend"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">prepend</span> (line <span class="line-number">964</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Prepend string/HTML to target(s)</p>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../phery_package/phery_response.html">phery_response</a></span>
+		<span class="method-name">
+			prepend
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$content</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$selector</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$content</span><span class="var-description">: Content to be prepended to the selected element</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$selector</span><span class="var-description">: [optional] Optional jquery selector string</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodredirect" id="redirect"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">redirect</span> (line <span class="line-number">952</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Creates a redirect</p>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../phery_package/phery_response.html">phery_response</a></span>
+		<span class="method-name">
+			redirect
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$url</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$url</span><span class="var-description">: Complete url with http:// (according W3C http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.30)</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodremove" id="remove"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">remove</span> (line <span class="line-number">796</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Remove the current jQuery selector</p>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../phery_package/phery_response.html">phery_response</a></span>
+		<span class="method-name">
+			remove
+		</span>
+					([<span class="var-type"></span>&nbsp;<span class="var-name">$selector</span> = <span class="var-default">null</span>], <span class="var-type">string</span>&nbsp;<span class="var-name">$children_selector</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$children_selector</span><span class="var-description">: Set a children selector</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$selector</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodrender" id="render"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">render</span> (line <span class="line-number">1041</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			render
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodscript" id="script"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">script</span> (line <span class="line-number">932</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Compile a script and call it on-the-fly. There is a closure on the executed function, so</p>
+<p class="description"><p>to reach out global variables, you need to use window.variable  Warning: calling this function will reset the selector jQuery selector previously stated</p></p>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../phery_package/phery_response.html">phery_response</a></span>
+		<span class="method-name">
+			script
+		</span>
+					(<span class="var-type">string|array</span>&nbsp;<span class="var-name">$script</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string|array</span>
+				<span class="var-name">$script</span><span class="var-description">: Script content. If provided an array, it will be joined with ;\n  <div class="src-code"><ol><li><div class="src-line">&nbsp;<span class="src-id"><a href="../phery_package/phery_response.html">phery_response</a></span><span class="src-sym">::</span><a href="../phery_package/phery_response.html#methodfactory">factory</a><span class="src-sym">(</span><span class="src-sym">)</span><span class="src-sym">-&gt;</span><a href="../phery_package/phery_response.html#methodscript">script</a><span class="src-sym">(</span><span class="src-key">array</span><span class="src-sym">(</span><span class="src-str">&quot;if&nbsp;(confirm('Are&nbsp;you&nbsp;really&nbsp;sure?'))&nbsp;$('*').remove()&quot;</span><span class="src-sym">))</span><span class="src-sym">;</span></div></li>
+</ol></div></span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodtext" id="text"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">text</span> (line <span class="line-number">912</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Set the text of an element. Automatically typecasted to string, so classes that</p>
+<p class="description"><p>respond to __toString() will be converted automatically</p></p>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../phery_package/phery_response.html">phery_response</a></span>
+		<span class="method-name">
+			text
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$content</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$selector</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$content</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$selector</span><span class="var-description">: [optional] Provide the jQuery selector directly</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="method__call" id="__call"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">__call</span> (line <span class="line-number">997</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Magically map to any additional jQuery function.</p>
+<p class="description"><p>To reach this magically called functions, the jquery() selector must be called prior  to any jquery specific call</p></p>
+	<ul class="tags">
+				<li><span class="field">see:</span> <a href="../phery_package/phery_response.html#methodjquery">phery_response::jquery()</a></li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../phery_package/phery_response.html">phery_response</a></span>
+		<span class="method-name">
+			__call
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$name</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$arguments</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$name</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$arguments</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="method__get" id="__get"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">__get</span> (line <span class="line-number">1029</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Magic function to get data appended to the response object</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			__get
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$name</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$name</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="method__set" id="__set"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">__set</span> (line <span class="line-number">1021</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Magic function to set data to the response before processing</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			__set
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$name</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$value</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$name</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$value</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="method__toString" id="__toString"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">__toString</span> (line <span class="line-number">1046</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			__toString
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+						
+		</div>
+	</div>
+
+
+	<p class="notes" id="credit">
+		Documentation generated on Sun, 01 May 2011 12:30:30 -0300 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+	</p>
+	</div></body>
+</html>
