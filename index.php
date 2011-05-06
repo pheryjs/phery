@@ -126,6 +126,18 @@
 			$phery_response->alert('alert added in post callback ;)');
 		return true;
 	}
+	
+	function timeout($data)
+	{
+		$r = phery_response::factory();
+		if (isset($data['callback']) && isset($_GET['_try_count']))
+		{
+			// The URL will have a _try_count when doing a retry
+			return $r->alert('Second time it worked, no error callback call ;)');
+		}
+		sleep(60); // Sleep for 60 seconds to timeout the AJAX request, and trigger our retry
+		return $r;
+	}
 
 	$memory_start = 0;
 	
@@ -208,7 +220,9 @@
 			// Invalid Javascript to trigger "EXCEPTION" callback
 			'invalid' => function(){
 				return phery_response::factory()->script('if notvalid javscript')->jquery('a')->blah();
-			}
+			},
+			// Timeout 
+			'timeout' => 'timeout'
 		))
 		/**
 		 * process(false) mean we will call phery again with 
@@ -265,7 +279,8 @@
 <html>
 	<head>
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
-		<script src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.8/jquery.validate.min.js"></script>
+		<meta charset="utf-8">
+		<meta charset="utf-8">
 		<script src="phery.js"></script>
 		<script>
 			/* <![CDATA[ */
@@ -330,7 +345,7 @@
 				/*
 				 * Apply validate plugin to the forms, greedy ;P
 				 */
-				var 
+				/*var 
 					$validate = 
 					$('form').validate({
 						'rules':{
@@ -341,7 +356,7 @@
 								required: true
 							}
 						}
-					});
+					});*/
 					
 				/*
 				 * 
@@ -357,7 +372,7 @@
 					},
 					// Let's use jQuery client-side validation here, before allowing to send
 					'ajax:beforeSend':function(){
-						return $validate.valid();
+						//return $validate.valid();
 					}
 				})
 				
@@ -402,14 +417,21 @@
 					$loading.fadeOut('fast');
 				}
 
-				$.phery.events.error = function(){
+				$.phery.events.error = function($element, xhr, status){
 					$loading.addClass('error');
+					if (status === 'timeout')
+					{
+						alert('Timeout and gave up retrying!!');
+					}
 				}
 
 				$.phery.events.exception = function(el, exception){
-					alert(exception)
+					alert(exception);
 				}
-
+				
+				$.phery.options.ajax.retry_limit = 1; // Retry one more time, if fails, then trigger events.error
+				$.ajaxSetup({timeout: 5000}); // 5 seconds timeout
+				
 				$loading.fadeOut(0);
 			});
 
@@ -521,6 +543,14 @@
 			<li>
 				<h1>Global exception handler</h1>
 				<?php echo phery::link_to('Trigger global exception callback returning invalid javascript', 'invalid'); ?>
+			</li>
+			<li>
+				<h1>Retry on timeout</h1>
+				<?php echo phery::link_to('Timeout retry then give up', 'timeout'); ?>
+			</li>
+			<li>
+				<h1>Retry on timeout, then accept second call</h1>
+				<?php echo phery::link_to('Timeout retry then work', 'timeout', array('args' => array('callback' => true))); ?>
 			</li>
 		</ul>
 

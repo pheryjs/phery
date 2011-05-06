@@ -1,26 +1,34 @@
 # PHP + jQuery + AJAX = phery
+
 ## Introduction
-Really simple unobstructive, yet powerful, AJAX library with direct integration with PHP and jQuery, maps to any jQuery function,
-even extended and custom set by $.fn, can create elements just like $() does, as phery creates a seamless integration with jQuery AJAX
-to PHP functions, with unobstructive event binding to elements, original concept by siong1987 for Ruby on Rails @ <http://github.com/rails/jquery-ujs>
 
-Uses HTML5 data attributes to achieve this, and no additional libraries are needed, even for Internet Explorer.
-Links and forms will still be able to send GET/POST requests and function properly without triggering phery when javascript isn't enabled (or triggering it in case you still want to respond to POST requests anyway).
+Really simple unobtrusive, yet very powerful, AJAX library with direct integration and mapping of jQuery functions in PHP, 
+maps even to extended and custom functions set by $.fn, can create elements just like $('<element/>') does, as **phery** creates a seamless integration with jQuery AJAX
+to PHP functions, with unobtrusive event binding to elements, original idea for Ruby on Rails @ <http://github.com/rails/jquery-ujs>
 
-Strict standards for PHP 5.3+ and advised to use jQuery 1.5+. Being just one PHP file, and one javascript file, it's pretty easy to 'carry'
-around or to implement in auto-load scenarios, plus it's really FAST! Average processing time is around 3ms
+Uses HTML5 data attributes to achieve this, and no additional libraries are needed, even for Internet Explorer. 
+Links and forms will still be able to send GET/POST requests and function properly without triggering **phery** when javascript isn't enabled (or triggering it in case you still want to respond to POST requests anyway). 
 
-magic_quotes_gpc prefered to be off. you are always responsible for the security of your data, so escape your text accordingly
-to avoid SQL injection or XSS attacks
+W3C validator might complain about data-* if you're not using <!doctype html> (HTML5 DOCTYPE)
+
+Strict standards for PHP 5.3+ and advised to use jQuery 1.6+. Being just one PHP file, and one javascript file, it's pretty easy to 'carry'
+around or to implement in PHP auto-load scenarios, plus it's really FAST! Average processing time is around 3ms with vanilla PHP
+
+PHP magic_quotes_gpc prefered to be off. you are always responsible for the security of your data, so escape your text accordingly
+to avoid SQL injection or XSS attacks. 
 
 Also, relies on JSON on PHP. All AJAX requests are sent as POST only, so it can still interact with GET requests,
 like paginations and such. Compatible with all major browsers, Firefox 3+, Opera 10+, Chrome 5+, Internet Explorer 7+
 And tested in the new upcoming browsers, Firefox 4, Chrome 11 and IE9, and there are no browser specific hacks.
 
-Even though it works in Internet Explorer 6, I don't care and don't test in it.
+Even though it appears to work in Internet Explorer 6, I don't care and don't test in it.
 
 The code is mostly commented using phpDoc and jsDoc, for a less-steep learning curve, using doc-enabled IDEs.
-Also, most of the important and most used functions in jQuery were added as phpDoc, as a magic method of the phery_response class.
+Also, most of the important and most used functions in jQuery were added as phpDoc, as a magic method of the **phery_response** class.
+
+It appears that the RETRY option doesn't work with jQuery 1.5.x, due to a bug in jQuery, so upgrade to version 1.6
+
+**It was tested using UTF-8, not tested on other languages and encodings, would be nice to have some feedback**
 
 ## Example code
 
@@ -28,6 +36,7 @@ Check the a lot of examples and code at <https://github.com/gahgneh/phery/raw/ma
     
 ## Releases
 
++   **0.5.2b**: Improved code for cursor, added $.phery.options.ajax.retry_limit and automatic retry abilities, updated examples in index.php and adjusted documentation, minor change in PHP side - 06th May. 2011
 +   **0.5.1b**: Fixed events, events will be executed as GLOBAL then PER ELEMENT. Returning false cancels propagation. Fixed console.log, updated index.php with examples and removed dependency for livequery plugin, jquery 1.5.2 got it fixed - 27th Apr. 2011
 +   **0.5b**:  Added $.phery.options.default_href, added ability to call anonymous functions callbacks directly from PHP, removed closed from script() call, added exception event - 11st Mar. 2011
 +   **0.4b**:  Added more error checking, fixed some bugs, improved both PHP and js code, included jQuery 1.5.1, changed the way the callbacks are executed and handled, removed external JSON parser - 4th Mar. 2011
@@ -53,9 +62,13 @@ It's really simple (mostly) as
       <a data-remote="function_name">Click me</a>
     </html>
 
-### The available classes are:
+### PHP server-side
 
 #### phery - The main object, that should be reused everywhere (singleton style), but you can create many instances just fine
+    
+    <?php
+    phery::instance()->(...);
+    ?>
 
 ***
 
@@ -144,6 +157,12 @@ instance.
 
 Returns a boolean, checks if it's an AJAX request, or plain POST
 
+    <?php
+    if(phery::is_ajax()){
+      Debug::log('AJAX CALL', print_r($_POST, true));
+    }
+    ?>
+
 ***
 
 #### phery->answer_for($alias, $default = NULL)
@@ -151,7 +170,7 @@ Returns a boolean, checks if it's an AJAX request, or plain POST
 Return the answer for a function that returned unobstructively. Returns $default if none
 
     <?php
-      $database_result = phery::instance()->answer_for('alias', new Database_Result(...)); // in this case, returns a Database result
+    $database_result = phery::instance()->answer_for('alias', new Database_Result(...)); // in this case, returns a Database result
     ?>
 
 ***
@@ -162,29 +181,29 @@ Register the functions that will be triggered by AJAX calls.
 The associative key is an alias, the value is the function itself.
 
     <?php
-      function outside(){
+    function outside($ajax_data, $callback_data){
+      return phery_response::factory();
+    }
+      
+    class classy {
+      function inside($ajax_data, $callback_data){
         return phery_response::factory();
       }
-      
-      class classy {
-        function inside(){
-          return phery_response::factory();
-        }
         
-        static function inside_static(){
-          return phery_response::factory();
-        }
+      static function inside_static($ajax_data, $callback_data){
+        return phery_response::factory();
       }
+    }
       
-      $class = new classy();
+    $class = new classy();
       
-      phery::instance()->set(array(
-        'alias' => function(){ return phery_response::factory(); },
-        'outside' => 'outside',
-        'class' => array($class, 'inside'),
-        'class' => 'classy::inside_static',
-        'namespaced' => 'namespaced\function'
-      ));
+    phery::instance()->set(array(
+      'alias' => function(){ return phery_response::factory(); },
+      'outside' => 'outside',
+      'class' => array($class, 'inside'),
+      'class' => 'classy::inside_static',
+      'namespaced' => 'namespaced\function'
+    ));
     ?>
 
 Callback/answer function comprises of:
@@ -261,7 +280,7 @@ Check the code completion using an IDE for a better view of the functions, read 
 
 Check the code completion using an IDE for a better view of the functions, read the source or check the examples
 
-### Javascript
+### Javascript client-side
 
 ***
 
@@ -279,8 +298,7 @@ Calls an AJAX function directly, without binding to any existing elements, it's 
           'ajax:complete': function(){
             $('body').remove();
           }
-        });
-        element.callRemote();
+        }).callRemote();
 
 ***
 
@@ -300,7 +318,11 @@ Generate an serialized with unlimited depth from forms. Opts can be defined as:
 Trigger an event and return the result. Returning false on an event will make this method return false
 
     var $element = $('element');
-    $element.bind({'customevent': func});
+    $element.bind({
+      'customevent': function(){
+        return false; // stop custom event 
+      }
+    });
     if ( ! $element.triggerAndReturn('customevent', {'key':'value'})) return;
 
 ***
@@ -343,11 +365,11 @@ These events are triggered globally, independently if called from an existing DO
 +   **$.phery.events.exception**: function ($element, exception)
     Will be called if any problem happens while processing data, or executing jquery calls
     
-        $phery.events.before = function(){
+        $.phery.events.before = function(){
           $('#loading').fadeIn();
         }
         
-        $phery.events.complete = function(){
+        $.phery.events.complete = function(){
           $('#loading').fadeOut();
         }
 
@@ -355,11 +377,13 @@ These events are triggered globally, independently if called from an existing DO
 
 #### $.phery.options
 
-The current options that are available
+The current options that are available. Reminding that additional configurations and modifications on the AJAX calls can be done using [$.ajaxSetup()](http://api.jquery.com/jQuery.ajaxSetup)
 
-+   **per_element_events**: Boolean, enable or disable per element events. See below. Enabled by default
-+   **cursor**: Boolean, change the body and html cursor to wait while the processing is happening and change back to auto after it's completed or error'ed out. Enabled by default
-+   **default_href**: String, if you have a default controller that will take all ajax calls, specify it here. It will be overwritten if you provide `href`, `data-target` or `action` on elements. False by default
++   **$.phery.options.per_element_events**: Boolean, enable or disable per element events. See below. Enabled by default
++   **$.phery.options.cursor**: Boolean, change the body and html cursor to wait while the processing is happening and change back to auto after it's completed or error'ed out. Enabled by default
++   **$.phery.options.default_href**: String, if you have a default controller that will take all ajax calls, specify it here. It will be overwritten if you provide `href`, `data-target` or `action` on elements. False by default
++   **$.phery.options.ajax**: Object, adjust AJAX retry_limit for AJAX calls.
+  +   **$.phery.options.ajax.retry_limit**: Retry this many times before calling error callbacks. Defaults to zero (no retries)
 
 ***
 
@@ -375,3 +399,10 @@ parameters list, they don't take the $element. Refer to $.phery.events above for
 +   **ajax:error**: function (xhr, status, error)
 +   **ajax:after**: function ()
 +   **ajax:exception**: function (exception)
+
+        $('form').bind({
+          // Disable form elements
+          'ajax:complete': function(){ $(this).remoteAttr('disabled'); },
+          // Enable them again
+          'ajax:before': function(){ $(this).find('input').attr('disabled', 'disabled'); }
+        });

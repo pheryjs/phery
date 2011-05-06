@@ -1,5 +1,5 @@
 /**
- * Javascript library of phery v0.5.1 beta
+ * Javascript library of phery v0.5.2 beta
  * @url https://github.com/gahgneh/phery
  */
 (function ($) {
@@ -72,8 +72,8 @@
 
 	$.phery = {
 		'events': {
-			'before': function ($element) { return true;},
-			'beforeSend': function ($element, xhr) { return true;},
+			'before': function ($element) {return true;},
+			'beforeSend': function ($element, xhr) {return true;},
 			'success': function ($element, data, text, xhr) {return true;},
 			'complete': function ($element, xhr) {return true;},
 			'error': function ($element, xhr, status, error) {return true;},
@@ -83,12 +83,21 @@
 		'options':{
 			'cursor': true,
 			'per_element_events': true,
-			'default_href': false
+			'default_href': false,
+			'ajax': {
+				'retry_limit': 0
+			}
 		}
 	};
 
-	var call_cache = [];
-
+	var call_cache = [], $body_html = $('body,html');
+	
+	function do_cursor(cursor) {
+		if ($.phery.options.cursor) {
+			$body_html.css('cursor', cursor);
+		}    
+	}
+	
 	str_is_function = function(str){
 		if ($.type(str) !== 'string' || ! /^\s*?function/i.test(str) || ! /\}$/m.test(str)) return false;
 		return true;
@@ -441,8 +450,8 @@
 
 			data['remote'] = el.data('remote');
 			requested = new Date().getTime();
-
-			$.ajax({
+			
+			var opt = {
 				url: (url.indexOf('_=') === -1?
 					(url + (url.indexOf('?') > -1?'&':'?') + '_=' + requested):
 					(url.replace(/\_\=(\d+)/, '_=' + requested))
@@ -450,16 +459,14 @@
 				data: data,
 				dataType: type,
 				type: "POST",
+				try_count: 0,
+				retry_limit: $.phery.options.ajax.retry_limit, 
 				cache: false,
 				headers: {
 					'X-Requested-With': 'XMLHttpRequest'
 				},
 				beforeSend: function (xhr) {
-					if ($.phery.options.cursor) {
-						$('body,html').css({
-							'cursor':'wait'
-						});
-					}
+					do_cursor('wait');
 					
 					if (el.triggerPheryEvent('beforeSend', [xhr]) === false) return false; 
 				},
@@ -468,26 +475,43 @@
 					el.processRequest(data);
 				},
 				complete: function (xhr) {
-					if ($.phery.options.cursor) {
-						$('body,html').css({
-							'cursor':'auto'
-						});
+					if (xhr.readyState !== 4 && this.try_count && this.try_count <= this.retry_limit) {
+						return false;
 					}
+					
+					do_cursor('auto');
+					
 					if (el.triggerPheryEvent('complete', [xhr]) === false) return false;
 					if (el.data('temp')) el.remove();
 				},
+				// According to http://zeroedandnoughted.com/defensive-ajax-and-ajax-retries-in-jquery
 				error: function (xhr, status, error) {
-					if ($.phery.options.cursor) {
-						$('body,html').css({
-							'cursor':'auto'
-						});
+					if (this.retry_limit && status === 'timeout') {
+						this.try_count++;
+						
+						if (this.try_count <= this.retry_limit) {
+							this.dataType = "text " + type;
+							
+							this.url = 
+								this.url.indexOf('_try_count=') === -1? 
+								(this.url + '&_try_count=' + this.try_count) : 
+								(this.url.replace(/_try_count=(\d+)/, '_try_count=' + this.try_count));
+							
+							this.url = this.url.replace(/_=(\d+)/, '_=' + new Date().getTime());
+							
+							$.ajax(this);
+							return false;
+						}
 					}
 					
+					do_cursor('auto');
+					
 					if (el.triggerPheryEvent('error', [xhr, status, error]) === false) return false;
-
 					if (el.data('temp')) el.remove();
 				}
-			});
+			};
+			
+			$.ajax(opt);
 
 			if (el.triggerPheryEvent('after') === false) return false;
 		}
@@ -508,7 +532,7 @@
 		if($this.data('confirm')){
 			if (!confirm($this.data('confirm'))) return false;
 		}
-		$this.find('input:hidden[name=remote]').remove()
+		$this.find('input[type=hidden][name=remote]').remove();
 		$this.callRemote();
 		e.preventDefault();
 		return false;
