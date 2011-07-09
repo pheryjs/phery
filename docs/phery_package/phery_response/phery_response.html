@@ -36,21 +36,23 @@
 				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> data(): data($name, $data) Add data to element</li>
 				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> addClass(): addClass($className) Add a class from an element</li>
 				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> removeClass(): removeClass($className) Remove a class from an element</li>
-				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> animate(): animate($prop, $dur, $easing, $cb) Animate an element</li>
+				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> animate(): animate($prop, $dur, $easing, $cb) Perform a custom animation of a set of CSS properties.</li>
 				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> trigger(): trigger($eventName, [$args]) Trigger an event</li>
+				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> triggerHandler(): triggerHandler($eventType, $extraParameters) Execute all handlers attached to an element for an event.</li>
 				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> fadeIn(): fadeIn($prop, $dur, $easing, $cb) Animate an element</li>
-				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> filter(): filter($selector) Filter elements</li>
+				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> filter(): filter($selector) Reduce the set of matched elements to those that match the selector or pass the function's test.</li>
 				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> fadeTo(): fadeTo($dur, $opacity) Animate an element</li>
 				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> fadeOut(): fadeOut($prop, $dur, $easing, $cb) Animate an element</li>
 				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> slideUp(): slideUp($dur, $cb) Hide with slide up animation</li>
 				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> slideDown(): slideDown($dur, $cb) Show with slide down animation</li>
 				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> slideToggle(): slideToggle($dur, $cb) Toggle show/hide the element, using slide animation</li>
 				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> unbind(): unbind($name) Unbind an event from an element</li>
+				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> undelegate(): undelegate() Remove a handler from the event for all elements which match the current selector, now or in the future, based upon a specific set of root elements.</li>
 				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> stop(): stop() Stop animation on elements</li>
-				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> live(): live($name) Bind a live event to the selected elements</li>
+				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> live(): live($selector, $eventType, $handler ) Attach a handler to the event for all elements which match the current selector, now or in the future.</li>
 				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> die(): die($name) Unbind an event from an element set by live()</li>
 				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> val(): val($content) Set the value of an element</li>
-				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> removeData(): removeData($element, $name) Remove element data added with data()</li>
+				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> removeData(): removeData($name) Remove element data added with data()</li>
 				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> removeAttr(): removeAttr($name) Remove an attribute from an element</li>
 				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> scrollTop(): scrollTop($val) Set the scroll from the top</li>
 				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> scrollLeft(): scrollLeft($val) Set the scroll from the left</li>
@@ -59,9 +61,41 @@
 				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> slice(): slice($start, $end) Reduce the set of matched elements to a subset specified by a range of indices.</li>
 				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> not(): not($val) Remove elements from the set of matched elements.</li>
 				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> eq(): eq($selector) Reduce the set of matched elements to the one at the specified index.</li>
+				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> offset(): offset($coordinates) Set the current coordinates of every element in the set of matched elements, relative to the document.</li>
+				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> map(): map(callback($index, $domEl)) Pass each element in the current matched set through a function, producing a new jQuery object containing the return values.</li>
+				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> children(): children($selector) Get the children of each element in the set of matched elements, optionally filtered by a selector.</li>
+				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> closest(): closest($selector) Get the first ancestor element that matches the selector, beginning at the current element and progressing up through the DOM tree.</li>
+				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> find(): find($selector) Get the descendants of each element in the current set of matched elements, filtered by a selector, jQuery object, or element.</li>
+				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> next(): next($selector) Get the immediately following sibling of each element in the set of matched elements, optionally filtered by a selector.</li>
+				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> nextAll(): nextAll($selector) Get all following siblings of each element in the set of matched elements, optionally filtered by a selector.</li>
+				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> nextUntil(): nextUntil($selector) Get all following siblings of each element up to  but not including the element matched by the selector.</li>
+				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> parentsUntil(): parentsUntil($selector) Get the ancestors of each element in the current set of matched elements, up to but not including the element matched by the selector.</li>
+				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> offsetParent(): offsetParent() Get the closest ancestor element that is positioned.</li>
+				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> parent(): parent($selector) Get the parent of each element in the current set of matched elements, optionally filtered by a selector.</li>
+				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> parents(): parents($selector) Get the ancestors of each element in the current set of matched elements, optionally filtered by a selector.</li>
+				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> prev(): prev($selector) Get the immediately preceding sibling of each element in the set of matched elements, optionally filtered by a selector.</li>
+				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> prevAll(): prevAll($selector) Get all preceding siblings of each element in the set of matched elements, optionally filtered by a selector.</li>
+				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> prevUntil(): prevUntil($selector) Get the ancestors of each element in the current set of matched elements, optionally filtered by a selector.</li>
+				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> siblings(): siblings($selector) Get the siblings of each element in the set of matched elements, optionally filtered by a selector.</li>
+				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> add(): add($selector) Add elements to the set of matched elements.</li>
+				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> andSelf(): andSelf() Add the previous set of elements on the stack to the current set.</li>
+				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> contents(): contents() Get the children of each element in the set of matched elements, including text nodes.</li>
+				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> end(): end() End the most recent filtering operation in the current chain and return the set of matched elements to its previous state.</li>
+				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> after(): after($content) Insert content, specified by the parameter, after each element in the set of matched elements.</li>
+				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> before(): before($content) Insert content, specified by the parameter, before each element in the set of matched elements.</li>
+				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> insertAfter(): insertAfter($target) Insert every element in the set of matched elements after the target.</li>
+				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> insertbefore(): insertBefore($target) Insert every element in the set of matched elements before the target.</li>
+				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> unwrap(): unwrap() Remove the parents of the set of matched elements from the DOM, leaving the matched elements in their place.</li>
+				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> wrap(): wrap( $wrappingElement ) Wrap an HTML structure around each element in the set of matched elements.</li>
+				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> wrapAll(): wrapAll( $wrappingElement ) Wrap an HTML structure around all elements in the set of matched elements.</li>
+				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> wrapInner(): wrapInner( $wrappingElement ) Wrap an HTML structure around the content of each element in the set of matched elements.</li>
+				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> delegate(): delegate($selector, $eventType, $handler ) Attach a handler to one or more events for all elements that match the selector, now or in the future, based on a specific set of root elements.</li>
+				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> one(): one($selector, $eventType, $handler ) Attach a handler to an event for the elements. The handler is executed at most once per element.</li>
+				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> bind(): bind($selector, $eventType, $handler ) Attach a handler to an event for the elements.</li>
+				<li><span class="field">method:</span> <a href="../../phery_package/phery_response/phery_response.html">phery_response</a> each(): each($function) Iterate over a jQ object, executing a function for each matched element.</li>
 			</ul>
 		<p class="notes">
-			Located in <a class="field" href="_phery.php.html">/phery.php</a> (line <span class="field">714</span>)
+			Located in <a class="field" href="_phery.php.html">/phery.php</a> (line <span class="field">895</span>)
 		</p>
 		
 				
@@ -233,13 +267,13 @@
 					</div>
 		<div class="info-box-body">
 			<a name="var$last_selector" id="$last_selector"><!-- --></A>
-<div class="evenrow">
+<div class="oddrow">
 
 	<div class="var-header">
 		<span class="var-title">
 			<span class="var-type">string</span>
 			<span class="var-name">$last_selector</span>
-			 = <span class="var-default"> null</span>			(line <span class="line-number">720</span>)
+			 = <span class="var-default"> null</span>			(line <span class="line-number">901</span>)
 		</span>
 	</div>
 
@@ -270,10 +304,10 @@
 		<div class="info-box-body">
 			<A NAME='method_detail'></A>
 <a name="methodfactory" id="factory"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 	
 	<div class="method-header">
-		<span class="method-title">static method factory</span> (line <span class="line-number">761</span>)
+		<span class="method-title">static method factory</span> (line <span class="line-number">929</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -303,10 +337,10 @@
 	</div>
 
 <a name="method__construct" id="__construct"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 	
 	<div class="method-header">
-		<span class="method-title">Constructor __construct</span> (line <span class="line-number">731</span>)
+		<span class="method-title">Constructor __construct</span> (line <span class="line-number">912</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -328,10 +362,10 @@
 			
 	</div>
 <a name="methodalert" id="alert"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 	
 	<div class="method-header">
-		<span class="method-title">alert</span> (line <span class="line-number">820</span>)
+		<span class="method-title">alert</span> (line <span class="line-number">988</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -354,10 +388,10 @@
 			
 	</div>
 <a name="methodappend" id="append"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 	
 	<div class="method-header">
-		<span class="method-title">append</span> (line <span class="line-number">1024</span>)
+		<span class="method-title">append</span> (line <span class="line-number">1192</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -383,10 +417,10 @@
 			
 	</div>
 <a name="methodattr" id="attr"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 	
 	<div class="method-header">
-		<span class="method-title">attr</span> (line <span class="line-number">884</span>)
+		<span class="method-title">attr</span> (line <span class="line-number">1052</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -417,10 +451,10 @@
 			
 	</div>
 <a name="methodcall" id="call"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 	
 	<div class="method-header">
-		<span class="method-title">call</span> (line <span class="line-number">902</span>)
+		<span class="method-title">call</span> (line <span class="line-number">1070</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -447,10 +481,10 @@
 			
 	</div>
 <a name="methodclear" id="clear"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 	
 	<div class="method-header">
-		<span class="method-title">clear</span> (line <span class="line-number">923</span>)
+		<span class="method-title">clear</span> (line <span class="line-number">1091</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -480,10 +514,10 @@
 			
 	</div>
 <a name="methodcmd" id="cmd"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 	
 	<div class="method-header">
-		<span class="method-title">cmd</span> (line <span class="line-number">850</span>)
+		<span class="method-title">cmd</span> (line <span class="line-number">1018</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -512,10 +546,10 @@
 			
 	</div>
 <a name="methodhtml" id="html"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 	
 	<div class="method-header">
-		<span class="method-title">html</span> (line <span class="line-number">936</span>)
+		<span class="method-title">html</span> (line <span class="line-number">1104</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -542,10 +576,10 @@
 			
 	</div>
 <a name="methodj" id="j"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 	
 	<div class="method-header">
-		<span class="method-title">j</span> (line <span class="line-number">810</span>)
+		<span class="method-title">j</span> (line <span class="line-number">978</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -568,10 +602,10 @@
 			
 	</div>
 <a name="methodjquery" id="jquery"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 	
 	<div class="method-header">
-		<span class="method-title">jquery</span> (line <span class="line-number">799</span>)
+		<span class="method-title">jquery</span> (line <span class="line-number">967</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -598,10 +632,10 @@
 			
 	</div>
 <a name="methodmerge" id="merge"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 	
 	<div class="method-header">
-		<span class="method-title">merge</span> (line <span class="line-number">782</span>)
+		<span class="method-title">merge</span> (line <span class="line-number">950</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -633,10 +667,10 @@
 			
 	</div>
 <a name="methodprepend" id="prepend"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 	
 	<div class="method-header">
-		<span class="method-title">prepend</span> (line <span class="line-number">1008</span>)
+		<span class="method-title">prepend</span> (line <span class="line-number">1176</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -662,10 +696,10 @@
 			
 	</div>
 <a name="methodredirect" id="redirect"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 	
 	<div class="method-header">
-		<span class="method-title">redirect</span> (line <span class="line-number">996</span>)
+		<span class="method-title">redirect</span> (line <span class="line-number">1164</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -688,10 +722,10 @@
 			
 	</div>
 <a name="methodremove" id="remove"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 	
 	<div class="method-header">
-		<span class="method-title">remove</span> (line <span class="line-number">834</span>)
+		<span class="method-title">remove</span> (line <span class="line-number">1002</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -714,10 +748,10 @@
 			
 	</div>
 <a name="methodrender" id="render"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 	
 	<div class="method-header">
-		<span class="method-title">render</span> (line <span class="line-number">1089</span>)
+		<span class="method-title">render</span> (line <span class="line-number">1257</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -735,10 +769,10 @@
 			
 	</div>
 <a name="methodscript" id="script"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 	
 	<div class="method-header">
-		<span class="method-title">script</span> (line <span class="line-number">976</span>)
+		<span class="method-title">script</span> (line <span class="line-number">1144</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -764,10 +798,10 @@
 			
 	</div>
 <a name="methodtext" id="text"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 	
 	<div class="method-header">
-		<span class="method-title">text</span> (line <span class="line-number">954</span>)
+		<span class="method-title">text</span> (line <span class="line-number">1122</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -794,10 +828,10 @@
 			
 	</div>
 <a name="method__call" id="__call"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 	
 	<div class="method-header">
-		<span class="method-title">__call</span> (line <span class="line-number">1041</span>)
+		<span class="method-title">__call</span> (line <span class="line-number">1209</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -827,10 +861,10 @@
 			
 	</div>
 <a name="method__get" id="__get"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 	
 	<div class="method-header">
-		<span class="method-title">__get</span> (line <span class="line-number">1073</span>)
+		<span class="method-title">__get</span> (line <span class="line-number">1241</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -856,10 +890,10 @@
 			
 	</div>
 <a name="method__set" id="__set"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 	
 	<div class="method-header">
-		<span class="method-title">__set</span> (line <span class="line-number">1065</span>)
+		<span class="method-title">__set</span> (line <span class="line-number">1233</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -888,10 +922,10 @@
 			
 	</div>
 <a name="method__toString" id="__toString"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 	
 	<div class="method-header">
-		<span class="method-title">__toString</span> (line <span class="line-number">1099</span>)
+		<span class="method-title">__toString</span> (line <span class="line-number">1267</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -915,7 +949,7 @@
 
 
 	<p class="notes" id="credit">
-		Documentation generated on Sun, 01 May 2011 14:02:23 -0300 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+		Documentation generated on Fri, 08 Jul 2011 23:01:35 -0300 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
 	</p>
 	</div></body>
 </html>

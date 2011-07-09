@@ -222,7 +222,51 @@
 				return phery_response::factory()->script('if notvalid javscript')->jquery('a')->blah();
 			},
 			// Timeout 
-			'timeout' => 'timeout'
+			'timeout' => 'timeout',
+			// Select chaining results
+			'chain' => function($data, $complement){
+				$r = phery_response::factory($complement['submit_id'])->next();
+				// If the select has a name, the value of the select element will be passed as
+				// a key => value of it's name
+				$html = array();
+				switch (phery::coalesce(@$data['named'], $data))
+				{
+					case 1:
+						$html = array(
+							'1' => 2,
+							'2' => 3,
+							'3' => 4
+						);
+						break;
+					case 2:
+						$html = array(
+							'1' => 7,
+							'2' => 8,
+							'3' => 9
+						);
+						break;
+					case 3:
+						$html = array(
+							'1' => 0,
+							'2' => 1,
+							'3' => 2,
+						);
+						break;
+				}
+				// Return a new select inside the adjacent divs
+				return $r->html(phery::select_for('msgbox', $html, array('selected' => '3')));
+			},
+			// just alertbox the data
+			'msgbox' => function($data){
+				return phery_response::factory()->alert($data);
+			},
+			// select multiple
+			'selectuple' => function($data){
+				return phery_response::factory()->alert(json_encode($data));
+			},
+			'before' => function($data){
+				return phery_response::factory()->call($data['callback'], $data['alert']);
+			}
 		))
 		/**
 		 * process(false) mean we will call phery again with 
@@ -242,7 +286,6 @@
 			{ // Lambda/anonymous function, without named parameters, using ordinal indexes
 					return phery_response::factory()->alert($args[0])->alert($args[1]);
 			},
-			// 
 			'the_one_with_expr' => 'the_one_with_expr',
 		))
 		/**
@@ -279,7 +322,6 @@
 <html>
 	<head>
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
-		<meta charset="utf-8">
 		<meta charset="utf-8">
 		<script src="phery.js"></script>
 		<script>
@@ -343,22 +385,6 @@
 				});
 				
 				/*
-				 * Apply validate plugin to the forms, greedy ;P
-				 */
-				/*var 
-					$validate = 
-					$('form').validate({
-						'rules':{
-							'field[name][first]':{
-								required: true
-							},
-							'field[name][last]':{
-								required: true
-							}
-						}
-					});*/
-					
-				/*
 				 * 
 				 * Let's just bind to the form, so we can apply some formatting to the text coming from print_r() PHP
 				 * 
@@ -369,14 +395,8 @@
 						var text = $div.html();
 						// This doesnt work for IE7 or IE8, no idea why, the CRLF wont be replaced by <br>
 						$div.html(text.replace(/(\r\n|\n)/g, "<br/>").replace(/\s/g, "&nbsp;&nbsp;"));
-					},
-					// Let's use jQuery client-side validation here, before allowing to send
-					'ajax:beforeSend':function(){
-						//return $validate.valid();
 					}
-				})
-				
-				
+				});
 				
 				$form = $('#testform');
 
@@ -428,6 +448,15 @@
 				$.phery.events.exception = function(el, exception){
 					alert(exception);
 				}
+				
+				window.callme = function(e){
+					alert(e);
+				}
+				
+				// Modify the data before sending
+				$('#modify').bind('ajax:before', function(){
+					$(this).data('args', {'alert': $('#alert').val(),'callback':'callme'});
+				});
 				
 				$.phery.options.ajax.retry_limit = 1; // Retry one more time, if fails, then trigger events.error
 				$.ajaxSetup({timeout: 5000}); // 5 seconds timeout
@@ -552,8 +581,26 @@
 				<h1>Retry on timeout, then accept second call</h1>
 				<?php echo phery::link_to('Timeout retry then work', 'timeout', array('args' => array('callback' => true))); ?>
 			</li>
+			<li>
+				<h1>Put data in the element on-the-fly, using ajax:before event and will call a callback with on-the-fly arguments</h1>
+				<?php echo phery::link_to('I have no arguments, click me', 'before', array('id' => 'modify')); ?>
+				<input type="text" id="alert" value="Yes its an alert" /> &laquo; change this to set the data to be sent
+			</li>
 		</ul>
-
+		
+		<h1>Selects</h1>
+		
+		<label>No name on select element</label>	
+		<?php echo phery::select_for('chain', array('1' => 'one', '2' => 'two', '3' => 'three'), array('id' => 'incoming')); ?>
+		<div></div>
+		
+		<label>Named select (will influence the data being passed to the function)</label>
+		<?php echo phery::select_for('chain', array('1' => 'one', '2' => 'two', '3' => 'three'), array('name' => 'named', 'id' => 'incoming2')); ?>
+		<div></div>
+		
+		<label>Multiple (will trigger "onblur" instead of "onchange")</label>
+		<?php echo phery::select_for('selectuple', array('1' => 'one', '2' => 'two', '3' => 'three'), array('multiple' => true, 'selected' => array(1,2,3))); ?>
+		
 		<h1>Forms</h1>
 
 		<p>

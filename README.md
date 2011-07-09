@@ -1,5 +1,11 @@
 # PHP + jQuery + AJAX = phery
 
+## What do I need?
+
++    PHP 5.3+ with JSON (no legacy support)
++    jQuery 1.6+ (jQuery 1.5 won't work with the retry feature)
++    Firefox 3+, IE 7+, Chrome 5+, Safari 5+
+
 ## Introduction
 
 Really simple unobtrusive, yet very powerful, AJAX library with direct integration and mapping of jQuery functions in PHP, 
@@ -12,7 +18,7 @@ Links and forms will still be able to send GET/POST requests and function proper
 W3C validator might complain about data-* if you're not using <!doctype html> (HTML5 DOCTYPE)
 
 Strict standards for PHP 5.3+ and advised to use jQuery 1.6+. Being just one PHP file, and one javascript file, it's pretty easy to 'carry'
-around or to implement in PHP auto-load scenarios, plus it's really FAST! Average processing time is around 3ms with vanilla PHP
+around or to implement in PHP auto-load scenarios, plus it's really FAST! Average processing time is around 3ms with vanilla PHP, according to Firebug
 
 PHP magic_quotes_gpc prefered to be off. you are always responsible for the security of your data, so escape your text accordingly
 to avoid SQL injection or XSS attacks. 
@@ -28,7 +34,17 @@ Also, most of the important and most used functions in jQuery were added as phpD
 
 It appears that the RETRY option doesn't work with jQuery 1.5.x, due to a bug in jQuery, so upgrade to version 1.6
 
-**It was tested using UTF-8, not tested on other languages and encodings, would be nice to have some feedback**
+## Known compatibility issues
+
+phery has a compatibility issue with CKEditor when it tries to open dialogs. It happens because CKEditors try to check if a variable is a function
+by testing the .call method on it. The proper way would be using typeof(v) === 'function' instead, so to this fix, search for V.call?V():V and replace with the typeof definition
+
+## TODO
+
++   Be able to pick what kind of event you want on an element eg: mouseenter, mouseup, focus, blur, etc
++   Be able to use many jquery nested calls like:
+    
+    phery_response::factory()->j('body')->append(phery_response::factory('<div><a href="#" data-remote="test">Test</a></div>')->data('args',array('hello' => true))
 
 ## Example code
 
@@ -36,6 +52,7 @@ Check the a lot of examples and code at <https://github.com/gahgneh/phery/raw/ma
     
 ## Releases
 
++   **0.6b**: Javascript code additions, support for "change" event on selects and PHP helper for creating selects, added encoding support, defaults to UTF-8, fix when argument passing when not an array or JSON object, added more jQuery functions to the IDE autocomplete phpDoc - 8th July. 2011
 +   **0.5.2b**: Improved code for cursor, added $.phery.options.ajax.retry_limit and automatic retry abilities, updated examples in index.php and adjusted documentation, minor change in PHP side - 06th May. 2011
 +   **0.5.1b**: Fixed events, events will be executed as GLOBAL then PER ELEMENT. Returning false cancels propagation. Fixed console.log, updated index.php with examples and removed dependency for livequery plugin, jquery 1.5.2 got it fixed - 27th Apr. 2011
 +   **0.5b**:  Added $.phery.options.default_href, added ability to call anonymous functions callbacks directly from PHP, removed closed from script() call, added exception event - 11st Mar. 2011
@@ -57,7 +74,7 @@ It's really simple (mostly) as
     ))->process();
     ?>
     <html>
-      <script src="jquery.js"></script>
+      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
       <script src="phery.js"></script>
       <a data-remote="function_name">Click me</a>
     </html>
@@ -117,7 +134,7 @@ Add any additional data, that will be accessible to either process functions or 
     function callback_function($ajax_data, $parameters)
     {
       // Since we are not using named parameters, it needs to be accessed through ordinal indexes
-      if ($parameters[0] == 1)
+      if ($parameters[0] === 1)
       {
         $ajax_data['new_stuff'] = $parameters[3]->execute($parameters[1]);
       }
@@ -140,7 +157,7 @@ Set configuration for the current instance of phery. Passed as an associative ar
 instance.
 
 +   **exit_allowed**:
-    Boolean, set if the code will call "exit" upon processing a valid ajax call, defaults to true
+    Boolean, set if the code will call PHP function "exit" upon processing a valid ajax call, defaults to true
 
 +   **no_stripslashes**:
     Boolean, setting to true won't execute strip_slashes on the incoming data, setting to true will execute, defaults to false
@@ -149,7 +166,7 @@ instance.
     Boolean, setting to true will make the class throw exceptions, that can be caught as phery_exception
 
 +   **unobstructive**:
-    Array of strings, passes the aliases provided in phery->set() to respond to non-ajax calls.
+    Array of strings, passes the aliases provided as keys in phery->set() to respond to regular POST "non-ajax" calls.
 
 ***
 
@@ -159,7 +176,7 @@ Returns a boolean, checks if it's an AJAX request, or plain POST
 
     <?php
     if(phery::is_ajax()){
-      Debug::log('AJAX CALL', print_r($_POST, true));
+      var_dump($_POST);
     }
     ?>
 
@@ -170,7 +187,11 @@ Returns a boolean, checks if it's an AJAX request, or plain POST
 Return the answer for a function that returned unobstructively. Returns $default if none
 
     <?php
-    $database_result = phery::instance()->answer_for('alias', new Database_Result(...)); // in this case, returns a Database result
+    $database_result = phery::instance()->answer_for('alias', false); // in this case, returns a Database result
+    if ($database_result === false)
+    {
+      $database_result = new Database_Result(...);
+    }
     ?>
 
 ***
@@ -178,7 +199,7 @@ Return the answer for a function that returned unobstructively. Returns $default
 #### phery->set(array $functions)
 
 Register the functions that will be triggered by AJAX calls.
-The associative key is an alias, the value is the function itself.
+The key is the function alias, the value is the function itself.
 
     <?php
     function outside($ajax_data, $callback_data){
@@ -206,13 +227,13 @@ The associative key is an alias, the value is the function itself.
     ));
     ?>
 
-Callback/answer function comprises of:
+Callback/response function comprises of:
 
     <?php
     function func($ajax_data, $callback_data){
-      // $ajax_data = data coming from outside, via AJAX
-      // $callback_data = can have anything you specify, plus additional information, like submit_id that
-      // comes automatically from the AJAX request, containing the ID of the calling DOM element, if is set
+      // $ajax_data = data coming from browser, via AJAX
+      // $callback_data = can have anything you specify, plus additional information, like **submit_id** that
+      // comes automatically from the AJAX request, containing the ID of the calling DOM element, if has an id="" set
       return phery_response::factory(); // In most cases, you'll want to return a phery_response object
     }
     ?>
@@ -239,13 +260,15 @@ Singleton static method, ensures just one instance of phery
 
 #### phery->process($last_call = true)
 
-Takes just one parameter, $last_call, in case you want to call process() again later, with a different set. last_call won't allow the
+Takes just one parameter, $last_call, in case you want to call process() again later, with a different set. **last_call** won't allow the
 process to return until you call it again or exit the code inside a callback function.
 
     <?php
     $phery->process(false);
     // continue execution
     $phery->callback(array('post' => 'function'))->process();
+    // exit is called, from this point and beyond won't be executed
+    $i += 10;
     ?>
 
 ***
@@ -262,11 +285,27 @@ Helper static method to create any element with AJAX enabled. Check sources or c
 
 Helper static method to open a form that will be able to execute AJAX submits. Check sources or code hinting for better scoop
 
-    <?php echo phery::form_for('/url/to/action/or/empty', 'function_name', array('class' => 'form', 'id' => 'form_id', 'submit' => array('disabled' => true, 'all' => true))) ?>
+    <?php echo phery::form_for('/url-to-action/or/empty-means-current-url', 'function_name', array('class' => 'form', 'id' => 'form_id', 'submit' => array('disabled' => true, 'all' => true))) ?>
       <input type="text" name="text">
       <input type="password" name="pass">
       <input type="submit" value="Send">
     </form>
+
+***
+
+#### phery::select_for($function, $items, array $attributes = array(), phery $phery = null)
+
+Helper static method to display a select element.
+
+    <?php echo phery::select_for('function_name', array(1 => 'true', 2 => 'hello', 3 => 'control'), array('selected' => 2)) ?>
+
+***
+
+#### phery::coalesce(...)
+
+Helper static method that returns the first non null/false/0 item
+
+    <?php echo phery::coalesce($undeclared_variable, UNDECLARED_CONSTANT, $data['no-index'], 10) // return 10 ?>
 
 ***
 
@@ -286,7 +325,7 @@ Check the code completion using an IDE for a better view of the functions, read 
 
 #### $.callRemote(functionName, arguments, attributes, directCall)
 
-Calls an AJAX function directly, without binding to any existing elements, it's created and removed on-the-fly
+Calls an AJAX function directly, without binding to any existing elements, the DOM element is created and removed on-the-fly
 
 +   **functionName**: string, name of the alias defined in phery->set() inside PHP
 +   **arguments**: object or array or variable, the best practice is to pass an object, since it can be easily accessed later through PHP, but any kind of parameter can be passed, from strings, ints, floats, and can also be null (won't be passed through ajax)
@@ -296,7 +335,7 @@ Calls an AJAX function directly, without binding to any existing elements, it's 
         element = $.callRemote('remote', {'key':'value'}, {'href': '/new/url'}, false);
         element.bind({
           'ajax:complete': function(){
-            $('body').remove();
+            $('body').append($(this));
           }
         }).callRemote();
 
@@ -304,12 +343,45 @@ Calls an AJAX function directly, without binding to any existing elements, it's 
 
 #### $('form').serializeForm(opts)
 
-Generate an serialized with unlimited depth from forms. Opts can be defined as:
+Generate an object serialized with unlimited depth from forms. Opts can be defined as:
 
 +   **disabled**: boolean, process disabled form elements, defaults to false
-+   **all**: boolean, include all elements from a form, including empty and null ones, assigning an empty string to the item, defaults to false
++   **all**: boolean, include all elements from a form, including null ones, assigning an empty string to the item, defaults to false
++   **empty**: boolean, setting to false will skip empty fields (won't be submitted), setting to true will submit empty key:values pairs, this overrides "all" setting, defaults to true
 
-        $('form').serializeForm({'disabled':true,'all':true});
+        $('form').serializeForm({'disabled':true,'all':true,'empty':false});
+
++   A form like:
+        
+        <form>
+          <input name="field[gender]" type="text" value="male">
+          <input name="field[name]" type="text" value="John Doe">
+          <input name="breakfast" type="text" value="eggs & bacon">
+          <select name="select">
+            <option selected value="1">1</option>
+            <option selected value="2">2</option>
+            <option value="3">3</option>
+          </select>
+        </form>
+            
++   will generate an object like:
+        
+        {
+          "field":{
+            "gender":"male",
+            "name":"John Doe"
+          },
+          "breakfast":"eggs & bacon",
+          "select":[
+            1, 2
+          ]
+        }
+        
+***
+
+#### $('form').reset()
+
+Some helper function that has been long missing from jQuery, to simply reset a form and remove all values from it. Can reset multiple forms at once
 
 ***
 
@@ -328,13 +400,13 @@ Trigger an event and return the result. Returning false on an event will make th
 ***
 #### $('element').callRemote()
 
-Trigger the AJAX call, takes no parameter. Only available for elements previously bound with the ajax events.
+Trigger the AJAX call, takes no parameter. Only available for elements previously bound with the ajax events. Returns boolean
 
     $('a#id04').callRemote();
 
 ### Options and global and element events
 
-Global events will always trigger, and they first come empty, and do nothing.
+Global events will always trigger, and they first come empty and do nothing.
 It's mainly useful to show/hide loading screens, or update statuses
 
 ***
@@ -390,7 +462,7 @@ The current options that are available. Reminding that additional configurations
 #### Per element events
 
 Per element events are almost the same from global events, they only differ on the
-parameters list, they don't take the $element. Refer to $.phery.events above for description for each event.
+parameters list, they don't take the $element argument. Refer to $.phery.events above for description for each event.
 
 +   **ajax:before**: function ()
 +   **ajax:beforeSend**: function (xhr)
@@ -401,8 +473,8 @@ parameters list, they don't take the $element. Refer to $.phery.events above for
 +   **ajax:exception**: function (exception)
 
         $('form').bind({
-          // Disable form elements
-          'ajax:complete': function(){ $(this).remoteAttr('disabled'); },
           // Enable them again
+          'ajax:complete': function(){ $(this).find('input').removeAttr('disabled'); },
+          // Disable form elements
           'ajax:before': function(){ $(this).find('input').attr('disabled', 'disabled'); }
         });

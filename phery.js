@@ -1,5 +1,5 @@
 /**
- * Javascript library of phery v0.5.2 beta
+ * Javascript library of phery v0.6 beta
  * @url https://github.com/gahgneh/phery
  */
 (function ($) {
@@ -148,6 +148,12 @@
 	}
 	
 	$.fn.extend({
+		reset: function(){
+			return this.each(function(){
+				if ($(this).is('form')) this.reset();
+			});
+		},
+		
 		triggerAndReturn: function (name, data) {
 			var event = $.Event(name);
 			this.trigger(event, data);
@@ -179,6 +185,7 @@
 			
 			if (typeof opt['disabled'] === 'undefined' || opt['disabled'] === null) opt['disabled'] = false;
 			if (typeof opt['all'] === 'undefined' || opt['all'] === null) opt['all'] = false;
+			if (typeof opt['empty'] === 'undefined' || opt['empty'] === null) opt['empty'] = true;
 			
 			var $form = $(this);
 
@@ -241,6 +248,9 @@
 					} else {
 						if (value === null) value = '';
 					}
+					
+					if (value === '' && !opt['empty']) 
+						continue;
 
 					if (!name) continue;
 
@@ -418,7 +428,13 @@
 
 			if (el.data('args')) {
 				try {
-					data['args'] = $.extend({}, el.data('args'));
+					if (typeof el.data('args') === 'object') {
+						data['args'] = $.extend({}, el.data('args'));
+					}
+					else 
+					{
+						data['args'] = el.data('args');
+					}
 				} catch (exception) {
 					log(exception);
 				}
@@ -428,22 +444,35 @@
 				try {
 					data['args'] =
 					$.extend(
-					{},
+						{},
 						data['args'],
-						el.serializeForm(
-							$.extend(
-							{},
-								el.data('submit')?el.data('submit'):{}
-								)
-							)
-						);
+						el.serializeForm(el.data('submit')?el.data('submit'):{})
+					);
 				} catch (exception) {
 					logz = log(exception);
 					
 					el.triggerPheryEvent('exception', [logz]);
 				}
 			}
-
+			
+			if (el.is('select')) {
+				if (el.attr('multiple')) {
+					if (el.attr('name')) {
+						data['args'] = $.extend({}, data['args']);
+						data['args'][el.attr('name')] = el.find(':selected').map(function(){return this.value;}).get();
+					} else {
+						data['args'] = el.find(':selected').map(function(){return this.value;}).get();
+					}
+				} else {
+					if (el.attr('name')) {
+						data['args'] = $.extend({}, data['args']);
+						data['args'][el.attr('name')] = el.val();
+					} else {
+						data['args'] = el.val();
+					}
+				}  
+			}
+			
 			if (submit_id) {
 				data['submit_id'] = submit_id;
 			}
@@ -526,7 +555,7 @@
 		}
 		return true;
 	});
-
+	
 	$('form[data-remote]').live('submit', function (e) {
 		var $this = $(this);
 		if($this.data('confirm')){
@@ -538,7 +567,19 @@
 		return false;
 	});
 
-	$('[data-remote]:not(form)').live('click', function (e) {
+	$('[data-remote]:not(form,select)').live('click', function (e) {
+		$(this).callRemote();
+		e.preventDefault();
+		return false;
+	});
+
+	$('select[data-remote]:not([multiple])').live('change', function (e) {
+		$(this).callRemote();
+		e.preventDefault();
+		return false;
+	});
+
+	$('select[data-remote][multiple]').live('blur', function (e) {
 		$(this).callRemote();
 		e.preventDefault();
 		return false;

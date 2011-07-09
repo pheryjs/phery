@@ -19,7 +19,7 @@
  * @package phery_package
  * @link https://github.com/gahgneh/phery
  * @author gahgneh
- * @version 0.5.2 beta
+ * @version 0.6 beta
  * @license http://opensource.org/licenses/gpl-3.0.html GNU Public License
  */
 
@@ -68,7 +68,7 @@ class phery {
 	 * 'exit_allowed',
 	 * 'no_stripslashes',
 	 * 'exceptions',
-	 * 'unobstructive'
+	 * 'unobstructive',
 	 * </code>
 	 * @var array
 	 * @see config()
@@ -89,7 +89,7 @@ class phery {
 			'exit_allowed' => true,
 			'no_stripslashes' => false,
 			'exceptions' => false,
-			'unobstructive' => array()
+			'unobstructive' => array(),
 		);
 
 		if (isset($config))
@@ -208,10 +208,20 @@ class phery {
 	 */
 	function data($args)
 	{
-		$this->data = func_get_args();
+		$this->data = array_merge_recursive(func_get_args(), $this->data);
 		return $this;
 	}
-
+	
+	/**
+	 * Encode PHP code to put inside data-args, usually for updating the data there
+	 * @param mixed $data Any data that can be converted using json_encode
+	 * @return string Return json_encode'd and htmlentities'd string
+	 */
+	static function args($data, $encoding = 'UTF-8')
+	{
+		return htmlentities(json_encode($data), ENT_COMPAT, $encoding, false);
+	}
+	
 	/**
 	 * Check if the current call is an ajax call
 	 * @static
@@ -493,7 +503,7 @@ class phery {
 	}
 
 	/**
-	 * Create a new instance of phery
+	 * Create a new instance of phery that can be chained, without the need of assigning it to a variable
 	 * @param array $config Associative config array
 	 * @see phery::config()
 	 * @static
@@ -525,12 +535,14 @@ class phery {
 	 * 'target' => '/default/ajax/controller', 
 	 * // Define the data-type for the communication
 	 * 'data-type' => 'json' 
+	 * // Set the encoding of the data, defaults to UTF-8
+	 * 'encoding' => 'UTF-8', 
 	 * );
 	 * </code>
 	 * @param phery $phery Pass the current instance of phery, so it can check if the
 	 * functions are defined, and throw exceptions
 	 * @static
-	 * @return string
+	 * @return string The mounted HTML tag 
 	 */
 	static function link_to($title, $function, array $attributes = array(), phery $phery = null)
 	{
@@ -575,6 +587,13 @@ class phery {
 			$attributes['data-confirm'] = $attributes['confirm'];
 			unset($attributes['confirm']);
 		}
+		
+		$encoding = 'UTF-8';
+		if (isset($attributes['encoding']))
+		{
+			$encoding = $attributes['encoding'];
+			unset($attributes['encoding']);
+		}
 
 		$attributes['data-remote'] = $function;
 
@@ -582,7 +601,7 @@ class phery {
 		$ret[] = "<{$tag}";
 		foreach ($attributes as $attribute => $value)
 		{
-			$ret[] = "{$attribute}=\"".htmlentities($value, ENT_COMPAT, 'UTF-8', false)."\"";
+			$ret[] = "{$attribute}=\"".htmlentities($value, ENT_COMPAT, $encoding, false)."\"";
 		}
 		$ret[] = ">{$title}</{$tag}>";
 		return join(' ', $ret);
@@ -602,11 +621,13 @@ class phery {
 	 * // 'all' submits all elements on the form, even 
 	 * // if empty or not checked, disabled also submit disabled elements
 	 * 'submit' => array('all' => true, 'disabled' => true) 
+	 * // Set the encoding of the data, defaults to UTF-8
+	 * 'encoding' => 'UTF-8', 
 	 * );
 	 * </code>
 	 * @param phery $phery Pass the current instance of phery, so it can check if the functions are defined, and throw exceptions
 	 * @static
-	 * @return void Echoes automatically
+	 * @return string The mounted <form> HTML tag
 	 */
 	static function form_for($action, $function, array $attributes = array(), phery $phery = null)
 	{
@@ -644,14 +665,127 @@ class phery {
 			$attributes['data-submit'] = json_encode($attributes['submit']);
 			unset($attributes['submit']);
 		}
+		
+		$encoding = 'UTF-8';
+		if (isset($attributes['encoding']))
+		{
+			$encoding = $attributes['encoding'];
+			unset($attributes['encoding']);
+		}
 
 		$ret = array();
 		$ret[] = '<form method="POST" action="'.$action.'" data-remote="'.$function.'"';
 		foreach ($attributes as $attribute => $value)
 		{
-			$ret[] = "{$attribute}=\"".htmlentities($value, ENT_COMPAT, 'UTF-8', false)."\"";
+			$ret[] = "{$attribute}=\"".htmlentities($value, ENT_COMPAT, $encoding, false)."\"";
 		}
 		$ret[] = '><input type="hidden" name="remote" value="'.$function.'"/>';
+		return join(' ', $ret);
+	}
+	
+	/**
+	 * Create a <select> element with ajax enabled on "change" event.
+	 * @param string $function Registered function name
+	 * @param array $items Options for the select, 'value' => 'text' representation
+	 * @param array $attributes
+	 * <code>
+	 * array(
+	 * // Confirmation dialog
+	 * 'confirm' => 'Are you sure?',
+	 * // Type of call, defaults to JSON (to use phery_response)
+	 * 'data-type' => 'json',
+	 * // The URL where it should call
+	 * 'target' => '/path/to/php',
+	 * // Extra arguments to pass to the AJAX function, will be stored 
+	 * // in the args attribute as a JSON notation
+	 * 'args' => array(1, "a"), 
+	 * // Set the encoding of the data, defaults to UTF-8
+	 * 'encoding' => 'UTF-8', 
+	 * // The current selected value, or array(1,2) for multiple
+	 * 'selected' => 1
+	 * );
+	 * </code>
+	 * @param phery $phery Pass the current instance of phery, so it can check if the functions are defined, and throw exceptions
+	 * @static
+	 * @return string The mounted <select> with <option>s inside
+	 */
+	static function select_for($function, array $items, array $attributes = array(), phery $phery = null)
+	{
+		if ($function == '')
+		{
+			if ($phery)
+			{
+				if ($phery->config['exceptions']) throw new phery_exception('The "function" argument must be provided to "select_for"');
+			}
+			return '';
+		}
+		if ($phery)
+		{
+			if (!isset($phery->functions[$function]))
+			{
+				if ($phery->config['exceptions'])
+						throw new phery_exception('The function "'.$function.'" provided in "select_for" hasnt been set');
+			}
+		}
+
+		if (isset($attributes['args']))
+		{
+			$attributes['data-args'] = json_encode($attributes['args']);
+			unset($attributes['args']);
+		}
+
+		if (isset($attributes['confirm']))
+		{
+			$attributes['data-confirm'] = $attributes['confirm'];
+			unset($attributes['confirm']);
+		}
+		
+		$encoding = 'UTF-8';
+		if (isset($attributes['encoding']))
+		{
+			$encoding = $attributes['encoding'];
+			unset($attributes['encoding']);
+		}
+		
+		$selected = array();
+		if (isset($attributes['selected']))
+		{
+			if (is_array($attributes['selected']))
+			{
+				// multiple select
+				$selected = $attributes['selected'];
+			}
+			else
+			{
+				// single select
+				$selected = array($attributes['selected']);
+			}
+			unset($attributes['selected']);
+		}
+		
+		if (isset($attributes['multiple']))
+		{
+			$attributes['multiple'] = 'multiple';
+		}
+		
+		$ret = array();
+		$ret[] = '<select data-remote="'.$function.'"';
+		foreach ($attributes as $attribute => $value)
+		{
+			$ret[] = "{$attribute}=\"".htmlentities($value, ENT_COMPAT, $encoding, false)."\"";
+		}
+		$ret[] = '>';
+		
+		foreach ($items as $value => $text)
+		{
+			$_value = 'value="'.htmlentities($value, ENT_COMPAT, $encoding, false).'"';
+			if (in_array($value, $selected))
+			{
+				$_value .= ' selected="selected"';
+			}
+			$ret[] = "<option {$_value}>{$text}</option>\n";
+		}
+		$ret[] = '</select>';
 		return join(' ', $ret);
 	}
 
@@ -668,7 +802,19 @@ class phery {
 		}
 		return null;
 	}
-
+	
+	/**
+	 * Utility function taken from MYSQL
+	 */
+	public static function coalesce()
+	{
+		$args = func_get_args();
+		foreach ($args as &$arg)
+		{
+			if (isset($arg) && !empty($arg)) return $arg;
+		}
+		return null;
+	}
 }
 
 /**
@@ -687,21 +833,23 @@ class phery {
  * @method phery_response data() data($name, $data) Add data to element
  * @method phery_response addClass() addClass($className) Add a class from an element
  * @method phery_response removeClass() removeClass($className) Remove a class from an element
- * @method phery_response animate() animate($prop, $dur, $easing, $cb) Animate an element
+ * @method phery_response animate() animate($prop, $dur, $easing, $cb) Perform a custom animation of a set of CSS properties.
  * @method phery_response trigger() trigger($eventName, [$args]) Trigger an event
+ * @method phery_response triggerHandler() triggerHandler($eventType, $extraParameters) Execute all handlers attached to an element for an event.
  * @method phery_response fadeIn() fadeIn($prop, $dur, $easing, $cb) Animate an element
- * @method phery_response filter() filter($selector) Filter elements
+ * @method phery_response filter() filter($selector) Reduce the set of matched elements to those that match the selector or pass the function's test.
  * @method phery_response fadeTo() fadeTo($dur, $opacity) Animate an element
  * @method phery_response fadeOut() fadeOut($prop, $dur, $easing, $cb) Animate an element
  * @method phery_response slideUp() slideUp($dur, $cb) Hide with slide up animation
  * @method phery_response slideDown() slideDown($dur, $cb) Show with slide down animation
  * @method phery_response slideToggle() slideToggle($dur, $cb) Toggle show/hide the element, using slide animation
  * @method phery_response unbind() unbind($name) Unbind an event from an element
+ * @method phery_response undelegate() undelegate() Remove a handler from the event for all elements which match the current selector, now or in the future, based upon a specific set of root elements.
  * @method phery_response stop() stop() Stop animation on elements
  * @method phery_response live() live($name) Bind a live event to the selected elements
  * @method phery_response die() die($name) Unbind an event from an element set by live()
  * @method phery_response val() val($content) Set the value of an element
- * @method phery_response removeData() removeData($element, $name) Remove element data added with data()
+ * @method phery_response removeData() removeData($name) Remove element data added with data()
  * @method phery_response removeAttr() removeAttr($name) Remove an attribute from an element
  * @method phery_response scrollTop() scrollTop($val) Set the scroll from the top
  * @method phery_response scrollLeft() scrollLeft($val) Set the scroll from the left
@@ -710,6 +858,39 @@ class phery {
  * @method phery_response slice() slice($start, $end) Reduce the set of matched elements to a subset specified by a range of indices.
  * @method phery_response not() not($val) Remove elements from the set of matched elements.
  * @method phery_response eq() eq($selector) Reduce the set of matched elements to the one at the specified index.
+ * @method phery_response offset() offset($coordinates) Set the current coordinates of every element in the set of matched elements, relative to the document.
+ * @method phery_response map() map(callback($index, $domEl)) Pass each element in the current matched set through a function, producing a new jQuery object containing the return values.
+ * @method phery_response children() children($selector) Get the children of each element in the set of matched elements, optionally filtered by a selector.
+ * @method phery_response closest() closest($selector) Get the first ancestor element that matches the selector, beginning at the current element and progressing up through the DOM tree.
+ * @method phery_response find() find($selector) Get the descendants of each element in the current set of matched elements, filtered by a selector, jQuery object, or element.
+ * @method phery_response next() next($selector) Get the immediately following sibling of each element in the set of matched elements, optionally filtered by a selector.
+ * @method phery_response nextAll() nextAll($selector) Get all following siblings of each element in the set of matched elements, optionally filtered by a selector.
+ * @method phery_response nextUntil() nextUntil($selector) Get all following siblings of each element up to  but not including the element matched by the selector.
+ * @method phery_response parentsUntil() parentsUntil($selector) Get the ancestors of each element in the current set of matched elements, up to but not including the element matched by the selector.
+ * @method phery_response offsetParent() offsetParent() Get the closest ancestor element that is positioned.
+ * @method phery_response parent() parent($selector) Get the parent of each element in the current set of matched elements, optionally filtered by a selector.
+ * @method phery_response parents() parents($selector) Get the ancestors of each element in the current set of matched elements, optionally filtered by a selector.
+ * @method phery_response prev() prev($selector) Get the immediately preceding sibling of each element in the set of matched elements, optionally filtered by a selector.
+ * @method phery_response prevAll() prevAll($selector) Get all preceding siblings of each element in the set of matched elements, optionally filtered by a selector.
+ * @method phery_response prevUntil() prevUntil($selector) Get the ancestors of each element in the current set of matched elements, optionally filtered by a selector.
+ * @method phery_response siblings() siblings($selector) Get the siblings of each element in the set of matched elements, optionally filtered by a selector.
+ * @method phery_response add() add($selector) Add elements to the set of matched elements.
+ * @method phery_response andSelf() andSelf() Add the previous set of elements on the stack to the current set.
+ * @method phery_response contents() contents() Get the children of each element in the set of matched elements, including text nodes.
+ * @method phery_response end() end() End the most recent filtering operation in the current chain and return the set of matched elements to its previous state.
+ * @method phery_response after() after($content) Insert content, specified by the parameter, after each element in the set of matched elements.
+ * @method phery_response before() before($content) Insert content, specified by the parameter, before each element in the set of matched elements.
+ * @method phery_response insertAfter() insertAfter($target) Insert every element in the set of matched elements after the target.
+ * @method phery_response insertbefore() insertBefore($target) Insert every element in the set of matched elements before the target.
+ * @method phery_response unwrap() unwrap() Remove the parents of the set of matched elements from the DOM, leaving the matched elements in their place.
+ * @method phery_response wrap() wrap( $wrappingElement ) Wrap an HTML structure around each element in the set of matched elements.
+ * @method phery_response wrapAll() wrapAll( $wrappingElement ) Wrap an HTML structure around all elements in the set of matched elements.
+ * @method phery_response wrapInner() wrapInner( $wrappingElement ) Wrap an HTML structure around the content of each element in the set of matched elements.
+ * @method phery_response delegate() delegate($selector, $eventType, $handler ) Attach a handler to one or more events for all elements that match the selector, now or in the future, based on a specific set of root elements.
+ * @method phery_response live() live($selector, $eventType, $handler ) Attach a handler to the event for all elements which match the current selector, now or in the future.
+ * @method phery_response one() one($selector, $eventType, $handler ) Attach a handler to an event for the elements. The handler is executed at most once per element.
+ * @method phery_response bind() bind($selector, $eventType, $handler ) Attach a handler to an event for the elements.
+ * @method phery_response each() each($function) Iterate over a jQ object, executing a function for each matched element.
  */
 class phery_response {
 
@@ -731,19 +912,6 @@ class phery_response {
 	function __construct($selector = null)
 	{
 		$this->last_selector = $selector;
-	}
-
-	/**
-	 * Utility function taken from MYSQL
-	 */
-	private function coalesce()
-	{
-		$args = func_get_args();
-		foreach ($args as &$arg)
-		{
-			if (isset($arg) && !empty($arg)) return $arg;
-		}
-		return null;
 	}
 
 	/**
@@ -849,7 +1017,7 @@ class phery_response {
 	 */
 	function cmd($cmd, array $args, $selector = null)
 	{
-		$selector = $this->coalesce($selector, $this->last_selector);
+		$selector = phery::coalesce($selector, $this->last_selector);
 		if ($selector === null || !is_string($selector))
 		{
 			$this->data[] =
