@@ -1,0 +1,23 @@
+{
+	"name": "phery/phery",
+	"type": "library",
+	"description": "PHP to jQuery FULL mapping, seamless ajax integration and partial rendering views",
+	"keywords": ["ajax","unobtrusive","json","seamless","javascript","jquery","mapping","delegation"],
+	"homepage": "http://phery-php-ajax.net",
+	"license": "MPL 1.1",
+	"authors": [
+	{
+		"name": "Paulo Cesar",
+		"homepage": "http://phery-php-ajax.net",
+		"role": "Developer"
+	}
+	],
+	"require": {
+		"php": ">=5.3.0",
+		"ext-jquery": ">=1.7"
+	},
+	"suggest": {
+		"ext-history.js": "Enable pushing URL states through AJAX along with changing the current url",
+		"kohana-modules/phery": "Module with straightfoward, transparent and seamless integration with Kohana 3.x"
+	}
+}
