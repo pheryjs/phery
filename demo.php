@@ -2,12 +2,18 @@
 //Ensure that it's completly compatible with strict mode and throws no notices or warnings, and not using any deprecated code
 error_reporting(E_ALL | E_STRICT | E_DEPRECATED);
 
+if (version_compare(PHP_VERSION, '5.3.3', '<'))
+{
+	die('This demo needs at least PHP 5.3.3');
+}
+
 ini_set('display_errors', 1);
 
+$end_line = 741;
 $memory_start = 0;
 $start_time = microtime(true);
 
-include ('Phery.php');
+require_once 'Phery.php';
 
 PheryResponse::set_global('global', true);
 
@@ -17,7 +23,13 @@ PheryResponse::factory()
 ->html('This is a <i>new</i> <b>element</b>')
 ->css('cursor', 'pointer')
 ->css('border', 'solid 3px #000')
-->one('click', PheryFunction::factory('function(){ var $this = $(this); $(this).fadeOut("slow").promise().done(function(){ $this.remove(); }); }'))
+->one('click', PheryFunction::factory(array(
+		'function(){',
+			'var $this = $(this);',
+			'$(this).fadeOut("slow").promise().done(function(){ $this.remove(); });',
+		'}'
+	)
+))
 ->prependTo('body')
 ->set_response_name('my name is'); // << Name of this response
 
@@ -33,7 +45,7 @@ class myClass {
 			->merge('scrollTop') // merge the named response
 			->filter(':eq(1)')
 			->toggle('fast')
-			->html($ajax_data['hi'])
+			->text($ajax_data['hi'])
 			->jquery('a')
 			// Create callbacks directly from PHP! No need to do this, just to show it's possible
 			// White space (CRLF, tabs, spaces) doesnt matter to JSON, it just adds extra bytes
@@ -100,12 +112,12 @@ function test($args)
 function trigger()
 {
 	return
-	PheryResponse::factory('div.test')
-	->trigger('test')
-	->jquery('<li/>') // Create a new element like in jQuery and append to the ul
-	->css('backgroundColor', '#0f0')
-	->html('<h1>Dynamically added, its already bound with phery AJAX upon creation because of jquery delegate()</h1><a data-remote="surprise">Click me (execute script calling window.location.reload)</a>')
-	->appendTo('#add');
+		PheryResponse::factory('div.test')
+		->trigger('test')
+		->jquery('<li/>') // Create a new element like in jQuery and append to the ul
+		->css('backgroundColor', '#0f0')
+		->html('<h1>Dynamically added, its already bound with phery AJAX upon creation because of jquery delegate()</h1><a data-remote="surprise">Click me (execute script calling window.location.reload)</a>')
+		->appendTo('#add');
 }
 
 // data contains form data
@@ -114,7 +126,7 @@ function form($data)
 	return
 		PheryResponse::factory('div.test:eq(0)')
 		->merge('scrollTop')
-		->html(print_r($data, true));
+		->text(print_r($data, true));
 }
 
 function thisone($data)
@@ -131,18 +143,18 @@ function thisone($data)
 	}
 
 	return
-	PheryResponse::factory()
-	->dump_vars($data);
+		PheryResponse::factory()
+		->dump_vars($data);
 }
 
 function the_one_with_expr($data)
 {
 	return
-	PheryResponse::factory('.test2')
-	->css(array('backgroundColor' => 'red', 'color' => '#fff'))
-	->html('<pre>'. $data['new-onthefly-var'] . '</pre>')
-	->show()
-	->merge(thisone($data));
+		PheryResponse::factory('.test2')
+		->css(array('backgroundColor' => 'red', 'color' => '#fff'))
+		->html('<pre>'. strip_tags($data['new-onthefly-var']) . '</pre>')
+		->show()
+		->merge(thisone($data));
 }
 
 /**
@@ -333,7 +345,7 @@ try
 			 * in the browser. Check if APACHE is already compressing it with gzip.
 			 * If its already compressing, don't enable it.
 			 */
-			'compress' => true
+			'compress' => false
 		)
 	)
 	/**
@@ -352,7 +364,7 @@ try
 					PheryResponse::factory()
 					->json(array('doesnt work'))
 					->j('#wont select')
-					->html('because redirect clear all commands')
+					->text('because redirect clear all commands')
 					->redirect('?page=home', $param['view']);
 			}
 
@@ -372,6 +384,45 @@ try
 	 * Set the aliases for the AJAX calls
 	 */
 	->set(array(
+		'readcode' => function($config){
+			$file = fopen(realpath(__FILE__), 'r');
+			global $end_line;
+			$r = new PheryResponse;
+
+			if (
+				!empty($config['from']) &&
+				!empty($config['to']) &&
+				(int)$config['from'] > 0 &&
+				(int)$config['to'] > 0 &&
+				(int)$config['to'] < $end_line
+			)
+			{
+				$lines = 1;
+				$code = array();
+				while (fgets($file) !== false)
+				{
+					if (++$lines === (int)$config['from'])
+					{
+						break;
+					}
+				}
+				while (($line = fgets($file)) !== false)
+				{
+					if ($lines++ > (int)$config['to'])
+					{
+						break;
+					}
+					else
+					{
+						$code[] = preg_replace('/^(\t)/', "", $line);
+					}
+				}
+				array_unshift($code, 'Lines: '.((int)$config['from']).' to '.((int)$config['to'])."\n\n");
+				$r->this()->parent()->find('.code')->text(join("", $code));
+			}
+			fclose($file);
+			return $r;
+		},
 		'this'=> function(){
 			return
 				PheryResponse::factory()
@@ -442,7 +493,7 @@ try
 		// Select chaining results
 		'chain' => function ($data, $complement)
 		{
-			$r = PheryResponse::factory($complement['submit_id'])->next();
+			$r = PheryResponse::factory($complement['submit_id'])->next('div');
 			// If the select has a name, the value of the select element will be passed as
 			// a key => value of it's name
 			$html = array();
@@ -519,7 +570,7 @@ try
 			{
 				foreach ($data as $d)
 				{
-					$r->append($d.' ');
+					$r->append(strip_tags($d).' ');
 				}
 			}
 
@@ -541,11 +592,11 @@ try
 				case 'GET':
 					if (!empty($_SESSION['data'][$_GET['id']]))
 					{
-						$r->html("Exists: \n" . print_r($_SESSION['data'][$_GET['id']], true));
+						$r->text("Exists: \n" . print_r($_SESSION['data'][$_GET['id']], true));
 					}
 					else
 					{
-						$r->html('ID doesnt exists');
+						$r->text('ID doesnt exists');
 					}
 					break;
 				case 'PUT':
@@ -558,11 +609,11 @@ try
 							'holy' => $data[0],
 							'one' => $data[1],
 						);
-						$r->html('Updated');
+						$r->text('Updated');
 					}
 					else
 					{
-						$r->html('ID doesnt exists, create it first');
+						$r->text('ID doesnt exists, create it first');
 					}
 					break;
 				case 'POST':
@@ -572,22 +623,22 @@ try
 							'alert' => $data['alert'],
 							'incoming' => $data['incoming'],
 						);
-						$r->html('Created');
+						$r->text('Created');
 					}
 					else
 					{
-						$r->html('Already exists');
+						$r->text('Already exists');
 					}
 					break;
 				case 'DELETE':
 					if (!empty($_SESSION['data'][$_GET['id']]))
 					{
 						unset($_SESSION['data'][$_GET['id']]);
-						$r->html('Item deleted');
+						$r->text('Item deleted');
 					}
 					else
 					{
-						$r->html('ID doesnt exists');
+						$r->text('ID doesnt exists');
 					}
 					break;
 			}
@@ -713,11 +764,11 @@ $(function () {
 	// cache our DOM elements that will receive the memory info
 	$peak = $('#peak');
 	$usage = $('#usage');
-	$('#version').html('jQuery Version: ' + $().jquery);
+	$('#version').text('jQuery Version: ' + $().jquery);
 
 	$('div.test').bind({
 		'test':function () { // bind a custom event to the DIVs
-			$(this).show(0).html('triggered custom event "TEST"!');
+			$(this).show(0).text('triggered custom event "TEST"!');
 		}
 	});
 
@@ -757,18 +808,19 @@ $(function () {
 		}
 	});
 
+	var to_pre = function () {
+				var $div = $('div.test:eq(0)');
+				var text = $div.html();
+				// This doesnt work for IE7 or IE8, no idea why, the CRLF wont be replaced by <br>
+				$div.html('<pre>' + text + '</pre>');
+			};
 	/*
 	 *
 	 * Let's just bind to the form, so we can apply some formatting to the text coming from print_r() PHP
 	 *
 	 */
 	$('form').bind({
-		'phery:always':function () {
-			var $div = $('div.test:eq(0)');
-			var text = $div.html();
-			// This doesnt work for IE7 or IE8, no idea why, the CRLF wont be replaced by <br>
-			$div.html('<pre>' + text + '</pre>');
-		}
+		'phery:always': to_pre
 	});
 
 	var $form = $('#testform');
@@ -805,6 +857,22 @@ $(function () {
 		{
 			$this.data('target').removeClass('focus');
 		}
+	});
+
+	$('.togglecode').on('phery:beforeSend', function(e, xhr, settings){
+		var
+			$this = $(this),
+			code = $this.parent().find('.code'),
+			empty = $.trim(code.text()) === '';
+
+		if (!empty)
+		{
+			code.toggle();
+			return false;
+		}
+		$this.text('Toggle PHP code');
+		code.show();
+		return true;
 	});
 
 	/*
@@ -1038,7 +1106,20 @@ function memusage(peak, usage, time) {
 		padding:         5px;
 		background:      #eee;
 	}
-
+	.readcode {
+		margin-top: 15px;
+		margin-bottom: 5px;
+	}
+	pre.code {
+		font-size: 12px;
+		background: #000;
+		font-family: 'Lucida Console','Consolas',monospace;
+		color: #d4d4d4;
+		border: solid 3px #0088d8;
+		overflow: auto;
+		padding: 10px;
+		display: none;
+	}
 	label {
 		display:       block;
 		margin-bottom: 10px;
@@ -1159,84 +1240,164 @@ function memusage(peak, usage, time) {
 	<li>
 		<h2>Using HTML 'b' tag, chain commands for css() and animate(), id #special2</h2>
 		<?php echo Phery::link_to('Test data and check it on callback phery:always', 'data', array('tag' => 'b', 'id' => 'special2', 'style' => 'cursor:pointer;')); ?>
+		<div class="readcode">
+			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 79, 'to' => 102))); ?>
+			<pre class="code"></pre>
+		</div>
 	</li>
 	<li>
 		<h2>Magic call to jquery toggle() on 'div.test' using filter(':eq(1)')</h2>
 		<?php echo Phery::link_to('Instance method call', 'test', array('confirm' => 'Are you sure?', 'args' => array('hi' => 'test'))); ?>
+		<div class="readcode">
+			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 40, 'to' => 63))); ?>
+			<pre class="code"></pre>
+		</div>
 	</li>
 	<li>
 		<h2>Returns plain text in this case, processed manually with the phery:done javascript callback. id => #special</h2>
 		<?php echo Phery::link_to('Regular function', 'test2', array('confirm' => 'Are you sure?', 'id' => 'special', 'args' => array('hello' => 'Im a named argument :D'))); ?>
+		<div class="readcode">
+			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 65, 'to' => 77))); ?>
+			<pre class="code"></pre>
+		</div>
 	</li>
 	<li>
 		<h2>Call a lambda function that returns an alert according to the parameters passed, which is 'first', then 'second', set to uppercase by the callback function</h2>
 		<?php echo Phery::link_to('Call to lambda', 'test3', array('args' => array('first', 'second'))); ?>
+		<div class="readcode">
+			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 686, 'to' => 696))); ?>
+			<pre class="code"></pre>
+		</div>
 	</li>
 	<li>
 		<h2>Call to an existing javascript function an array of integers</h2>
 		<?php echo Phery::link_to('Static call from class', 'test4', array('args' => array(1, 2, 4, 6, 19))); ?>
+		<div class="readcode">
+			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 65, 'to' => 77))); ?>
+			<pre class="code"></pre>
+		</div>
 	</li>
 	<li>
 		<h2>Leaves the page, HTML tag is set to 'button'</h2>
 		<?php echo Phery::link_to('Redirect to google.com', 'test5', array('confirm' => 'Are you sure?', 'tag' => 'button')); ?>
+		<div class="readcode">
+			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 466, 'to' => 470))); ?>
+			<pre class="code"></pre>
+		</div>
 	</li>
 	<li>
 		<h2>Call a non-existant function with 'exceptions' set to true</h2>
 		<?php echo Phery::link_to('Call a non-existant function', 'nonexistant'); ?>
+		<div class="readcode">
+			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 726, 'to' => 739))); ?>
+			<pre class="code"></pre>
+		</div>
 	</li>
 	<li>
 		<h2>Call to a function that returns an animate() with a callback and executes before and after callbacks</h2>
 		<?php echo Phery::link_to('Testing callbacks', 'the_one_with_expr', array('id' => 'look-i-have-an-id', 'args' => array(1, 2, 3, 'a', 'b', 'c'))); ?>
+		<div class="readcode">
+			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 150, 'to' => 158))); ?>
+			<pre class="code"></pre>
+		</div>
 	</li>
 	<li>
 		<h2>Nested PheryResponse call</h2>
 		<?php echo Phery::link_to('Nested!', 'nested'); ?>
+		<div class="readcode">
+			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 648, 'to' => 663))); ?>
+			<pre class="code"></pre>
+		</div>
 	</li>
 	<li>
 		<h2>Manual phery.remote('test', {'hi': 'test'}) onclick , with arguments</h2>
 		<a onclick="phery.remote('test', {'hi': 'test'});">Inline onclick event</a>
+		<div class="readcode">
+			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 40, 'to' => 63))); ?>
+			<pre class="code"></pre>
+		</div>
 	</li>
 	<li>
 		<h2>Trigger event 'test' on both divs (and a green on-the-fly div appended at the bottom)</h2>
 		<?php echo Phery::link_to('Trigger event', 'trigger'); ?>
+		<div class="readcode">
+			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 112, 'to' => 121))); ?>
+			<pre class="code"></pre>
+		</div>
 	</li>
 	<li>
 		<h2>On-purpose 404 ajax call</h2>
 		<?php echo Phery::link_to('Trigger global fail and change background to red', 'nonexistant', array('href' => '/pointnowhere')); ?>
+		<div class="readcode">
+			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 726, 'to' => 739))); ?>
+			<pre class="code"></pre>
+		</div>
 	</li>
 	<li>
 		<h2>Global exception handler</h2>
 		<?php echo Phery::link_to('Trigger global exception callback returning invalid javascript', 'invalid'); ?>
+		<div class="readcode">
+			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 485, 'to' => 490))); ?>
+			<pre class="code"></pre>
+		</div>
 	</li>
 	<li>
 		<h2>Retry on timeout</h2>
 		<?php echo Phery::link_to('Timeout retry then give up', 'timeout'); ?>
+		<div class="readcode">
+			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 201, 'to' => 211))); ?>
+			<pre class="code"></pre>
+		</div>
 	</li>
 	<li>
 		<h2>Retry on timeout, then accept second call</h2>
 		<?php echo Phery::link_to('Timeout retry then work', 'timeout', array('args' => array('callback' => true))); ?>
+		<div class="readcode">
+			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 201, 'to' => 211))); ?>
+			<pre class="code"></pre>
+		</div>
 	</li>
 	<li>
 		<h2>Custom error reporting for a bit of code</h2>
 		<?php echo Phery::link_to('Exception', 'on_purpose_exception'); ?>
+		<div class="readcode">
+			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 719, 'to' => 722))); ?>
+			<pre class="code"></pre>
+		</div>
 	</li>
 	<li>
 		<h2>Dump vars vs Print vars (watch the Firebug console)</h2>
 		<?php echo Phery::link_to('Dump vars', 'dumpvars'); ?>
 		<?php echo Phery::link_to('Print vars', 'dumpvars', array('args' => array('is_print' => true))); ?>
+		<div class="readcode">
+			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 437, 'to' => 459))); ?>
+			<pre class="code"></pre>
+		</div>
 	</li>
 	<li>
 		<h2>Using PheryResponse::factory()->this() to access the calling element</h2>
 		<?php echo Phery::link_to('This', 'this'); ?>
+		<div class="readcode">
+			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 426, 'to' => 436))); ?>
+			<pre class="code"></pre>
+		</div>
 	</li>
 	<li>
 		<h2>Put data in the element on-the-fly, using phery:before event and will call a callback with on-the-fly arguments</h2>
 		<?php echo Phery::link_to('I have no arguments, click me', 'before', array('id' => 'modify')); ?>
 		<input type="text" id="alert" value="Yes its an alert" /> &laquo; change this to set the data to be sent
+		<div class="readcode">
+			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 557, 'to' => 562))); ?>
+			<pre class="code"></pre>
+		</div>
 	</li>
 	<li>
 		<h2>Image tag click (using the <i>Phery::link_to</i> builder)</h2>
 		<?php echo Phery::link_to(null, 'img', array('src' => '//upload.wikimedia.org/wikipedia/commons/6/63/Wikipedia-logo.png', 'tag' => 'img', 'style' => 'cursor:pointer')) ?>
+		<div class="readcode">
+			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 579, 'to' => 584))); ?>
+			<pre class="code"></pre>
+		</div>
 	</li>
 </ul>
 

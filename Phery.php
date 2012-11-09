@@ -1,20 +1,35 @@
 <?php
-/* * **** BEGIN LICENSE BLOCK *****
- * Version: MPL 2.0
+/**
+ * The MIT License (MIT)
  *
- * This Source Code Form is subject to the terms of the
- * Mozilla Public License, v. 2.0. If a copy of the MPL was
- * not distributed with this file, You can obtain one at
- * http://mozilla.org/MPL/2.0/.
+ * Copyright © 2010-2012 Paulo Cesar, http://phery-php-ajax.net/
  *
- * ***** END LICENSE BLOCK ***** */
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the “Software”), to deal in the Software without restriction,
+ * including without limitation the rights to use, copy, modify, merge,
+ * publish, distribute, sublicense, and/or sell copies of the Software,
+ * and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included
+ * in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+ * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+ * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
+ */
 
 /**
  * @package    PheryPackage
- * @link       https://github.com/pocesar/phery
+ * @link       http://phery-php-ajax.net/
  * @author     Paulo Cesar
- * @version    1.1
- * @license    http://www.mozilla.org/MPL/ Mozilla Public License
+ * @version    2.0.1
+ * @license    http://opensource.org/licenses/MIT MIT License
  * @subpackage Phery
  */
 class Phery implements ArrayAccess {
@@ -42,10 +57,6 @@ class Phery implements ArrayAccess {
 	 */
 	const ERROR_TO = 3;
 
-	/**
-	 * @var bool
-	 */
-	protected static $handled = false;
 	/**
 	 * The functions registered
 	 * @var array
@@ -353,7 +364,7 @@ class Phery implements ArrayAccess {
 
 	public static function error_handler($errno, $errstr, $errfile, $errline)
 	{
-		self::$handled = true;
+		ob_get_clean();
 
 		$response = PheryResponse::factory()->exception($errstr, array(
 			'code' => $errno,
@@ -362,19 +373,30 @@ class Phery implements ArrayAccess {
 		));
 
 		self::respond($response);
-		self::shutdown_handler();
+		self::shutdown_handler(false, false, true);
 	}
 
-	public static function shutdown_handler()
+	public static function shutdown_handler($compressed = false, $errors = false, $handled = false)
 	{
-		while (ob_get_level() > 0)
+		if ($handled)
 		{
-			ob_end_flush();
+			while (ob_get_level() > 0)
+			{
+				ob_end_flush();
+			}
 		}
 
-		if ($error = error_get_last() && !self::$handled)
+		if ($errors === true && ($error = error_get_last()) && !$handled)
 		{
 			self::error_handler($error["type"], $error["message"], $error["file"], $error["line"]);
+		}
+
+		if (!$handled || $compressed)
+		{
+			while (ob_get_level() > 0)
+			{
+				ob_end_flush();
+			}
 		}
 
 		exit;
@@ -473,7 +495,7 @@ class Phery implements ArrayAccess {
 			set_error_handler('Phery::error_handler', $this->config['error_reporting']);
 		}
 
-		register_shutdown_function('Phery::shutdown_handler');
+		register_shutdown_function('Phery::shutdown_handler', $this->config['compress'], $this->config['error_reporting'] !== false);
 	}
 
 	/**
@@ -2025,7 +2047,7 @@ class PheryResponse extends ArrayObject {
 
 		return $this->cmd(0xff, array(
 			'html',
-			self::typecast($content, true)
+			self::typecast($content, true, true)
 		), $selector);
 	}
 
@@ -2048,7 +2070,7 @@ class PheryResponse extends ArrayObject {
 
 		return $this->cmd(0xff, array(
 			'text',
-			self::typecast($content, true)
+			self::typecast($content, true, true)
 		), $selector);
 	}
 
@@ -2099,7 +2121,7 @@ class PheryResponse extends ArrayObject {
 		}
 
 		return $this->cmd(5, array(
-			self::typecast($html, true),
+			self::typecast($html, true, true),
 			$data
 		));
 	}
