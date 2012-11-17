@@ -330,9 +330,9 @@ class Phery implements ArrayAccess {
 			return !empty($check) ? true : '';
 		}
 
-		if (!isset($_SESSION))
+		if (session_id() == '')
 		{
-			session_start();
+			@session_start();
 		}
 
 		if ($check === false)

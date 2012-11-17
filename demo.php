@@ -353,7 +353,7 @@ try
 			 * Enable CSRF protection, needs to use Phery::instance()->csrf() on your
 			 * HTML head, to print the meta
 			 */
-			'csrf' => false
+			'csrf' => true
 		)
 	)
 	/**
@@ -595,9 +595,9 @@ try
 		'REST' => function ($data, $params)
 		{
 			$r = new PheryResponse('#RESTAnswer');
-			if (!isset($_SESSION))
+			if (session_id() == '')
 			{
-				session_start();
+				@session_start();
 			}
 			/* EMULATE A DATABASE USING SESSION */
 			switch ($params['method'])
@@ -1323,7 +1323,7 @@ function memusage(peak, usage, time) {
 	</li>
 	<li>
 		<h2>Returns plain text in this case, processed manually with the phery:done javascript callback. id => #special</h2>
-		<?php echo Phery::link_to('Regular function', 'test2', array('confirm' => 'Are you sure?', 'id' => 'special', 'args' => array('hello' => 'Im a named argument :D'))); ?>
+		<?php echo Phery::link_to('Regular function', 'test2', array('id' => 'special', 'args' => array('hello' => 'Im a named argument :D'))); ?>
 		<div class="readcode">
 			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 65, 'to' => 77))); ?>
 			<pre class="code"></pre>
@@ -1347,7 +1347,7 @@ function memusage(peak, usage, time) {
 	</li>
 	<li>
 		<h2>Leaves the page, HTML tag is set to 'button'</h2>
-		<?php echo Phery::link_to('Redirect to google.com', 'test5', array('confirm' => 'Are you sure?', 'tag' => 'button')); ?>
+		<?php echo Phery::link_to('Redirect to google.com', 'test5', array('tag' => 'button')); ?>
 		<div class="readcode">
 			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 475, 'to' => 478))); ?>
 			<pre class="code"></pre>
