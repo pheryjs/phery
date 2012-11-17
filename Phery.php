@@ -330,11 +330,6 @@ class Phery implements ArrayAccess {
 			return !empty($check) ? true : '';
 		}
 
-		if (session_id() == '')
-		{
-			@session_start();
-		}
-
 		if ($check === false)
 		{
 			$token = sha1(uniqid(microtime(true), true));
@@ -879,6 +874,14 @@ class Phery implements ArrayAccess {
 				if (isset($config['csrf']))
 				{
 					$this->config['csrf'] = (bool)$config['csrf'];
+
+					if ($this->config['csrf'])
+					{
+						if (session_id() == '')
+						{
+							session_start();
+						}
+					}
 				}
 
 				if (isset($config['error_reporting']))
