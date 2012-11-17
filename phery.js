@@ -32,7 +32,7 @@
 		call_cache = [],
 		/**
 		 * @class
-		 * @version 2.0.1
+		 * @version 2.1.0
 		 */
 		phery = window.phery = window.phery || {};
 
@@ -45,6 +45,61 @@
 			return typeof obj === 'undefined' ? 'undefined' : ({}).toString.call(obj).match(/\s([a-z]+)/i)[1].toLowerCase();
 		};
 	})(window);
+
+	/**
+	 * Assign a deep object property
+	 *
+	 * @param {Object} obj The initial object
+	 * @param {Array} keyPath Array containing the desired path
+	 * @param {null|undefined|Boolean} value Any value
+	 * @param {null|undefined|Boolean} create Create the path if it doesn't exist
+	 * @param {null|undefined|Boolean} force If the object is an array, it will be pushed. Force will rewrite the value regardless
+	 * @param {null|undefined|Boolean} as_obj Returns the object instead of [obj, lastKey]
+	 * @return {Object|Boolean}
+	 */
+	var assign_object = function (obj, keyPath, value, create, force, as_obj) {
+		if (!keyPath || !keyPath.length) {
+			return false;
+		}
+
+		var lastKeyIndex = keyPath.length - 1, key;
+
+		create = (create === undefined) ? true : create;
+		force = (force === undefined) ? false: force;
+		as_obj = (as_obj === undefined) ? false : as_obj;
+
+		if (value !== undefined && as_obj) {
+			as_obj = false;
+		}
+
+		for (var i = 0; i < lastKeyIndex; i++) {
+			key = keyPath[i];
+
+			if (key in obj){
+				obj = obj[key];
+			} else {
+				if (!create) {
+					return false;
+				}
+				obj[key] = {};
+				obj = obj[key];
+			}
+		}
+
+		if (typeof obj[keyPath[lastKeyIndex]] !== 'undefined' && value !== undefined){
+			if (Object.toType(obj[keyPath[lastKeyIndex]]) === 'array' && !force) {
+				obj[keyPath[lastKeyIndex]].push(value);
+			} else {
+				obj[keyPath[lastKeyIndex]] = value;
+			}
+		} else {
+			if (value !== undefined) {
+				obj[keyPath[lastKeyIndex]] = value;
+			}
+		}
+
+		return as_obj ? obj[keyPath[lastKeyIndex]] : [obj, keyPath[lastKeyIndex]];
+	};
 
 	function per_data(this_data, args){
 		var
@@ -156,7 +211,7 @@
 			return false;
 		}
 		str = str.toString();
-		var is_it = (/^[\s;]*function\(/im.test(str)) && (/\};?$/m.test(str));
+		var is_it = (str.search(/^[\s;]*function\(/im) !== -1) && (str.search(/\};?$/m));
 
 		if (is_it && process) {
 			var
@@ -354,6 +409,10 @@
 		}
 	}
 
+	/**
+	 * @param $this
+	 * @return {boolean|jQuery.ajax}
+	 */
 	function form_submit($this) {
 		if ($this.data('confirm.phery')) {
 			if (!confirm($this.data('confirm.phery'))) {
@@ -383,12 +442,17 @@
 			submit_id = el.attr('id') || el.parent().attr('id') || null,
 			requested,
 			ajax,
+			$token,
 			data = {
 				'args': undefined,
 				'phery':{
 					'method':method
 				}
 			};
+
+		if (($token = $('head meta#csrf-token')).size()) {
+			data.phery.csrf = $token.attr('content');
+		}
 
 		if (el.data('args.phery')) {
 			try {
@@ -410,7 +474,7 @@
 					}
 					data['args'] = per_data({}, inputs);
 				}
-			} else if (typeof args !== 'undefined') {
+			} else if (args !== undefined) {
 				data['args'] = per_data({}, args);
 			}
 		}
@@ -680,6 +744,162 @@
 			});
 	}
 
+	var convert_special = function($this, obj){
+		var func, x, data;
+
+		if (Object.toType(obj) === 'object') {
+			if (typeof obj['PF'] !== 'undefined') {
+				if ((func = str_is_function(obj['PF'], true))) {
+					obj = func;
+				} else {
+					obj = null;
+				}
+			} else if (typeof obj['PR'] !== 'undefined') {
+				data = obj['PR'];
+				for (x in data) {
+					if (data.hasOwnProperty(x)) {
+						obj = process($this, selector($this, x, data), data[x]);
+					}
+				}
+			}
+		}
+
+		return obj;
+	};
+
+	var selector = function($this, x, data){
+		var $jq = false, argv;
+
+		if (x === '+') {
+			argv = data[x].shift();
+			var _obj = assign_object(window, argv['c'], undefined, false, false, true);
+
+			if (_obj) {
+				$jq = _obj;
+			} else {
+				triggerPheryEvent($this, 'exception', [phery.log('failed access to object', 'window.' + argv['c'].join('.'))]);
+			}
+		} else if (x === '~') {
+			$jq = $this;
+		} else if (x === '-') {
+			argv = data[x].shift();
+			argv = argv['a'];
+			$jq = phery.remote(argv[0], argv[1], argv[2], argv[3]);
+		} else if (x === '#') {
+			$jq = $;
+		} else if (x.toLowerCase() === 'window') {
+			$jq = $(window);
+		} else if (x.toLowerCase() === 'document') {
+			$jq = $(document);
+		} else {
+			$jq = $(x);
+		}
+
+		return $jq;
+	};
+
+	var process_parameters = function($this, args){
+		args = convert_special($this,  args);
+
+		if (Object.toType(args) === 'object' || Object.toType(args) === 'array'){
+			var i, x;
+
+			for (i in args) {
+				if (args.hasOwnProperty(i)) {
+					switch (Object.toType(args[i])) {
+						case 'array':
+							for (x in args[i]) {
+								if (args[i].hasOwnProperty(x)) {
+									args[i][x] = process_parameters($this, args[i][x]);
+								}
+							}
+							break;
+						case 'object':
+							args[i] = process_parameters($this, args[i]);
+							break;
+					}
+				}
+			}
+		}
+
+		return args;
+	};
+
+	/*var access = function($this, path, value) {
+		var y, _obj = false, last = null, len = path.length;
+
+		for (y = 0; y < len; y++) {
+			if (_obj === false) {
+				if (y < len-1) {
+					if (
+						(typeof value === 'undefined' || value === '__unset__') &&
+						(typeof window[path[y]] === 'function' || typeof window[path[y]] === 'object')
+					) {
+						_obj = window[path[y]];
+					}
+				} else {
+					_obj = window;
+					last = path[y];
+				}
+			} else if (typeof _obj[path[y]] !== 'undefined') {
+				if (y === len-1) {
+					last = path[y];
+				} else {
+					_obj = _obj[path[y]];
+				}
+			}
+		}
+		if (_obj !== false && last !== null) {
+			var target = _obj;
+
+			if (typeof value !== 'undefined' && value !== '__unset__') {
+				if (Object.toType(value) === 'array' || Object.toType(value) === 'object'){
+					for (y in value) {
+						if (value.hasOwnProperty(y)) {
+							value[y] = process_parameters($this, value[y]);
+						}
+					}
+				}
+				target[last] = process_parameters($this, value)[0];
+			} else if (value === '__unset__') {
+				delete target[last];
+			}
+			_obj = _obj[last];
+		}
+
+		return _obj;
+	};*/
+
+	var process = function ($this, obj, item) {
+		var i, argv, func_name;
+
+		for (i in item) {
+			if (item.hasOwnProperty(i)) {
+				argv = item[i]['a'];
+				try {
+					func_name = item[i]['c'];
+					if (typeof obj[func_name] === 'function') {
+						if (typeof argv[0] !== 'undefined') {
+							argv = process_parameters($this, argv[0]);
+							if (Object.toType(argv) === 'array' && typeof argv[0] !== 'undefined') {
+								obj = obj[func_name].apply(obj, argv);
+							} else {
+								obj = obj[func_name].call(obj, argv);
+							}
+						} else {
+							obj = obj[func_name].apply(obj, argv);
+						}
+					} else {
+						throw 'no function "' + func_name + '" found in jQuery object';
+					}
+				} catch (exception) {
+					triggerPheryEvent($this, 'exception', [phery.log(exception, argv)]);
+				}
+			}
+		}
+		return obj;
+	};
+
 	function processRequest(data) {
 		/*jshint validthis:true */
 		if (!this.data('remote.phery') && !this.data('view.phery')) {
@@ -687,93 +907,29 @@
 			return;
 		}
 
-		var $jq, argv, argc, func_name, $this = this, is_selector, funct, _data, _argv;
-
-		var process_parameters = function(args){
-			var out = [], i, func, x;
-			for (i in args) {
-				if (args.hasOwnProperty(i)) {
-					if (args[i].constructor === Array) {
-						return process_parameters(args[i]);
-					} else if (args[i].constructor === Object) {
-						if (typeof args[i]['PheryFunction'] !== 'undefined') {
-							if ((func = str_is_function(args[i]['PheryFunction'], true))){
-								out.push(func);
-							} else {
-								out.push(null);
-							}
-						} else if (typeof args[i]['PheryResponse'] !== 'undefined') {
-							for (x in args[i]['PheryResponse']) {
-								if (args[i]['PheryResponse'].hasOwnProperty(x)){
-									out.push(process($(x), args[i]['PheryResponse'][x]));
-								}
-							}
-						} else {
-							out.push(args[i]);
-						}
-					} else {
-						out.push(args[i]);
-					}
-				}
-			}
-			return out;
-		};
-
-		var process = function (obj, item) {
-			for (var i in item) {
-				if (item.hasOwnProperty(i)) {
-					argv = item[i]['a'];
-					try {
-						func_name = argv.shift();
-						if (typeof obj[func_name] === 'function') {
-							if (typeof argv[0] !== 'undefined' && (argv[0].constructor === Array || argv[0].constructor === Object)) {
-								obj = obj[func_name].apply(obj, process_parameters(argv));
-							} else if (argv.constructor === Array) {
-								obj = obj[func_name].apply(obj, argv || null);
-							} else {
-								obj = obj[func_name].call(obj, argv || null);
-							}
-						} else {
-							throw 'no function "' + func_name + '" found in jQuery object';
-						}
-					} catch (exception) {
-						triggerPheryEvent($this, 'exception', [phery.log(exception, argv)]);
-					}
-				}
-			}
-			return obj;
-		};
+		var $jq, argv, argc, $this = this, is_selector, funct, _data, _argv;
 
 		if (data && countProperties(data)) {
 			var x;
 			for (x in data) {
 				if (data.hasOwnProperty(x)) {
-					is_selector = (x.toString().search(/^[0-9]+$/) === -1) || (x.toString() === '-') || (x.toString() === '~') || (x.toString().charAt(0) === '<');
+
+					is_selector =
+						(x.toString() === '-') ||
+						(x.toString() === '~') ||
+						(x.toString() === '+') ||
+						(x.toString().charAt(0) === '<') ||
+						(x.toString().search(/^[0-9]+$/) === -1)
+					;
 					/* check if it has a selector */
 
 					if (is_selector) {
 						if (data[x].length) {
 
-							if (x.charAt(0) === '<') {
-								$jq = $(x);
-							} else if (x === '~') {
-								$jq = $this;
-							} else if (x === '-') {
-								argv = data[x].shift();
-								argv = argv['a'];
-								$jq = phery.remote(argv[0], argv[1], argv[2], argv[3]);
-							} else if (x === '#') {
-								$jq = $;
-							} else if (x.toLowerCase() === 'window') {
-								$jq = $(window);
-							} else if (x.toLowerCase() === 'document') {
-								$jq = $(document);
-							} else {
-								$jq = $(x);
-							}
+							$jq = selector($this, x, data);
 
-							if (x === '#' || ($jq && typeof $jq['size'] !== 'undefined' && $jq.size())) {
-								$jq = process($jq, data[x]);
+							if (x === '#' || (x === '+' && $jq !== false) || ($jq && typeof $jq['size'] === 'function' && $jq.size())) {
+								$jq = process($this, $jq, data[x]);
 							}
 						} else {
 							triggerPheryEvent($this, 'exception', [phery.log('no commands to issue, 0 length')]);
@@ -795,8 +951,10 @@
 							case 2:
 								try {
 									funct = argv.shift();
-									if (typeof window[funct] === 'function') {
-										window[funct].apply(null, argv[0] || []);
+									funct = assign_object(window, funct, undefined, false);
+
+									if (funct !== false && typeof funct[0][funct[1]] === 'function') {
+										funct[0][funct[1]].apply(null, argv[0] || []);
 									} else {
 										throw 'no global function "' + funct + '" found';
 									}
@@ -855,7 +1013,7 @@
 								try {
 									if (typeof console !== 'undefined' && typeof console['log'] !== 'undefined') {
 										for (var l = 0; l < argc; l++) {
-											console.log(argv[l]);
+											console.log(argv[l][0]);
 										}
 									}
 								} catch (exception) {
@@ -879,33 +1037,39 @@
 							/* Redirect (internal or external) */
 							case 8:
 								if (argc === 2) {
-									if (argv[1])
-									{
+									if (argv[1]) {
 										phery.view(argv[1]).navigate_to(argv[0]);
-									}
-									else
-									{
+									} else {
 										window.location.assign(argv[0]);
 									}
 								}
 								break;
 							/* Set/Unset a global variable with any type of data */
 							case 9:
-								if (argc === 2) {
-									window[argv[0]] = argv[1];
-								} else if (argc === 1) {
-									if (typeof window[argv[0]] !== 'undefined') {
-										delete window[argv[0]];
+								var _obj = assign_object(window, argv[0], undefined, argc === 2, true);
+
+								if (_obj && _obj.length > 0) {
+									if (argc === 2) {
+										_obj[0][_obj[1]] = process_parameters($this, argv[1][0]);
+									} else if (argc === 1) {
+										delete _obj[0][_obj[1]];
 									}
+								} else {
+									triggerPheryEvent($this, 'exception', [phery.log('object path not found in window' + argv[0].join('.'))]);
 								}
 								break;
 							/* Access the current element phery() and set */
 							case 10:
-								var _local = $this.phery();
-								if (typeof _local[argv[0]] === 'function') {
-									_local[argv[0]].apply($this, argv[1] || null);
-								} else {
-									triggerPheryEvent($this, 'exception', [phery.log('invalid phery function "' + argv[0] + '"')]);
+								if (argc === 1) {
+									$this.phery(argv[0]);
+								} else if (argc) {
+									var _local = $this.phery();
+
+									if (typeof _local[argv[0]] === 'function') {
+										_local[argv[0]].apply($this, argv[1] || null);
+									} else {
+										triggerPheryEvent($this, 'exception', [phery.log('invalid phery function "' + argv[0] + '"')]);
+									}
 								}
 								break;
 							default:
@@ -980,7 +1144,7 @@
 		var
 			original = $.extend(true, {}, options);
 
-		if (typeof value === 'undefined') {
+		if (value === undefined) {
 			for (var x in key) {
 				if (key.hasOwnProperty(x)) {
 					dot_notation_option(x, options, key[x]);
@@ -1004,18 +1168,19 @@
 
 	/**
 	 * Config phery singleton
+	 *
 	 * @param {String|Object} key name using dot notation (group.subconfig)
-	 * @param {String|Boolean} value
+	 * @param {String|Boolean|undefined} value
 	 * @return {phery}
 	 */
 	phery.config = function (key, value) {
 		if (typeof key === 'object' && key.constructor === Object) {
 			refresh_changes(key);
 			return phery;
-		} else if (typeof key === 'string' && typeof value !== 'undefined') {
+		} else if (typeof key === 'string' && value !== undefined) {
 			refresh_changes(key, value);
 			return phery;
-		} else if (typeof key === 'string' && typeof value === 'undefined') {
+		} else if (typeof key === 'string' && value === undefined) {
 			if (key in options) {
 				return options[key];
 			}
@@ -1099,7 +1264,9 @@
 			return ajax_call.call(this);
 		}
 
-		var $a = $('<a/>');
+		var $a = $('<a/>', {
+			'data-remote': function_name
+		});
 
 		$a.data({
 			'remote.phery':function_name
@@ -1109,11 +1276,11 @@
 			$a.data('temp.phery', true);
 		}
 
-		if (typeof args !== 'undefined' && args !== null) {
+		if (args !== undefined && args) {
 			$a.phery('set_args', args);
 		}
 
-		if (typeof attr !== 'undefined' && attr !== null) {
+		if (attr !== undefined && Object.toType(attr) === 'object') {
 			for (var i in attr) {
 				if (attr.hasOwnProperty(i)) {
 					if ('target method type'.indexOf(i.toLowerCase())) {
@@ -1196,7 +1363,7 @@
 									}
 									break;
 								case 'object':
-									if (urls[x].test(href)) {
+									if (href.search(urls[x]) !== -1) {
 										return true;
 									}
 									break;
@@ -1369,7 +1536,7 @@
 
 					if (
 						typeof config[_container]['selector'] === 'string' &&
-						/(^|\s)a($|\s|\.)/i.test(config[_container]['selector'])
+						config[_container]['selector'].search(/(^|\s)a($|\s|\.)/i) !== -1
 						) {
 						selector = _container + ' ' + config[_container]['selector'];
 					} else {
@@ -1411,6 +1578,13 @@
 				}
 			});
 		},
+		/**
+		 * Calls phery functions attached to the element
+		 *
+		 * @param {String|Object} name String name of the phery function or object containing all calls
+		 * @param {*} value Arguments for the functions
+		 * @return {*}
+		 */
 		phery:function (name, value) {
 			var
 				$this = this,
@@ -1430,14 +1604,17 @@
 					},
 					/**
 					 * Call the bound remote function on the element
-					 * @return {jQuery.ajax}
+					 * @return {jQuery.ajax|Boolean}
 					 */
 					'remote':function () {
-						if ($this.is('form')) {
-							return form_submit($this);
-						} else {
-							return ajax_call.call($this);
+						if ($this.data('remote')){
+							if ($this.is('form')) {
+								return form_submit($this);
+							} else {
+								return ajax_call.call($this);
+							}
 						}
+						return false;
 					},
 					/**
 					 * Append arguments to the element
@@ -1472,6 +1649,10 @@
 					'get_args':function () {
 						return $this.data('args.phery');
 					},
+					/**
+					 * Remove the DOM object from the page, doing some cleanups
+					 * @return void
+					 */
 					'remove':function () {
 						$this.each(function(){
 							var $this = $(this);
@@ -1490,19 +1671,50 @@
 						if (Object.toType(func) === 'string') {
 							return $this.each(function(){
 								var $this = $(this);
-								$this.attr('data-remote', func);
+								$this.attr('data-remote', func).data('remote.phery', func);
 								if (args) {
 									set_args.call($this, [args]);
 								}
 							});
 						}
 						return $this;
+					},
+					/**
+					 * Remove phery from the current element.
+					 * @param {Boolean} unbind Unbind phery events
+					 * @return {jQuery}
+					 */
+					'unmake':function(unbind){
+						return $this.each(function(){
+							var $this = $(this);
+							if (unbind){
+								$this.off('.phery');
+							}
+							$.removeData(this, '.phery');
+							$.removeData(this, 'remote');
+							$.removeData(this, 'remote.phery');
+							$this
+								.removeAttr('data-remote')
+								.removeAttr('data-remote.phery')
+								.removeAttr('data-args')
+								.removeAttr('data-args.phery')
+								.removeAttr('data-confirm')
+								.removeAttr('data-confirm.phery');
+						});
 					}
 				};
 
-			if (name && (name in _out)) {
+
+			if (name && Object.toType(name) === 'object') {
+				for (var x in name) {
+					if (name.hasOwnProperty(x) && (x in _out)) {
+						_out[x].apply($this, name[x]);
+					}
+				}
+			} else if (name && (name in _out)) {
 				return _out[name].apply($this, Array.prototype.slice.call(arguments, 1));
 			}
+
 			return _out;
 		},
 		serializeForm:function (opt) {
@@ -1571,38 +1783,11 @@
 					i,
 					value,
 					name,
-					res = {},
 					$matches,
 					len,
+					offset,
 					j,
-					x,
-					fields,
-					_count = 0,
-					last_name,
-					strpath;
-
-				var create_obj = function (create_array, res, path) {
-					var
-						field = fields.shift();
-
-					if (field) {
-						if (typeof res[field] === "undefined" || !res[field]) {
-							res[field] = (create_array ? [] : {});
-						}
-						path.push("['" + field + "']");
-						create_obj(create_array, res[field], path);
-					} else {
-						if (typeof field === 'string') {
-							var count = (_count++).toString();
-
-							path.push("['" + (count) + "']");
-							if (typeof res[count] === "undefined" || !res[count]) {
-								res[count] = {};
-							}
-							create_obj(create_array, res[count], path);
-						}
-					}
-				};
+					fields;
 
 				for (i = 0; i < formValues.length; i++) {
 					name = formValues[i].name;
@@ -1635,7 +1820,6 @@
 					}
 
 					fields = [];
-					strpath = [];
 
 					for (j = 0; j < len; j++) {
 						if ($matches[j] || j < len - 1) {
@@ -1644,27 +1828,15 @@
 					}
 
 					if ($matches[len - 1] === '') {
-
-						if ($matches[0] !== last_name) {
-							last_name = $matches[0];
-							_count = 0;
-						}
-
-						create_obj(true, result, strpath);
-
-						eval('res=result' + strpath.join('') + ';');
+						offset = assign_object(result, fields, [], true, false, false);
 
 						if (value.constructor === Array) {
-							for (x = 0; x < value.length; x++) {
-								res.push(value[x]);
-							}
+							offset[0][offset[1]].concat(value);
 						} else {
-							res.push(value);
+							offset[0][offset[1]].push(value);
 						}
 					} else {
-						create_obj(false, result, strpath);
-
-						eval('result' + strpath.join('') + '=value;');
+						assign_object(result, fields, value);
 					}
 				}
 			}

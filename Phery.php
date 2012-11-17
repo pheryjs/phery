@@ -22,38 +22,45 @@
  * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
+ *
+ * @link       http://phery-php-ajax.net/
+ * @author     Paulo Cesar
+ * @version    2.1.0
+ * @license    http://opensource.org/licenses/MIT MIT License
  */
 
 /**
- * @package    PheryPackage
- * @link       http://phery-php-ajax.net/
- * @author     Paulo Cesar
- * @version    2.0.1
- * @license    http://opensource.org/licenses/MIT MIT License
- * @subpackage Phery
+ * Main class for Phery
+ *
+ * @package    Phery
  */
 class Phery implements ArrayAccess {
 
 	/**
 	 * Exception on callback() function
-	 * @see callback()
+	 * @see Phery::callback()
 	 */
 	const ERROR_CALLBACK = 0;
 	/**
 	 * Exception on process() function
-	 * @see process()
+	 * @see Phery::process()
 	 */
 	const ERROR_PROCESS = 1;
 	/**
 	 * Exception on set() function
-	 * @see set()
+	 * @see Phery::set()
 	 */
 	const ERROR_SET = 2;
 	/**
+	 * Exception when the CSRF is invalid
+	 * @see Phery::process()
+	 */
+	const ERROR_CSRF = 4;
+	/**
 	 * Exception on static functions
-	 * @see Phery::link_to
-	 * @see Phery::select_for
-	 * @see Phery::form_for
+	 * @see Phery::link_to()
+	 * @see Phery::select_for()
+	 * @see Phery::form_for()
 	 */
 	const ERROR_TO = 3;
 
@@ -86,7 +93,7 @@ class Phery implements ArrayAccess {
 	protected $respond_to_post = array();
 	/**
 	 * Hold the answers for answer_for function
-	 * @see Phery::answer_for
+	 * @see Phery::answer_for()
 	 * @var array
 	 */
 	protected $answers = array();
@@ -103,14 +110,16 @@ class Phery implements ArrayAccess {
 	 * 'exceptions' (boolean)
 	 * 'respond_to_post' (array)
 	 * 'compress' (boolean)
+	 * 'csrf' (boolean)
 	 * </pre>
 	 * @var array
-	 * @see config()
+	 * @see Phery::config()
 	 */
 	protected $config = array();
 
 	/**
 	 * Construct the new Phery instance
+	 * @param array $config Config array
 	 */
 	public function __construct(array $config = array())
 	{
@@ -126,6 +135,7 @@ class Phery implements ArrayAccess {
 				'exceptions' => false,
 				'respond_to_post' => array(),
 				'compress' => false,
+				'csrf' => false,
 				'error_reporting' => false
 			), $config
 		);
@@ -248,6 +258,8 @@ class Phery implements ArrayAccess {
 	}
 
 	/**
+	 * Throw an exception if enabled
+	 *
 	 * @param Phery   $phery Instance
 	 * @param string  $exception
 	 * @param integer $code
@@ -264,6 +276,8 @@ class Phery implements ArrayAccess {
 
 		return false;
 	}
+
+
 
 	/**
 	 * Set any data to pass to the callbacks
@@ -292,7 +306,7 @@ class Phery implements ArrayAccess {
 	/**
 	 * Encode PHP code to put inside data-args, usually for updating the data there
 	 *
-	 * @param mixed  $data     Any data that can be converted using json_encode
+	 * @param array  $data     Any data that can be converted using json_encode
 	 * @param string $encoding Encoding for the arguments
 	 *
 	 * @return string Return json_encode'd and htmlentities'd string
@@ -300,6 +314,48 @@ class Phery implements ArrayAccess {
 	public static function args(array $data, $encoding = 'UTF-8')
 	{
 		return htmlentities(json_encode($data), ENT_COMPAT, $encoding, false);
+	}
+
+	/**
+	 * Output the meta HTML with the token.
+	 * This method needs to use sessions through session_start
+	 *
+	 * @param bool $check Check if the current token is valid
+	 * @return string|bool
+	 */
+	public function csrf($check = false)
+	{
+		if ($this->config['csrf'] !== true)
+		{
+			return !empty($check) ? true : '';
+		}
+
+		if (!isset($_SESSION))
+		{
+			session_start();
+		}
+
+		if ($check === false)
+		{
+			$token = sha1(uniqid(microtime(true), true));
+
+			$_SESSION['phery'] = array(
+				'csrf' => $token
+			);
+
+			$token = base64_encode($token);
+
+			return "<meta id=\"csrf-token\" content=\"{$token}\" />\n";
+		}
+		else
+		{
+			if (empty($_SESSION['phery']['csrf']))
+			{
+				return false;
+			}
+
+			return $_SESSION['phery']['csrf'] === base64_decode($check, true);
+		}
 	}
 
 	/**
@@ -326,6 +382,12 @@ class Phery implements ArrayAccess {
 		return false;
 	}
 
+	/**
+	 * Strip slashes recursive
+	 *
+	 * @param $variable
+	 * @return array|string
+	 */
 	private function stripslashes_recursive($variable)
 	{
 		if (is_string($variable))
@@ -362,9 +424,17 @@ class Phery implements ArrayAccess {
 		return $default;
 	}
 
+	/**
+	 * Default error handler
+	 *
+	 * @param int $errno
+	 * @param string $errstr
+	 * @param string $errfile
+	 * @param int $errline
+	 */
 	public static function error_handler($errno, $errstr, $errfile, $errline)
 	{
-		ob_get_clean();
+		ob_end_clean();
 
 		$response = PheryResponse::factory()->exception($errstr, array(
 			'code' => $errno,
@@ -376,6 +446,13 @@ class Phery implements ArrayAccess {
 		self::shutdown_handler(false, false, true);
 	}
 
+	/**
+	 * Default shutdown handler
+	 *
+	 * @param bool $compressed
+	 * @param bool $errors
+	 * @param bool $handled
+	 */
 	public static function shutdown_handler($compressed = false, $errors = false, $handled = false)
 	{
 		if ($handled)
@@ -406,9 +483,9 @@ class Phery implements ArrayAccess {
 	 * Helper function to properly output the headers for a PheryResponse in case you need
 	 * to manually return it (like when following a redirect)
 	 *
-	 * @param string|object $response
-	 * @param boolean       $compress
-	 * @param string        $name
+	 * @param string|PheryResponse $response The response or a string
+	 * @param boolean              $compress Either to compress the response or not
+	 * @param string               $name     This parameter can be ignored
 	 *
 	 * @return string
 	 */
@@ -462,9 +539,9 @@ class Phery implements ArrayAccess {
 	 * <pre>
 	 * Phery::instance()->views(array(
 	 *     '#container' => function($data, $params){
-	 *                      return
-	 *                          PheryResponse::factory()
-	 *                          ->render_view('html', array('extra data like titles, menus, etc'));
+	 *          return
+	 *              PheryResponse::factory()
+	 *              ->render_view('html', array('extra data like titles, menus, etc'));
 	 *      }
 	 * ));
 	 * </pre>
@@ -488,6 +565,11 @@ class Phery implements ArrayAccess {
 		return $this;
 	}
 
+	/**
+	 * Initialize stuff before calling the AJAX function
+	 *
+	 * @return void
+	 */
 	protected function before_user_func()
 	{
 		if ($this->config['error_reporting'] !== false)
@@ -496,6 +578,16 @@ class Phery implements ArrayAccess {
 		}
 
 		register_shutdown_function('Phery::shutdown_handler', $this->config['compress'], $this->config['error_reporting'] !== false);
+
+		if (empty($_POST['phery']['csrf']))
+		{
+			$_POST['phery']['csrf'] = '';
+		}
+
+		if ($this->csrf($_POST['phery']['csrf']) === false)
+		{
+			self::exception($this, 'Invalid CSRF token', self::ERROR_CSRF);
+		}
 	}
 
 	/**
@@ -518,13 +610,13 @@ class Phery implements ArrayAccess {
 
 		if (!empty($_GET['_']))
 		{
-			$this->data['requested'] = $_GET['_'];
+			$this->data['requested'] = (int)$_GET['_'];
 			unset($_GET['_']);
 		}
 
 		if (!empty($_GET['_try_count']))
 		{
-			$this->data['retries'] = $_GET['_try_count'];
+			$this->data['retries'] = (int)$_GET['_try_count'];
 			unset($_GET['_try_count']);
 		}
 
@@ -538,7 +630,7 @@ class Phery implements ArrayAccess {
 
 		if (!empty($_POST['phery']['submit_id']))
 		{
-			$this->data['submit_id'] = '#' . "{$_POST['phery']['submit_id']}";
+			$this->data['submit_id'] = "#{$_POST['phery']['submit_id']}";
 		}
 
 		if ($remote !== false)
@@ -589,7 +681,7 @@ class Phery implements ArrayAccess {
 		{
 			foreach ($this->callbacks['before'] as $func)
 			{
-				if (($args = call_user_func($func, $args, $this->data)) === false)
+				if (($args = call_user_func($func, $args, $this->data, $this)) === false)
 				{
 					return false;
 				}
@@ -612,11 +704,11 @@ class Phery implements ArrayAccess {
 
 				$this->before_user_func();
 
-				$response = call_user_func($this->functions[$remote], $args, $this->data);
+				$response = call_user_func($this->functions[$remote], $args, $this->data, $this);
 
 				foreach ($this->callbacks['after'] as $func)
 				{
-					if (call_user_func($func, $args, $this->data, $response) === false)
+					if (call_user_func($func, $args, $this->data, $response, $this) === false)
 					{
 						return false;
 					}
@@ -649,11 +741,11 @@ class Phery implements ArrayAccess {
 
 				$this->before_user_func();
 
-				$response = call_user_func($this->views[$this->data['view']], $args, $this->data);
+				$response = call_user_func($this->views[$this->data['view']], $args, $this->data, $this);
 
 				foreach ($this->callbacks['after'] as $func)
 				{
-					if (call_user_func($func, $args, $this->data, $response) === false)
+					if (call_user_func($func, $args, $this->data, $response, $this) === false)
 					{
 						return false;
 					}
@@ -695,6 +787,7 @@ class Phery implements ArrayAccess {
 	 * @param bool $last_call Set this to false if any other further calls
 	 *                        to process() will happen, otherwise it will exit
 	 *
+	 * @throws PheryException
 	 * @return void
 	 */
 	public function process($last_call = true)
@@ -721,8 +814,7 @@ class Phery implements ArrayAccess {
 	 *
 	 * @param string|array $config Associative array containing the following options
 	 * <pre>
-	 *                             array(
-	 *
+	 * array(
 	 *     // Defaults to true, stop further script execution
 	 *     'exit_allowed' => true|false,
 	 *
@@ -765,14 +857,17 @@ class Phery implements ArrayAccess {
 				{
 					$this->config['exit_allowed'] = (bool)$config['exit_allowed'];
 				}
+
 				if (isset($config['no_stripslashes']))
 				{
 					$this->config['no_stripslashes'] = (bool)$config['no_stripslashes'];
 				}
+
 				if (isset($config['exceptions']))
 				{
 					$this->config['exceptions'] = (bool)$config['exceptions'];
 				}
+
 				if (isset($config['compress']))
 				{
 					if (!ini_get('zlib.output_compression'))
@@ -780,6 +875,12 @@ class Phery implements ArrayAccess {
 						$this->config['compress'] = (bool)$config['compress'];
 					}
 				}
+
+				if (isset($config['csrf']))
+				{
+					$this->config['csrf'] = (bool)$config['csrf'];
+				}
+
 				if (isset($config['error_reporting']))
 				{
 					if ($config['error_reporting'] !== false)
@@ -791,6 +892,7 @@ class Phery implements ArrayAccess {
 						$this->config['error_reporting'] = false;
 					}
 				}
+
 				if (isset($config['respond_to_post']) && is_array($config['respond_to_post']))
 				{
 					if (count($config['respond_to_post']))
@@ -821,8 +923,8 @@ class Phery implements ArrayAccess {
 	 *
 	 * @param array $config Associative config array
 	 *
-	 * @see __construct()
-	 * @see config()
+	 * @see Phery::__construct()
+	 * @see Phery::config()
 	 * @static
 	 * @return Phery
 	 */
@@ -901,7 +1003,7 @@ class Phery implements ArrayAccess {
 	 *
 	 * @param array $config Associative config array
 	 *
-	 * @see config()
+	 * @see Phery::config()
 	 * @static
 	 * @return Phery
 	 */
@@ -911,6 +1013,8 @@ class Phery implements ArrayAccess {
 	}
 
 	/**
+	 * Common check for all static factories
+	 *
 	 * @param array $attributes
 	 * @param bool $include_method
 	 *
@@ -1201,11 +1305,23 @@ class Phery implements ArrayAccess {
 		return join(' ', $ret);
 	}
 
+	/**
+	 * OffsetExists
+	 *
+	 * @param mixed $offset
+	 *
+	 * @return bool
+	 */
 	public function offsetExists($offset)
 	{
 		return isset($this->data[$offset]);
 	}
 
+	/**
+	 * OffsetUnset
+	 *
+	 * @param mixed $offset
+	 */
 	public function offsetUnset($offset)
 	{
 		if (isset($this->data[$offset]))
@@ -1214,6 +1330,13 @@ class Phery implements ArrayAccess {
 		}
 	}
 
+	/**
+	 * OffsetGet
+	 *
+	 * @param mixed $offset
+	 *
+	 * @return mixed|null
+	 */
 	public function offsetGet($offset)
 	{
 		if (isset($this->data[$offset]))
@@ -1224,16 +1347,34 @@ class Phery implements ArrayAccess {
 		return null;
 	}
 
+	/**
+	 * offsetSet
+	 *
+	 * @param mixed $offset
+	 * @param mixed $value
+	 */
 	public function offsetSet($offset, $value)
 	{
 		$this->data[$offset] = $value;
 	}
 
+	/**
+	 * Set shared data
+	 * @param string $name
+	 * @param mixed $value
+	 */
 	public function __set($name, $value)
 	{
 		$this->data[$name] = $value;
 	}
 
+	/**
+	 * Get shared data
+	 *
+	 * @param string $name
+	 *
+	 * @return mixed
+	 */
 	public function __get($name)
 	{
 		if (isset($this->data[$name]))
@@ -1270,8 +1411,8 @@ class Phery implements ArrayAccess {
 
 /**
  * Standard response for the json parser
- * @package    PheryPackage
- * @subpackage PheryResponse
+ * @package    Phery
+ *
  * @method PheryResponse ajax() ajax($url, $settings = null) Perform an asynchronous HTTP (Ajax) request.
  * @method PheryResponse ajaxSetup() ajaxSetup($obj) Set default values for future Ajax requests.
  * @method PheryResponse post() post($url, $success = null) Load data from the server using a HTTP POST request.
@@ -1382,6 +1523,8 @@ class PheryResponse extends ArrayObject {
 	protected $name = null;
 
 	/**
+	 * Construct a new response
+	 *
 	 * @param string $selector Create the object already selecting the DOM element
 	 * @param array $constructor Only available if you are creating an element, like $('<p/>')
 	 */
@@ -1390,6 +1533,23 @@ class PheryResponse extends ArrayObject {
 		parent::__construct(array(), self::ARRAY_AS_PROPS);
 		$this->jquery($selector, $constructor);
 		$this->set_response_name(uniqid("", true));
+	}
+
+	/**
+	 * Renew the CSRF token on a given Phery instance
+	 * Resets any selectors that were being chained before
+	 *
+	 * @param Phery $instance Instance of Phery
+	 * @return PheryResponse
+	 */
+	public function renew_csrf(Phery $instance)
+	{
+		if ($instance->config('csrf') === true)
+		{
+			$this->jquery('head meta#csrf-token')->replaceWith($instance->csrf());
+		}
+
+		return $this;
 	}
 
 	/**
@@ -1574,57 +1734,87 @@ class PheryResponse extends ArrayObject {
 	/**
 	 * Accesses the phery() methods of the calling element, same as doing $('selector').phery()
 	 *
-	 * @param string $func Name of the phery function on the element
+	 * @param string|array $func Name of the phery function on the element or an array of functions
 	 * <pre>
 	 * 'append_args', 'set_args', 'remote', 'exception', 'remove'
 	 * </pre>
-	 * @param mixed ... Any data to pass to the element
+	 * @param ... Any data to pass to the element
 	 *
 	 * @return PheryResponse
 	 */
 	public function phery($func)
 	{
 		$this->last_selector = null;
-		$args = func_get_args();
-		array_shift($args);
+
+		if (!is_array($func)){
+			$args = func_get_args();
+			array_shift($args);
+
+			return $this->cmd(10, array(
+				$func,
+				$args
+			));
+		}
 
 		return $this->cmd(10, array(
 			$func,
-			$args
 		));
 	}
 
 	/**
-	 * Set a global variable, that can be accessed directly through window, cannot set object properties,
-	 * like object.property, use PheryResponse::script or PheryResponse::json for that.
+	 * Set a global variable, that can be accessed directly through window object,
+	 * can set properties inside objects if you pass an array as the variable.
+	 * If it doesn't exist it will be created
 	 *
 	 * <pre>
-	 * PheryResponse::factory()->set('customer_info', array('name' => 'John', 'surname' => 'Doe', 'age' => 39));
+	 * // window.customer_info = {'name': 'John','surname': 'Doe', 'age': 39}
+	 * PheryResponse::factory()->set_var('customer_info', array('name' => 'John', 'surname' => 'Doe', 'age' => 39));
 	 * </pre>
 	 *
-	 * @param string $variable Variable name, that exists in window object
-	 * @param mixed  $data     Any data
+	 * <pre>
+	 * // window.customer_info.name = 'John'
+	 * PheryResponse::factory()->set_var(array('customer_info','name'), 'John');
+	 * </pre>
+	 *
+	 * @param string|array $variable Global variable name
+	 * @param mixed        $data     Any data
 	 * @return PheryResponse
 	 */
 	public function set_var($variable, $data)
 	{
 		$this->last_selector = null;
 
+		if (!empty($data) && is_array($data))
+		{
+			foreach ($data as $name => $d)
+			{
+				$data[$name] = self::typecast($d, true, true);
+			}
+		}
+		else
+		{
+			$data = self::typecast($data, true, true);
+		}
+
 		return $this->cmd(9, array(
-			$variable,
-			$data
+			!is_array($variable) ? array($variable) : $variable,
+			array($data)
 		));
 	}
 
 	/**
-	 * Delete a global variable, that can be accessed directly through window, cannot unset object properties,
-	 * like object.property, use PheryResponse::script or PheryResponse::json for that.
+	 * Delete a global variable, that can be accessed directly through window, can unset object properties,
+	 * if you pass an array
 	 *
 	 * <pre>
 	 * PheryResponse::factory()->unset('customer_info');
 	 * </pre>
 	 *
-	 * @param string $variable Variable name, that exists in window object
+	 * <pre>
+	 * PheryResponse::factory()->unset(array('customer_info','name')); // translates to delete customer_info['name']
+	 * </pre>
+	 *
+	 * @param string|array $variable Global variable name
 	 * @return PheryResponse
 	 */
 	public function unset_var($variable)
@@ -1632,7 +1822,7 @@ class PheryResponse extends ArrayObject {
 		$this->last_selector = null;
 
 		return $this->cmd(9, array(
-			$variable
+			!is_array($variable) ? array($variable) : $variable,
 		));
 	}
 
@@ -1752,7 +1942,7 @@ class PheryResponse extends ArrayObject {
 	/**
 	 * Pretty print to console.log
 	 *
-	 * @param mixed ... Any var
+	 * @param ... Any var
 	 *
 	 * @return PheryResponse
 	 */
@@ -1767,7 +1957,7 @@ class PheryResponse extends ArrayObject {
 			{
 				$arg = get_object_vars($arg);
 			}
-			$args[$name] = print_r($arg, true);
+			$args[$name] = array(print_r($arg, true));
 		}
 
 		return $this->cmd(6, $args);
@@ -1776,7 +1966,7 @@ class PheryResponse extends ArrayObject {
 	/**
 	 * Dump var to console.log
 	 *
-	 * @param mixed ... Any var
+	 * @param ... Any var
 	 *
 	 * @return PheryResponse
 	 */
@@ -1891,25 +2081,23 @@ class PheryResponse extends ArrayObject {
 	 */
 	public function remove($selector = null)
 	{
-		return $this->cmd(0xff, array(
-			'remove'
-		), $selector);
+		return $this->cmd('remove', array(), $selector);
 	}
 
 	/**
 	 * Add a command to the response
 	 *
-	 * @param int            $cmd      Integer for command, see phery.js for more info
-	 * @param array          $args     Array to pass to the response
-	 * @param string|boolean $selector Insert the jquery selector
+	 * @param int|string|array $cmd      Integer for command, see phery.js for more info
+	 * @param array            $args     Array to pass to the response
+	 * @param string           $selector Insert the jquery selector
 	 *
 	 * @return PheryResponse
 	 */
-	public function cmd($cmd, array $args, $selector = null)
+	public function cmd($cmd, array $args = array(), $selector = null)
 	{
 		$selector = Phery::coalesce($selector, $this->last_selector);
 
-		if ($selector === null || !is_string($selector))
+		if ($selector === null)
 		{
 			$this->data[] = array(
 				'c' => $cmd,
@@ -1947,8 +2135,7 @@ class PheryResponse extends ArrayObject {
 	 */
 	public function attr($attr, $data, $selector = null)
 	{
-		return $this->cmd(0xff, array(
-			'attr',
+		return $this->cmd('attr', array(
 			$attr,
 			$data
 		), $selector);
@@ -1977,8 +2164,9 @@ class PheryResponse extends ArrayObject {
 	 * Call a javascript function.
 	 * Warning: calling this function will reset the selector jQuery selector previously stated
 	 *
-	 * @param string $func_name Function name
-	 * @param        mixed      ... Any additional arguments to pass to the function
+	 * @param string|array $func_name Function name. If you pass a string, it will be accessed on window.func.
+	 *                                If you pass an array, it will access a member of an object, like array('object', 'property', 'function')
+	 * @param              mixed      ... Any additional arguments to pass to the function
 	 *
 	 * @return PheryResponse
 	 */
@@ -1989,7 +2177,7 @@ class PheryResponse extends ArrayObject {
 		$this->last_selector = null;
 
 		return $this->cmd(2, array(
-			$func_name,
+			!is_array($func_name) ? array($func_name) : $func_name,
 			$args
 		));
 	}
@@ -1998,7 +2186,7 @@ class PheryResponse extends ArrayObject {
 	 * Call 'apply' on a javascript function.
 	 * Warning: calling this function will reset the selector jQuery selector previously stated
 	 *
-	 * @param string $func_name Function name
+	 * @param string|array $func_name Function name
 	 * @param array  $args      Any additional arguments to pass to the function
 	 *
 	 * @return PheryResponse
@@ -2008,7 +2196,7 @@ class PheryResponse extends ArrayObject {
 		$this->last_selector = null;
 
 		return $this->cmd(2, array(
-			$func_name,
+			!is_array($func_name) ? array($func_name) : $func_name,
 			$args
 		));
 	}
@@ -2016,7 +2204,7 @@ class PheryResponse extends ArrayObject {
 	/**
 	 * Clear the selected attribute.
 	 * Alias for attr('attribute', '')
-	 * @see attr()
+	 * @see PheryResponse::attr()
 	 *
 	 * @param string $attr     Name of the DOM attribute to clear, such as 'innerHTML', 'style', 'href', etc not the jQuery counterparts
 	 * @param string $selector [optional] Provide the jQuery selector directly
@@ -2045,8 +2233,7 @@ class PheryResponse extends ArrayObject {
 			$content = join("\n", $content);
 		}
 
-		return $this->cmd(0xff, array(
-			'html',
+		return $this->cmd('html', array(
 			self::typecast($content, true, true)
 		), $selector);
 	}
@@ -2068,8 +2255,7 @@ class PheryResponse extends ArrayObject {
 			$content = join("\n", $content);
 		}
 
-		return $this->cmd(0xff, array(
-			'text',
+		return $this->cmd('text', array(
 			self::typecast($content, true, true)
 		), $selector);
 	}
@@ -2102,6 +2288,28 @@ class PheryResponse extends ArrayObject {
 		));
 	}
 
+	/**
+	 * Access a global object path
+	 *
+	 * @param string|string[] $namespace     For accessing objects, like $.namespace.function() or
+	 *                                    document.href. if you want to access a global variable,
+	 *                                    use array('object','property'). You may use a mix of getter/setter
+	 *                                    to apply a global value to a variable
+	 *
+	 * <pre>
+	 * PheryResponse::factory()->set_var(array('obj','newproperty'),
+	 *      PheryResponse::factory()->path(array('other_obj','enabled'))
+	 * );
+	 * </pre>
+	 *
+	 * @return PheryResponse
+	 */
+	public function path($namespace)
+	{
+		$this->last_selector = '+';
+
+		return $this->cmd(!is_array($namespace) ? array($namespace) : $namespace);
+	}
 	/**
 	 * Render a view to the container previously specified
 	 *
@@ -2192,8 +2400,7 @@ class PheryResponse extends ArrayObject {
 			$content = join("\n", $content);
 		}
 
-		return $this->cmd(0xff, array(
-			'prepend',
+		return $this->cmd('prepend', array(
 			self::typecast($content, true, true)
 		), $selector);
 	}
@@ -2225,8 +2432,7 @@ class PheryResponse extends ArrayObject {
 			$content = join("\n", $content);
 		}
 
-		return $this->cmd(0xff, array(
-			'append',
+		return $this->cmd('append', array(
 			self::typecast($content, true, true)
 		), $selector);
 	}
@@ -2239,8 +2445,8 @@ class PheryResponse extends ArrayObject {
 	 * @param $name
 	 * @param $arguments
 	 *
-	 * @see jquery()
-	 * @see j()
+	 * @see PheryResponse::jquery()
+	 * @see PheryResponse::j()
 	 * @return PheryResponse
 	 */
 	public function __call($name, $arguments)
@@ -2249,38 +2455,52 @@ class PheryResponse extends ArrayObject {
 		{
 			if (count($arguments))
 			{
-				foreach ($arguments as &$argument)
+				foreach ($arguments as $_name => $argument)
 				{
-					$argument = self::typecast($argument, true, true);
+					$arguments[$_name] = self::typecast($argument, true, true);
 				}
+
+				$this->cmd($name, array(
+					$arguments
+				));
+			}
+			else
+			{
+				$this->cmd($name);
 			}
 
-			$this->cmd(0xff, array(
-				$name,
-				$arguments
-			));
 		}
 
 		return $this;
 	}
 
 	/**
-	 * @param mixed $argument
-	 * @param bool $toString
-	 * @param bool $nested
+	 * Convert, to a maximum depth, nested responses, and typecast int properly
+	 *
+	 * @param mixed $argument The value
+	 * @param bool $toString Call class __toString() if possible, and typecast int correctly
+	 * @param bool $nested Should it look for nested arrays and classes?
+	 * @param int $depth Max depth
 	 * @return mixed
 	 */
-	protected static function typecast($argument, $toString = true, $nested = false)
+	protected static function typecast($argument, $toString = true, $nested = false, $depth = 4)
 	{
 		if ($nested)
 		{
+			$depth--;
 			if ($argument instanceof PheryResponse)
 			{
-				$argument = array('PheryResponse' => $argument->process_merged());
+				$argument = array('PR' => $argument->process_merged());
 			}
 			elseif ($argument instanceof PheryFunction)
 			{
-				$argument = array('PheryFunction' => $argument->compile());
+				$argument = array('PF' => $argument->compile());
+			}
+			elseif ($depth > 0 && is_array($argument))
+			{
+				foreach ($argument as $name => $arg) {
+					$argument[$name] = self::typecast($arg, $toString, $nested, $depth);
+				}
 			}
 		}
 
@@ -2308,11 +2528,17 @@ class PheryResponse extends ArrayObject {
 	}
 
 	/**
+	 * Process merged responses
 	 * @return array
 	 */
 	protected function process_merged()
 	{
 		$data = $this->data;
+
+		if (empty($data) && $this->last_selector !== null)
+		{
+			$data[$this->last_selector] = array();
+		}
 
 		foreach ($this->merged as $r)
 		{
@@ -2365,6 +2591,10 @@ class PheryResponse extends ArrayObject {
 		return $this;
 	}
 
+	/**
+	 * Serialize the response in JSON
+	 * @return string|bool
+	 */
 	public function serialize()
 	{
 		return json_encode(array(
@@ -2377,16 +2607,18 @@ class PheryResponse extends ArrayObject {
 }
 
 /**
- * @package PheryPackage
- * @subpackage PheryFunction
+ * Create an anonymous function for use on Javascript callbacks
+ * @package    Phery
  */
 class PheryFunction {
 
 	/**
+	 * Parameters that will be replaced inside the response
 	 * @var array
 	 */
 	protected $parameters = array();
 	/**
+	 * The function string itself
 	 * @var array
 	 */
 	protected $value = null;
@@ -2462,8 +2694,6 @@ class PheryFunction {
 	/**
 	 * Get the value as a string.
 	 *
-	 *     $sql = $expression->value();
-	 *
 	 * @return  string
 	 */
 	public function value()
@@ -2503,6 +2733,8 @@ class PheryFunction {
 	}
 
 	/**
+	 * Static instantation for PheryFunction
+	 *
 	 * @param string|array $value
 	 * @param array        $parameters
 	 *
@@ -2516,8 +2748,7 @@ class PheryFunction {
 
 /**
  * Exception class for Phery specific exceptions
- * @package    PheryPackage
- * @subpackage PheryException
+ * @package    Phery
  */
 class PheryException extends Exception {
 

@@ -1,0 +1,3123 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+<meta charset="utf-8">
+<title>phpDocumentor » \PheryResponse</title>
+<meta name="author" content="Mike van Riel">
+<meta name="description" content="">
+<link href="../css/template.css" rel="stylesheet" media="all">
+<script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script><script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script><script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script><script src="../js/bootstrap.js" type="text/javascript"></script><script src="../js/template.js" type="text/javascript"></script><script src="../js/prettify/prettify.min.js" type="text/javascript"></script><link rel="shortcut icon" href="../img/favicon.ico">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
+</head>
+<body>
+<div class="navbar navbar-fixed-top">
+<div class="navbar-inner"><div class="container">
+<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="../index.html">phpDocumentor</a><div class="nav-collapse"><ul class="nav">
+<li class="dropdown">
+<a href="#api" class="dropdown-toggle" data-toggle="dropdown">
+                                    API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a>Packages</a></li>
+<li><a href="../packages/Phery.html"><i class="icon-folder-open"></i> Phery</a></li>
+</ul>
+</li>
+<li class="dropdown" id="charts-menu">
+<a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
+                                    Charts <b class="caret"></b></a><ul class="dropdown-menu"><li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a></li></ul>
+</li>
+<li class="dropdown" id="reports-menu">
+<a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
+                                    Reports <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
+                <span class="label label-info">6</span></a></li>
+<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
+                <ul></ul></a></li>
+<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
+                <span class="label label-info">0</span></a></li>
+</ul>
+</li>
+</ul></div>
+</div></div>
+<div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a></div>
+</div>
+<div id="___" class="container">
+<noscript><div class="alert alert-warning">
+                            Javascript is disabled; several features are only available
+                            if Javascript is enabled.
+                        </div></noscript>
+<div class="row">
+<div class="span4">
+<span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active" title="Show public elements">Public</button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private" title="Show private elements">Private</button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span><div class="btn-group view pull-right" data-toggle="buttons-radio">
+<button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button><button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
+</div>
+<ul class="side-nav nav nav-list">
+<li class="nav-header">
+<i class="icon-custom icon-method"></i> Methods
+                    <ul>
+<li class="method public "><a href="#method___call" title="__call :: Magically map to any additional jQuery function."><span class="description">Magically map to any additional jQuery function.</span><pre>__call()</pre></a></li>
+<li class="method public "><a href="#method___construct" title="__construct :: Construct a new response"><span class="description">Construct a new response</span><pre>__construct()</pre></a></li>
+<li class="method public "><a href="#method___toString" title="__toString :: Return the JSON encoded data
+if the object is typecasted as a string"><span class="description">Return the JSON encoded data
+if the object is typecasted as a string</span><pre>__toString()</pre></a></li>
+<li class="method public "><a href="#method_add" title="add :: Add elements to the set of matched elements."><span class="description">Add elements to the set of matched elements.</span><pre>add()</pre></a></li>
+<li class="method public "><a href="#method_addClass" title="addClass :: Add a class from an element"><span class="description">Add a class from an element</span><pre>addClass()</pre></a></li>
+<li class="method public "><a href="#method_after" title="after :: Insert content, specified by the parameter, after each element in the set of matched elements."><span class="description">Insert content, specified by the parameter, after each element in the set of matched elements.</span><pre>after()</pre></a></li>
+<li class="method public "><a href="#method_ajax" title="ajax :: Perform an asynchronous HTTP (Ajax) request."><span class="description">Perform an asynchronous HTTP (Ajax) request.</span><pre>ajax()</pre></a></li>
+<li class="method public "><a href="#method_ajaxSetup" title="ajaxSetup :: Set default values for future Ajax requests."><span class="description">Set default values for future Ajax requests.</span><pre>ajaxSetup()</pre></a></li>
+<li class="method public "><a href="#method_alert" title="alert :: Show an alert box"><span class="description">Show an alert box</span><pre>alert()</pre></a></li>
+<li class="method public "><a href="#method_andSelf" title="andSelf :: Add the previous set of elements on the stack to the current set."><span class="description">Add the previous set of elements on the stack to the current set.</span><pre>andSelf()</pre></a></li>
+<li class="method public "><a href="#method_animate" title="animate :: Perform a custom animation of a set of CSS properties."><span class="description">Perform a custom animation of a set of CSS properties.</span><pre>animate()</pre></a></li>
+<li class="method public "><a href="#method_append" title="append :: Append string/HTML to target(s)"><span class="description">Append string/HTML to target(s)</span><pre>append()</pre></a></li>
+<li class="method public "><a href="#method_appendTo" title="appendTo :: Append DOM element to target"><span class="description">Append DOM element to target</span><pre>appendTo()</pre></a></li>
+<li class="method public "><a href="#method_apply" title="apply :: Call 'apply' on a javascript function."><span class="description">Call 'apply' on a javascript function.</span><pre>apply()</pre></a></li>
+<li class="method public "><a href="#method_attr" title="attr :: Set the attribute of a jQuery selector
+Example:
+&lt;pre&gt;
+PheryResponse::factory()
+-&gt;attr('href', 'http://url.com', 'a#link-' ."><span class="description">Set the attribute of a jQuery selector
+Example:
+&lt;pre&gt;
+PheryResponse::factory()
+-&gt;attr('href', 'http://url.com', 'a#link-' .</span><pre>attr()</pre></a></li>
+<li class="method public "><a href="#method_before" title="before :: Insert content, specified by the parameter, before each element in the set of matched elements."><span class="description">Insert content, specified by the parameter, before each element in the set of matched elements.</span><pre>before()</pre></a></li>
+<li class="method public "><a href="#method_bind" title="bind :: Attach a handler to an event for the elements."><span class="description">Attach a handler to an event for the elements.</span><pre>bind()</pre></a></li>
+<li class="method public "><a href="#method_call" title="call :: Call a javascript function."><span class="description">Call a javascript function.</span><pre>call()</pre></a></li>
+<li class="method public "><a href="#method_children" title="children :: Get the children of each element in the set of matched elements, optionally filtered by a selector."><span class="description">Get the children of each element in the set of matched elements, optionally filtered by a selector.</span><pre>children()</pre></a></li>
+<li class="method public "><a href="#method_clear" title="clear :: Clear the selected attribute."><span class="description">Clear the selected attribute.</span><pre>clear()</pre></a></li>
+<li class="method public "><a href="#method_closest" title="closest :: Get the first ancestor element that matches the selector, beginning at the current element and progressing up through the DOM tree."><span class="description">Get the first ancestor element that matches the selector, beginning at the current element and progressing up through the DOM tree.</span><pre>closest()</pre></a></li>
+<li class="method public "><a href="#method_cmd" title="cmd :: Add a command to the response"><span class="description">Add a command to the response</span><pre>cmd()</pre></a></li>
+<li class="method public "><a href="#method_contents" title="contents :: Get the children of each element in the set of matched elements, including text nodes."><span class="description">Get the children of each element in the set of matched elements, including text nodes.</span><pre>contents()</pre></a></li>
+<li class="method public "><a href="#method_css" title="css :: propertyName: A CSS property name. value: A value to set for the property."><span class="description">propertyName: A CSS property name. value: A value to set for the property.</span><pre>css()</pre></a></li>
+<li class="method public "><a href="#method_data" title="data :: Add data to element"><span class="description">Add data to element</span><pre>data()</pre></a></li>
+<li class="method public "><a href="#method_delegate" title="delegate :: Attach a handler to one or more events for all elements that match the selector, now or in the future, based on a specific set of root elements."><span class="description">Attach a handler to one or more events for all elements that match the selector, now or in the future, based on a specific set of root elements.</span><pre>delegate()</pre></a></li>
+<li class="method public "><a href="#method_detach" title="detach :: Detach a DOM element retaining the events attached to it"><span class="description">Detach a DOM element retaining the events attached to it</span><pre>detach()</pre></a></li>
+<li class="method public "><a href="#method_die" title="die :: Unbind an event from an element set by live()"><span class="description">Unbind an event from an element set by live()</span><pre>die()</pre></a></li>
+<li class="method public "><a href="#method_dump_vars" title="dump_vars :: Dump var to console.log"><span class="description">Dump var to console.log</span><pre>dump_vars()</pre></a></li>
+<li class="method public "><a href="#method_each" title="each :: Iterate over a jQ object, executing a function for each matched element."><span class="description">Iterate over a jQ object, executing a function for each matched element.</span><pre>each()</pre></a></li>
+<li class="method public "><a href="#method_end" title="end :: End the most recent filtering operation in the current chain and return the set of matched elements to its previous state."><span class="description">End the most recent filtering operation in the current chain and return the set of matched elements to its previous state.</span><pre>end()</pre></a></li>
+<li class="method public "><a href="#method_eq" title="eq :: Reduce the set of matched elements to the one at the specified index."><span class="description">Reduce the set of matched elements to the one at the specified index.</span><pre>eq()</pre></a></li>
+<li class="method public "><a href="#method_exception" title="exception :: Trigger the phery:exception event on the calling element
+with additional data"><span class="description">Trigger the phery:exception event on the calling element
+with additional data</span><pre>exception()</pre></a></li>
+<li class="method public "><a href="#method_factory" title="factory :: Create a new PheryResponse instance for chaining, fast and effective for one line returns
+&lt;pre&gt;
+function answer($data)
+{
+ return
+        PheryResponse::factory('a#link-'.$data['rel'])
+        -&gt;attr('href', '#')
+        -&gt;alert('done');
+}
+&lt;/pre&gt;"><span class="description">Create a new PheryResponse instance for chaining, fast and effective for one line returns
+&lt;pre&gt;
+function answer($data)
+{
+ return
+        PheryResponse::factory('a#link-'.$data['rel'])
+        -&gt;attr('href', '#')
+        -&gt;alert('done');
+}
+&lt;/pre&gt;</span><pre>factory()</pre></a></li>
+<li class="method public "><a href="#method_fadeIn" title="fadeIn :: Animate an element"><span class="description">Animate an element</span><pre>fadeIn()</pre></a></li>
+<li class="method public "><a href="#method_fadeOut" title="fadeOut :: Animate an element"><span class="description">Animate an element</span><pre>fadeOut()</pre></a></li>
+<li class="method public "><a href="#method_fadeTo" title="fadeTo :: Animate an element"><span class="description">Animate an element</span><pre>fadeTo()</pre></a></li>
+<li class="method public "><a href="#method_filter" title="filter :: Reduce the set of matched elements to those that match the selector or pass the function's test."><span class="description">Reduce the set of matched elements to those that match the selector or pass the function's test.</span><pre>filter()</pre></a></li>
+<li class="method public "><a href="#method_find" title="find :: Get the descendants of each element in the current set of matched elements, filtered by a selector, jQuery object, or element."><span class="description">Get the descendants of each element in the current set of matched elements, filtered by a selector, jQuery object, or element.</span><pre>find()</pre></a></li>
+<li class="method public "><a href="#method_get" title="get :: Load data from the server using a HTTP GET request."><span class="description">Load data from the server using a HTTP GET request.</span><pre>get()</pre></a></li>
+<li class="method public "><a href="#method_getJSON" title="getJSON :: Load JSON-encoded data from the server using a GET HTTP request."><span class="description">Load JSON-encoded data from the server using a GET HTTP request.</span><pre>getJSON()</pre></a></li>
+<li class="method public "><a href="#method_getScript" title="getScript :: Load a JavaScript file from the server using a GET HTTP request, then execute it."><span class="description">Load a JavaScript file from the server using a GET HTTP request, then execute it.</span><pre>getScript()</pre></a></li>
+<li class="method public "><a href="#method_get_merged" title="get_merged :: Get merged response data as a new PheryResponse."><span class="description">Get merged response data as a new PheryResponse.</span><pre>get_merged()</pre></a></li>
+<li class="method public "><a href="#method_get_response" title="get_response :: Get a response by name"><span class="description">Get a response by name</span><pre>get_response()</pre></a></li>
+<li class="method public "><a href="#method_get_response_name" title="get_response_name :: Get the name of this response"><span class="description">Get the name of this response</span><pre>get_response_name()</pre></a></li>
+<li class="method public "><a href="#method_height" title="height :: Set the height from the left"><span class="description">Set the height from the left</span><pre>height()</pre></a></li>
+<li class="method public "><a href="#method_hide" title="hide :: Hide an object, can be animated with 'fast', 'slow', 'normal'"><span class="description">Hide an object, can be animated with 'fast', 'slow', 'normal'</span><pre>hide()</pre></a></li>
+<li class="method public "><a href="#method_html" title="html :: Set the HTML content of an element."><span class="description">Set the HTML content of an element.</span><pre>html()</pre></a></li>
+<li class="method public "><a href="#method_insertAfter" title="insertAfter :: Insert every element in the set of matched elements after the target."><span class="description">Insert every element in the set of matched elements after the target.</span><pre>insertAfter()</pre></a></li>
+<li class="method public "><a href="#method_insertBefore" title="insertBefore :: Insert every element in the set of matched elements before the target."><span class="description">Insert every element in the set of matched elements before the target.</span><pre>insertBefore()</pre></a></li>
+<li class="method public "><a href="#method_j" title="j :: Shortcut/alias for jquery($selector) Passing null works like jQuery.func"><span class="description">Shortcut/alias for jquery($selector) Passing null works like jQuery.func</span><pre>j()</pre></a></li>
+<li class="method public "><a href="#method_jquery" title="jquery :: Sets the selector, so you can chain many calls to it."><span class="description">Sets the selector, so you can chain many calls to it.</span><pre>jquery()</pre></a></li>
+<li class="method public "><a href="#method_json" title="json :: Pass JSON to the browser"><span class="description">Pass JSON to the browser</span><pre>json()</pre></a></li>
+<li class="method public "><a href="#method_live" title="live :: Attach a handler to the event for all elements which match the current selector, now or in the future."><span class="description">Attach a handler to the event for all elements which match the current selector, now or in the future.</span><pre>live()</pre></a></li>
+<li class="method public "><a href="#method_map" title="map :: Pass each element in the current matched set through a function, producing a new jQuery object containing the return values."><span class="description">Pass each element in the current matched set through a function, producing a new jQuery object containing the return values.</span><pre>map()</pre></a></li>
+<li class="method public "><a href="#method_merge" title="merge :: Merge another response to this one."><span class="description">Merge another response to this one.</span><pre>merge()</pre></a></li>
+<li class="method public "><a href="#method_next" title="next :: Get the immediately following sibling of each element in the set of matched elements, optionally filtered by a selector."><span class="description">Get the immediately following sibling of each element in the set of matched elements, optionally filtered by a selector.</span><pre>next()</pre></a></li>
+<li class="method public "><a href="#method_nextAll" title="nextAll :: Get all following siblings of each element in the set of matched elements, optionally filtered by a selector."><span class="description">Get all following siblings of each element in the set of matched elements, optionally filtered by a selector.</span><pre>nextAll()</pre></a></li>
+<li class="method public "><a href="#method_nextUntil" title="nextUntil :: Get all following siblings of each element up to  but not including the element matched by the selector."><span class="description">Get all following siblings of each element up to  but not including the element matched by the selector.</span><pre>nextUntil()</pre></a></li>
+<li class="method public "><a href="#method_not" title="not :: Remove elements from the set of matched elements."><span class="description">Remove elements from the set of matched elements.</span><pre>not()</pre></a></li>
+<li class="method public "><a href="#method_offset" title="offset :: Set the current coordinates of every element in the set of matched elements, relative to the document."><span class="description">Set the current coordinates of every element in the set of matched elements, relative to the document.</span><pre>offset()</pre></a></li>
+<li class="method public "><a href="#method_offsetExists" title="offsetExists :: Will check for globals and local values"><span class="description">Will check for globals and local values</span><pre>offsetExists()</pre></a></li>
+<li class="method public "><a href="#method_offsetGet" title="offsetGet :: Return null if no value"><span class="description">Return null if no value</span><pre>offsetGet()</pre></a></li>
+<li class="method public "><a href="#method_offsetParent" title="offsetParent :: Get the closest ancestor element that is positioned."><span class="description">Get the closest ancestor element that is positioned.</span><pre>offsetParent()</pre></a></li>
+<li class="method public "><a href="#method_offsetSet" title="offsetSet :: Set local variables, will be available only in this instance"><span class="description">Set local variables, will be available only in this instance</span><pre>offsetSet()</pre></a></li>
+<li class="method public "><a href="#method_one" title="one :: Attach a handler to an event for the elements. The handler is executed at most once per element."><span class="description">Attach a handler to an event for the elements. The handler is executed at most once per element.</span><pre>one()</pre></a></li>
+<li class="method public "><a href="#method_parent" title="parent :: Get the parent of each element in the current set of matched elements, optionally filtered by a selector."><span class="description">Get the parent of each element in the current set of matched elements, optionally filtered by a selector.</span><pre>parent()</pre></a></li>
+<li class="method public "><a href="#method_parents" title="parents :: Get the ancestors of each element in the current set of matched elements, optionally filtered by a selector."><span class="description">Get the ancestors of each element in the current set of matched elements, optionally filtered by a selector.</span><pre>parents()</pre></a></li>
+<li class="method public "><a href="#method_parentsUntil" title="parentsUntil :: Get the ancestors of each element in the current set of matched elements, up to but not including the element matched by the selector."><span class="description">Get the ancestors of each element in the current set of matched elements, up to but not including the element matched by the selector.</span><pre>parentsUntil()</pre></a></li>
+<li class="method public "><a href="#method_path" title="path :: Access a global object path"><span class="description">Access a global object path</span><pre>path()</pre></a></li>
+<li class="method public "><a href="#method_phery" title="phery :: Accesses the phery() methods of the calling element, same as doing $('selector').phery()"><span class="description">Accesses the phery() methods of the calling element, same as doing $('selector').phery()</span><pre>phery()</pre></a></li>
+<li class="method public "><a href="#method_phery_remote" title="phery_remote :: Same as phery.remote()"><span class="description">Same as phery.remote()</span><pre>phery_remote()</pre></a></li>
+<li class="method public "><a href="#method_post" title="post :: Load data from the server using a HTTP POST request."><span class="description">Load data from the server using a HTTP POST request.</span><pre>post()</pre></a></li>
+<li class="method public "><a href="#method_prepend" title="prepend :: Prepend string/HTML to target(s)"><span class="description">Prepend string/HTML to target(s)</span><pre>prepend()</pre></a></li>
+<li class="method public "><a href="#method_prependTo" title="prependTo :: Prepend DOM element to target"><span class="description">Prepend DOM element to target</span><pre>prependTo()</pre></a></li>
+<li class="method public "><a href="#method_prev" title="prev :: Get the immediately preceding sibling of each element in the set of matched elements, optionally filtered by a selector."><span class="description">Get the immediately preceding sibling of each element in the set of matched elements, optionally filtered by a selector.</span><pre>prev()</pre></a></li>
+<li class="method public "><a href="#method_prevAll" title="prevAll :: Get all preceding siblings of each element in the set of matched elements, optionally filtered by a selector."><span class="description">Get all preceding siblings of each element in the set of matched elements, optionally filtered by a selector.</span><pre>prevAll()</pre></a></li>
+<li class="method public "><a href="#method_prevUntil" title="prevUntil :: Get the ancestors of each element in the current set of matched elements, optionally filtered by a selector."><span class="description">Get the ancestors of each element in the current set of matched elements, optionally filtered by a selector.</span><pre>prevUntil()</pre></a></li>
+<li class="method public "><a href="#method_print_vars" title="print_vars :: Pretty print to console.log"><span class="description">Pretty print to console.log</span><pre>print_vars()</pre></a></li>
+<li class="method public "><a href="#method_redirect" title="redirect :: Creates a redirect"><span class="description">Creates a redirect</span><pre>redirect()</pre></a></li>
+<li class="method public "><a href="#method_remove" title="remove :: Remove the current jQuery selector"><span class="description">Remove the current jQuery selector</span><pre>remove()</pre></a></li>
+<li class="method public "><a href="#method_removeAttr" title="removeAttr :: Remove an attribute from an element"><span class="description">Remove an attribute from an element</span><pre>removeAttr()</pre></a></li>
+<li class="method public "><a href="#method_removeClass" title="removeClass :: Remove a class from an element"><span class="description">Remove a class from an element</span><pre>removeClass()</pre></a></li>
+<li class="method public "><a href="#method_removeData" title="removeData :: Remove element data added with data()"><span class="description">Remove element data added with data()</span><pre>removeData()</pre></a></li>
+<li class="method public "><a href="#method_remove_selector" title="remove_selector :: Remove a batch of calls for a selector."><span class="description">Remove a batch of calls for a selector.</span><pre>remove_selector()</pre></a></li>
+<li class="method public "><a href="#method_render" title="render :: Return the JSON encoded data"><span class="description">Return the JSON encoded data</span><pre>render()</pre></a></li>
+<li class="method public "><a href="#method_render_view" title="render_view :: Render a view to the container previously specified"><span class="description">Render a view to the container previously specified</span><pre>render_view()</pre></a></li>
+<li class="method public "><a href="#method_renew_csrf" title="renew_csrf :: Renew the CSRF token on a given Phery instance
+Resets any selectors that were being chained before"><span class="description">Renew the CSRF token on a given Phery instance
+Resets any selectors that were being chained before</span><pre>renew_csrf()</pre></a></li>
+<li class="method public "><a href="#method_replaceWith" title="replaceWith :: The content to insert. May be an HTML string, DOM element, or jQuery object."><span class="description">The content to insert. May be an HTML string, DOM element, or jQuery object.</span><pre>replaceWith()</pre></a></li>
+<li class="method public "><a href="#method_reset_response" title="reset_response :: Clear all the selectors and commands in the current response."><span class="description">Clear all the selectors and commands in the current response.</span><pre>reset_response()</pre></a></li>
+<li class="method public "><a href="#method_script" title="script :: Compile a script and call it on-the-fly."><span class="description">Compile a script and call it on-the-fly.</span><pre>script()</pre></a></li>
+<li class="method public "><a href="#method_scrollLeft" title="scrollLeft :: Set the scroll from the left"><span class="description">Set the scroll from the left</span><pre>scrollLeft()</pre></a></li>
+<li class="method public "><a href="#method_scrollTop" title="scrollTop :: Set the scroll from the top"><span class="description">Set the scroll from the top</span><pre>scrollTop()</pre></a></li>
+<li class="method public "><a href="#method_serialize" title="serialize :: Serialize the response in JSON"><span class="description">Serialize the response in JSON</span><pre>serialize()</pre></a></li>
+<li class="method public "><a href="#method_set_global" title="set_global :: Set a global value that can be accessed through $pheryresponse['value']"><span class="description">Set a global value that can be accessed through $pheryresponse['value']</span><pre>set_global()</pre></a></li>
+<li class="method public "><a href="#method_set_response_name" title="set_response_name :: Set the name of this response"><span class="description">Set the name of this response</span><pre>set_response_name()</pre></a></li>
+<li class="method public "><a href="#method_set_var" title="set_var :: Set a global variable, that can be accessed directly through window object,
+can set properties inside objects if you pass an array as the variable."><span class="description">Set a global variable, that can be accessed directly through window object,
+can set properties inside objects if you pass an array as the variable.</span><pre>set_var()</pre></a></li>
+<li class="method public "><a href="#method_show" title="show :: Show an object, can be animated with 'fast', 'slow', 'normal'"><span class="description">Show an object, can be animated with 'fast', 'slow', 'normal'</span><pre>show()</pre></a></li>
+<li class="method public "><a href="#method_siblings" title="siblings :: Get the siblings of each element in the set of matched elements, optionally filtered by a selector."><span class="description">Get the siblings of each element in the set of matched elements, optionally filtered by a selector.</span><pre>siblings()</pre></a></li>
+<li class="method public "><a href="#method_slice" title="slice :: Reduce the set of matched elements to a subset specified by a range of indices."><span class="description">Reduce the set of matched elements to a subset specified by a range of indices.</span><pre>slice()</pre></a></li>
+<li class="method public "><a href="#method_slideDown" title="slideDown :: Show with slide down animation"><span class="description">Show with slide down animation</span><pre>slideDown()</pre></a></li>
+<li class="method public "><a href="#method_slideToggle" title="slideToggle :: Toggle show/hide the element, using slide animation"><span class="description">Toggle show/hide the element, using slide animation</span><pre>slideToggle()</pre></a></li>
+<li class="method public "><a href="#method_slideUp" title="slideUp :: Hide with slide up animation"><span class="description">Hide with slide up animation</span><pre>slideUp()</pre></a></li>
+<li class="method public "><a href="#method_stop" title="stop :: Stop animation on elements"><span class="description">Stop animation on elements</span><pre>stop()</pre></a></li>
+<li class="method public "><a href="#method_text" title="text :: Set the text of an element."><span class="description">Set the text of an element.</span><pre>text()</pre></a></li>
+<li class="method public "><a href="#method_this" title="this :: Access the current calling DOM element without the need for IDs, names, etc"><span class="description">Access the current calling DOM element without the need for IDs, names, etc</span><pre>this()</pre></a></li>
+<li class="method public "><a href="#method_toggle" title="toggle :: Toggle an object visible or hidden, can be animated with 'fast', 'slow', 'normal'"><span class="description">Toggle an object visible or hidden, can be animated with 'fast', 'slow', 'normal'</span><pre>toggle()</pre></a></li>
+<li class="method public "><a href="#method_toggleClass" title="toggleClass :: Add/Remove a class from an element"><span class="description">Add/Remove a class from an element</span><pre>toggleClass()</pre></a></li>
+<li class="method public "><a href="#method_trigger" title="trigger :: ) Trigger an event"><span class="description">) Trigger an event</span><pre>trigger()</pre></a></li>
+<li class="method public "><a href="#method_triggerHandler" title="triggerHandler :: ) Execute all handlers attached to an element for an event."><span class="description">) Execute all handlers attached to an element for an event.</span><pre>triggerHandler()</pre></a></li>
+<li class="method public "><a href="#method_unbind" title="unbind :: Unbind an event from an element"><span class="description">Unbind an event from an element</span><pre>unbind()</pre></a></li>
+<li class="method public "><a href="#method_undelegate" title="undelegate :: Remove a handler from the event for all elements which match the current selector, now or in the future, based upon a specific set of root elements."><span class="description">Remove a handler from the event for all elements which match the current selector, now or in the future, based upon a specific set of root elements.</span><pre>undelegate()</pre></a></li>
+<li class="method public "><a href="#method_unmerge" title="unmerge :: Remove a previously merged response"><span class="description">Remove a previously merged response</span><pre>unmerge()</pre></a></li>
+<li class="method public "><a href="#method_unserialize" title="unserialize :: Initialize the instance from a serialized state"><span class="description">Initialize the instance from a serialized state</span><pre>unserialize()</pre></a></li>
+<li class="method public "><a href="#method_unset_global" title="unset_global :: Unset a global variable"><span class="description">Unset a global variable</span><pre>unset_global()</pre></a></li>
+<li class="method public "><a href="#method_unset_var" title="unset_var :: Delete a global variable, that can be accessed directly through window, can unset object properties,
+if you pass an array"><span class="description">Delete a global variable, that can be accessed directly through window, can unset object properties,
+if you pass an array</span><pre>unset_var()</pre></a></li>
+<li class="method public "><a href="#method_unwrap" title="unwrap :: Remove the parents of the set of matched elements from the DOM, leaving the matched elements in their place."><span class="description">Remove the parents of the set of matched elements from the DOM, leaving the matched elements in their place.</span><pre>unwrap()</pre></a></li>
+<li class="method public "><a href="#method_val" title="val :: Set the value of an element"><span class="description">Set the value of an element</span><pre>val()</pre></a></li>
+<li class="method public "><a href="#method_width" title="width :: Set the width from the left"><span class="description">Set the width from the left</span><pre>width()</pre></a></li>
+<li class="method public "><a href="#method_wrap" title="wrap :: Wrap an HTML structure around each element in the set of matched elements."><span class="description">Wrap an HTML structure around each element in the set of matched elements.</span><pre>wrap()</pre></a></li>
+<li class="method public "><a href="#method_wrapAll" title="wrapAll :: Wrap an HTML structure around all elements in the set of matched elements."><span class="description">Wrap an HTML structure around all elements in the set of matched elements.</span><pre>wrapAll()</pre></a></li>
+<li class="method public "><a href="#method_wrapInner" title="wrapInner :: Wrap an HTML structure around the content of each element in the set of matched elements."><span class="description">Wrap an HTML structure around the content of each element in the set of matched elements.</span><pre>wrapInner()</pre></a></li>
+</ul>
+</li>
+<li class="nav-header protected">» Protected
+                    <ul>
+<li class="method protected "><a href="#method_process_merged" title="process_merged :: Process merged responses"><span class="description">Process merged responses</span><pre>process_merged()</pre></a></li>
+<li class="method protected "><a href="#method_typecast" title="typecast :: Convert, to a maximum depth, nested responses, and typecast int properly"><span class="description">Convert, to a maximum depth, nested responses, and typecast int properly</span><pre>typecast()</pre></a></li>
+</ul>
+</li>
+<li class="nav-header">
+<i class="icon-custom icon-property"></i> Properties
+                    <ul></ul>
+</li>
+<li class="nav-header protected">» Protected
+                    <ul>
+<li class="property protected "><a href="#property_data" title="$data :: Array containing answer data"><span class="description"></span><pre>$data</pre></a></li>
+<li class="property protected "><a href="#property_global" title="$global :: Common data available to all responses"><span class="description"></span><pre>$global</pre></a></li>
+<li class="property protected "><a href="#property_last_selector" title="$last_selector :: Last jQuery selector defined"><span class="description"></span><pre>$last_selector</pre></a></li>
+<li class="property protected "><a href="#property_merged" title="$merged :: Array containing merged data"><span class="description"></span><pre>$merged</pre></a></li>
+<li class="property protected "><a href="#property_name" title="$name :: Name of the current response"><span class="description"></span><pre>$name</pre></a></li>
+<li class="property protected "><a href="#property_responses" title="$responses :: All responses that were created in the run, access them through their name"><span class="description"></span><pre>$responses</pre></a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="span8">
+<a id="\PheryResponse"></a><ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/global.html">global</a></li>
+<li class="active">
+<span class="divider">\</span><a href="../classes/PheryResponse.html">PheryResponse</a>
+</li>
+</ul>
+<div class="element class">
+<p class="short_description">Standard response for the json parser</p>
+<div class="details">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>package</th>
+<td><a href="../packages/Phery.html">Phery</a></td>
+</tr></table>
+<h3>
+<i class="icon-custom icon-method"></i> Methods</h3>
+<a id="method___call"></a><div class="element clickable method public method___call" data-toggle="collapse" data-target=".method___call .collapse">
+<h2>Magically map to any additional jQuery function.</h2>
+<pre>__call($name, $arguments) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>To reach this magically called functions, the jquery() selector must be called prior
+to any jquery specific call</p></div>
+<table class="table table-bordered">
+<tr>
+<th>see</th>
+<td><a href="">\global\PheryResponse::jquery()</a></td>
+</tr>
+<tr>
+<th>see</th>
+<td><a href="">\global\PheryResponse::j()</a></td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$name</h4></div>
+<div class="subelement argument"><h4>$arguments</h4></div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method___construct"></a><div class="element clickable method public method___construct" data-toggle="collapse" data-target=".method___construct .collapse">
+<h2>Construct a new response</h2>
+<pre>__construct(string $selector, array $constructor) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$selector</h4>
+<code>string</code><p>Create the object already selecting the DOM element</p></div>
+<div class="subelement argument">
+<h4>$constructor</h4>
+<code>array</code><p>Only available if you are creating an element, like $('</p>
+
+<p/>
+
+<p>')</p>
+</div>
+</div></div>
+</div>
+<a id="method___toString"></a><div class="element clickable method public method___toString" data-toggle="collapse" data-target=".method___toString .collapse">
+<h2>Return the JSON encoded data
+if the object is typecasted as a string</h2>
+<pre>__toString() : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a id="method_add"></a><div class="element clickable method public method_add" data-toggle="collapse" data-target=".method_add .collapse">
+<h2>Add elements to the set of matched elements.</h2>
+<pre>add( $selector) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Add elements to the set of matched elements.</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$selector</h4>
+<code></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_addClass"></a><div class="element clickable method public method_addClass" data-toggle="collapse" data-target=".method_addClass .collapse">
+<h2>Add a class from an element</h2>
+<pre>addClass( $className) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Add a class from an element</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$className</h4>
+<code></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_after"></a><div class="element clickable method public method_after" data-toggle="collapse" data-target=".method_after .collapse">
+<h2>Insert content, specified by the parameter, after each element in the set of matched elements.</h2>
+<pre>after( $content) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Insert content, specified by the parameter, after each element in the set of matched elements.</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$content</h4>
+<code></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_ajax"></a><div class="element clickable method public method_ajax" data-toggle="collapse" data-target=".method_ajax .collapse">
+<h2>Perform an asynchronous HTTP (Ajax) request.</h2>
+<pre>ajax( $url, $settings =) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Perform an asynchronous HTTP (Ajax) request.</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$url</h4>
+<code></code>
+</div>
+<div class="subelement argument">
+<h4>=</h4>
+<code>$settings</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_ajaxSetup"></a><div class="element clickable method public method_ajaxSetup" data-toggle="collapse" data-target=".method_ajaxSetup .collapse">
+<h2>Set default values for future Ajax requests.</h2>
+<pre>ajaxSetup( $obj) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Set default values for future Ajax requests.</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$obj</h4>
+<code></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_alert"></a><div class="element clickable method public method_alert" data-toggle="collapse" data-target=".method_alert .collapse">
+<h2>Show an alert box</h2>
+<pre>alert(string $msg) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$msg</h4>
+<code>string</code><p>Message to be displayed</p></div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_andSelf"></a><div class="element clickable method public method_andSelf" data-toggle="collapse" data-target=".method_andSelf .collapse">
+<h2>Add the previous set of elements on the stack to the current set.</h2>
+<pre>andSelf() : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Add the previous set of elements on the stack to the current set.</td>
+</tr>
+</table>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_animate"></a><div class="element clickable method public method_animate" data-toggle="collapse" data-target=".method_animate .collapse">
+<h2>Perform a custom animation of a set of CSS properties.</h2>
+<pre>animate( $prop,  $dur, $easing =, $cb =) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Perform a custom animation of a set of CSS properties.</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$prop</h4>
+<code></code>
+</div>
+<div class="subelement argument">
+<h4>$dur</h4>
+<code></code>
+</div>
+<div class="subelement argument">
+<h4>=</h4>
+<code>$easing</code><code>$cb</code>
+</div>
+<div class="subelement argument">
+<h4>=</h4>
+<code>$easing</code><code>$cb</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_append"></a><div class="element clickable method public method_append" data-toggle="collapse" data-target=".method_append .collapse">
+<h2>Append string/HTML to target(s)</h2>
+<pre>append(string $content, string $selector) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$content</h4>
+<code>string</code><p>Content to be appended to the selected element</p></div>
+<div class="subelement argument">
+<h4>$selector</h4>
+<code>string</code><p>[optional] Optional jquery selector string</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_appendTo"></a><div class="element clickable method public method_appendTo" data-toggle="collapse" data-target=".method_appendTo .collapse">
+<h2>Append DOM element to target</h2>
+<pre>appendTo( $target) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Append DOM element to target</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$target</h4>
+<code></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_apply"></a><div class="element clickable method public method_apply" data-toggle="collapse" data-target=".method_apply .collapse">
+<h2>Call 'apply' on a javascript function.</h2>
+<pre>apply(string | array $func_name, array $args) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Warning: calling this function will reset the selector jQuery selector previously stated</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$func_name</h4>
+<code>string</code><code>array</code><p>Function name</p></div>
+<div class="subelement argument">
+<h4>$args</h4>
+<code>array</code><p>Any additional arguments to pass to the function</p></div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_attr"></a><div class="element clickable method public method_attr" data-toggle="collapse" data-target=".method_attr .collapse">
+<h2>Set the attribute of a jQuery selector
+Example:
+&lt;pre&gt;
+PheryResponse::factory()
+-&gt;attr('href', 'http://url.com', 'a#link-' .</h2>
+<pre>attr(string $attr, string $data, string $selector) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>$args['id']);
+</pre></p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$attr</h4>
+<code>string</code><p>HTML attribute of the item</p></div>
+<div class="subelement argument">
+<h4>$data</h4>
+<code>string</code><p>Value</p></div>
+<div class="subelement argument">
+<h4>$selector</h4>
+<code>string</code><p>[optional] Provide the jQuery selector directly</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_before"></a><div class="element clickable method public method_before" data-toggle="collapse" data-target=".method_before .collapse">
+<h2>Insert content, specified by the parameter, before each element in the set of matched elements.</h2>
+<pre>before( $content) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Insert content, specified by the parameter, before each element in the set of matched elements.</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$content</h4>
+<code></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_bind"></a><div class="element clickable method public method_bind" data-toggle="collapse" data-target=".method_bind .collapse">
+<h2>Attach a handler to an event for the elements.</h2>
+<pre>bind( $eventType,  $handler) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Attach a handler to an event for the elements.</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$eventType</h4>
+<code></code>
+</div>
+<div class="subelement argument">
+<h4>$handler</h4>
+<code></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_call"></a><div class="element clickable method public method_call" data-toggle="collapse" data-target=".method_call .collapse">
+<h2>Call a javascript function.</h2>
+<pre>call(string | array $func_name) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Warning: calling this function will reset the selector jQuery selector previously stated</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$func_name</h4>
+<code>string</code><code>array</code><p>Function name. If you pass a string, it will be accessed on window.func. If you pass an array, it will access a member of an object, like array('object', 'property', 'function')</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_children"></a><div class="element clickable method public method_children" data-toggle="collapse" data-target=".method_children .collapse">
+<h2>Get the children of each element in the set of matched elements, optionally filtered by a selector.</h2>
+<pre>children( $selector) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Get the children of each element in the set of matched elements, optionally filtered by a selector.</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$selector</h4>
+<code></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_clear"></a><div class="element clickable method public method_clear" data-toggle="collapse" data-target=".method_clear .collapse">
+<h2>Clear the selected attribute.</h2>
+<pre>clear(string $attr, string $selector) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Alias for attr('attribute', '')</p></div>
+<table class="table table-bordered"><tr>
+<th>see</th>
+<td><a href="">\global\PheryResponse::attr()</a></td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$attr</h4>
+<code>string</code><p>Name of the DOM attribute to clear, such as 'innerHTML', 'style', 'href', etc not the jQuery counterparts</p>
+</div>
+<div class="subelement argument">
+<h4>$selector</h4>
+<code>string</code><p>[optional] Provide the jQuery selector directly</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_closest"></a><div class="element clickable method public method_closest" data-toggle="collapse" data-target=".method_closest .collapse">
+<h2>Get the first ancestor element that matches the selector, beginning at the current element and progressing up through the DOM tree.</h2>
+<pre>closest( $selector) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Get the first ancestor element that matches the selector, beginning at the current element and progressing up through the DOM tree.</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$selector</h4>
+<code></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_cmd"></a><div class="element clickable method public method_cmd" data-toggle="collapse" data-target=".method_cmd .collapse">
+<h2>Add a command to the response</h2>
+<pre>cmd(int | string | array $cmd, array $args, string $selector) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$cmd</h4>
+<code>int</code><code>string</code><code>array</code><p>Integer for command, see phery.js for more info</p></div>
+<div class="subelement argument">
+<h4>$args</h4>
+<code>array</code><p>Array to pass to the response</p></div>
+<div class="subelement argument">
+<h4>$selector</h4>
+<code>string</code><p>Insert the jquery selector</p></div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_contents"></a><div class="element clickable method public method_contents" data-toggle="collapse" data-target=".method_contents .collapse">
+<h2>Get the children of each element in the set of matched elements, including text nodes.</h2>
+<pre>contents() : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Get the children of each element in the set of matched elements, including text nodes.</td>
+</tr>
+</table>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_css"></a><div class="element clickable method public method_css" data-toggle="collapse" data-target=".method_css .collapse">
+<h2>propertyName: A CSS property name. value: A value to set for the property.</h2>
+<pre>css( $propertyName, $value =) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>propertyName: A CSS property name. value: A value to set for the property.</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$propertyName</h4>
+<code></code>
+</div>
+<div class="subelement argument">
+<h4>=</h4>
+<code>$value</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_data"></a><div class="element clickable method public method_data" data-toggle="collapse" data-target=".method_data .collapse">
+<h2>Add data to element</h2>
+<pre>data( $name,  $data) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Add data to element</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$name</h4>
+<code></code>
+</div>
+<div class="subelement argument">
+<h4>$data</h4>
+<code></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_delegate"></a><div class="element clickable method public method_delegate" data-toggle="collapse" data-target=".method_delegate .collapse">
+<h2>Attach a handler to one or more events for all elements that match the selector, now or in the future, based on a specific set of root elements.</h2>
+<pre>delegate( $selector,  $eventType,  $handler) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Attach a handler to one or more events for all elements that match the selector, now or in the future, based on a specific set of root elements.</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$selector</h4>
+<code></code>
+</div>
+<div class="subelement argument">
+<h4>$eventType</h4>
+<code></code>
+</div>
+<div class="subelement argument">
+<h4>$handler</h4>
+<code></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_detach"></a><div class="element clickable method public method_detach" data-toggle="collapse" data-target=".method_detach .collapse">
+<h2>Detach a DOM element retaining the events attached to it</h2>
+<pre>detach() : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Detach a DOM element retaining the events attached to it</td>
+</tr>
+</table>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_die"></a><div class="element clickable method public method_die" data-toggle="collapse" data-target=".method_die .collapse">
+<h2>Unbind an event from an element set by live()</h2>
+<pre>die( $name) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Unbind an event from an element set by live()</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$name</h4>
+<code></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_dump_vars"></a><div class="element clickable method public method_dump_vars" data-toggle="collapse" data-target=".method_dump_vars .collapse">
+<h2>Dump var to console.log</h2>
+<pre>dump_vars() : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_each"></a><div class="element clickable method public method_each" data-toggle="collapse" data-target=".method_each .collapse">
+<h2>Iterate over a jQ object, executing a function for each matched element.</h2>
+<pre>each( $function) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Iterate over a jQ object, executing a function for each matched element.</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$function</h4>
+<code></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_end"></a><div class="element clickable method public method_end" data-toggle="collapse" data-target=".method_end .collapse">
+<h2>End the most recent filtering operation in the current chain and return the set of matched elements to its previous state.</h2>
+<pre>end() : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>End the most recent filtering operation in the current chain and return the set of matched elements to its previous state.</td>
+</tr>
+</table>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_eq"></a><div class="element clickable method public method_eq" data-toggle="collapse" data-target=".method_eq .collapse">
+<h2>Reduce the set of matched elements to the one at the specified index.</h2>
+<pre>eq( $selector) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Reduce the set of matched elements to the one at the specified index.</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$selector</h4>
+<code></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_exception"></a><div class="element clickable method public method_exception" data-toggle="collapse" data-target=".method_exception .collapse">
+<h2>Trigger the phery:exception event on the calling element
+with additional data</h2>
+<pre>exception(string $msg, mixed $data) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$msg</h4>
+<code>string</code><p>Message to pass to the exception</p></div>
+<div class="subelement argument">
+<h4>$data</h4>
+<code>mixed</code><p>Any data to pass, can be anything</p></div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_factory"></a><div class="element clickable method public method_factory" data-toggle="collapse" data-target=".method_factory .collapse">
+<h2>Create a new PheryResponse instance for chaining, fast and effective for one line returns
+&lt;pre&gt;
+function answer($data)
+{
+ return
+        PheryResponse::factory('a#link-'.$data['rel'])
+        -&gt;attr('href', '#')
+        -&gt;alert('done');
+}
+&lt;/pre&gt;</h2>
+<pre>factory(string $selector, array $constructor) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"><span class="label">Static</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>static</th>
+<td></td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$selector</h4>
+<code>string</code><p>optional</p></div>
+<div class="subelement argument">
+<h4>$constructor</h4>
+<code>array</code><p>Same as $('</p>
+
+<p/>
+
+<p>', {})</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_fadeIn"></a><div class="element clickable method public method_fadeIn" data-toggle="collapse" data-target=".method_fadeIn .collapse">
+<h2>Animate an element</h2>
+<pre>fadeIn( $prop,  $dur,  $easing,  $cb) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Animate an element</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$prop</h4>
+<code></code>
+</div>
+<div class="subelement argument">
+<h4>$dur</h4>
+<code></code>
+</div>
+<div class="subelement argument">
+<h4>$easing</h4>
+<code></code>
+</div>
+<div class="subelement argument">
+<h4>$cb</h4>
+<code></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_fadeOut"></a><div class="element clickable method public method_fadeOut" data-toggle="collapse" data-target=".method_fadeOut .collapse">
+<h2>Animate an element</h2>
+<pre>fadeOut( $prop,  $dur,  $easing,  $cb) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Animate an element</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$prop</h4>
+<code></code>
+</div>
+<div class="subelement argument">
+<h4>$dur</h4>
+<code></code>
+</div>
+<div class="subelement argument">
+<h4>$easing</h4>
+<code></code>
+</div>
+<div class="subelement argument">
+<h4>$cb</h4>
+<code></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_fadeTo"></a><div class="element clickable method public method_fadeTo" data-toggle="collapse" data-target=".method_fadeTo .collapse">
+<h2>Animate an element</h2>
+<pre>fadeTo( $dur,  $opacity) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Animate an element</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$dur</h4>
+<code></code>
+</div>
+<div class="subelement argument">
+<h4>$opacity</h4>
+<code></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_filter"></a><div class="element clickable method public method_filter" data-toggle="collapse" data-target=".method_filter .collapse">
+<h2>Reduce the set of matched elements to those that match the selector or pass the function's test.</h2>
+<pre>filter( $selector) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Reduce the set of matched elements to those that match the selector or pass the function's test.</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$selector</h4>
+<code></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_find"></a><div class="element clickable method public method_find" data-toggle="collapse" data-target=".method_find .collapse">
+<h2>Get the descendants of each element in the current set of matched elements, filtered by a selector, jQuery object, or element.</h2>
+<pre>find( $selector) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Get the descendants of each element in the current set of matched elements, filtered by a selector, jQuery object, or element.</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$selector</h4>
+<code></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_get"></a><div class="element clickable method public method_get" data-toggle="collapse" data-target=".method_get .collapse">
+<h2>Load data from the server using a HTTP GET request.</h2>
+<pre>get( $url, $success =) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Load data from the server using a HTTP GET request.</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$url</h4>
+<code></code>
+</div>
+<div class="subelement argument">
+<h4>=</h4>
+<code>$success</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_getJSON"></a><div class="element clickable method public method_getJSON" data-toggle="collapse" data-target=".method_getJSON .collapse">
+<h2>Load JSON-encoded data from the server using a GET HTTP request.</h2>
+<pre>getJSON( $url, $success =) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Load JSON-encoded data from the server using a GET HTTP request.</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$url</h4>
+<code></code>
+</div>
+<div class="subelement argument">
+<h4>=</h4>
+<code>$success</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_getScript"></a><div class="element clickable method public method_getScript" data-toggle="collapse" data-target=".method_getScript .collapse">
+<h2>Load a JavaScript file from the server using a GET HTTP request, then execute it.</h2>
+<pre>getScript( $url, $success =) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Load a JavaScript file from the server using a GET HTTP request, then execute it.</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$url</h4>
+<code></code>
+</div>
+<div class="subelement argument">
+<h4>=</h4>
+<code>$success</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_get_merged"></a><div class="element clickable method public method_get_merged" data-toggle="collapse" data-target=".method_get_merged .collapse">
+<h2>Get merged response data as a new PheryResponse.</h2>
+<pre>get_merged(string $name) : <a href="../classes/PheryResponse.html">\PheryResponse</a> | null</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>This method works like a constructor if the previous response was destroyed</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$name</h4>
+<code>string</code><p>Name of the merged response</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code><a href="../classes/PheryResponse.html">\PheryResponse</a></code><code>null</code>
+</div>
+</div></div>
+</div>
+<a id="method_get_response"></a><div class="element clickable method public method_get_response" data-toggle="collapse" data-target=".method_get_response .collapse">
+<h2>Get a response by name</h2>
+<pre>get_response($name) : <a href="../classes/PheryResponse.html">\PheryResponse</a> | null</pre>
+<div class="labels"><span class="label">Static</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$name</h4></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code><a href="../classes/PheryResponse.html">\PheryResponse</a></code><code>null</code>
+</div>
+</div></div>
+</div>
+<a id="method_get_response_name"></a><div class="element clickable method public method_get_response_name" data-toggle="collapse" data-target=".method_get_response_name .collapse">
+<h2>Get the name of this response</h2>
+<pre>get_response_name() : null | string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>null</code><code>string</code>
+</div>
+</div></div>
+</div>
+<a id="method_height"></a><div class="element clickable method public method_height" data-toggle="collapse" data-target=".method_height .collapse">
+<h2>Set the height from the left</h2>
+<pre>height( $val) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Set the height from the left</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$val</h4>
+<code></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_hide"></a><div class="element clickable method public method_hide" data-toggle="collapse" data-target=".method_hide .collapse">
+<h2>Hide an object, can be animated with 'fast', 'slow', 'normal'</h2>
+<pre>hide($speed =) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Hide an object, can be animated with 'fast', 'slow', 'normal'</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>=</h4>
+<code>$speed</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_html"></a><div class="element clickable method public method_html" data-toggle="collapse" data-target=".method_html .collapse">
+<h2>Set the HTML content of an element.</h2>
+<pre>html(string $content, string $selector) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Automatically typecasted to string, so classes that
+respond to __toString() will be converted automatically</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$content</h4>
+<code>string</code>
+</div>
+<div class="subelement argument">
+<h4>$selector</h4>
+<code>string</code><p>[optional] Provide the jQuery selector directly</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_insertAfter"></a><div class="element clickable method public method_insertAfter" data-toggle="collapse" data-target=".method_insertAfter .collapse">
+<h2>Insert every element in the set of matched elements after the target.</h2>
+<pre>insertAfter( $target) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Insert every element in the set of matched elements after the target.</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$target</h4>
+<code></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_insertBefore"></a><div class="element clickable method public method_insertBefore" data-toggle="collapse" data-target=".method_insertBefore .collapse">
+<h2>Insert every element in the set of matched elements before the target.</h2>
+<pre>insertBefore( $target) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Insert every element in the set of matched elements before the target.</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$target</h4>
+<code></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_j"></a><div class="element clickable method public method_j" data-toggle="collapse" data-target=".method_j .collapse">
+<h2>Shortcut/alias for jquery($selector) Passing null works like jQuery.func</h2>
+<pre>j(string $selector, array $constructor) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$selector</h4>
+<code>string</code><p>Sets the current selector for subsequent chaining</p></div>
+<div class="subelement argument">
+<h4>$constructor</h4>
+<code>array</code><p>Only available if you are creating a new element, like $('</p>
+
+<p/>
+
+<p>', {})</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_jquery"></a><div class="element clickable method public method_jquery" data-toggle="collapse" data-target=".method_jquery .collapse">
+<h2>Sets the selector, so you can chain many calls to it.</h2>
+<pre>jquery(string $selector, array $constructor) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Passing # works like jQuery.func</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$selector</h4>
+<code>string</code><p>Sets the current selector for subsequent chaining</p>
+
+<pre> PheryResponse::factory() ->jquery('.slides') ->fadeTo(0,0) ->css(array('top' => '10px', 'left' => '90px')); </pre>
+
+<pre> PheryResponse::factory()->jquery()->getJSON(); </pre>
+</div>
+<div class="subelement argument">
+<h4>$constructor</h4>
+<code>array</code><p>Only available if you are creating a new element, like $('</p>
+
+<p/>
+
+<p>', {})</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_json"></a><div class="element clickable method public method_json" data-toggle="collapse" data-target=".method_json .collapse">
+<h2>Pass JSON to the browser</h2>
+<pre>json(mixed $obj) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$obj</h4>
+<code>mixed</code><p>Data to be encoded to json (usually an array or a JsonSerializable)</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_live"></a><div class="element clickable method public method_live" data-toggle="collapse" data-target=".method_live .collapse">
+<h2>Attach a handler to the event for all elements which match the current selector, now or in the future.</h2>
+<pre>live( $eventType,  $handler) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Attach a handler to the event for all elements which match the current selector, now or in the future.</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$eventType</h4>
+<code></code>
+</div>
+<div class="subelement argument">
+<h4>$handler</h4>
+<code></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_map"></a><div class="element clickable method public method_map" data-toggle="collapse" data-target=".method_map .collapse">
+<h2>Pass each element in the current matched set through a function, producing a new jQuery object containing the return values.</h2>
+<pre>map( $callback) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Pass each element in the current matched set through a function, producing a new jQuery object containing the return values.</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$callback</h4>
+<code></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_merge"></a><div class="element clickable method public method_merge" data-toggle="collapse" data-target=".method_merge .collapse">
+<h2>Merge another response to this one.</h2>
+<pre>merge(<a href="../classes/PheryResponse.html">\PheryResponse</a> | string $phery) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Selectors with the same name will be added in order, for example:</p>
+
+<pre>
+function process()
+{
+     $response = PheryResponse::factory('a.links')->remove();
+     // $response will execute before
+     // there will be no more "a.links" in the DOM, so the addClass() will fail silently
+     // to invert the order, merge $response to $response2
+     $response2 = PheryResponse::factory('a.links')->addClass('red');
+     return $response->merge($response2);
+}
+</pre></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$phery</h4>
+<code><a href="../classes/PheryResponse.html">\PheryResponse</a></code><code>string</code><p>Another PheryResponse object or a name of response</p></div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_next"></a><div class="element clickable method public method_next" data-toggle="collapse" data-target=".method_next .collapse">
+<h2>Get the immediately following sibling of each element in the set of matched elements, optionally filtered by a selector.</h2>
+<pre>next($selector =) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Get the immediately following sibling of each element in the set of matched elements, optionally filtered by a selector.</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>=</h4>
+<code>$selector</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_nextAll"></a><div class="element clickable method public method_nextAll" data-toggle="collapse" data-target=".method_nextAll .collapse">
+<h2>Get all following siblings of each element in the set of matched elements, optionally filtered by a selector.</h2>
+<pre>nextAll( $selector) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Get all following siblings of each element in the set of matched elements, optionally filtered by a selector.</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$selector</h4>
+<code></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_nextUntil"></a><div class="element clickable method public method_nextUntil" data-toggle="collapse" data-target=".method_nextUntil .collapse">
+<h2>Get all following siblings of each element up to  but not including the element matched by the selector.</h2>
+<pre>nextUntil( $selector) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Get all following siblings of each element up to  but not including the element matched by the selector.</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$selector</h4>
+<code></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_not"></a><div class="element clickable method public method_not" data-toggle="collapse" data-target=".method_not .collapse">
+<h2>Remove elements from the set of matched elements.</h2>
+<pre>not( $val) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Remove elements from the set of matched elements.</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$val</h4>
+<code></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_offset"></a><div class="element clickable method public method_offset" data-toggle="collapse" data-target=".method_offset .collapse">
+<h2>Set the current coordinates of every element in the set of matched elements, relative to the document.</h2>
+<pre>offset( $coordinates) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Set the current coordinates of every element in the set of matched elements, relative to the document.</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$coordinates</h4>
+<code></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_offsetExists"></a><div class="element clickable method public method_offsetExists" data-toggle="collapse" data-target=".method_offsetExists .collapse">
+<h2>Will check for globals and local values</h2>
+<pre>offsetExists(string | int $index) : mixed</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$index</h4>
+<code>string</code><code>int</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>mixed</code></div>
+</div></div>
+</div>
+<a id="method_offsetGet"></a><div class="element clickable method public method_offsetGet" data-toggle="collapse" data-target=".method_offsetGet .collapse">
+<h2>Return null if no value</h2>
+<pre>offsetGet(mixed $index) : mixed | null</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$index</h4>
+<code>mixed</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>mixed</code><code>null</code>
+</div>
+</div></div>
+</div>
+<a id="method_offsetParent"></a><div class="element clickable method public method_offsetParent" data-toggle="collapse" data-target=".method_offsetParent .collapse">
+<h2>Get the closest ancestor element that is positioned.</h2>
+<pre>offsetParent() : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Get the closest ancestor element that is positioned.</td>
+</tr>
+</table>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_offsetSet"></a><div class="element clickable method public method_offsetSet" data-toggle="collapse" data-target=".method_offsetSet .collapse">
+<h2>Set local variables, will be available only in this instance</h2>
+<pre>offsetSet(string | int | null $index, mixed $newval) : void</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$index</h4>
+<code>string</code><code>int</code><code>null</code>
+</div>
+<div class="subelement argument">
+<h4>$newval</h4>
+<code>mixed</code>
+</div>
+</div></div>
+</div>
+<a id="method_one"></a><div class="element clickable method public method_one" data-toggle="collapse" data-target=".method_one .collapse">
+<h2>Attach a handler to an event for the elements. The handler is executed at most once per element.</h2>
+<pre>one( $eventType,  $handler) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Attach a handler to an event for the elements. The handler is executed at most once per element.</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$eventType</h4>
+<code></code>
+</div>
+<div class="subelement argument">
+<h4>$handler</h4>
+<code></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_parent"></a><div class="element clickable method public method_parent" data-toggle="collapse" data-target=".method_parent .collapse">
+<h2>Get the parent of each element in the current set of matched elements, optionally filtered by a selector.</h2>
+<pre>parent($selector =) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Get the parent of each element in the current set of matched elements, optionally filtered by a selector.</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>=</h4>
+<code>$selector</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_parents"></a><div class="element clickable method public method_parents" data-toggle="collapse" data-target=".method_parents .collapse">
+<h2>Get the ancestors of each element in the current set of matched elements, optionally filtered by a selector.</h2>
+<pre>parents( $selector) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Get the ancestors of each element in the current set of matched elements, optionally filtered by a selector.</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$selector</h4>
+<code></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_parentsUntil"></a><div class="element clickable method public method_parentsUntil" data-toggle="collapse" data-target=".method_parentsUntil .collapse">
+<h2>Get the ancestors of each element in the current set of matched elements, up to but not including the element matched by the selector.</h2>
+<pre>parentsUntil( $selector) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Get the ancestors of each element in the current set of matched elements, up to but not including the element matched by the selector.</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$selector</h4>
+<code></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_path"></a><div class="element clickable method public method_path" data-toggle="collapse" data-target=".method_path .collapse">
+<h2>Access a global object path</h2>
+<pre>path(string | string[] $namespace) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$namespace</h4>
+<code>string</code><code>string[]</code><p>For accessing objects, like $.namespace.function() or document.href. if you want to access a global variable, use array('object','property'). You may use a mix of getter/setter to apply a global value to a variable</p>
+
+<pre> PheryResponse::factory()->set_var(array('obj','newproperty'), PheryResponse::factory()->path(array('other_obj','enabled')) ); </pre>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_phery"></a><div class="element clickable method public method_phery" data-toggle="collapse" data-target=".method_phery .collapse">
+<h2>Accesses the phery() methods of the calling element, same as doing $('selector').phery()</h2>
+<pre>phery(string | array $func) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$func</h4>
+<code>string</code><code>array</code><p>Name of the phery function on the element or an array of functions</p>
+
+<pre> 'append_args', 'set_args', 'remote', 'exception', 'remove' </pre>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_phery_remote"></a><div class="element clickable method public method_phery_remote" data-toggle="collapse" data-target=".method_phery_remote .collapse">
+<h2>Same as phery.remote()</h2>
+<pre>phery_remote(string $remote, array $args, array $attr, boolean $directCall) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$remote</h4>
+<code>string</code><p>Function</p></div>
+<div class="subelement argument">
+<h4>$args</h4>
+<code>array</code><p>Arguments to pass to the</p></div>
+<div class="subelement argument">
+<h4>$attr</h4>
+<code>array</code><p>Here you may set like data-method, data-target, data-type</p>
+</div>
+<div class="subelement argument">
+<h4>$directCall</h4>
+<code>boolean</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_post"></a><div class="element clickable method public method_post" data-toggle="collapse" data-target=".method_post .collapse">
+<h2>Load data from the server using a HTTP POST request.</h2>
+<pre>post( $url, $success =) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Load data from the server using a HTTP POST request.</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$url</h4>
+<code></code>
+</div>
+<div class="subelement argument">
+<h4>=</h4>
+<code>$success</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_prepend"></a><div class="element clickable method public method_prepend" data-toggle="collapse" data-target=".method_prepend .collapse">
+<h2>Prepend string/HTML to target(s)</h2>
+<pre>prepend(string $content, string $selector) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$content</h4>
+<code>string</code><p>Content to be prepended to the selected element</p></div>
+<div class="subelement argument">
+<h4>$selector</h4>
+<code>string</code><p>[optional] Optional jquery selector string</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_prependTo"></a><div class="element clickable method public method_prependTo" data-toggle="collapse" data-target=".method_prependTo .collapse">
+<h2>Prepend DOM element to target</h2>
+<pre>prependTo( $target) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Prepend DOM element to target</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$target</h4>
+<code></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_prev"></a><div class="element clickable method public method_prev" data-toggle="collapse" data-target=".method_prev .collapse">
+<h2>Get the immediately preceding sibling of each element in the set of matched elements, optionally filtered by a selector.</h2>
+<pre>prev($selector =) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Get the immediately preceding sibling of each element in the set of matched elements, optionally filtered by a selector.</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>=</h4>
+<code>$selector</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_prevAll"></a><div class="element clickable method public method_prevAll" data-toggle="collapse" data-target=".method_prevAll .collapse">
+<h2>Get all preceding siblings of each element in the set of matched elements, optionally filtered by a selector.</h2>
+<pre>prevAll( $selector) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Get all preceding siblings of each element in the set of matched elements, optionally filtered by a selector.</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$selector</h4>
+<code></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_prevUntil"></a><div class="element clickable method public method_prevUntil" data-toggle="collapse" data-target=".method_prevUntil .collapse">
+<h2>Get the ancestors of each element in the current set of matched elements, optionally filtered by a selector.</h2>
+<pre>prevUntil( $selector) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Get the ancestors of each element in the current set of matched elements, optionally filtered by a selector.</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$selector</h4>
+<code></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_print_vars"></a><div class="element clickable method public method_print_vars" data-toggle="collapse" data-target=".method_print_vars .collapse">
+<h2>Pretty print to console.log</h2>
+<pre>print_vars() : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_redirect"></a><div class="element clickable method public method_redirect" data-toggle="collapse" data-target=".method_redirect .collapse">
+<h2>Creates a redirect</h2>
+<pre>redirect(string $url, bool | string $view) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$url</h4>
+<code>string</code><p>Complete url with http:// (according to W3 http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.30)</p>
+</div>
+<div class="subelement argument">
+<h4>$view</h4>
+<code>bool</code><code>string</code><p>Internal means that phery will cancel the current DOM manipulation and commands and will issue another phery.remote to the location in url, useful if your PHP code is issuing redirects but you are using AJAX views. Passing false will issue a browser redirect</p></div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_remove"></a><div class="element clickable method public method_remove" data-toggle="collapse" data-target=".method_remove .collapse">
+<h2>Remove the current jQuery selector</h2>
+<pre>remove(string | boolean $selector) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$selector</h4>
+<code>string</code><code>boolean</code><p>Set a selector</p></div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_removeAttr"></a><div class="element clickable method public method_removeAttr" data-toggle="collapse" data-target=".method_removeAttr .collapse">
+<h2>Remove an attribute from an element</h2>
+<pre>removeAttr( $name) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Remove an attribute from an element</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$name</h4>
+<code></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_removeClass"></a><div class="element clickable method public method_removeClass" data-toggle="collapse" data-target=".method_removeClass .collapse">
+<h2>Remove a class from an element</h2>
+<pre>removeClass( $className) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Remove a class from an element</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$className</h4>
+<code></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_removeData"></a><div class="element clickable method public method_removeData" data-toggle="collapse" data-target=".method_removeData .collapse">
+<h2>Remove element data added with data()</h2>
+<pre>removeData( $name) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Remove element data added with data()</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$name</h4>
+<code></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_remove_selector"></a><div class="element clickable method public method_remove_selector" data-toggle="collapse" data-target=".method_remove_selector .collapse">
+<h2>Remove a batch of calls for a selector.</h2>
+<pre>remove_selector(string | int $selector) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Won't remove for merged responses.
+Passing an integer, will remove commands, like dump_vars, call, etc</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$selector</h4>
+<code>string</code><code>int</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_render"></a><div class="element clickable method public method_render" data-toggle="collapse" data-target=".method_render .collapse">
+<h2>Return the JSON encoded data</h2>
+<pre>render() : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a id="method_render_view"></a><div class="element clickable method public method_render_view" data-toggle="collapse" data-target=".method_render_view .collapse">
+<h2>Render a view to the container previously specified</h2>
+<pre>render_view(string $html, array $data) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>see</th>
+<td><a href="">on JS</a></td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$html</h4>
+<code>string</code><p>HTML to be replaced in the container</p></div>
+<div class="subelement argument">
+<h4>$data</h4>
+<code>array</code><p>Array of data to pass to the before/after functions set on Phery.view</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_renew_csrf"></a><div class="element clickable method public method_renew_csrf" data-toggle="collapse" data-target=".method_renew_csrf .collapse">
+<h2>Renew the CSRF token on a given Phery instance
+Resets any selectors that were being chained before</h2>
+<pre>renew_csrf(\Phery $instance) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$instance</h4>
+<code><a href="../classes/Phery.html">\Phery</a></code><p>Instance of Phery</p></div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_replaceWith"></a><div class="element clickable method public method_replaceWith" data-toggle="collapse" data-target=".method_replaceWith .collapse">
+<h2>The content to insert. May be an HTML string, DOM element, or jQuery object.</h2>
+<pre>replaceWith( $newContent) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>The content to insert. May be an HTML string, DOM element, or jQuery object.</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$newContent</h4>
+<code></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_reset_response"></a><div class="element clickable method public method_reset_response" data-toggle="collapse" data-target=".method_reset_response .collapse">
+<h2>Clear all the selectors and commands in the current response.</h2>
+<pre>reset_response() : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_script"></a><div class="element clickable method public method_script" data-toggle="collapse" data-target=".method_script .collapse">
+<h2>Compile a script and call it on-the-fly.</h2>
+<pre>script(string | array $script) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>There is a closure on the executed function, so
+to reach out global variables, you need to use window.variable
+Warning: calling this function will reset the selector jQuery selector previously set</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$script</h4>
+<code>string</code><code>array</code><p>Script content. If provided an array, it will be joined with \n</p>
+
+<pre> PheryResponse::factory() ->script(array("if (confirm('Are you really sure?')) $('*').remove()")); </pre>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_scrollLeft"></a><div class="element clickable method public method_scrollLeft" data-toggle="collapse" data-target=".method_scrollLeft .collapse">
+<h2>Set the scroll from the left</h2>
+<pre>scrollLeft( $val) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Set the scroll from the left</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$val</h4>
+<code></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_scrollTop"></a><div class="element clickable method public method_scrollTop" data-toggle="collapse" data-target=".method_scrollTop .collapse">
+<h2>Set the scroll from the top</h2>
+<pre>scrollTop( $val) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Set the scroll from the top</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$val</h4>
+<code></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_serialize"></a><div class="element clickable method public method_serialize" data-toggle="collapse" data-target=".method_serialize .collapse">
+<h2>Serialize the response in JSON</h2>
+<pre>serialize() : string | bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>string</code><code>bool</code>
+</div>
+</div></div>
+</div>
+<a id="method_set_global"></a><div class="element clickable method public method_set_global" data-toggle="collapse" data-target=".method_set_global .collapse">
+<h2>Set a global value that can be accessed through $pheryresponse['value']</h2>
+<pre>set_global(array | string $name, mixed $value) </pre>
+<div class="labels"><span class="label">Static</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$name</h4>
+<code>array</code><code>string</code>
+</div>
+<div class="subelement argument">
+<h4>$value</h4>
+<code>mixed</code><p>[Optional]</p>
+</div>
+</div></div>
+</div>
+<a id="method_set_response_name"></a><div class="element clickable method public method_set_response_name" data-toggle="collapse" data-target=".method_set_response_name .collapse">
+<h2>Set the name of this response</h2>
+<pre>set_response_name(string $name) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$name</h4>
+<code>string</code><p>Name of current response</p></div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_set_var"></a><div class="element clickable method public method_set_var" data-toggle="collapse" data-target=".method_set_var .collapse">
+<h2>Set a global variable, that can be accessed directly through window object,
+can set properties inside objects if you pass an array as the variable.</h2>
+<pre>set_var(string | array $variable, mixed $data) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>If it doesn't exist it will be created</p>
+
+<pre>
+// window.customer_info = {'name': 'John','surname': 'Doe', 'age': 39}
+PheryResponse::factory()->set_var('customer_info', array('name' => 'John', 'surname' => 'Doe', 'age' => 39));
+</pre>
+
+<pre>
+// window.customer_info.name = 'John'
+PheryResponse::factory()->set_var(array('customer_info','name'), 'John');
+</pre></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$variable</h4>
+<code>string</code><code>array</code><p>Global variable name</p></div>
+<div class="subelement argument">
+<h4>$data</h4>
+<code>mixed</code><p>Any data</p></div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_show"></a><div class="element clickable method public method_show" data-toggle="collapse" data-target=".method_show .collapse">
+<h2>Show an object, can be animated with 'fast', 'slow', 'normal'</h2>
+<pre>show($speed =) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Show an object, can be animated with 'fast', 'slow', 'normal'</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>=</h4>
+<code>$speed</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_siblings"></a><div class="element clickable method public method_siblings" data-toggle="collapse" data-target=".method_siblings .collapse">
+<h2>Get the siblings of each element in the set of matched elements, optionally filtered by a selector.</h2>
+<pre>siblings( $selector) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Get the siblings of each element in the set of matched elements, optionally filtered by a selector.</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$selector</h4>
+<code></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_slice"></a><div class="element clickable method public method_slice" data-toggle="collapse" data-target=".method_slice .collapse">
+<h2>Reduce the set of matched elements to a subset specified by a range of indices.</h2>
+<pre>slice( $start,  $end) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Reduce the set of matched elements to a subset specified by a range of indices.</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$start</h4>
+<code></code>
+</div>
+<div class="subelement argument">
+<h4>$end</h4>
+<code></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_slideDown"></a><div class="element clickable method public method_slideDown" data-toggle="collapse" data-target=".method_slideDown .collapse">
+<h2>Show with slide down animation</h2>
+<pre>slideDown( $dur,  $cb) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Show with slide down animation</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$dur</h4>
+<code></code>
+</div>
+<div class="subelement argument">
+<h4>$cb</h4>
+<code></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_slideToggle"></a><div class="element clickable method public method_slideToggle" data-toggle="collapse" data-target=".method_slideToggle .collapse">
+<h2>Toggle show/hide the element, using slide animation</h2>
+<pre>slideToggle( $dur,  $cb) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Toggle show/hide the element, using slide animation</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$dur</h4>
+<code></code>
+</div>
+<div class="subelement argument">
+<h4>$cb</h4>
+<code></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_slideUp"></a><div class="element clickable method public method_slideUp" data-toggle="collapse" data-target=".method_slideUp .collapse">
+<h2>Hide with slide up animation</h2>
+<pre>slideUp( $dur,  $cb) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Hide with slide up animation</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$dur</h4>
+<code></code>
+</div>
+<div class="subelement argument">
+<h4>$cb</h4>
+<code></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_stop"></a><div class="element clickable method public method_stop" data-toggle="collapse" data-target=".method_stop .collapse">
+<h2>Stop animation on elements</h2>
+<pre>stop() : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Stop animation on elements</td>
+</tr>
+</table>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_text"></a><div class="element clickable method public method_text" data-toggle="collapse" data-target=".method_text .collapse">
+<h2>Set the text of an element.</h2>
+<pre>text(string $content, string $selector) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Automatically typecasted to string, so classes that
+respond to __toString() will be converted automatically</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$content</h4>
+<code>string</code>
+</div>
+<div class="subelement argument">
+<h4>$selector</h4>
+<code>string</code><p>[optional] Provide the jQuery selector directly</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_this"></a><div class="element clickable method public method_this" data-toggle="collapse" data-target=".method_this .collapse">
+<h2>Access the current calling DOM element without the need for IDs, names, etc</h2>
+<pre>this() : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_toggle"></a><div class="element clickable method public method_toggle" data-toggle="collapse" data-target=".method_toggle .collapse">
+<h2>Toggle an object visible or hidden, can be animated with 'fast', 'slow', 'normal'</h2>
+<pre>toggle( $speed) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Toggle an object visible or hidden, can be animated with 'fast', 'slow', 'normal'</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$speed</h4>
+<code></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_toggleClass"></a><div class="element clickable method public method_toggleClass" data-toggle="collapse" data-target=".method_toggleClass .collapse">
+<h2>Add/Remove a class from an element</h2>
+<pre>toggleClass( $className) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Add/Remove a class from an element</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$className</h4>
+<code></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_trigger"></a><div class="element clickable method public method_trigger" data-toggle="collapse" data-target=".method_trigger .collapse">
+<h2>) Trigger an event</h2>
+<pre>trigger( $eventName, $args =) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>) Trigger an event</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$eventName</h4>
+<code></code>
+</div>
+<div class="subelement argument">
+<h4>=</h4>
+<code>$args</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_triggerHandler"></a><div class="element clickable method public method_triggerHandler" data-toggle="collapse" data-target=".method_triggerHandler .collapse">
+<h2>) Execute all handlers attached to an element for an event.</h2>
+<pre>triggerHandler( $eventType, $extraParameters =) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>) Execute all handlers attached to an element for an event.</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$eventType</h4>
+<code></code>
+</div>
+<div class="subelement argument">
+<h4>=</h4>
+<code>$extraParameters</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_unbind"></a><div class="element clickable method public method_unbind" data-toggle="collapse" data-target=".method_unbind .collapse">
+<h2>Unbind an event from an element</h2>
+<pre>unbind( $name) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Unbind an event from an element</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$name</h4>
+<code></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_undelegate"></a><div class="element clickable method public method_undelegate" data-toggle="collapse" data-target=".method_undelegate .collapse">
+<h2>Remove a handler from the event for all elements which match the current selector, now or in the future, based upon a specific set of root elements.</h2>
+<pre>undelegate() : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Remove a handler from the event for all elements which match the current selector, now or in the future, based upon a specific set of root elements.</td>
+</tr>
+</table>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_unmerge"></a><div class="element clickable method public method_unmerge" data-toggle="collapse" data-target=".method_unmerge .collapse">
+<h2>Remove a previously merged response</h2>
+<pre>unmerge(<a href="../classes/PheryResponse.html">\PheryResponse</a> | string $phery) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$phery</h4>
+<code><a href="../classes/PheryResponse.html">\PheryResponse</a></code><code>string</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_unserialize"></a><div class="element clickable method public method_unserialize" data-toggle="collapse" data-target=".method_unserialize .collapse">
+<h2>Initialize the instance from a serialized state</h2>
+<pre>unserialize(string $serialized) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$serialized</h4>
+<code>string</code>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/PheryException.html">\PheryException</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_unset_global"></a><div class="element clickable method public method_unset_global" data-toggle="collapse" data-target=".method_unset_global .collapse">
+<h2>Unset a global variable</h2>
+<pre>unset_global(string $name) </pre>
+<div class="labels"><span class="label">Static</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$name</h4>
+<code>string</code><p>Variable name</p></div>
+</div></div>
+</div>
+<a id="method_unset_var"></a><div class="element clickable method public method_unset_var" data-toggle="collapse" data-target=".method_unset_var .collapse">
+<h2>Delete a global variable, that can be accessed directly through window, can unset object properties,
+if you pass an array</h2>
+<pre>unset_var(string | array $variable) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><pre>
+PheryResponse::factory()->unset('customer_info');
+</pre>
+
+<pre>
+PheryResponse::factory()->unset(array('customer_info','name')); // translates to delete customer_info['name']
+</pre></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$variable</h4>
+<code>string</code><code>array</code><p>Global variable name</p></div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_unwrap"></a><div class="element clickable method public method_unwrap" data-toggle="collapse" data-target=".method_unwrap .collapse">
+<h2>Remove the parents of the set of matched elements from the DOM, leaving the matched elements in their place.</h2>
+<pre>unwrap() : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Remove the parents of the set of matched elements from the DOM, leaving the matched elements in their place.</td>
+</tr>
+</table>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_val"></a><div class="element clickable method public method_val" data-toggle="collapse" data-target=".method_val .collapse">
+<h2>Set the value of an element</h2>
+<pre>val( $content) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Set the value of an element</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$content</h4>
+<code></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_width"></a><div class="element clickable method public method_width" data-toggle="collapse" data-target=".method_width .collapse">
+<h2>Set the width from the left</h2>
+<pre>width( $val) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Set the width from the left</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$val</h4>
+<code></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_wrap"></a><div class="element clickable method public method_wrap" data-toggle="collapse" data-target=".method_wrap .collapse">
+<h2>Wrap an HTML structure around each element in the set of matched elements.</h2>
+<pre>wrap( $wrappingElement) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Wrap an HTML structure around each element in the set of matched elements.</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$wrappingElement</h4>
+<code></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_wrapAll"></a><div class="element clickable method public method_wrapAll" data-toggle="collapse" data-target=".method_wrapAll .collapse">
+<h2>Wrap an HTML structure around all elements in the set of matched elements.</h2>
+<pre>wrapAll( $wrappingElement) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Wrap an HTML structure around all elements in the set of matched elements.</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$wrappingElement</h4>
+<code></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_wrapInner"></a><div class="element clickable method public method_wrapInner" data-toggle="collapse" data-target=".method_wrapInner .collapse">
+<h2>Wrap an HTML structure around the content of each element in the set of matched elements.</h2>
+<pre>wrapInner( $wrappingElement) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Wrap an HTML structure around the content of each element in the set of matched elements.</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$wrappingElement</h4>
+<code></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
+</div></div>
+</div>
+<a id="method_process_merged"></a><div class="element clickable method protected method_process_merged" data-toggle="collapse" data-target=".method_process_merged .collapse">
+<h2>Process merged responses</h2>
+<pre>process_merged() : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>array</code></div>
+</div></div>
+</div>
+<a id="method_typecast"></a><div class="element clickable method protected method_typecast" data-toggle="collapse" data-target=".method_typecast .collapse">
+<h2>Convert, to a maximum depth, nested responses, and typecast int properly</h2>
+<pre>typecast(mixed $argument, bool $toString, bool $nested, int $depth) : mixed</pre>
+<div class="labels"><span class="label">Static</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$argument</h4>
+<code>mixed</code><p>The value</p></div>
+<div class="subelement argument">
+<h4>$toString</h4>
+<code>bool</code><p>Call class __toString() if possible, and typecast int correctly</p>
+</div>
+<div class="subelement argument">
+<h4>$nested</h4>
+<code>bool</code><p>Should it look for nested arrays and classes?</p>
+</div>
+<div class="subelement argument">
+<h4>$depth</h4>
+<code>int</code><p>Max depth</p></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>mixed</code></div>
+</div></div>
+</div>
+<h3>
+<i class="icon-custom icon-property"></i> Properties</h3>
+<a id="property_data"> </a><div class="element clickable property protected property_data" data-toggle="collapse" data-target=".property_data .collapse">
+<h2></h2>
+<pre>$data : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_global"> </a><div class="element clickable property protected property_global" data-toggle="collapse" data-target=".property_global .collapse">
+<h2></h2>
+<pre>$global : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_last_selector"> </a><div class="element clickable property protected property_last_selector" data-toggle="collapse" data-target=".property_last_selector .collapse">
+<h2></h2>
+<pre>$last_selector : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_merged"> </a><div class="element clickable property protected property_merged" data-toggle="collapse" data-target=".property_merged .collapse">
+<h2></h2>
+<pre>$merged : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_name"> </a><div class="element clickable property protected property_name" data-toggle="collapse" data-target=".property_name .collapse">
+<h2></h2>
+<pre>$name : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_responses"> </a><div class="element clickable property protected property_responses" data-toggle="collapse" data-target=".property_responses .collapse">
+<h2></h2>
+<pre>$responses : <a href="Phery.html#%5CPheryResponse">\PheryResponse[]</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="row"><footer class="span12">
+            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a11</a> and<br>
+            generated on 2012-11-17T09:50:08-02:00.<br></footer></div>
+</div>
+</body>
+</html>

@@ -2,7 +2,7 @@
 	"name":"phery/phery",
 	"type":"library",
 	"description":"XAJAX alternative, phery is a library in PHP that maps to all jQuery functions, DOM manipulation, meta arguments and serialization, seamless ajax integration, RESTful emulation, form submission and partial rendering views, plus its PSR-0 compatible",
-	"keywords":["ajax", "unobtrusive", "xajax", "alternative", "php", "json", "seamless", "javascript", "jquery", "form", "serialization", "mapping", "DOM", "manipulation", "RESTful", "delegation", "PSR-0", "event", "fluent"],
+	"keywords":["ajax", "unobtrusive", "CSRF", "xajax", "alternative", "php", "json", "seamless", "javascript", "jquery", "form", "serialization", "mapping", "DOM", "manipulation", "RESTful", "delegation", "PSR-0", "event", "fluent"],
 	"homepage":"http://phery-php-ajax.net",
 	"license":"MIT",
 	"authors":[

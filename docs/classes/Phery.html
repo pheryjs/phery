@@ -1,0 +1,911 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+<meta charset="utf-8">
+<title>phpDocumentor » \Phery</title>
+<meta name="author" content="Mike van Riel">
+<meta name="description" content="">
+<link href="../css/template.css" rel="stylesheet" media="all">
+<script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script><script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script><script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script><script src="../js/bootstrap.js" type="text/javascript"></script><script src="../js/template.js" type="text/javascript"></script><script src="../js/prettify/prettify.min.js" type="text/javascript"></script><link rel="shortcut icon" href="../img/favicon.ico">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
+</head>
+<body>
+<div class="navbar navbar-fixed-top">
+<div class="navbar-inner"><div class="container">
+<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="../index.html">phpDocumentor</a><div class="nav-collapse"><ul class="nav">
+<li class="dropdown">
+<a href="#api" class="dropdown-toggle" data-toggle="dropdown">
+                                    API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a>Packages</a></li>
+<li><a href="../packages/Phery.html"><i class="icon-folder-open"></i> Phery</a></li>
+</ul>
+</li>
+<li class="dropdown" id="charts-menu">
+<a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
+                                    Charts <b class="caret"></b></a><ul class="dropdown-menu"><li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a></li></ul>
+</li>
+<li class="dropdown" id="reports-menu">
+<a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
+                                    Reports <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
+                <span class="label label-info">6</span></a></li>
+<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
+                <ul></ul></a></li>
+<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
+                <span class="label label-info">0</span></a></li>
+</ul>
+</li>
+</ul></div>
+</div></div>
+<div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a></div>
+</div>
+<div id="___" class="container">
+<noscript><div class="alert alert-warning">
+                            Javascript is disabled; several features are only available
+                            if Javascript is enabled.
+                        </div></noscript>
+<div class="row">
+<div class="span4">
+<span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active" title="Show public elements">Public</button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private" title="Show private elements">Private</button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span><div class="btn-group view pull-right" data-toggle="buttons-radio">
+<button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button><button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
+</div>
+<ul class="side-nav nav nav-list">
+<li class="nav-header">
+<i class="icon-custom icon-method"></i> Methods
+                    <ul>
+<li class="method public "><a href="#method___construct" title="__construct :: Construct the new Phery instance"><span class="description">Construct the new Phery instance</span><pre>__construct()</pre></a></li>
+<li class="method public "><a href="#method___get" title="__get :: Get shared data"><span class="description">Get shared data</span><pre>__get()</pre></a></li>
+<li class="method public "><a href="#method___set" title="__set :: Set shared data"><span class="description">Set shared data</span><pre>__set()</pre></a></li>
+<li class="method public "><a href="#method_answer_for" title="answer_for :: Return the data associatated with a processed POST call"><span class="description">Return the data associatated with a processed POST call</span><pre>answer_for()</pre></a></li>
+<li class="method public "><a href="#method_args" title="args :: Encode PHP code to put inside data-args, usually for updating the data there"><span class="description">Encode PHP code to put inside data-args, usually for updating the data there</span><pre>args()</pre></a></li>
+<li class="method public "><a href="#method_callback" title="callback :: Set callbacks for before and after filters."><span class="description">Set callbacks for before and after filters.</span><pre>callback()</pre></a></li>
+<li class="method public "><a href="#method_coalesce" title="coalesce :: Utility function taken from MYSQL."><span class="description">Utility function taken from MYSQL.</span><pre>coalesce()</pre></a></li>
+<li class="method public "><a href="#method_config" title="config :: Config the current instance of Phery"><span class="description">Config the current instance of Phery</span><pre>config()</pre></a></li>
+<li class="method public "><a href="#method_csrf" title="csrf :: Output the meta HTML with the token."><span class="description">Output the meta HTML with the token.</span><pre>csrf()</pre></a></li>
+<li class="method public "><a href="#method_data" title="data :: Set any data to pass to the callbacks"><span class="description">Set any data to pass to the callbacks</span><pre>data()</pre></a></li>
+<li class="method public "><a href="#method_error_handler" title="error_handler :: Default error handler"><span class="description">Default error handler</span><pre>error_handler()</pre></a></li>
+<li class="method public "><a href="#method_factory" title="factory :: Create a new instance of Phery that can be chained, without the need of assigning it to a variable"><span class="description">Create a new instance of Phery that can be chained, without the need of assigning it to a variable</span><pre>factory()</pre></a></li>
+<li class="method public "><a href="#method_form_for" title="form_for :: Create a &lt;form&gt; tag with ajax enabled."><span class="description">Create a &lt;form&gt; tag with ajax enabled.</span><pre>form_for()</pre></a></li>
+<li class="method public "><a href="#method_instance" title="instance :: Generates just one instance."><span class="description">Generates just one instance.</span><pre>instance()</pre></a></li>
+<li class="method public "><a href="#method_is_ajax" title="is_ajax :: Check if the current call is an ajax call"><span class="description">Check if the current call is an ajax call</span><pre>is_ajax()</pre></a></li>
+<li class="method public "><a href="#method_link_to" title='link_to :: Helper function that generates an ajax link, defaults to "A" tag'><span class="description">Helper function that generates an ajax link, defaults to "A" tag</span><pre>link_to()</pre></a></li>
+<li class="method public "><a href="#method_offsetExists" title="offsetExists :: OffsetExists"><span class="description">OffsetExists</span><pre>offsetExists()</pre></a></li>
+<li class="method public "><a href="#method_offsetGet" title="offsetGet :: OffsetGet"><span class="description">OffsetGet</span><pre>offsetGet()</pre></a></li>
+<li class="method public "><a href="#method_offsetSet" title="offsetSet :: offsetSet"><span class="description">offsetSet</span><pre>offsetSet()</pre></a></li>
+<li class="method public "><a href="#method_offsetUnset" title="offsetUnset :: OffsetUnset"><span class="description">OffsetUnset</span><pre>offsetUnset()</pre></a></li>
+<li class="method public "><a href="#method_process" title="process :: Process the AJAX requests if any"><span class="description">Process the AJAX requests if any</span><pre>process()</pre></a></li>
+<li class="method public "><a href="#method_respond" title="respond :: Helper function to properly output the headers for a PheryResponse in case you need
+to manually return it (like when following a redirect)"><span class="description">Helper function to properly output the headers for a PheryResponse in case you need
+to manually return it (like when following a redirect)</span><pre>respond()</pre></a></li>
+<li class="method public "><a href="#method_select_for" title='select_for :: Create a &lt;select&gt; element with ajax enabled "onchange" event.'><span class="description">Create a &lt;select&gt; element with ajax enabled "onchange" event.</span><pre>select_for()</pre></a></li>
+<li class="method public "><a href="#method_set" title="set :: Sets the functions to respond to the ajax call."><span class="description">Sets the functions to respond to the ajax call.</span><pre>set()</pre></a></li>
+<li class="method public "><a href="#method_shutdown_handler" title="shutdown_handler :: Default shutdown handler"><span class="description">Default shutdown handler</span><pre>shutdown_handler()</pre></a></li>
+<li class="method public "><a href="#method_views" title="views :: Set the callback for view portions, as defined in Phery.view()"><span class="description">Set the callback for view portions, as defined in Phery.view()</span><pre>views()</pre></a></li>
+</ul>
+</li>
+<li class="nav-header protected">» Protected
+                    <ul>
+<li class="method protected "><a href="#method_before_user_func" title="before_user_func :: Initialize stuff before calling the AJAX function"><span class="description">Initialize stuff before calling the AJAX function</span><pre>before_user_func()</pre></a></li>
+<li class="method protected "><a href="#method_common_check" title="common_check :: Common check for all static factories"><span class="description">Common check for all static factories</span><pre>common_check()</pre></a></li>
+<li class="method protected "><a href="#method_exception" title="exception :: Throw an exception if enabled"><span class="description">Throw an exception if enabled</span><pre>exception()</pre></a></li>
+</ul>
+</li>
+<li class="nav-header private">» Private
+                    <ul>
+<li class="method private "><a href="#method_process_data" title="process_data :: Process the requests if any"><span class="description">Process the requests if any</span><pre>process_data()</pre></a></li>
+<li class="method private "><a href="#method_stripslashes_recursive" title="stripslashes_recursive :: Strip slashes recursive"><span class="description">Strip slashes recursive</span><pre>stripslashes_recursive()</pre></a></li>
+</ul>
+</li>
+<li class="nav-header">
+<i class="icon-custom icon-property"></i> Properties
+                    <ul></ul>
+</li>
+<li class="nav-header protected">» Protected
+                    <ul>
+<li class="property protected "><a href="#property_answers" title="$answers :: Hold the answers for answer_for function"><span class="description"></span><pre>$answers</pre></a></li>
+<li class="property protected "><a href="#property_callbacks" title="$callbacks :: The callbacks registered"><span class="description"></span><pre>$callbacks</pre></a></li>
+<li class="property protected "><a href="#property_config" title="$config :: Config
+&lt;pre&gt;
+'exit_allowed' (boolean)
+'no_stripslashes' (boolean)
+'exceptions' (boolean)
+'respond_to_post' (array)
+'compress' (boolean)
+'csrf' (boolean)
+&lt;/pre&gt;"><span class="description"></span><pre>$config</pre></a></li>
+<li class="property protected "><a href="#property_data" title="$data :: The callback data to be passed to callbacks and responses"><span class="description"></span><pre>$data</pre></a></li>
+<li class="property protected "><a href="#property_functions" title="$functions :: The functions registered"><span class="description"></span><pre>$functions</pre></a></li>
+<li class="property protected "><a href="#property_instance" title="$instance :: Static instance for singleton"><span class="description"></span><pre>$instance</pre></a></li>
+<li class="property protected "><a href="#property_respond_to_post" title="$respond_to_post :: Will call the functions defined in this variable even
+if it wasn't sent by AJAX, use it wisely."><span class="description"></span><pre>$respond_to_post</pre></a></li>
+<li class="property protected "><a href="#property_views" title="$views :: Render view function"><span class="description"></span><pre>$views</pre></a></li>
+</ul>
+</li>
+<li class="nav-header">
+<i class="icon-custom icon-constant"></i> Constants
+                    <ul>
+<li class="constant  "><a href="#constant_ERROR_CALLBACK" title="ERROR_CALLBACK :: Exception on callback() function"><span class="description">Exception on callback() function</span><pre>ERROR_CALLBACK</pre></a></li>
+<li class="constant  "><a href="#constant_ERROR_CSRF" title="ERROR_CSRF :: Exception when the CSRF is invalid"><span class="description">Exception when the CSRF is invalid</span><pre>ERROR_CSRF</pre></a></li>
+<li class="constant  "><a href="#constant_ERROR_PROCESS" title="ERROR_PROCESS :: Exception on process() function"><span class="description">Exception on process() function</span><pre>ERROR_PROCESS</pre></a></li>
+<li class="constant  "><a href="#constant_ERROR_SET" title="ERROR_SET :: Exception on set() function"><span class="description">Exception on set() function</span><pre>ERROR_SET</pre></a></li>
+<li class="constant  "><a href="#constant_ERROR_TO" title="ERROR_TO :: Exception on static functions"><span class="description">Exception on static functions</span><pre>ERROR_TO</pre></a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="span8">
+<a id="\Phery"></a><ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/global.html">global</a></li>
+<li class="active">
+<span class="divider">\</span><a href="../classes/Phery.html">Phery</a>
+</li>
+</ul>
+<div class="element class">
+<p class="short_description">Main class for Phery</p>
+<div class="details">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>package</th>
+<td><a href="../packages/Phery.html">Phery</a></td>
+</tr></table>
+<h3>
+<i class="icon-custom icon-method"></i> Methods</h3>
+<a id="method___construct"></a><div class="element clickable method public method___construct" data-toggle="collapse" data-target=".method___construct .collapse">
+<h2>Construct the new Phery instance</h2>
+<pre>__construct(array $config) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$config</h4>
+<code>array</code><p>Config array</p></div>
+</div></div>
+</div>
+<a id="method___get"></a><div class="element clickable method public method___get" data-toggle="collapse" data-target=".method___get .collapse">
+<h2>Get shared data</h2>
+<pre>__get(string $name) : mixed</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$name</h4>
+<code>string</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>mixed</code></div>
+</div></div>
+</div>
+<a id="method___set"></a><div class="element clickable method public method___set" data-toggle="collapse" data-target=".method___set .collapse">
+<h2>Set shared data</h2>
+<pre>__set(string $name, mixed $value) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$name</h4>
+<code>string</code>
+</div>
+<div class="subelement argument">
+<h4>$value</h4>
+<code>mixed</code>
+</div>
+</div></div>
+</div>
+<a id="method_answer_for"></a><div class="element clickable method public method_answer_for" data-toggle="collapse" data-target=".method_answer_for .collapse">
+<h2>Return the data associatated with a processed POST call</h2>
+<pre>answer_for(string $alias, mixed $default) : mixed</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$alias</h4>
+<code>string</code><p>The name of the alias for the process function</p></div>
+<div class="subelement argument">
+<h4>$default</h4>
+<code>mixed</code><p>Any data that should be returned if there's no answer, defaults to null</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>mixed</code>Return $default if no data available, defaults to NULL</div>
+</div></div>
+</div>
+<a id="method_args"></a><div class="element clickable method public method_args" data-toggle="collapse" data-target=".method_args .collapse">
+<h2>Encode PHP code to put inside data-args, usually for updating the data there</h2>
+<pre>args(array $data, string $encoding) : string</pre>
+<div class="labels"><span class="label">Static</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$data</h4>
+<code>array</code><p>Any data that can be converted using json_encode</p></div>
+<div class="subelement argument">
+<h4>$encoding</h4>
+<code>string</code><p>Encoding for the arguments</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>string</code>Return json_encode'd and htmlentities'd string</div>
+</div></div>
+</div>
+<a id="method_callback"></a><div class="element clickable method public method_callback" data-toggle="collapse" data-target=".method_callback .collapse">
+<h2>Set callbacks for before and after filters.</h2>
+<pre>callback(array $callbacks) : <a href="../classes/Phery.html">\Phery</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Callbacks are useful for example, if you have 2 or more AJAX functions, and you need to perform
+the same data manipulation, like removing an 'id' from the $_POST['args'], or to check for potential
+CSRF or SQL injection attempts on all the functions, clean data or perform START TRANSACTION for database, etc</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$callbacks</h4>
+<code>array</code><pre> array( // Set a function to be called BEFORE // processing the request, if it's an // AJAX to be processed request, can be // an array of callbacks 'before' => array|function, // Set a function to be called AFTER // processing the request, if it's an AJAX // processed request, can be an array of // callbacks 'after' => array|function ); </pre>
+
+<p>The callback function should be</p>
+
+<pre> // $additional_args is passed using the callback_data() function, in this case, a before callback function before_callback($ajax_data, $internal_data){ // Do stuff $_POST['args']['id'] = $additional_args['id']; return true; } // after callback would be to save the data perhaps? Just to keep the code D.R.Y. function after_callback($ajax_data, $internal_data, $PheryResponse){ $this->database->save(); $PheryResponse->merge(PheryResponse::factory('#loading')->fadeOut()); return true; } </pre>
+
+<p>Returning false on the callback will make the process() phase to RETURN, but won't exit. You may manually exit on the after callback if desired Any data that should be modified will be inside $_POST['args'] (can be accessed freely on 'before', will be passed to the AJAX function)</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/Phery.html">\Phery</a></code></div>
+</div></div>
+</div>
+<a id="method_coalesce"></a><div class="element clickable method public method_coalesce" data-toggle="collapse" data-target=".method_coalesce .collapse">
+<h2>Utility function taken from MYSQL.</h2>
+<pre>coalesce() : mixed</pre>
+<div class="labels"><span class="label">Static</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>To not raise any E_NOTICES (if enabled in your error reporting), call it with @ before
+the variables. Eg.: Phery::coalesce(@$var1, @$var['asdf']);</p></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>mixed</code></div>
+</div></div>
+</div>
+<a id="method_config"></a><div class="element clickable method public method_config" data-toggle="collapse" data-target=".method_config .collapse">
+<h2>Config the current instance of Phery</h2>
+<pre>config(string | array $config) : <a href="../classes/Phery.html">\Phery</a> | string | array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$config</h4>
+<code>string</code><code>array</code><p>Associative array containing the following options</p>
+
+<pre> array( // Defaults to true, stop further script execution 'exit_allowed' => true|false, // Don't apply stripslashes on the args 'no_stripslashes' => true|false, // Throw exceptions on errors 'exceptions' => true|false, // Set the functions that will be called even if is a // POST but not an AJAX call 'respond_to_post' => array('function-alias-1','function-alias-2'), // Enable/disable GZIP/DEFLATE compression, depending on the browser support. // Don't enable it if you are using Apache DEFLATE/GZIP, or zlib.output_compression // Most of the time, compression will hide exceptions, because it will output plain // text while the content-type is gzip 'compress' => true|false, // Error reporting temporarily using error_reporting(). 'false' disables // the error_reporting and wont try to catch any error. // Anything else than false will throw a PheryResponse->exception() with // the message 'error_reporting' => false|E_ALL|E_DEPRECATED|... ); </pre>
+
+<p>If you pass a string, it will return the current config for the key specified Anything else, will output the current config as associative array</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code><a href="../classes/Phery.html">\Phery</a></code><code>string</code><code>array</code>
+</div>
+</div></div>
+</div>
+<a id="method_csrf"></a><div class="element clickable method public method_csrf" data-toggle="collapse" data-target=".method_csrf .collapse">
+<h2>Output the meta HTML with the token.</h2>
+<pre>csrf(bool $check) : string | bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>This method needs to use sessions through session_start</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$check</h4>
+<code>bool</code><p>Check if the current token is valid</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>string</code><code>bool</code>
+</div>
+</div></div>
+</div>
+<a id="method_data"></a><div class="element clickable method public method_data" data-toggle="collapse" data-target=".method_data .collapse">
+<h2>Set any data to pass to the callbacks</h2>
+<pre>data() : <a href="../classes/Phery.html">\Phery</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/Phery.html">\Phery</a></code></div>
+</div></div>
+</div>
+<a id="method_error_handler"></a><div class="element clickable method public method_error_handler" data-toggle="collapse" data-target=".method_error_handler .collapse">
+<h2>Default error handler</h2>
+<pre>error_handler(int $errno, string $errstr, string $errfile, int $errline) </pre>
+<div class="labels"><span class="label">Static</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$errno</h4>
+<code>int</code>
+</div>
+<div class="subelement argument">
+<h4>$errstr</h4>
+<code>string</code>
+</div>
+<div class="subelement argument">
+<h4>$errfile</h4>
+<code>string</code>
+</div>
+<div class="subelement argument">
+<h4>$errline</h4>
+<code>int</code>
+</div>
+</div></div>
+</div>
+<a id="method_factory"></a><div class="element clickable method public method_factory" data-toggle="collapse" data-target=".method_factory .collapse">
+<h2>Create a new instance of Phery that can be chained, without the need of assigning it to a variable</h2>
+<pre>factory(array $config) : <a href="../classes/Phery.html">\Phery</a></pre>
+<div class="labels"><span class="label">Static</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>see</th>
+<td><a href="">\global\Phery::config()</a></td>
+</tr>
+<tr>
+<th>static</th>
+<td></td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$config</h4>
+<code>array</code><p>Associative config array</p></div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/Phery.html">\Phery</a></code></div>
+</div></div>
+</div>
+<a id="method_form_for"></a><div class="element clickable method public method_form_for" data-toggle="collapse" data-target=".method_form_for .collapse">
+<h2>Create a &lt;form&gt; tag with ajax enabled.</h2>
+<pre>form_for(string $action, string $function, array $attributes, \Phery $phery) : string</pre>
+<div class="labels"><span class="label">Static</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Must be closed manually with </form></p></div>
+<table class="table table-bordered"><tr>
+<th>static</th>
+<td></td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$action</h4>
+<code>string</code><p>where to go, can be empty</p></div>
+<div class="subelement argument">
+<h4>$function</h4>
+<code>string</code><p>Registered function name</p></div>
+<div class="subelement argument">
+<h4>$attributes</h4>
+<code>array</code><pre> array( //Confirmation dialog 'confirm' => 'Are you sure?', // Type of call, defaults to JSON (to use PheryResponse) 'data-type' => 'json', // 'all' submits all elements on the form, even empty ones // 'disabled' enables submitting disabled elements 'submit' => array('all' => true, 'disabled' => true), // Set the encoding of the data, defaults to UTF-8 'encoding' => 'UTF-8', ); </pre>
+</div>
+<div class="subelement argument">
+<h4>$phery</h4>
+<code><a href="../classes/Phery.html">\Phery</a></code><p>Pass the current instance of phery, so it can check if the functions are defined, and throw exceptions</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>string</code>The mounted <form> HTML tag</div>
+</div></div>
+</div>
+<a id="method_instance"></a><div class="element clickable method public method_instance" data-toggle="collapse" data-target=".method_instance .collapse">
+<h2>Generates just one instance.</h2>
+<pre>instance(array $config) : <a href="../classes/Phery.html">\Phery</a></pre>
+<div class="labels"><span class="label">Static</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Useful to use in many included files. Chainable</p></div>
+<table class="table table-bordered">
+<tr>
+<th>see</th>
+<td><a href="">\global\Phery::__construct()</a></td>
+</tr>
+<tr>
+<th>see</th>
+<td><a href="">\global\Phery::config()</a></td>
+</tr>
+<tr>
+<th>static</th>
+<td></td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$config</h4>
+<code>array</code><p>Associative config array</p></div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/Phery.html">\Phery</a></code></div>
+</div></div>
+</div>
+<a id="method_is_ajax"></a><div class="element clickable method public method_is_ajax" data-toggle="collapse" data-target=".method_is_ajax .collapse">
+<h2>Check if the current call is an ajax call</h2>
+<pre>is_ajax(bool $is_phery) : bool</pre>
+<div class="labels"><span class="label">Static</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>static</th>
+<td></td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$is_phery</h4>
+<code>bool</code><p>Check if is an ajax call and a phery specific call</p></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>bool</code></div>
+</div></div>
+</div>
+<a id="method_link_to"></a><div class="element clickable method public method_link_to" data-toggle="collapse" data-target=".method_link_to .collapse">
+<h2>Helper function that generates an ajax link, defaults to "A" tag</h2>
+<pre>link_to(string $content, string $function, array $attributes, \Phery $phery) : string</pre>
+<div class="labels"><span class="label">Static</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>static</th>
+<td></td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$content</h4>
+<code>string</code><p>The content of the link. This is ignored for self closing tags, img, input, iframe</p></div>
+<div class="subelement argument">
+<h4>$function</h4>
+<code>string</code><p>The PHP function assigned name on Phery::set()</p>
+</div>
+<div class="subelement argument">
+<h4>$attributes</h4>
+<code>array</code><p>Extra attributes that can be passed to the link, like class, style, etc</p>
+
+<pre> array( // Display confirmation on click 'confirm' => 'Are you sure?', // The tag for the item, defaults to a. If the tag is set to img, the 'src' must be set in attributes parameter 'tag' => 'a', // Define another URI for the AJAX call, this defines the HREF of A 'href' => '/path/to/url', // Extra arguments to pass to the AJAX function, will be stored // in the data-args attribute as a JSON notation 'args' => array(1, "a"), // Set the "href" attribute for non-anchor (a) AJAX tags (like buttons or spans). // Works for A links too, but it won't function without javascript, through data-target 'target' => '/default/ajax/controller', // Define the data-type for the communication 'data-type' => 'json', // Set the encoding of the data, defaults to UTF-8 'encoding' => 'UTF-8', // Set the method (for restful responses) 'method' => 'PUT' ); </pre>
+</div>
+<div class="subelement argument">
+<h4>$phery</h4>
+<code><a href="../classes/Phery.html">\Phery</a></code><p>Pass the current instance of phery, so it can check if the functions are defined, and throw exceptions</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>string</code>The mounted HTML tag</div>
+</div></div>
+</div>
+<a id="method_offsetExists"></a><div class="element clickable method public method_offsetExists" data-toggle="collapse" data-target=".method_offsetExists .collapse">
+<h2>OffsetExists</h2>
+<pre>offsetExists(mixed $offset) : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$offset</h4>
+<code>mixed</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>bool</code></div>
+</div></div>
+</div>
+<a id="method_offsetGet"></a><div class="element clickable method public method_offsetGet" data-toggle="collapse" data-target=".method_offsetGet .collapse">
+<h2>OffsetGet</h2>
+<pre>offsetGet(mixed $offset) : mixed | null</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$offset</h4>
+<code>mixed</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>mixed</code><code>null</code>
+</div>
+</div></div>
+</div>
+<a id="method_offsetSet"></a><div class="element clickable method public method_offsetSet" data-toggle="collapse" data-target=".method_offsetSet .collapse">
+<h2>offsetSet</h2>
+<pre>offsetSet(mixed $offset, mixed $value) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$offset</h4>
+<code>mixed</code>
+</div>
+<div class="subelement argument">
+<h4>$value</h4>
+<code>mixed</code>
+</div>
+</div></div>
+</div>
+<a id="method_offsetUnset"></a><div class="element clickable method public method_offsetUnset" data-toggle="collapse" data-target=".method_offsetUnset .collapse">
+<h2>OffsetUnset</h2>
+<pre>offsetUnset(mixed $offset) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$offset</h4>
+<code>mixed</code>
+</div>
+</div></div>
+</div>
+<a id="method_process"></a><div class="element clickable method public method_process" data-toggle="collapse" data-target=".method_process .collapse">
+<h2>Process the AJAX requests if any</h2>
+<pre>process(bool $last_call) : void</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$last_call</h4>
+<code>bool</code><p>Set this to false if any other further calls to process() will happen, otherwise it will exit</p>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/PheryException.html">\PheryException</a></code></th>
+<td></td>
+</tr></table>
+</div></div>
+</div>
+<a id="method_respond"></a><div class="element clickable method public method_respond" data-toggle="collapse" data-target=".method_respond .collapse">
+<h2>Helper function to properly output the headers for a PheryResponse in case you need
+to manually return it (like when following a redirect)</h2>
+<pre>respond(string | <a href="../classes/PheryResponse.html">\PheryResponse</a> $response, boolean $compress, string $name) : string</pre>
+<div class="labels"><span class="label">Static</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$response</h4>
+<code>string</code><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code><p>The response or a string</p></div>
+<div class="subelement argument">
+<h4>$compress</h4>
+<code>boolean</code><p>Either to compress the response or not</p></div>
+<div class="subelement argument">
+<h4>$name</h4>
+<code>string</code><p>This parameter can be ignored</p></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a id="method_select_for"></a><div class="element clickable method public method_select_for" data-toggle="collapse" data-target=".method_select_for .collapse">
+<h2>Create a &lt;select&gt; element with ajax enabled "onchange" event.</h2>
+<pre>select_for(string $function, array $items, array $attributes, \Phery $phery) : string</pre>
+<div class="labels"><span class="label">Static</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>static</th>
+<td></td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$function</h4>
+<code>string</code><p>Registered function name</p></div>
+<div class="subelement argument">
+<h4>$items</h4>
+<code>array</code><p>Options for the select, 'value' => 'text' representation</p>
+</div>
+<div class="subelement argument">
+<h4>$attributes</h4>
+<code>array</code><pre> array( // Confirmation dialog 'confirm' => 'Are you sure?', // Type of call, defaults to JSON (to use PheryResponse) 'data-type' => 'json', // The URL where it should call, translates to data-target 'target' => '/path/to/php', // Extra arguments to pass to the AJAX function, will be stored // in the args attribute as a JSON notation, translates to data-args 'args' => array(1, "a"), // Set the encoding of the data, defaults to UTF-8 'encoding' => 'UTF-8', // The current selected value, or array(1,2) for multiple 'selected' => 1 // Set the method (for restful responses) 'method' => 'PUT' ); </pre>
+</div>
+<div class="subelement argument">
+<h4>$phery</h4>
+<code><a href="../classes/Phery.html">\Phery</a></code><p>Pass the current instance of phery, so it can check if the functions are defined, and throw exceptions</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>string</code>The mounted <select> with <option>s inside</div>
+</div></div>
+</div>
+<a id="method_set"></a><div class="element clickable method public method_set" data-toggle="collapse" data-target=".method_set .collapse">
+<h2>Sets the functions to respond to the ajax call.</h2>
+<pre>set(array $functions) : <a href="../classes/Phery.html">\Phery</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>For security reasons, these functions should not be reacheable through POST/GET requests.
+These will be set only for AJAX requests as it will only be called in case of an ajax request,
+to save resources.
+The answer/process function, should have the following structure:</p>
+
+<pre>
+function func($ajax_data, $callback_data){
+  $r = new PheryResponse; // or PheryResponse::factory();
+
+  // Sometimes the $callback_data will have an item called 'submit_id',
+  // is the ID of the calling DOM element.
+  // if (isset($callback_data['submit_id'])) {  }
+
+  $r->jquery('#id')->animate(...);
+     return $r;
+}
+</pre></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$functions</h4>
+<code>array</code><p>An array of functions to register to the instance.</p></div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/Phery.html">\Phery</a></code></div>
+</div></div>
+</div>
+<a id="method_shutdown_handler"></a><div class="element clickable method public method_shutdown_handler" data-toggle="collapse" data-target=".method_shutdown_handler .collapse">
+<h2>Default shutdown handler</h2>
+<pre>shutdown_handler(bool $compressed, bool $errors, bool $handled) </pre>
+<div class="labels"><span class="label">Static</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$compressed</h4>
+<code>bool</code>
+</div>
+<div class="subelement argument">
+<h4>$errors</h4>
+<code>bool</code>
+</div>
+<div class="subelement argument">
+<h4>$handled</h4>
+<code>bool</code>
+</div>
+</div></div>
+</div>
+<a id="method_views"></a><div class="element clickable method public method_views" data-toggle="collapse" data-target=".method_views .collapse">
+<h2>Set the callback for view portions, as defined in Phery.view()</h2>
+<pre>views(array $views) : <a href="../classes/Phery.html">\Phery</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$views</h4>
+<code>array</code><p>Array consisting of array('#id_of_view' => callback) The callback is like a normal phery callback, but the second parameter receives different data. But it MUST always return a PheryResponse with render_view(). You can do any manipulation like you would in regular callbacks. If you want to manipulate the DOM AFTER it was rendered, do it javascript side, using the afterHtml callback when setting up the views.</p>
+
+<pre> Phery::instance()->views(array( '#container' => function($data, $params){ return PheryResponse::factory() ->render_view('html', array('extra data like titles, menus, etc')); } )); </pre>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/Phery.html">\Phery</a></code></div>
+</div></div>
+</div>
+<a id="method_before_user_func"></a><div class="element clickable method protected method_before_user_func" data-toggle="collapse" data-target=".method_before_user_func .collapse">
+<h2>Initialize stuff before calling the AJAX function</h2>
+<pre>before_user_func() : void</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="method_common_check"></a><div class="element clickable method protected method_common_check" data-toggle="collapse" data-target=".method_common_check .collapse">
+<h2>Common check for all static factories</h2>
+<pre>common_check(array $attributes, bool $include_method) : string</pre>
+<div class="labels"><span class="label">Static</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$attributes</h4>
+<code>array</code>
+</div>
+<div class="subelement argument">
+<h4>$include_method</h4>
+<code>bool</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a id="method_exception"></a><div class="element clickable method protected method_exception" data-toggle="collapse" data-target=".method_exception .collapse">
+<h2>Throw an exception if enabled</h2>
+<pre>exception(<a href="../classes/Phery.html">\Phery</a> $phery, string $exception, integer $code) : boolean</pre>
+<div class="labels"><span class="label">Static</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$phery</h4>
+<code><a href="../classes/Phery.html">\Phery</a></code><p>Instance</p></div>
+<div class="subelement argument">
+<h4>$exception</h4>
+<code>string</code>
+</div>
+<div class="subelement argument">
+<h4>$code</h4>
+<code>integer</code>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/PheryException.html">\PheryException</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code>boolean</code></div>
+</div></div>
+</div>
+<a id="method_process_data"></a><div class="element clickable method private method_process_data" data-toggle="collapse" data-target=".method_process_data .collapse">
+<h2>Process the requests if any</h2>
+<pre>process_data(boolean $respond_to_post, boolean $last_call) : boolean</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$respond_to_post</h4>
+<code>boolean</code>
+</div>
+<div class="subelement argument">
+<h4>$last_call</h4>
+<code>boolean</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>boolean</code></div>
+</div></div>
+</div>
+<a id="method_stripslashes_recursive"></a><div class="element clickable method private method_stripslashes_recursive" data-toggle="collapse" data-target=".method_stripslashes_recursive .collapse">
+<h2>Strip slashes recursive</h2>
+<pre>stripslashes_recursive($variable) : array | string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$variable</h4></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code><code>string</code>
+</div>
+</div></div>
+</div>
+<h3>
+<i class="icon-custom icon-property"></i> Properties</h3>
+<a id="property_answers"> </a><div class="element clickable property protected property_answers" data-toggle="collapse" data-target=".property_answers .collapse">
+<h2></h2>
+<pre>$answers : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>see</th>
+<td><a href="">\global\Phery::answer_for()</a></td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_callbacks"> </a><div class="element clickable property protected property_callbacks" data-toggle="collapse" data-target=".property_callbacks .collapse">
+<h2></h2>
+<pre>$callbacks : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_config"> </a><div class="element clickable property protected property_config" data-toggle="collapse" data-target=".property_config .collapse">
+<h2></h2>
+<pre>$config : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>see</th>
+<td><a href="">\global\Phery::config()</a></td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_data"> </a><div class="element clickable property protected property_data" data-toggle="collapse" data-target=".property_data .collapse">
+<h2></h2>
+<pre>$data : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_functions"> </a><div class="element clickable property protected property_functions" data-toggle="collapse" data-target=".property_functions .collapse">
+<h2></h2>
+<pre>$functions : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_instance"> </a><div class="element clickable property protected property_instance" data-toggle="collapse" data-target=".property_instance .collapse">
+<h2></h2>
+<pre>$instance : <a href="../classes/Phery.html">\Phery</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>static</th>
+<td></td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_respond_to_post"> </a><div class="element clickable property protected property_respond_to_post" data-toggle="collapse" data-target=".property_respond_to_post .collapse">
+<h2></h2>
+<pre>$respond_to_post : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"><p>(good for SEO though?)</p></div></div></div>
+</div>
+<a id="property_views"> </a><div class="element clickable property protected property_views" data-toggle="collapse" data-target=".property_views .collapse">
+<h2></h2>
+<pre>$views : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<h3>
+<i class="icon-custom icon-constant"></i> Constants</h3>
+<a id="constant_ERROR_CALLBACK"> </a><div class="element clickable constant  constant_ERROR_CALLBACK" data-toggle="collapse" data-target=".constant_ERROR_CALLBACK .collapse">
+<h2>Exception on callback() function</h2>
+<pre>ERROR_CALLBACK </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>see</th>
+<td><a href="">\global\Phery::callback()</a></td>
+</tr></table>
+</div></div>
+</div>
+<a id="constant_ERROR_CSRF"> </a><div class="element clickable constant  constant_ERROR_CSRF" data-toggle="collapse" data-target=".constant_ERROR_CSRF .collapse">
+<h2>Exception when the CSRF is invalid</h2>
+<pre>ERROR_CSRF </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>see</th>
+<td><a href="">\global\Phery::process()</a></td>
+</tr></table>
+</div></div>
+</div>
+<a id="constant_ERROR_PROCESS"> </a><div class="element clickable constant  constant_ERROR_PROCESS" data-toggle="collapse" data-target=".constant_ERROR_PROCESS .collapse">
+<h2>Exception on process() function</h2>
+<pre>ERROR_PROCESS </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>see</th>
+<td><a href="">\global\Phery::process()</a></td>
+</tr></table>
+</div></div>
+</div>
+<a id="constant_ERROR_SET"> </a><div class="element clickable constant  constant_ERROR_SET" data-toggle="collapse" data-target=".constant_ERROR_SET .collapse">
+<h2>Exception on set() function</h2>
+<pre>ERROR_SET </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>see</th>
+<td><a href="">\global\Phery::set()</a></td>
+</tr></table>
+</div></div>
+</div>
+<a id="constant_ERROR_TO"> </a><div class="element clickable constant  constant_ERROR_TO" data-toggle="collapse" data-target=".constant_ERROR_TO .collapse">
+<h2>Exception on static functions</h2>
+<pre>ERROR_TO </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>see</th>
+<td><a href="">\global\Phery::link_to()</a></td>
+</tr>
+<tr>
+<th>see</th>
+<td><a href="">\global\Phery::select_for()</a></td>
+</tr>
+<tr>
+<th>see</th>
+<td><a href="">\global\Phery::form_for()</a></td>
+</tr>
+</table>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="row"><footer class="span12">
+            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a11</a> and<br>
+            generated on 2012-11-17T09:50:08-02:00.<br></footer></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,3128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project version="2.0.0a11" title="">
+  <file path="Phery.php" hash="207dd9541bf1a6b8acd9cb3448f6af9a" package="Default">
+    <docblock line="2">
+      <description>The MIT License (MIT)</description>
+      <long-description>&lt;p&gt;Copyright © 2010-2012 Paulo Cesar, http://phery-php-ajax.net/&lt;/p&gt;
+
+&lt;p&gt;Permission is hereby granted, free of charge, to any person
+obtaining a copy of this software and associated documentation
+files (the “Software”), to deal in the Software without restriction,
+including without limitation the rights to use, copy, modify, merge,
+publish, distribute, sublicense, and/or sell copies of the Software,
+and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:&lt;/p&gt;
+
+&lt;p&gt;The above copyright notice and this permission notice shall be included
+in all copies or substantial portions of the Software.&lt;/p&gt;
+
+&lt;p&gt;THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+OTHER DEALINGS IN THE SOFTWARE.&lt;/p&gt;</long-description>
+      <tag line="2" name="link" description="http://phery-php-ajax.net/" link="http://phery-php-ajax.net/"/>
+      <tag line="2" name="author" description="Paulo Cesar"/>
+      <tag line="2" name="version" description="2.1.0"/>
+      <tag line="2" name="license" description="http://opensource.org/licenses/MIT MIT License"/>
+    </docblock>
+    <class final="false" abstract="false" namespace="global" line="37" package="Phery">
+      <extends/>
+      <implements>\ArrayAccess</implements>
+      <name>Phery</name>
+      <full_name>\Phery</full_name>
+      <docblock line="32">
+        <description>Main class for Phery</description>
+        <long-description></long-description>
+        <tag line="32" name="package" description="Phery"/>
+      </docblock>
+      <constant namespace="global" line="43" package="Phery">
+        <name>ERROR_CALLBACK</name>
+        <full_name>ERROR_CALLBACK</full_name>
+        <value>0</value>
+        <docblock line="39">
+          <description>Exception on callback() function</description>
+          <long-description></long-description>
+          <tag line="39" name="see" description="\global\Phery::callback()" refers="\global\Phery::callback()"/>
+        </docblock>
+      </constant>
+      <constant namespace="global" line="48" package="Phery">
+        <name>ERROR_PROCESS</name>
+        <full_name>ERROR_PROCESS</full_name>
+        <value>1</value>
+        <docblock line="44">
+          <description>Exception on process() function</description>
+          <long-description></long-description>
+          <tag line="44" name="see" description="\global\Phery::process()" refers="\global\Phery::process()"/>
+        </docblock>
+      </constant>
+      <constant namespace="global" line="53" package="Phery">
+        <name>ERROR_SET</name>
+        <full_name>ERROR_SET</full_name>
+        <value>2</value>
+        <docblock line="49">
+          <description>Exception on set() function</description>
+          <long-description></long-description>
+          <tag line="49" name="see" description="\global\Phery::set()" refers="\global\Phery::set()"/>
+        </docblock>
+      </constant>
+      <constant namespace="global" line="58" package="Phery">
+        <name>ERROR_CSRF</name>
+        <full_name>ERROR_CSRF</full_name>
+        <value>4</value>
+        <docblock line="54">
+          <description>Exception when the CSRF is invalid</description>
+          <long-description></long-description>
+          <tag line="54" name="see" description="\global\Phery::process()" refers="\global\Phery::process()"/>
+        </docblock>
+      </constant>
+      <constant namespace="global" line="65" package="Phery">
+        <name>ERROR_TO</name>
+        <full_name>ERROR_TO</full_name>
+        <value>3</value>
+        <docblock line="59">
+          <description>Exception on static functions</description>
+          <long-description></long-description>
+          <tag line="59" name="see" description="\global\Phery::link_to()" refers="\global\Phery::link_to()"/>
+          <tag line="59" name="see" description="\global\Phery::select_for()" refers="\global\Phery::select_for()"/>
+          <tag line="59" name="see" description="\global\Phery::form_for()" refers="\global\Phery::form_for()"/>
+        </docblock>
+      </constant>
+      <property final="false" static="false" visibility="protected" line="71" namespace="global" package="Default">
+        <name>$functions</name>
+        <default>array()</default>
+        <docblock line="67">
+          <description>The functions registered</description>
+          <long-description></long-description>
+          <tag line="67" name="var" description="" type="array">
+            <type by_reference="false">array</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="protected" line="76" namespace="global" package="Default">
+        <name>$callbacks</name>
+        <default>array()</default>
+        <docblock line="72">
+          <description>The callbacks registered</description>
+          <long-description></long-description>
+          <tag line="72" name="var" description="" type="array">
+            <type by_reference="false">array</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="protected" line="81" namespace="global" package="Default">
+        <name>$data</name>
+        <default>array()</default>
+        <docblock line="77">
+          <description>The callback data to be passed to callbacks and responses</description>
+          <long-description></long-description>
+          <tag line="77" name="var" description="" type="array">
+            <type by_reference="false">array</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="true" visibility="protected" line="87" namespace="global" package="Default">
+        <name>$instance</name>
+        <default>null</default>
+        <docblock line="82">
+          <description>Static instance for singleton</description>
+          <long-description></long-description>
+          <tag line="82" name="var" description="" type="\Phery">
+            <type by_reference="false">\Phery</type>
+          </tag>
+          <tag line="82" name="static" description=""/>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="protected" line="93" namespace="global" package="Default">
+        <name>$respond_to_post</name>
+        <default>array()</default>
+        <docblock line="88">
+          <description>Will call the functions defined in this variable even
+if it wasn't sent by AJAX, use it wisely.</description>
+          <long-description>&lt;p&gt;(good for SEO though?)&lt;/p&gt;</long-description>
+          <tag line="88" name="var" description="" type="array">
+            <type by_reference="false">array</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="protected" line="99" namespace="global" package="Default">
+        <name>$answers</name>
+        <default>array()</default>
+        <docblock line="94">
+          <description>Hold the answers for answer_for function</description>
+          <long-description></long-description>
+          <tag line="94" name="see" description="\global\Phery::answer_for()" refers="\global\Phery::answer_for()"/>
+          <tag line="94" name="var" description="" type="array">
+            <type by_reference="false">array</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="protected" line="104" namespace="global" package="Default">
+        <name>$views</name>
+        <default>array()</default>
+        <docblock line="100">
+          <description>Render view function</description>
+          <long-description></long-description>
+          <tag line="100" name="var" description="" type="array">
+            <type by_reference="false">array</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="protected" line="118" namespace="global" package="Default">
+        <name>$config</name>
+        <default>array()</default>
+        <docblock line="105">
+          <description>Config
+&lt;pre&gt;
+'exit_allowed' (boolean)
+'no_stripslashes' (boolean)
+'exceptions' (boolean)
+'respond_to_post' (array)
+'compress' (boolean)
+'csrf' (boolean)
+&lt;/pre&gt;</description>
+          <long-description></long-description>
+          <tag line="105" name="var" description="" type="array">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="105" name="see" description="\global\Phery::config()" refers="\global\Phery::config()"/>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="124" package="Phery">
+        <name>__construct</name>
+        <full_name>__construct</full_name>
+        <docblock line="120">
+          <description>Construct the new Phery instance</description>
+          <long-description></long-description>
+          <tag line="120" name="param" description="Config array" type="array" variable="$config">
+            <type by_reference="false">array</type>
+          </tag>
+        </docblock>
+        <argument line="124">
+          <name>$config</name>
+          <default>array()</default>
+          <type>array</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="197" package="Phery">
+        <name>callback</name>
+        <full_name>callback</full_name>
+        <docblock line="146">
+          <description>Set callbacks for before and after filters.</description>
+          <long-description>&lt;p&gt;Callbacks are useful for example, if you have 2 or more AJAX functions, and you need to perform
+the same data manipulation, like removing an 'id' from the $_POST['args'], or to check for potential
+CSRF or SQL injection attempts on all the functions, clean data or perform START TRANSACTION for database, etc&lt;/p&gt;</long-description>
+          <tag line="146" name="param" description="&lt;pre&gt; array( // Set a function to be called BEFORE // processing the request, if it's an // AJAX to be processed request, can be // an array of callbacks 'before' =&gt; array|function, // Set a function to be called AFTER // processing the request, if it's an AJAX // processed request, can be an array of // callbacks 'after' =&gt; array|function ); &lt;/pre&gt; The callback function should be &lt;pre&gt; // $additional_args is passed using the callback_data() function, in this case, a before callback function before_callback($ajax_data, $internal_data){ // Do stuff $_POST['args']['id'] = $additional_args['id']; return true; } // after callback would be to save the data perhaps? Just to keep the code D.R.Y. function after_callback($ajax_data, $internal_data, $PheryResponse){ $this-&gt;database-&gt;save(); $PheryResponse-&gt;merge(PheryResponse::factory('#loading')-&gt;fadeOut()); return true; } &lt;/pre&gt; Returning false on the callback will make the process() phase to RETURN, but won't exit. You may manually exit on the after callback if desired Any data that should be modified will be inside $_POST['args'] (can be accessed freely on 'before', will be passed to the AJAX function)" type="array" variable="$callbacks">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="146" name="return" description="" type="\Phery">
+            <type by_reference="false">\Phery</type>
+          </tag>
+        </docblock>
+        <argument line="197">
+          <name>$callbacks</name>
+          <default></default>
+          <type>array</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="protected" namespace="global" line="270" package="Phery">
+        <name>exception</name>
+        <full_name>exception</full_name>
+        <docblock line="260">
+          <description>Throw an exception if enabled</description>
+          <long-description></long-description>
+          <tag line="260" name="param" description="Instance" type="\Phery" variable="$phery">
+            <type by_reference="false">\Phery</type>
+          </tag>
+          <tag line="260" name="param" description="" type="string" variable="$exception">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="260" name="param" description="" type="integer" variable="$code">
+            <type by_reference="false">integer</type>
+          </tag>
+          <tag line="260" name="throws" description="" type="\PheryException">
+            <type by_reference="false">\PheryException</type>
+          </tag>
+          <tag line="260" name="return" description="" type="boolean">
+            <type by_reference="false">boolean</type>
+          </tag>
+        </docblock>
+        <argument line="270">
+          <name>$phery</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="270">
+          <name>$exception</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="270">
+          <name>$code</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="289" package="Phery">
+        <name>data</name>
+        <full_name>data</full_name>
+        <docblock line="282">
+          <description>Set any data to pass to the callbacks</description>
+          <long-description></long-description>
+          <tag line="282" name="param" description="... Parameters, can be anything" type="mixed" variable="">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="282" name="return" description="" type="\Phery">
+            <type by_reference="false">\Phery</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="public" namespace="global" line="314" package="Phery">
+        <name>args</name>
+        <full_name>args</full_name>
+        <docblock line="306">
+          <description>Encode PHP code to put inside data-args, usually for updating the data there</description>
+          <long-description></long-description>
+          <tag line="306" name="param" description="Any data that can be converted using json_encode" type="array" variable="$data">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="306" name="param" description="Encoding for the arguments" type="string" variable="$encoding">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="306" name="return" description="Return json_encode'd and htmlentities'd string" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+        <argument line="314">
+          <name>$data</name>
+          <default></default>
+          <type>array</type>
+        </argument>
+        <argument line="314">
+          <name>$encoding</name>
+          <default>'UTF-8'</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="326" package="Phery">
+        <name>csrf</name>
+        <full_name>csrf</full_name>
+        <docblock line="319">
+          <description>Output the meta HTML with the token.</description>
+          <long-description>&lt;p&gt;This method needs to use sessions through session_start&lt;/p&gt;</long-description>
+          <tag line="319" name="param" description="Check if the current token is valid" type="bool" variable="$check">
+            <type by_reference="false">bool</type>
+          </tag>
+          <tag line="319" name="return" description="" type="string|bool">
+            <type by_reference="false">string</type>
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+        <argument line="326">
+          <name>$check</name>
+          <default>false</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="public" namespace="global" line="369" package="Phery">
+        <name>is_ajax</name>
+        <full_name>is_ajax</full_name>
+        <docblock line="361">
+          <description>Check if the current call is an ajax call</description>
+          <long-description></long-description>
+          <tag line="361" name="param" description="Check if is an ajax call and a phery specific call" type="bool" variable="$is_phery">
+            <type by_reference="false">bool</type>
+          </tag>
+          <tag line="361" name="static" description=""/>
+          <tag line="361" name="return" description="" type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+        <argument line="369">
+          <name>$is_phery</name>
+          <default>false</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="private" namespace="global" line="391" package="Phery">
+        <name>stripslashes_recursive</name>
+        <full_name>stripslashes_recursive</full_name>
+        <docblock line="385">
+          <description>Strip slashes recursive</description>
+          <long-description></long-description>
+          <tag line="385" name="param" description="" type="\global\" variable="$variable"/>
+          <tag line="385" name="return" description="" type="array|string">
+            <type by_reference="false">array</type>
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+        <argument line="391">
+          <name>$variable</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="417" package="Phery">
+        <name>answer_for</name>
+        <full_name>answer_for</full_name>
+        <docblock line="409">
+          <description>Return the data associatated with a processed POST call</description>
+          <long-description></long-description>
+          <tag line="409" name="param" description="The name of the alias for the process function" type="string" variable="$alias">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="409" name="param" description="Any data that should be returned if there's no answer, defaults to null" type="mixed" variable="$default">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="409" name="return" description="Return $default if no data available, defaults to NULL" type="mixed">
+            <type by_reference="false">mixed</type>
+          </tag>
+        </docblock>
+        <argument line="417">
+          <name>$alias</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="417">
+          <name>$default</name>
+          <default>null</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="public" namespace="global" line="435" package="Phery">
+        <name>error_handler</name>
+        <full_name>error_handler</full_name>
+        <docblock line="427">
+          <description>Default error handler</description>
+          <long-description></long-description>
+          <tag line="427" name="param" description="" type="int" variable="$errno">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag line="427" name="param" description="" type="string" variable="$errstr">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="427" name="param" description="" type="string" variable="$errfile">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="427" name="param" description="" type="int" variable="$errline">
+            <type by_reference="false">int</type>
+          </tag>
+        </docblock>
+        <argument line="435">
+          <name>$errno</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="435">
+          <name>$errstr</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="435">
+          <name>$errfile</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="435">
+          <name>$errline</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="public" namespace="global" line="456" package="Phery">
+        <name>shutdown_handler</name>
+        <full_name>shutdown_handler</full_name>
+        <docblock line="449">
+          <description>Default shutdown handler</description>
+          <long-description></long-description>
+          <tag line="449" name="param" description="" type="bool" variable="$compressed">
+            <type by_reference="false">bool</type>
+          </tag>
+          <tag line="449" name="param" description="" type="bool" variable="$errors">
+            <type by_reference="false">bool</type>
+          </tag>
+          <tag line="449" name="param" description="" type="bool" variable="$handled">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+        <argument line="456">
+          <name>$compressed</name>
+          <default>false</default>
+          <type/>
+        </argument>
+        <argument line="456">
+          <name>$errors</name>
+          <default>false</default>
+          <type/>
+        </argument>
+        <argument line="456">
+          <name>$handled</name>
+          <default>false</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="public" namespace="global" line="492" package="Phery">
+        <name>respond</name>
+        <full_name>respond</full_name>
+        <docblock line="482">
+          <description>Helper function to properly output the headers for a PheryResponse in case you need
+to manually return it (like when following a redirect)</description>
+          <long-description></long-description>
+          <tag line="482" name="param" description="The response or a string" type="string|\PheryResponse" variable="$response">
+            <type by_reference="false">string</type>
+            <type by_reference="false">\PheryResponse</type>
+          </tag>
+          <tag line="482" name="param" description="Either to compress the response or not" type="boolean" variable="$compress">
+            <type by_reference="false">boolean</type>
+          </tag>
+          <tag line="482" name="param" description="This parameter can be ignored" type="string" variable="$name">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="482" name="return" description="" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+        <argument line="492">
+          <name>$response</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="492">
+          <name>$compress</name>
+          <default>false</default>
+          <type/>
+        </argument>
+        <argument line="492">
+          <name>$name</name>
+          <default>''</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="551" package="Phery">
+        <name>views</name>
+        <full_name>views</full_name>
+        <docblock line="530">
+          <description>Set the callback for view portions, as defined in Phery.view()</description>
+          <long-description></long-description>
+          <tag line="530" name="param" description="Array consisting of array('#id_of_view' =&gt; callback) The callback is like a normal phery callback, but the second parameter receives different data. But it MUST always return a PheryResponse with render_view(). You can do any manipulation like you would in regular callbacks. If you want to manipulate the DOM AFTER it was rendered, do it javascript side, using the afterHtml callback when setting up the views. &lt;pre&gt; Phery::instance()-&gt;views(array( '#container' =&gt; function($data, $params){ return PheryResponse::factory() -&gt;render_view('html', array('extra data like titles, menus, etc')); } )); &lt;/pre&gt;" type="array" variable="$views">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="530" name="return" description="" type="\Phery">
+            <type by_reference="false">\Phery</type>
+          </tag>
+        </docblock>
+        <argument line="551">
+          <name>$views</name>
+          <default></default>
+          <type>array</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="global" line="573" package="Phery">
+        <name>before_user_func</name>
+        <full_name>before_user_func</full_name>
+        <docblock line="568">
+          <description>Initialize stuff before calling the AJAX function</description>
+          <long-description></long-description>
+          <tag line="568" name="return" description="" type="void">
+            <type by_reference="false">void</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="private" namespace="global" line="601" package="Phery">
+        <name>process_data</name>
+        <full_name>process_data</full_name>
+        <docblock line="593">
+          <description>Process the requests if any</description>
+          <long-description></long-description>
+          <tag line="593" name="param" description="" type="boolean" variable="$respond_to_post">
+            <type by_reference="false">boolean</type>
+          </tag>
+          <tag line="593" name="param" description="" type="boolean" variable="$last_call">
+            <type by_reference="false">boolean</type>
+          </tag>
+          <tag line="593" name="return" description="" type="boolean">
+            <type by_reference="false">boolean</type>
+          </tag>
+        </docblock>
+        <argument line="601">
+          <name>$respond_to_post</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="601">
+          <name>$last_call</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="793" package="Phery">
+        <name>process</name>
+        <full_name>process</full_name>
+        <docblock line="784">
+          <description>Process the AJAX requests if any</description>
+          <long-description></long-description>
+          <tag line="784" name="param" description="Set this to false if any other further calls to process() will happen, otherwise it will exit" type="bool" variable="$last_call">
+            <type by_reference="false">bool</type>
+          </tag>
+          <tag line="784" name="throws" description="" type="\PheryException">
+            <type by_reference="false">\PheryException</type>
+          </tag>
+          <tag line="784" name="return" description="" type="void">
+            <type by_reference="false">void</type>
+          </tag>
+        </docblock>
+        <argument line="793">
+          <name>$last_call</name>
+          <default>true</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="850" package="Phery">
+        <name>config</name>
+        <full_name>config</full_name>
+        <docblock line="812">
+          <description>Config the current instance of Phery</description>
+          <long-description></long-description>
+          <tag line="812" name="param" description="Associative array containing the following options &lt;pre&gt; array( // Defaults to true, stop further script execution 'exit_allowed' =&gt; true|false, // Don't apply stripslashes on the args 'no_stripslashes' =&gt; true|false, // Throw exceptions on errors 'exceptions' =&gt; true|false, // Set the functions that will be called even if is a // POST but not an AJAX call 'respond_to_post' =&gt; array('function-alias-1','function-alias-2'), // Enable/disable GZIP/DEFLATE compression, depending on the browser support. // Don't enable it if you are using Apache DEFLATE/GZIP, or zlib.output_compression // Most of the time, compression will hide exceptions, because it will output plain // text while the content-type is gzip 'compress' =&gt; true|false, // Error reporting temporarily using error_reporting(). 'false' disables // the error_reporting and wont try to catch any error. // Anything else than false will throw a PheryResponse-&gt;exception() with // the message 'error_reporting' =&gt; false|E_ALL|E_DEPRECATED|... ); &lt;/pre&gt; If you pass a string, it will return the current config for the key specified Anything else, will output the current config as associative array" type="string|array" variable="$config">
+            <type by_reference="false">string</type>
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="812" name="return" description="" type="\Phery|string|array">
+            <type by_reference="false">\Phery</type>
+            <type by_reference="false">string</type>
+            <type by_reference="false">array</type>
+          </tag>
+        </docblock>
+        <argument line="850">
+          <name>$config</name>
+          <default>null</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="public" namespace="global" line="931" package="Phery">
+        <name>instance</name>
+        <full_name>instance</full_name>
+        <docblock line="921">
+          <description>Generates just one instance.</description>
+          <long-description>&lt;p&gt;Useful to use in many included files. Chainable&lt;/p&gt;</long-description>
+          <tag line="921" name="param" description="Associative config array" type="array" variable="$config">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="921" name="see" description="\global\Phery::__construct()" refers="\global\Phery::__construct()"/>
+          <tag line="921" name="see" description="\global\Phery::config()" refers="\global\Phery::config()"/>
+          <tag line="921" name="static" description=""/>
+          <tag line="921" name="return" description="" type="\Phery">
+            <type by_reference="false">\Phery</type>
+          </tag>
+        </docblock>
+        <argument line="931">
+          <name>$config</name>
+          <default>array()</default>
+          <type>array</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="968" package="Phery">
+        <name>set</name>
+        <full_name>set</full_name>
+        <docblock line="945">
+          <description>Sets the functions to respond to the ajax call.</description>
+          <long-description>&lt;p&gt;For security reasons, these functions should not be reacheable through POST/GET requests.
+These will be set only for AJAX requests as it will only be called in case of an ajax request,
+to save resources.
+The answer/process function, should have the following structure:&lt;/p&gt;
+
+&lt;pre&gt;
+function func($ajax_data, $callback_data){
+  $r = new PheryResponse; // or PheryResponse::factory();
+
+  // Sometimes the $callback_data will have an item called 'submit_id',
+  // is the ID of the calling DOM element.
+  // if (isset($callback_data['submit_id'])) {  }
+
+  $r-&gt;jquery('#id')-&gt;animate(...);
+     return $r;
+}
+&lt;/pre&gt;</long-description>
+          <tag line="945" name="param" description="An array of functions to register to the instance." type="array" variable="$functions">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="945" name="return" description="" type="\Phery">
+            <type by_reference="false">\Phery</type>
+          </tag>
+        </docblock>
+        <argument line="968">
+          <name>$functions</name>
+          <default></default>
+          <type>array</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="public" namespace="global" line="1010" package="Phery">
+        <name>factory</name>
+        <full_name>factory</full_name>
+        <docblock line="1001">
+          <description>Create a new instance of Phery that can be chained, without the need of assigning it to a variable</description>
+          <long-description></long-description>
+          <tag line="1001" name="param" description="Associative config array" type="array" variable="$config">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="1001" name="see" description="\global\Phery::config()" refers="\global\Phery::config()"/>
+          <tag line="1001" name="static" description=""/>
+          <tag line="1001" name="return" description="" type="\Phery">
+            <type by_reference="false">\Phery</type>
+          </tag>
+        </docblock>
+        <argument line="1010">
+          <name>$config</name>
+          <default>array()</default>
+          <type>array</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="protected" namespace="global" line="1023" package="Phery">
+        <name>common_check</name>
+        <full_name>common_check</full_name>
+        <docblock line="1015">
+          <description>Common check for all static factories</description>
+          <long-description></long-description>
+          <tag line="1015" name="param" description="" type="array" variable="$attributes">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="1015" name="param" description="" type="bool" variable="$include_method">
+            <type by_reference="false">bool</type>
+          </tag>
+          <tag line="1015" name="return" description="" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+        <argument line="1023">
+          <name>$attributes</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="1023">
+          <name>$include_method</name>
+          <default>true</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="public" namespace="global" line="1109" package="Phery">
+        <name>link_to</name>
+        <full_name>link_to</full_name>
+        <docblock line="1068">
+          <description>Helper function that generates an ajax link, defaults to "A" tag</description>
+          <long-description></long-description>
+          <tag line="1068" name="param" description="The content of the link. This is ignored for self closing tags, img, input, iframe" type="string" variable="$content">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="1068" name="param" description="The PHP function assigned name on Phery::set()" type="string" variable="$function">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="1068" name="param" description="Extra attributes that can be passed to the link, like class, style, etc &lt;pre&gt; array( // Display confirmation on click 'confirm' =&gt; 'Are you sure?', // The tag for the item, defaults to a. If the tag is set to img, the 'src' must be set in attributes parameter 'tag' =&gt; 'a', // Define another URI for the AJAX call, this defines the HREF of A 'href' =&gt; '/path/to/url', // Extra arguments to pass to the AJAX function, will be stored // in the data-args attribute as a JSON notation 'args' =&gt; array(1, &quot;a&quot;), // Set the &quot;href&quot; attribute for non-anchor (a) AJAX tags (like buttons or spans). // Works for A links too, but it won't function without javascript, through data-target 'target' =&gt; '/default/ajax/controller', // Define the data-type for the communication 'data-type' =&gt; 'json', // Set the encoding of the data, defaults to UTF-8 'encoding' =&gt; 'UTF-8', // Set the method (for restful responses) 'method' =&gt; 'PUT' ); &lt;/pre&gt;" type="array" variable="$attributes">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="1068" name="param" description="Pass the current instance of phery, so it can check if the functions are defined, and throw exceptions" type="\Phery" variable="$phery">
+            <type by_reference="false">\Phery</type>
+          </tag>
+          <tag line="1068" name="static" description=""/>
+          <tag line="1068" name="return" description="The mounted HTML tag" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+        <argument line="1109">
+          <name>$content</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="1109">
+          <name>$function</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="1109">
+          <name>$attributes</name>
+          <default>array()</default>
+          <type>array</type>
+        </argument>
+        <argument line="1109">
+          <name>$phery</name>
+          <default>null</default>
+          <type>\Phery</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="public" namespace="global" line="1180" package="Phery">
+        <name>form_for</name>
+        <full_name>form_for</full_name>
+        <docblock line="1153">
+          <description>Create a &lt;form&gt; tag with ajax enabled.</description>
+          <long-description>&lt;p&gt;Must be closed manually with &lt;/form&gt;&lt;/p&gt;</long-description>
+          <tag line="1153" name="param" description="where to go, can be empty" type="string" variable="$action">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="1153" name="param" description="Registered function name" type="string" variable="$function">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="1153" name="param" description="&lt;pre&gt; array( //Confirmation dialog 'confirm' =&gt; 'Are you sure?', // Type of call, defaults to JSON (to use PheryResponse) 'data-type' =&gt; 'json', // 'all' submits all elements on the form, even empty ones // 'disabled' enables submitting disabled elements 'submit' =&gt; array('all' =&gt; true, 'disabled' =&gt; true), // Set the encoding of the data, defaults to UTF-8 'encoding' =&gt; 'UTF-8', ); &lt;/pre&gt;" type="array" variable="$attributes">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="1153" name="param" description="Pass the current instance of phery, so it can check if the functions are defined, and throw exceptions" type="\Phery" variable="$phery">
+            <type by_reference="false">\Phery</type>
+          </tag>
+          <tag line="1153" name="static" description=""/>
+          <tag line="1153" name="return" description="The mounted &lt;form&gt; HTML tag" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+        <argument line="1180">
+          <name>$action</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="1180">
+          <name>$function</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="1180">
+          <name>$attributes</name>
+          <default>array()</default>
+          <type>array</type>
+        </argument>
+        <argument line="1180">
+          <name>$phery</name>
+          <default>null</default>
+          <type>\Phery</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="public" namespace="global" line="1249" package="Phery">
+        <name>select_for</name>
+        <full_name>select_for</full_name>
+        <docblock line="1213">
+          <description>Create a &lt;select&gt; element with ajax enabled "onchange" event.</description>
+          <long-description></long-description>
+          <tag line="1213" name="param" description="Registered function name" type="string" variable="$function">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="1213" name="param" description="Options for the select, 'value' =&gt; 'text' representation" type="array" variable="$items">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="1213" name="param" description="&lt;pre&gt; array( // Confirmation dialog 'confirm' =&gt; 'Are you sure?', // Type of call, defaults to JSON (to use PheryResponse) 'data-type' =&gt; 'json', // The URL where it should call, translates to data-target 'target' =&gt; '/path/to/php', // Extra arguments to pass to the AJAX function, will be stored // in the args attribute as a JSON notation, translates to data-args 'args' =&gt; array(1, &quot;a&quot;), // Set the encoding of the data, defaults to UTF-8 'encoding' =&gt; 'UTF-8', // The current selected value, or array(1,2) for multiple 'selected' =&gt; 1 // Set the method (for restful responses) 'method' =&gt; 'PUT' ); &lt;/pre&gt;" type="array" variable="$attributes">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="1213" name="param" description="Pass the current instance of phery, so it can check if the functions are defined, and throw exceptions" type="\Phery" variable="$phery">
+            <type by_reference="false">\Phery</type>
+          </tag>
+          <tag line="1213" name="static" description=""/>
+          <tag line="1213" name="return" description="The mounted &lt;select&gt; with &lt;option&gt;s inside" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+        <argument line="1249">
+          <name>$function</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="1249">
+          <name>$items</name>
+          <default></default>
+          <type>array</type>
+        </argument>
+        <argument line="1249">
+          <name>$attributes</name>
+          <default>array()</default>
+          <type>array</type>
+        </argument>
+        <argument line="1249">
+          <name>$phery</name>
+          <default>null</default>
+          <type>\Phery</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="1315" package="Phery">
+        <name>offsetExists</name>
+        <full_name>offsetExists</full_name>
+        <docblock line="1308">
+          <description>OffsetExists</description>
+          <long-description></long-description>
+          <tag line="1308" name="param" description="" type="mixed" variable="$offset">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="1308" name="return" description="" type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+        <argument line="1315">
+          <name>$offset</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="1325" package="Phery">
+        <name>offsetUnset</name>
+        <full_name>offsetUnset</full_name>
+        <docblock line="1320">
+          <description>OffsetUnset</description>
+          <long-description></long-description>
+          <tag line="1320" name="param" description="" type="mixed" variable="$offset">
+            <type by_reference="false">mixed</type>
+          </tag>
+        </docblock>
+        <argument line="1325">
+          <name>$offset</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="1340" package="Phery">
+        <name>offsetGet</name>
+        <full_name>offsetGet</full_name>
+        <docblock line="1333">
+          <description>OffsetGet</description>
+          <long-description></long-description>
+          <tag line="1333" name="param" description="" type="mixed" variable="$offset">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="1333" name="return" description="" type="mixed|null">
+            <type by_reference="false">mixed</type>
+            <type by_reference="false">null</type>
+          </tag>
+        </docblock>
+        <argument line="1340">
+          <name>$offset</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="1356" package="Phery">
+        <name>offsetSet</name>
+        <full_name>offsetSet</full_name>
+        <docblock line="1350">
+          <description>offsetSet</description>
+          <long-description></long-description>
+          <tag line="1350" name="param" description="" type="mixed" variable="$offset">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="1350" name="param" description="" type="mixed" variable="$value">
+            <type by_reference="false">mixed</type>
+          </tag>
+        </docblock>
+        <argument line="1356">
+          <name>$offset</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="1356">
+          <name>$value</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="1366" package="Phery">
+        <name>__set</name>
+        <full_name>__set</full_name>
+        <docblock line="1361">
+          <description>Set shared data</description>
+          <long-description></long-description>
+          <tag line="1361" name="param" description="" type="string" variable="$name">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="1361" name="param" description="" type="mixed" variable="$value">
+            <type by_reference="false">mixed</type>
+          </tag>
+        </docblock>
+        <argument line="1366">
+          <name>$name</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="1366">
+          <name>$value</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="1378" package="Phery">
+        <name>__get</name>
+        <full_name>__get</full_name>
+        <docblock line="1371">
+          <description>Get shared data</description>
+          <long-description></long-description>
+          <tag line="1371" name="param" description="" type="string" variable="$name">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="1371" name="return" description="" type="mixed">
+            <type by_reference="false">mixed</type>
+          </tag>
+        </docblock>
+        <argument line="1378">
+          <name>$name</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="public" namespace="global" line="1397" package="Phery">
+        <name>coalesce</name>
+        <full_name>coalesce</full_name>
+        <docblock line="1388">
+          <description>Utility function taken from MYSQL.</description>
+          <long-description>&lt;p&gt;To not raise any E_NOTICES (if enabled in your error reporting), call it with @ before
+the variables. Eg.: Phery::coalesce(@$var1, @$var['asdf']);&lt;/p&gt;</long-description>
+          <tag line="1388" name="param" description="" type="\..." variable="">
+            <type by_reference="false">\...</type>
+          </tag>
+          <tag line="1388" name="return" description="" type="mixed">
+            <type by_reference="false">mixed</type>
+          </tag>
+        </docblock>
+      </method>
+    </class>
+    <class final="false" abstract="false" namespace="global" line="1492" package="Phery">
+      <extends>\ArrayObject</extends>
+      <name>PheryResponse</name>
+      <full_name>\PheryResponse</full_name>
+      <docblock line="1412">
+        <description>Standard response for the json parser</description>
+        <long-description></long-description>
+        <tag line="1412" name="package" description="Phery"/>
+        <tag line="1412" name="method" description="Perform an asynchronous HTTP (Ajax) request." type="\PheryResponse" method_name="ajax">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$url</name>
+            <default/>
+            <type/>
+          </argument>
+          <argument>
+            <name>=</name>
+            <default/>
+            <type>$settings</type>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Set default values for future Ajax requests." type="\PheryResponse" method_name="ajaxSetup">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$obj</name>
+            <default/>
+            <type/>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Load data from the server using a HTTP POST request." type="\PheryResponse" method_name="post">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$url</name>
+            <default/>
+            <type/>
+          </argument>
+          <argument>
+            <name>=</name>
+            <default/>
+            <type>$success</type>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Load data from the server using a HTTP GET request." type="\PheryResponse" method_name="get">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$url</name>
+            <default/>
+            <type/>
+          </argument>
+          <argument>
+            <name>=</name>
+            <default/>
+            <type>$success</type>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Load JSON-encoded data from the server using a GET HTTP request." type="\PheryResponse" method_name="getJSON">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$url</name>
+            <default/>
+            <type/>
+          </argument>
+          <argument>
+            <name>=</name>
+            <default/>
+            <type>$success</type>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Load a JavaScript file from the server using a GET HTTP request, then execute it." type="\PheryResponse" method_name="getScript">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$url</name>
+            <default/>
+            <type/>
+          </argument>
+          <argument>
+            <name>=</name>
+            <default/>
+            <type>$success</type>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Detach a DOM element retaining the events attached to it" type="\PheryResponse" method_name="detach">
+          <type by_reference="false">\PheryResponse</type>
+        </tag>
+        <tag line="1412" name="method" description="Prepend DOM element to target" type="\PheryResponse" method_name="prependTo">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$target</name>
+            <default/>
+            <type/>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Append DOM element to target" type="\PheryResponse" method_name="appendTo">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$target</name>
+            <default/>
+            <type/>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="The content to insert. May be an HTML string, DOM element, or jQuery object." type="\PheryResponse" method_name="replaceWith">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$newContent</name>
+            <default/>
+            <type/>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="propertyName: A CSS property name. value: A value to set for the property." type="\PheryResponse" method_name="css">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$propertyName</name>
+            <default/>
+            <type/>
+          </argument>
+          <argument>
+            <name>=</name>
+            <default/>
+            <type>$value</type>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Toggle an object visible or hidden, can be animated with 'fast', 'slow', 'normal'" type="\PheryResponse" method_name="toggle">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$speed</name>
+            <default/>
+            <type/>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Hide an object, can be animated with 'fast', 'slow', 'normal'" type="\PheryResponse" method_name="hide">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>=</name>
+            <default/>
+            <type>$speed</type>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Show an object, can be animated with 'fast', 'slow', 'normal'" type="\PheryResponse" method_name="show">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>=</name>
+            <default/>
+            <type>$speed</type>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Add/Remove a class from an element" type="\PheryResponse" method_name="toggleClass">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$className</name>
+            <default/>
+            <type/>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Add data to element" type="\PheryResponse" method_name="data">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$name</name>
+            <default/>
+            <type/>
+          </argument>
+          <argument>
+            <name>$data</name>
+            <default/>
+            <type/>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Add a class from an element" type="\PheryResponse" method_name="addClass">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$className</name>
+            <default/>
+            <type/>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Remove a class from an element" type="\PheryResponse" method_name="removeClass">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$className</name>
+            <default/>
+            <type/>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Perform a custom animation of a set of CSS properties." type="\PheryResponse" method_name="animate">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$prop</name>
+            <default/>
+            <type/>
+          </argument>
+          <argument>
+            <name>$dur</name>
+            <default/>
+            <type/>
+          </argument>
+          <argument>
+            <name>=</name>
+            <default/>
+            <type>$easing</type>
+          </argument>
+          <argument>
+            <name>=</name>
+            <default/>
+            <type>$cb</type>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description=") Trigger an event" type="\PheryResponse" method_name="trigger">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$eventName</name>
+            <default/>
+            <type/>
+          </argument>
+          <argument>
+            <name>=</name>
+            <default/>
+            <type>$args</type>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description=") Execute all handlers attached to an element for an event." type="\PheryResponse" method_name="triggerHandler">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$eventType</name>
+            <default/>
+            <type/>
+          </argument>
+          <argument>
+            <name>=</name>
+            <default/>
+            <type>$extraParameters</type>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Animate an element" type="\PheryResponse" method_name="fadeIn">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$prop</name>
+            <default/>
+            <type/>
+          </argument>
+          <argument>
+            <name>$dur</name>
+            <default/>
+            <type/>
+          </argument>
+          <argument>
+            <name>$easing</name>
+            <default/>
+            <type/>
+          </argument>
+          <argument>
+            <name>$cb</name>
+            <default/>
+            <type/>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Reduce the set of matched elements to those that match the selector or pass the function's test." type="\PheryResponse" method_name="filter">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$selector</name>
+            <default/>
+            <type/>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Animate an element" type="\PheryResponse" method_name="fadeTo">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$dur</name>
+            <default/>
+            <type/>
+          </argument>
+          <argument>
+            <name>$opacity</name>
+            <default/>
+            <type/>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Animate an element" type="\PheryResponse" method_name="fadeOut">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$prop</name>
+            <default/>
+            <type/>
+          </argument>
+          <argument>
+            <name>$dur</name>
+            <default/>
+            <type/>
+          </argument>
+          <argument>
+            <name>$easing</name>
+            <default/>
+            <type/>
+          </argument>
+          <argument>
+            <name>$cb</name>
+            <default/>
+            <type/>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Hide with slide up animation" type="\PheryResponse" method_name="slideUp">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$dur</name>
+            <default/>
+            <type/>
+          </argument>
+          <argument>
+            <name>$cb</name>
+            <default/>
+            <type/>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Show with slide down animation" type="\PheryResponse" method_name="slideDown">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$dur</name>
+            <default/>
+            <type/>
+          </argument>
+          <argument>
+            <name>$cb</name>
+            <default/>
+            <type/>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Toggle show/hide the element, using slide animation" type="\PheryResponse" method_name="slideToggle">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$dur</name>
+            <default/>
+            <type/>
+          </argument>
+          <argument>
+            <name>$cb</name>
+            <default/>
+            <type/>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Unbind an event from an element" type="\PheryResponse" method_name="unbind">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$name</name>
+            <default/>
+            <type/>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Remove a handler from the event for all elements which match the current selector, now or in the future, based upon a specific set of root elements." type="\PheryResponse" method_name="undelegate">
+          <type by_reference="false">\PheryResponse</type>
+        </tag>
+        <tag line="1412" name="method" description="Stop animation on elements" type="\PheryResponse" method_name="stop">
+          <type by_reference="false">\PheryResponse</type>
+        </tag>
+        <tag line="1412" name="method" description="Unbind an event from an element set by live()" type="\PheryResponse" method_name="die">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$name</name>
+            <default/>
+            <type/>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Set the value of an element" type="\PheryResponse" method_name="val">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$content</name>
+            <default/>
+            <type/>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Remove element data added with data()" type="\PheryResponse" method_name="removeData">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$name</name>
+            <default/>
+            <type/>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Remove an attribute from an element" type="\PheryResponse" method_name="removeAttr">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$name</name>
+            <default/>
+            <type/>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Set the scroll from the top" type="\PheryResponse" method_name="scrollTop">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$val</name>
+            <default/>
+            <type/>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Set the scroll from the left" type="\PheryResponse" method_name="scrollLeft">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$val</name>
+            <default/>
+            <type/>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Set the height from the left" type="\PheryResponse" method_name="height">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$val</name>
+            <default/>
+            <type/>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Set the width from the left" type="\PheryResponse" method_name="width">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$val</name>
+            <default/>
+            <type/>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Reduce the set of matched elements to a subset specified by a range of indices." type="\PheryResponse" method_name="slice">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$start</name>
+            <default/>
+            <type/>
+          </argument>
+          <argument>
+            <name>$end</name>
+            <default/>
+            <type/>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Remove elements from the set of matched elements." type="\PheryResponse" method_name="not">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$val</name>
+            <default/>
+            <type/>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Reduce the set of matched elements to the one at the specified index." type="\PheryResponse" method_name="eq">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$selector</name>
+            <default/>
+            <type/>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Set the current coordinates of every element in the set of matched elements, relative to the document." type="\PheryResponse" method_name="offset">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$coordinates</name>
+            <default/>
+            <type/>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Pass each element in the current matched set through a function, producing a new jQuery object containing the return values." type="\PheryResponse" method_name="map">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$callback</name>
+            <default/>
+            <type/>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Get the children of each element in the set of matched elements, optionally filtered by a selector." type="\PheryResponse" method_name="children">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$selector</name>
+            <default/>
+            <type/>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Get the first ancestor element that matches the selector, beginning at the current element and progressing up through the DOM tree." type="\PheryResponse" method_name="closest">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$selector</name>
+            <default/>
+            <type/>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Get the descendants of each element in the current set of matched elements, filtered by a selector, jQuery object, or element." type="\PheryResponse" method_name="find">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$selector</name>
+            <default/>
+            <type/>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Get the immediately following sibling of each element in the set of matched elements, optionally filtered by a selector." type="\PheryResponse" method_name="next">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>=</name>
+            <default/>
+            <type>$selector</type>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Get all following siblings of each element in the set of matched elements, optionally filtered by a selector." type="\PheryResponse" method_name="nextAll">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$selector</name>
+            <default/>
+            <type/>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Get all following siblings of each element up to  but not including the element matched by the selector." type="\PheryResponse" method_name="nextUntil">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$selector</name>
+            <default/>
+            <type/>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Get the ancestors of each element in the current set of matched elements, up to but not including the element matched by the selector." type="\PheryResponse" method_name="parentsUntil">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$selector</name>
+            <default/>
+            <type/>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Get the closest ancestor element that is positioned." type="\PheryResponse" method_name="offsetParent">
+          <type by_reference="false">\PheryResponse</type>
+        </tag>
+        <tag line="1412" name="method" description="Get the parent of each element in the current set of matched elements, optionally filtered by a selector." type="\PheryResponse" method_name="parent">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>=</name>
+            <default/>
+            <type>$selector</type>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Get the ancestors of each element in the current set of matched elements, optionally filtered by a selector." type="\PheryResponse" method_name="parents">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$selector</name>
+            <default/>
+            <type/>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Get the immediately preceding sibling of each element in the set of matched elements, optionally filtered by a selector." type="\PheryResponse" method_name="prev">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>=</name>
+            <default/>
+            <type>$selector</type>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Get all preceding siblings of each element in the set of matched elements, optionally filtered by a selector." type="\PheryResponse" method_name="prevAll">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$selector</name>
+            <default/>
+            <type/>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Get the ancestors of each element in the current set of matched elements, optionally filtered by a selector." type="\PheryResponse" method_name="prevUntil">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$selector</name>
+            <default/>
+            <type/>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Get the siblings of each element in the set of matched elements, optionally filtered by a selector." type="\PheryResponse" method_name="siblings">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$selector</name>
+            <default/>
+            <type/>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Add elements to the set of matched elements." type="\PheryResponse" method_name="add">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$selector</name>
+            <default/>
+            <type/>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Add the previous set of elements on the stack to the current set." type="\PheryResponse" method_name="andSelf">
+          <type by_reference="false">\PheryResponse</type>
+        </tag>
+        <tag line="1412" name="method" description="Get the children of each element in the set of matched elements, including text nodes." type="\PheryResponse" method_name="contents">
+          <type by_reference="false">\PheryResponse</type>
+        </tag>
+        <tag line="1412" name="method" description="End the most recent filtering operation in the current chain and return the set of matched elements to its previous state." type="\PheryResponse" method_name="end">
+          <type by_reference="false">\PheryResponse</type>
+        </tag>
+        <tag line="1412" name="method" description="Insert content, specified by the parameter, after each element in the set of matched elements." type="\PheryResponse" method_name="after">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$content</name>
+            <default/>
+            <type/>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Insert content, specified by the parameter, before each element in the set of matched elements." type="\PheryResponse" method_name="before">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$content</name>
+            <default/>
+            <type/>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Insert every element in the set of matched elements after the target." type="\PheryResponse" method_name="insertAfter">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$target</name>
+            <default/>
+            <type/>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Insert every element in the set of matched elements before the target." type="\PheryResponse" method_name="insertBefore">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$target</name>
+            <default/>
+            <type/>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Remove the parents of the set of matched elements from the DOM, leaving the matched elements in their place." type="\PheryResponse" method_name="unwrap">
+          <type by_reference="false">\PheryResponse</type>
+        </tag>
+        <tag line="1412" name="method" description="Wrap an HTML structure around each element in the set of matched elements." type="\PheryResponse" method_name="wrap">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$wrappingElement</name>
+            <default/>
+            <type/>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Wrap an HTML structure around all elements in the set of matched elements." type="\PheryResponse" method_name="wrapAll">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$wrappingElement</name>
+            <default/>
+            <type/>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Wrap an HTML structure around the content of each element in the set of matched elements." type="\PheryResponse" method_name="wrapInner">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$wrappingElement</name>
+            <default/>
+            <type/>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Attach a handler to one or more events for all elements that match the selector, now or in the future, based on a specific set of root elements." type="\PheryResponse" method_name="delegate">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$selector</name>
+            <default/>
+            <type/>
+          </argument>
+          <argument>
+            <name>$eventType</name>
+            <default/>
+            <type/>
+          </argument>
+          <argument>
+            <name>$handler</name>
+            <default/>
+            <type/>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Attach a handler to the event for all elements which match the current selector, now or in the future." type="\PheryResponse" method_name="live">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$eventType</name>
+            <default/>
+            <type/>
+          </argument>
+          <argument>
+            <name>$handler</name>
+            <default/>
+            <type/>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Attach a handler to an event for the elements. The handler is executed at most once per element." type="\PheryResponse" method_name="one">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$eventType</name>
+            <default/>
+            <type/>
+          </argument>
+          <argument>
+            <name>$handler</name>
+            <default/>
+            <type/>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Attach a handler to an event for the elements." type="\PheryResponse" method_name="bind">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$eventType</name>
+            <default/>
+            <type/>
+          </argument>
+          <argument>
+            <name>$handler</name>
+            <default/>
+            <type/>
+          </argument>
+        </tag>
+        <tag line="1412" name="method" description="Iterate over a jQ object, executing a function for each matched element." type="\PheryResponse" method_name="each">
+          <type by_reference="false">\PheryResponse</type>
+          <argument>
+            <name>$function</name>
+            <default/>
+            <type/>
+          </argument>
+        </tag>
+      </docblock>
+      <property final="false" static="true" visibility="protected" line="1498" namespace="global" package="Default">
+        <name>$responses</name>
+        <default>array()</default>
+        <docblock line="1494">
+          <description>All responses that were created in the run, access them through their name</description>
+          <long-description></long-description>
+          <tag line="1494" name="var" description="" type="\PheryResponse[]">
+            <type by_reference="false">\PheryResponse[]</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="true" visibility="protected" line="1503" namespace="global" package="Default">
+        <name>$global</name>
+        <default>array()</default>
+        <docblock line="1499">
+          <description>Common data available to all responses</description>
+          <long-description></long-description>
+          <tag line="1499" name="var" description="" type="array">
+            <type by_reference="false">array</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="protected" line="1508" namespace="global" package="Default">
+        <name>$last_selector</name>
+        <default>null</default>
+        <docblock line="1504">
+          <description>Last jQuery selector defined</description>
+          <long-description></long-description>
+          <tag line="1504" name="var" description="" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="protected" line="1513" namespace="global" package="Default">
+        <name>$data</name>
+        <default>array()</default>
+        <docblock line="1509">
+          <description>Array containing answer data</description>
+          <long-description></long-description>
+          <tag line="1509" name="var" description="" type="array">
+            <type by_reference="false">array</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="protected" line="1518" namespace="global" package="Default">
+        <name>$merged</name>
+        <default>array()</default>
+        <docblock line="1514">
+          <description>Array containing merged data</description>
+          <long-description></long-description>
+          <tag line="1514" name="var" description="" type="array">
+            <type by_reference="false">array</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="protected" line="1523" namespace="global" package="Default">
+        <name>$name</name>
+        <default>null</default>
+        <docblock line="1519">
+          <description>Name of the current response</description>
+          <long-description></long-description>
+          <tag line="1519" name="var" description="" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="1531" package="Phery">
+        <name>__construct</name>
+        <full_name>__construct</full_name>
+        <docblock line="1525">
+          <description>Construct a new response</description>
+          <long-description></long-description>
+          <tag line="1525" name="param" description="Create the object already selecting the DOM element" type="string" variable="$selector">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="1525" name="param" description="Only available if you are creating an element, like $('&lt;p/&gt;')" type="array" variable="$constructor">
+            <type by_reference="false">array</type>
+          </tag>
+        </docblock>
+        <argument line="1531">
+          <name>$selector</name>
+          <default>null</default>
+          <type/>
+        </argument>
+        <argument line="1531">
+          <name>$constructor</name>
+          <default>array()</default>
+          <type>array</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="1545" package="Phery">
+        <name>renew_csrf</name>
+        <full_name>renew_csrf</full_name>
+        <docblock line="1538">
+          <description>Renew the CSRF token on a given Phery instance
+Resets any selectors that were being chained before</description>
+          <long-description></long-description>
+          <tag line="1538" name="param" description="Instance of Phery" type="\Phery" variable="$instance">
+            <type by_reference="false">\Phery</type>
+          </tag>
+          <tag line="1538" name="return" description="" type="\PheryResponse">
+            <type by_reference="false">\PheryResponse</type>
+          </tag>
+        </docblock>
+        <argument line="1545">
+          <name>$instance</name>
+          <default></default>
+          <type>\Phery</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="1562" package="Phery">
+        <name>set_response_name</name>
+        <full_name>set_response_name</full_name>
+        <docblock line="1555">
+          <description>Set the name of this response</description>
+          <long-description></long-description>
+          <tag line="1555" name="param" description="Name of current response" type="string" variable="$name">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="1555" name="return" description="" type="\PheryResponse">
+            <type by_reference="false">\PheryResponse</type>
+          </tag>
+        </docblock>
+        <argument line="1562">
+          <name>$name</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="1579" package="Phery">
+        <name>get_response_name</name>
+        <full_name>get_response_name</full_name>
+        <docblock line="1574">
+          <description>Get the name of this response</description>
+          <long-description></long-description>
+          <tag line="1574" name="return" description="" type="null|string">
+            <type by_reference="false">null</type>
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="public" namespace="global" line="1590" package="Phery">
+        <name>set_global</name>
+        <full_name>set_global</full_name>
+        <docblock line="1584">
+          <description>Set a global value that can be accessed through $pheryresponse['value']</description>
+          <long-description></long-description>
+          <tag line="1584" name="param" description="" type="array|string" variable="$name">
+            <type by_reference="false">array</type>
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="1584" name="param" description="[Optional]" type="mixed" variable="$value">
+            <type by_reference="false">mixed</type>
+          </tag>
+        </docblock>
+        <argument line="1590">
+          <name>$name</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="1590">
+          <name>$value</name>
+          <default>null</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="public" namespace="global" line="1610" package="Phery">
+        <name>unset_global</name>
+        <full_name>unset_global</full_name>
+        <docblock line="1605">
+          <description>Unset a global variable</description>
+          <long-description></long-description>
+          <tag line="1605" name="param" description="Variable name" type="string" variable="$name">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+        <argument line="1610">
+          <name>$name</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="1622" package="Phery">
+        <name>offsetExists</name>
+        <full_name>offsetExists</full_name>
+        <docblock line="1615">
+          <description>Will check for globals and local values</description>
+          <long-description></long-description>
+          <tag line="1615" name="param" description="" type="string|int" variable="$index">
+            <type by_reference="false">string</type>
+            <type by_reference="false">int</type>
+          </tag>
+          <tag line="1615" name="return" description="" type="mixed">
+            <type by_reference="false">mixed</type>
+          </tag>
+        </docblock>
+        <argument line="1622">
+          <name>$index</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="1640" package="Phery">
+        <name>offsetSet</name>
+        <full_name>offsetSet</full_name>
+        <docblock line="1632">
+          <description>Set local variables, will be available only in this instance</description>
+          <long-description></long-description>
+          <tag line="1632" name="param" description="" type="string|int|null" variable="$index">
+            <type by_reference="false">string</type>
+            <type by_reference="false">int</type>
+            <type by_reference="false">null</type>
+          </tag>
+          <tag line="1632" name="param" description="" type="mixed" variable="$newval">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="1632" name="return" description="" type="void">
+            <type by_reference="false">void</type>
+          </tag>
+        </docblock>
+        <argument line="1640">
+          <name>$index</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="1640">
+          <name>$newval</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="1659" package="Phery">
+        <name>offsetGet</name>
+        <full_name>offsetGet</full_name>
+        <docblock line="1652">
+          <description>Return null if no value</description>
+          <long-description></long-description>
+          <tag line="1652" name="param" description="" type="mixed" variable="$index">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="1652" name="return" description="" type="mixed|null">
+            <type by_reference="false">mixed</type>
+            <type by_reference="false">null</type>
+          </tag>
+        </docblock>
+        <argument line="1659">
+          <name>$index</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="public" namespace="global" line="1680" package="Phery">
+        <name>get_response</name>
+        <full_name>get_response</full_name>
+        <docblock line="1673">
+          <description>Get a response by name</description>
+          <long-description></long-description>
+          <tag line="1673" name="param" description="" type="\global\" variable="$name"/>
+          <tag line="1673" name="return" description="" type="\PheryResponse|null">
+            <type by_reference="false">\PheryResponse</type>
+            <type by_reference="false">null</type>
+          </tag>
+        </docblock>
+        <argument line="1680">
+          <name>$name</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="1697" package="Phery">
+        <name>get_merged</name>
+        <full_name>get_merged</full_name>
+        <docblock line="1690">
+          <description>Get merged response data as a new PheryResponse.</description>
+          <long-description>&lt;p&gt;This method works like a constructor if the previous response was destroyed&lt;/p&gt;</long-description>
+          <tag line="1690" name="param" description="Name of the merged response" type="string" variable="$name">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="1690" name="return" description="" type="\PheryResponse|null">
+            <type by_reference="false">\PheryResponse</type>
+            <type by_reference="false">null</type>
+          </tag>
+        </docblock>
+        <argument line="1697">
+          <name>$name</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="1722" package="Phery">
+        <name>phery_remote</name>
+        <full_name>phery_remote</full_name>
+        <docblock line="1712">
+          <description>Same as phery.remote()</description>
+          <long-description></long-description>
+          <tag line="1712" name="param" description="Function" type="string" variable="$remote">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="1712" name="param" description="Arguments to pass to the" type="array" variable="$args">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="1712" name="param" description="Here you may set like data-method, data-target, data-type" type="array" variable="$attr">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="1712" name="param" description="" type="boolean" variable="$directCall">
+            <type by_reference="false">boolean</type>
+          </tag>
+          <tag line="1712" name="return" description="" type="\PheryResponse">
+            <type by_reference="false">\PheryResponse</type>
+          </tag>
+        </docblock>
+        <argument line="1722">
+          <name>$remote</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="1722">
+          <name>$args</name>
+          <default>array()</default>
+          <type/>
+        </argument>
+        <argument line="1722">
+          <name>$attr</name>
+          <default>array()</default>
+          <type/>
+        </argument>
+        <argument line="1722">
+          <name>$directCall</name>
+          <default>true</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="1745" package="Phery">
+        <name>phery</name>
+        <full_name>phery</full_name>
+        <docblock line="1734">
+          <description>Accesses the phery() methods of the calling element, same as doing $('selector').phery()</description>
+          <long-description></long-description>
+          <tag line="1734" name="param" description="Name of the phery function on the element or an array of functions &lt;pre&gt; 'append_args', 'set_args', 'remote', 'exception', 'remove' &lt;/pre&gt;" type="string|array" variable="$func">
+            <type by_reference="false">string</type>
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="1734" name="param" description="Any data to pass to the element" type="\..." variable="">
+            <type by_reference="false">\...</type>
+          </tag>
+          <tag line="1734" name="return" description="" type="\PheryResponse">
+            <type by_reference="false">\PheryResponse</type>
+          </tag>
+        </docblock>
+        <argument line="1745">
+          <name>$func</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="1783" package="Phery">
+        <name>set_var</name>
+        <full_name>set_var</full_name>
+        <docblock line="1764">
+          <description>Set a global variable, that can be accessed directly through window object,
+can set properties inside objects if you pass an array as the variable.</description>
+          <long-description>&lt;p&gt;If it doesn't exist it will be created&lt;/p&gt;
+
+&lt;pre&gt;
+// window.customer_info = {'name': 'John','surname': 'Doe', 'age': 39}
+PheryResponse::factory()-&gt;set_var('customer_info', array('name' =&gt; 'John', 'surname' =&gt; 'Doe', 'age' =&gt; 39));
+&lt;/pre&gt;
+
+&lt;pre&gt;
+// window.customer_info.name = 'John'
+PheryResponse::factory()-&gt;set_var(array('customer_info','name'), 'John');
+&lt;/pre&gt;</long-description>
+          <tag line="1764" name="param" description="Global variable name" type="string|array" variable="$variable">
+            <type by_reference="false">string</type>
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="1764" name="param" description="Any data" type="mixed" variable="$data">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="1764" name="return" description="" type="\PheryResponse">
+            <type by_reference="false">\PheryResponse</type>
+          </tag>
+        </docblock>
+        <argument line="1783">
+          <name>$variable</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="1783">
+          <name>$data</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="1820" package="Phery">
+        <name>unset_var</name>
+        <full_name>unset_var</full_name>
+        <docblock line="1805">
+          <description>Delete a global variable, that can be accessed directly through window, can unset object properties,
+if you pass an array</description>
+          <long-description>&lt;pre&gt;
+PheryResponse::factory()-&gt;unset('customer_info');
+&lt;/pre&gt;
+
+&lt;pre&gt;
+PheryResponse::factory()-&gt;unset(array('customer_info','name')); // translates to delete customer_info['name']
+&lt;/pre&gt;</long-description>
+          <tag line="1805" name="param" description="Global variable name" type="string|array" variable="$variable">
+            <type by_reference="false">string</type>
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="1805" name="return" description="" type="\PheryResponse">
+            <type by_reference="false">\PheryResponse</type>
+          </tag>
+        </docblock>
+        <argument line="1820">
+          <name>$variable</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="public" namespace="global" line="1847" package="Phery">
+        <name>factory</name>
+        <full_name>factory</full_name>
+        <docblock line="1829">
+          <description>Create a new PheryResponse instance for chaining, fast and effective for one line returns
+&lt;pre&gt;
+function answer($data)
+{
+ return
+        PheryResponse::factory('a#link-'.$data['rel'])
+        -&gt;attr('href', '#')
+        -&gt;alert('done');
+}
+&lt;/pre&gt;</description>
+          <long-description></long-description>
+          <tag line="1829" name="param" description="optional" type="string" variable="$selector">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="1829" name="param" description="Same as $('&lt;p/&gt;', {})" type="array" variable="$constructor">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="1829" name="static" description=""/>
+          <tag line="1829" name="return" description="" type="\PheryResponse">
+            <type by_reference="false">\PheryResponse</type>
+          </tag>
+        </docblock>
+        <argument line="1847">
+          <name>$selector</name>
+          <default>null</default>
+          <type/>
+        </argument>
+        <argument line="1847">
+          <name>$constructor</name>
+          <default>array()</default>
+          <type>array</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="1860" package="Phery">
+        <name>remove_selector</name>
+        <full_name>remove_selector</full_name>
+        <docblock line="1852">
+          <description>Remove a batch of calls for a selector.</description>
+          <long-description>&lt;p&gt;Won't remove for merged responses.
+Passing an integer, will remove commands, like dump_vars, call, etc&lt;/p&gt;</long-description>
+          <tag line="1852" name="param" description="" type="string|int" variable="$selector">
+            <type by_reference="false">string</type>
+            <type by_reference="false">int</type>
+          </tag>
+          <tag line="1852" name="return" description="" type="\PheryResponse">
+            <type by_reference="false">\PheryResponse</type>
+          </tag>
+        </docblock>
+        <argument line="1860">
+          <name>$selector</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="1875" package="Phery">
+        <name>this</name>
+        <full_name>this</full_name>
+        <docblock line="1870">
+          <description>Access the current calling DOM element without the need for IDs, names, etc</description>
+          <long-description></long-description>
+          <tag line="1870" name="return" description="" type="\PheryResponse">
+            <type by_reference="false">\PheryResponse</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="1901" package="Phery">
+        <name>merge</name>
+        <full_name>merge</full_name>
+        <docblock line="1882">
+          <description>Merge another response to this one.</description>
+          <long-description>&lt;p&gt;Selectors with the same name will be added in order, for example:&lt;/p&gt;
+
+&lt;pre&gt;
+function process()
+{
+     $response = PheryResponse::factory('a.links')-&gt;remove();
+     // $response will execute before
+     // there will be no more "a.links" in the DOM, so the addClass() will fail silently
+     // to invert the order, merge $response to $response2
+     $response2 = PheryResponse::factory('a.links')-&gt;addClass('red');
+     return $response-&gt;merge($response2);
+}
+&lt;/pre&gt;</long-description>
+          <tag line="1882" name="param" description="Another PheryResponse object or a name of response" type="\PheryResponse|string" variable="$phery">
+            <type by_reference="false">\PheryResponse</type>
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="1882" name="return" description="" type="\PheryResponse">
+            <type by_reference="false">\PheryResponse</type>
+          </tag>
+        </docblock>
+        <argument line="1901">
+          <name>$phery</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="1925" package="Phery">
+        <name>unmerge</name>
+        <full_name>unmerge</full_name>
+        <docblock line="1918">
+          <description>Remove a previously merged response</description>
+          <long-description></long-description>
+          <tag line="1918" name="param" description="" type="\PheryResponse|string" variable="$phery">
+            <type by_reference="false">\PheryResponse</type>
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="1918" name="return" description="" type="\PheryResponse">
+            <type by_reference="false">\PheryResponse</type>
+          </tag>
+        </docblock>
+        <argument line="1925">
+          <name>$phery</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="1949" package="Phery">
+        <name>print_vars</name>
+        <full_name>print_vars</full_name>
+        <docblock line="1942">
+          <description>Pretty print to console.log</description>
+          <long-description></long-description>
+          <tag line="1942" name="param" description="Any var" type="\..." variable="">
+            <type by_reference="false">\...</type>
+          </tag>
+          <tag line="1942" name="return" description="" type="\PheryResponse">
+            <type by_reference="false">\PheryResponse</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="1973" package="Phery">
+        <name>dump_vars</name>
+        <full_name>dump_vars</full_name>
+        <docblock line="1966">
+          <description>Dump var to console.log</description>
+          <long-description></long-description>
+          <tag line="1966" name="param" description="Any var" type="\..." variable="">
+            <type by_reference="false">\...</type>
+          </tag>
+          <tag line="1966" name="return" description="" type="\PheryResponse">
+            <type by_reference="false">\PheryResponse</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="2011" package="Phery">
+        <name>jquery</name>
+        <full_name>jquery</full_name>
+        <docblock line="1993">
+          <description>Sets the selector, so you can chain many calls to it.</description>
+          <long-description>&lt;p&gt;Passing # works like jQuery.func&lt;/p&gt;</long-description>
+          <tag line="1993" name="param" description="Sets the current selector for subsequent chaining &lt;pre&gt; PheryResponse::factory() -&gt;jquery('.slides') -&gt;fadeTo(0,0) -&gt;css(array('top' =&gt; '10px', 'left' =&gt; '90px')); &lt;/pre&gt; &lt;pre&gt; PheryResponse::factory()-&gt;jquery()-&gt;getJSON(); &lt;/pre&gt;" type="string" variable="$selector">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="1993" name="param" description="Only available if you are creating a new element, like $('&lt;p/&gt;', {})" type="array" variable="$constructor">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="1993" name="return" description="" type="\PheryResponse">
+            <type by_reference="false">\PheryResponse</type>
+          </tag>
+        </docblock>
+        <argument line="2011">
+          <name>$selector</name>
+          <default>'#'</default>
+          <type/>
+        </argument>
+        <argument line="2011">
+          <name>$constructor</name>
+          <default>array()</default>
+          <type>array</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="2033" package="Phery">
+        <name>j</name>
+        <full_name>j</full_name>
+        <docblock line="2025">
+          <description>Shortcut/alias for jquery($selector) Passing null works like jQuery.func</description>
+          <long-description></long-description>
+          <tag line="2025" name="param" description="Sets the current selector for subsequent chaining" type="string" variable="$selector">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="2025" name="param" description="Only available if you are creating a new element, like $('&lt;p/&gt;', {})" type="array" variable="$constructor">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="2025" name="return" description="" type="\PheryResponse">
+            <type by_reference="false">\PheryResponse</type>
+          </tag>
+        </docblock>
+        <argument line="2033">
+          <name>$selector</name>
+          <default>'#'</default>
+          <type/>
+        </argument>
+        <argument line="2033">
+          <name>$constructor</name>
+          <default>array()</default>
+          <type>array</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="2045" package="Phery">
+        <name>alert</name>
+        <full_name>alert</full_name>
+        <docblock line="2038">
+          <description>Show an alert box</description>
+          <long-description></long-description>
+          <tag line="2038" name="param" description="Message to be displayed" type="string" variable="$msg">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="2038" name="return" description="" type="\PheryResponse">
+            <type by_reference="false">\PheryResponse</type>
+          </tag>
+        </docblock>
+        <argument line="2045">
+          <name>$msg</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="2066" package="Phery">
+        <name>json</name>
+        <full_name>json</full_name>
+        <docblock line="2059">
+          <description>Pass JSON to the browser</description>
+          <long-description></long-description>
+          <tag line="2059" name="param" description="Data to be encoded to json (usually an array or a JsonSerializable)" type="mixed" variable="$obj">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="2059" name="return" description="" type="\PheryResponse">
+            <type by_reference="false">\PheryResponse</type>
+          </tag>
+        </docblock>
+        <argument line="2066">
+          <name>$obj</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="2082" package="Phery">
+        <name>remove</name>
+        <full_name>remove</full_name>
+        <docblock line="2075">
+          <description>Remove the current jQuery selector</description>
+          <long-description></long-description>
+          <tag line="2075" name="param" description="Set a selector" type="string|boolean" variable="$selector">
+            <type by_reference="false">string</type>
+            <type by_reference="false">boolean</type>
+          </tag>
+          <tag line="2075" name="return" description="" type="\PheryResponse">
+            <type by_reference="false">\PheryResponse</type>
+          </tag>
+        </docblock>
+        <argument line="2082">
+          <name>$selector</name>
+          <default>null</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="2096" package="Phery">
+        <name>cmd</name>
+        <full_name>cmd</full_name>
+        <docblock line="2087">
+          <description>Add a command to the response</description>
+          <long-description></long-description>
+          <tag line="2087" name="param" description="Integer for command, see phery.js for more info" type="int|string|array" variable="$cmd">
+            <type by_reference="false">int</type>
+            <type by_reference="false">string</type>
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="2087" name="param" description="Array to pass to the response" type="array" variable="$args">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="2087" name="param" description="Insert the jquery selector" type="string" variable="$selector">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="2087" name="return" description="" type="\PheryResponse">
+            <type by_reference="false">\PheryResponse</type>
+          </tag>
+        </docblock>
+        <argument line="2096">
+          <name>$cmd</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="2096">
+          <name>$args</name>
+          <default>array()</default>
+          <type>array</type>
+        </argument>
+        <argument line="2096">
+          <name>$selector</name>
+          <default>null</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="2136" package="Phery">
+        <name>attr</name>
+        <full_name>attr</full_name>
+        <docblock line="2122">
+          <description>Set the attribute of a jQuery selector
+Example:
+&lt;pre&gt;
+PheryResponse::factory()
+-&gt;attr('href', 'http://url.com', 'a#link-' .</description>
+          <long-description>&lt;p&gt;$args['id']);
+&lt;/pre&gt;&lt;/p&gt;</long-description>
+          <tag line="2122" name="param" description="HTML attribute of the item" type="string" variable="$attr">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="2122" name="param" description="Value" type="string" variable="$data">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="2122" name="param" description="[optional] Provide the jQuery selector directly" type="string" variable="$selector">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="2122" name="return" description="" type="\PheryResponse">
+            <type by_reference="false">\PheryResponse</type>
+          </tag>
+        </docblock>
+        <argument line="2136">
+          <name>$attr</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="2136">
+          <name>$data</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="2136">
+          <name>$selector</name>
+          <default>null</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="2153" package="Phery">
+        <name>exception</name>
+        <full_name>exception</full_name>
+        <docblock line="2144">
+          <description>Trigger the phery:exception event on the calling element
+with additional data</description>
+          <long-description></long-description>
+          <tag line="2144" name="param" description="Message to pass to the exception" type="string" variable="$msg">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="2144" name="param" description="Any data to pass, can be anything" type="mixed" variable="$data">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="2144" name="return" description="" type="\PheryResponse">
+            <type by_reference="false">\PheryResponse</type>
+          </tag>
+        </docblock>
+        <argument line="2153">
+          <name>$msg</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="2153">
+          <name>$data</name>
+          <default>null</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="2173" package="Phery">
+        <name>call</name>
+        <full_name>call</full_name>
+        <docblock line="2163">
+          <description>Call a javascript function.</description>
+          <long-description>&lt;p&gt;Warning: calling this function will reset the selector jQuery selector previously stated&lt;/p&gt;</long-description>
+          <tag line="2163" name="param" description="Function name. If you pass a string, it will be accessed on window.func. If you pass an array, it will access a member of an object, like array('object', 'property', 'function')" type="string|array" variable="$func_name">
+            <type by_reference="false">string</type>
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="2163" name="param" description="... Any additional arguments to pass to the function" type="mixed" variable="">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="2163" name="return" description="" type="\PheryResponse">
+            <type by_reference="false">\PheryResponse</type>
+          </tag>
+        </docblock>
+        <argument line="2173">
+          <name>$func_name</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="2194" package="Phery">
+        <name>apply</name>
+        <full_name>apply</full_name>
+        <docblock line="2185">
+          <description>Call 'apply' on a javascript function.</description>
+          <long-description>&lt;p&gt;Warning: calling this function will reset the selector jQuery selector previously stated&lt;/p&gt;</long-description>
+          <tag line="2185" name="param" description="Function name" type="string|array" variable="$func_name">
+            <type by_reference="false">string</type>
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="2185" name="param" description="Any additional arguments to pass to the function" type="array" variable="$args">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="2185" name="return" description="" type="\PheryResponse">
+            <type by_reference="false">\PheryResponse</type>
+          </tag>
+        </docblock>
+        <argument line="2194">
+          <name>$func_name</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="2194">
+          <name>$args</name>
+          <default>array()</default>
+          <type>array</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="2214" package="Phery">
+        <name>clear</name>
+        <full_name>clear</full_name>
+        <docblock line="2204">
+          <description>Clear the selected attribute.</description>
+          <long-description>&lt;p&gt;Alias for attr('attribute', '')&lt;/p&gt;</long-description>
+          <tag line="2204" name="see" description="\global\PheryResponse::attr()" refers="\global\PheryResponse::attr()"/>
+          <tag line="2204" name="param" description="Name of the DOM attribute to clear, such as 'innerHTML', 'style', 'href', etc not the jQuery counterparts" type="string" variable="$attr">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="2204" name="param" description="[optional] Provide the jQuery selector directly" type="string" variable="$selector">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="2204" name="return" description="" type="\PheryResponse">
+            <type by_reference="false">\PheryResponse</type>
+          </tag>
+        </docblock>
+        <argument line="2214">
+          <name>$attr</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="2214">
+          <name>$selector</name>
+          <default>null</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="2229" package="Phery">
+        <name>html</name>
+        <full_name>html</full_name>
+        <docblock line="2219">
+          <description>Set the HTML content of an element.</description>
+          <long-description>&lt;p&gt;Automatically typecasted to string, so classes that
+respond to __toString() will be converted automatically&lt;/p&gt;</long-description>
+          <tag line="2219" name="param" description="" type="string" variable="$content">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="2219" name="param" description="[optional] Provide the jQuery selector directly" type="string" variable="$selector">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="2219" name="return" description="" type="\PheryResponse">
+            <type by_reference="false">\PheryResponse</type>
+          </tag>
+        </docblock>
+        <argument line="2229">
+          <name>$content</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="2229">
+          <name>$selector</name>
+          <default>null</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="2251" package="Phery">
+        <name>text</name>
+        <full_name>text</full_name>
+        <docblock line="2241">
+          <description>Set the text of an element.</description>
+          <long-description>&lt;p&gt;Automatically typecasted to string, so classes that
+respond to __toString() will be converted automatically&lt;/p&gt;</long-description>
+          <tag line="2241" name="param" description="" type="string" variable="$content">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="2241" name="param" description="[optional] Provide the jQuery selector directly" type="string" variable="$selector">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="2241" name="return" description="" type="\PheryResponse">
+            <type by_reference="false">\PheryResponse</type>
+          </tag>
+        </docblock>
+        <argument line="2251">
+          <name>$content</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="2251">
+          <name>$selector</name>
+          <default>null</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="2277" package="Phery">
+        <name>script</name>
+        <full_name>script</full_name>
+        <docblock line="2263">
+          <description>Compile a script and call it on-the-fly.</description>
+          <long-description>&lt;p&gt;There is a closure on the executed function, so
+to reach out global variables, you need to use window.variable
+Warning: calling this function will reset the selector jQuery selector previously set&lt;/p&gt;</long-description>
+          <tag line="2263" name="param" description="Script content. If provided an array, it will be joined with \n &lt;pre&gt; PheryResponse::factory() -&gt;script(array(&quot;if (confirm('Are you really sure?')) $('*').remove()&quot;)); &lt;/pre&gt;" type="string|array" variable="$script">
+            <type by_reference="false">string</type>
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="2263" name="return" description="" type="\PheryResponse">
+            <type by_reference="false">\PheryResponse</type>
+          </tag>
+        </docblock>
+        <argument line="2277">
+          <name>$script</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="2307" package="Phery">
+        <name>path</name>
+        <full_name>path</full_name>
+        <docblock line="2291">
+          <description>Access a global object path</description>
+          <long-description></long-description>
+          <tag line="2291" name="param" description="For accessing objects, like $.namespace.function() or document.href. if you want to access a global variable, use array('object','property'). You may use a mix of getter/setter to apply a global value to a variable &lt;pre&gt; PheryResponse::factory()-&gt;set_var(array('obj','newproperty'), PheryResponse::factory()-&gt;path(array('other_obj','enabled')) ); &lt;/pre&gt;" type="string|string[]" variable="$namespace">
+            <type by_reference="false">string</type>
+            <type by_reference="false">string[]</type>
+          </tag>
+          <tag line="2291" name="return" description="" type="\PheryResponse">
+            <type by_reference="false">\PheryResponse</type>
+          </tag>
+        </docblock>
+        <argument line="2307">
+          <name>$namespace</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="2322" package="Phery">
+        <name>render_view</name>
+        <full_name>render_view</full_name>
+        <docblock line="2313">
+          <description>Render a view to the container previously specified</description>
+          <long-description></long-description>
+          <tag line="2313" name="param" description="HTML to be replaced in the container" type="string" variable="$html">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="2313" name="param" description="Array of data to pass to the before/after functions set on Phery.view" type="array" variable="$data">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="2313" name="see" description="on JS" refers="\global\Phery.view()"/>
+          <tag line="2313" name="return" description="" type="\PheryResponse">
+            <type by_reference="false">\PheryResponse</type>
+          </tag>
+        </docblock>
+        <argument line="2322">
+          <name>$html</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="2322">
+          <name>$data</name>
+          <default>array()</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="2349" package="Phery">
+        <name>redirect</name>
+        <full_name>redirect</full_name>
+        <docblock line="2337">
+          <description>Creates a redirect</description>
+          <long-description></long-description>
+          <tag line="2337" name="param" description="Complete url with http:// (according to W3 http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.30)" type="string" variable="$url">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="2337" name="param" description="Internal means that phery will cancel the current DOM manipulation and commands and will issue another phery.remote to the location in url, useful if your PHP code is issuing redirects but you are using AJAX views. Passing false will issue a browser redirect" type="bool|string" variable="$view">
+            <type by_reference="false">bool</type>
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="2337" name="return" description="" type="\PheryResponse">
+            <type by_reference="false">\PheryResponse</type>
+          </tag>
+        </docblock>
+        <argument line="2349">
+          <name>$url</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="2349">
+          <name>$view</name>
+          <default>false</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="2396" package="Phery">
+        <name>prepend</name>
+        <full_name>prepend</full_name>
+        <docblock line="2388">
+          <description>Prepend string/HTML to target(s)</description>
+          <long-description></long-description>
+          <tag line="2388" name="param" description="Content to be prepended to the selected element" type="string" variable="$content">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="2388" name="param" description="[optional] Optional jquery selector string" type="string" variable="$selector">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="2388" name="return" description="" type="\PheryResponse">
+            <type by_reference="false">\PheryResponse</type>
+          </tag>
+        </docblock>
+        <argument line="2396">
+          <name>$content</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="2396">
+          <name>$selector</name>
+          <default>null</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="2412" package="Phery">
+        <name>reset_response</name>
+        <full_name>reset_response</full_name>
+        <docblock line="2408">
+          <description>Clear all the selectors and commands in the current response.</description>
+          <long-description></long-description>
+          <tag line="2408" name="return" description="" type="\PheryResponse">
+            <type by_reference="false">\PheryResponse</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="2428" package="Phery">
+        <name>append</name>
+        <full_name>append</full_name>
+        <docblock line="2420">
+          <description>Append string/HTML to target(s)</description>
+          <long-description></long-description>
+          <tag line="2420" name="param" description="Content to be appended to the selected element" type="string" variable="$content">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="2420" name="param" description="[optional] Optional jquery selector string" type="string" variable="$selector">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="2420" name="return" description="" type="\PheryResponse">
+            <type by_reference="false">\PheryResponse</type>
+          </tag>
+        </docblock>
+        <argument line="2428">
+          <name>$content</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="2428">
+          <name>$selector</name>
+          <default>null</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="2452" package="Phery">
+        <name>__call</name>
+        <full_name>__call</full_name>
+        <docblock line="2440">
+          <description>Magically map to any additional jQuery function.</description>
+          <long-description>&lt;p&gt;To reach this magically called functions, the jquery() selector must be called prior
+to any jquery specific call&lt;/p&gt;</long-description>
+          <tag line="2440" name="param" description="" type="\global\" variable="$name"/>
+          <tag line="2440" name="param" description="" type="\global\" variable="$arguments"/>
+          <tag line="2440" name="see" description="\global\PheryResponse::jquery()" refers="\global\PheryResponse::jquery()"/>
+          <tag line="2440" name="see" description="\global\PheryResponse::j()" refers="\global\PheryResponse::j()"/>
+          <tag line="2440" name="return" description="" type="\PheryResponse">
+            <type by_reference="false">\PheryResponse</type>
+          </tag>
+        </docblock>
+        <argument line="2452">
+          <name>$name</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="2452">
+          <name>$arguments</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="protected" namespace="global" line="2486" package="Phery">
+        <name>typecast</name>
+        <full_name>typecast</full_name>
+        <docblock line="2477">
+          <description>Convert, to a maximum depth, nested responses, and typecast int properly</description>
+          <long-description></long-description>
+          <tag line="2477" name="param" description="The value" type="mixed" variable="$argument">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="2477" name="param" description="Call class __toString() if possible, and typecast int correctly" type="bool" variable="$toString">
+            <type by_reference="false">bool</type>
+          </tag>
+          <tag line="2477" name="param" description="Should it look for nested arrays and classes?" type="bool" variable="$nested">
+            <type by_reference="false">bool</type>
+          </tag>
+          <tag line="2477" name="param" description="Max depth" type="int" variable="$depth">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag line="2477" name="return" description="" type="mixed">
+            <type by_reference="false">mixed</type>
+          </tag>
+        </docblock>
+        <argument line="2486">
+          <name>$argument</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="2486">
+          <name>$toString</name>
+          <default>true</default>
+          <type/>
+        </argument>
+        <argument line="2486">
+          <name>$nested</name>
+          <default>false</default>
+          <type/>
+        </argument>
+        <argument line="2486">
+          <name>$depth</name>
+          <default>4</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="global" line="2534" package="Phery">
+        <name>process_merged</name>
+        <full_name>process_merged</full_name>
+        <docblock line="2530">
+          <description>Process merged responses</description>
+          <long-description></long-description>
+          <tag line="2530" name="return" description="" type="array">
+            <type by_reference="false">array</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="2555" package="Phery">
+        <name>render</name>
+        <full_name>render</full_name>
+        <docblock line="2551">
+          <description>Return the JSON encoded data</description>
+          <long-description></long-description>
+          <tag line="2551" name="return" description="" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="2565" package="Phery">
+        <name>__toString</name>
+        <full_name>__toString</full_name>
+        <docblock line="2560">
+          <description>Return the JSON encoded data
+if the object is typecasted as a string</description>
+          <long-description></long-description>
+          <tag line="2560" name="return" description="" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="2577" package="Phery">
+        <name>unserialize</name>
+        <full_name>unserialize</full_name>
+        <docblock line="2570">
+          <description>Initialize the instance from a serialized state</description>
+          <long-description></long-description>
+          <tag line="2570" name="param" description="" type="string" variable="$serialized">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="2570" name="throws" description="" type="\PheryException">
+            <type by_reference="false">\PheryException</type>
+          </tag>
+          <tag line="2570" name="return" description="" type="\PheryResponse">
+            <type by_reference="false">\PheryResponse</type>
+          </tag>
+        </docblock>
+        <argument line="2577">
+          <name>$serialized</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="2598" package="Phery">
+        <name>serialize</name>
+        <full_name>serialize</full_name>
+        <docblock line="2594">
+          <description>Serialize the response in JSON</description>
+          <long-description></long-description>
+          <tag line="2594" name="return" description="" type="string|bool">
+            <type by_reference="false">string</type>
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+      </method>
+    </class>
+    <class final="false" abstract="false" namespace="global" line="2613" package="Phery">
+      <extends/>
+      <name>PheryFunction</name>
+      <full_name>\PheryFunction</full_name>
+      <docblock line="2609">
+        <description>Create an anonymous function for use on Javascript callbacks</description>
+        <long-description></long-description>
+        <tag line="2609" name="package" description="Phery"/>
+      </docblock>
+      <property final="false" static="false" visibility="protected" line="2619" namespace="global" package="Default">
+        <name>$parameters</name>
+        <default>array()</default>
+        <docblock line="2615">
+          <description>Parameters that will be replaced inside the response</description>
+          <long-description></long-description>
+          <tag line="2615" name="var" description="" type="array">
+            <type by_reference="false">array</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="protected" line="2624" namespace="global" package="Default">
+        <name>$value</name>
+        <default>null</default>
+        <docblock line="2620">
+          <description>The function string itself</description>
+          <long-description></long-description>
+          <tag line="2620" name="var" description="" type="array">
+            <type by_reference="false">array</type>
+          </tag>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="2636" package="Phery">
+        <name>__construct</name>
+        <full_name>__construct</full_name>
+        <docblock line="2626">
+          <description>Sets new raw parameter to be passed, that will be eval'ed.</description>
+          <long-description>&lt;p&gt;$raw = new PheryFunction('function($val){ return $val; }');&lt;/p&gt;</long-description>
+          <tag line="2626" name="param" description="Raw function string. If you pass an array, it will be joined with a line break" type="string|array" variable="$value">
+            <type by_reference="false">string</type>
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="2626" name="param" description="You can pass parameters that will be replaced in the $value when compiling" type="array" variable="$parameters">
+            <type by_reference="false">array</type>
+          </tag>
+        </docblock>
+        <argument line="2636">
+          <name>$value</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="2636">
+          <name>$parameters</name>
+          <default>array()</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="2660" package="Phery">
+        <name>bind</name>
+        <full_name>bind</full_name>
+        <docblock line="2653">
+          <description>Bind a variable to a parameter.</description>
+          <long-description></long-description>
+          <tag line="2653" name="param" description="parameter key to replace" type="string" variable="$param">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="2653" name="param" description="variable to use" type="mixed" variable="$var">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="2653" name="return" description="" type="\PheryFunction">
+            <type by_reference="false">\PheryFunction</type>
+          </tag>
+        </docblock>
+        <argument line="2660">
+          <name>$param</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="2660">
+          <name>$var</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="2674" package="Phery">
+        <name>param</name>
+        <full_name>param</full_name>
+        <docblock line="2667">
+          <description>Set the value of a parameter.</description>
+          <long-description></long-description>
+          <tag line="2667" name="param" description="parameter key to replace" type="string" variable="$param">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="2667" name="param" description="value to use" type="mixed" variable="$value">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="2667" name="return" description="" type="\PheryFunction">
+            <type by_reference="false">\PheryFunction</type>
+          </tag>
+        </docblock>
+        <argument line="2674">
+          <name>$param</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="2674">
+          <name>$value</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="2687" package="Phery">
+        <name>parameters</name>
+        <full_name>parameters</full_name>
+        <docblock line="2681">
+          <description>Add multiple parameter values.</description>
+          <long-description></long-description>
+          <tag line="2681" name="param" description="list of parameter values" type="array" variable="$params">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="2681" name="return" description="" type="\PheryFunction">
+            <type by_reference="false">\PheryFunction</type>
+          </tag>
+        </docblock>
+        <argument line="2687">
+          <name>$params</name>
+          <default></default>
+          <type>array</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="2699" package="Phery">
+        <name>value</name>
+        <full_name>value</full_name>
+        <docblock line="2694">
+          <description>Get the value as a string.</description>
+          <long-description></long-description>
+          <tag line="2694" name="return" description="" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="2711" package="Phery">
+        <name>__toString</name>
+        <full_name>__toString</full_name>
+        <docblock line="2704">
+          <description>Return the value of the expression as a string.</description>
+          <long-description>&lt;p&gt;echo $expression;&lt;/p&gt;</long-description>
+          <tag line="2704" name="return" description="" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="2722" package="Phery">
+        <name>compile</name>
+        <full_name>compile</full_name>
+        <docblock line="2716">
+          <description>Compile function and return it.</description>
+          <long-description>&lt;p&gt;Replaces any parameters with
+their given values.&lt;/p&gt;</long-description>
+          <tag line="2716" name="return" description="" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="public" namespace="global" line="2743" package="Phery">
+        <name>factory</name>
+        <full_name>factory</full_name>
+        <docblock line="2735">
+          <description>Static instantation for PheryFunction</description>
+          <long-description></long-description>
+          <tag line="2735" name="param" description="" type="string|array" variable="$value">
+            <type by_reference="false">string</type>
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="2735" name="param" description="" type="array" variable="$parameters">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="2735" name="return" description="" type="\PheryFunction">
+            <type by_reference="false">\PheryFunction</type>
+          </tag>
+        </docblock>
+        <argument line="2743">
+          <name>$value</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="2743">
+          <name>$parameters</name>
+          <default>array()</default>
+          <type/>
+        </argument>
+      </method>
+    </class>
+    <class final="false" abstract="false" namespace="global" line="2753" package="Phery">
+      <extends>\Exception</extends>
+      <name>PheryException</name>
+      <full_name>\PheryException</full_name>
+      <docblock line="2749">
+        <description>Exception class for Phery specific exceptions</description>
+        <long-description></long-description>
+        <tag line="2749" name="package" description="Phery"/>
+      </docblock>
+    </class>
+    <parse_markers>
+      <notice line="282" code="50013">Parameter  could not be found in data()</notice>
+      <notice line="1388" code="50013">Parameter  could not be found in coalesce()</notice>
+      <notice line="1734" code="50013">Parameter  could not be found in phery()</notice>
+      <notice line="1942" code="50013">Parameter  could not be found in print_vars()</notice>
+      <notice line="1966" code="50013">Parameter  could not be found in dump_vars()</notice>
+      <notice line="2163" code="50013">Parameter  could not be found in call()</notice>
+    </parse_markers>
+  </file>
+  <package name="Default" full_name="Default"/>
+  <package name="Phery" full_name="Phery"/>
+  <namespace name="global" full_name="global"/>
+  <marker count="0">todo</marker>
+  <marker count="0">fixme</marker>
+  <deprecated count="0"/>
+</project>

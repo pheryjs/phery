@@ -12,7 +12,7 @@
 
 This library is a much better alternative to XAJAX for those who work with jQuery and AJAX, while half of the lines. It unleashes everything you expect from an AJAX library, with nested responses, merging and unmerging responses, acessing directly the calling element.
 
-It's a straightforward and powerful AJAX library with direct integration and mapping of all jQuery functions in PHP, the mapping is extended to custom functions set by $.fn, can create elements just like `$('<div/>')` does, as **phery** creates a seamless integration with jQuery functions, through AJAX to PHP functions, based off original idea from the Rails library <https://github.com/rails/jquery-ujs> for the JS part on the `delegation` and `data-remote`
+It's a straightforward and powerful AJAX library with direct integration and mapping of all jQuery functions in PHP, the mapping is extended to custom functions set by $.fn, can create elements just like `$('<div/>')` does, as **phery** creates a seamless integration with jQuery functions, through AJAX to PHP functions, as you can call a PHP function using AJAX
 
 All jQuery functions listed in here are available to call directly from the PheryResponse class: <http://api.jquery.com/browser/> including any new versions of jQuery that comes out, its compatible with jQuery forever. No need to update phery, as it will continue to work with future versions of jQuery automatically.
 
@@ -30,10 +30,11 @@ The code is mostly commented using phpDoc and jsDoc, for a steep learning curve,
 
 ## Example code
 
-Check the a lot of examples and code at <https://github.com/pocesar/phery/raw/master/demo.php>
+Check the a lot of examples and code at http://phery-php-ajax.net/demo.php
 
 ## Releases
 
+* **2.1.0**: Nesting fix, added `access` method to `PheryResponse`, removed unecessary eval, rewrite of a couple of internal functions, added CSRF protection - 14th November 2012
 * **2.0.1**: Small fix on compressed answers - 9th November 2012
 * **2.0**: Added `data-related`, to get the value from somewhere else, the behavior of data-args for single value has changed, `method` will emulate RESTful response, fixed `error_handler` and added a meaningful exception when the callback returns void instead of PheryResponse. Removed string callbacks, added PheryFunction for javascript callbacks from PHP and the ability to do nested PheryResponse calls, Improved phery.view in all browsers, fixed `phery.view` in IE8, added a bunch of utility functions in PheryResponse, implementation of this() in PheryResponse, accesses the calling element directly, simply the best function added so far, there are too many changes to list here, do a diff if you are curious - 4th November 2012
 * **1.0**: **BREAKING API CHANGES** Complete revamp of Javascript code to use 'delegate' instead of 'live', using jQuery namespace'd events and data, support for self closing HTML tags, like IMG, exposed mouse events for each element (form, select / multiple, tags) - 4th September. 2012
@@ -83,6 +84,8 @@ It's really simple as
 
 When clicking a link with data-remote, it will automatically call the "function_name" callback, that will return a response and apply everything automagically
 
+Complete class declarations and functions at http://phery-php-ajax.net/docs/
+
 ### PHP server-side
 
 #### Phery - The main class, that should be reused everywhere (singleton style), but you can create many instances just fine
@@ -100,19 +103,19 @@ useful when you're going to execute the same task for all AJAX requests.
 
 ```php
 <?php
-	function pre_function_one($ajax_data, $callback_specific_data)
+	function pre_function_one($ajax_data, $callback_specific_data, $phery_instance)
 	{
 		// Trim the data, assuming every item is a string, and not an array of array
 		return array_map('trim', $ajax_data);
 	}
 
-	function pre_function_two($ajax_data, $callback_specific_data)
+	function pre_function_two($ajax_data, $callback_specific_data, $phery_instance)
 	{
 		// Remove empty
 		return array_filter($ajax_data);
 	}
 
-	function post_function($ajax_data, $callback_specific_data, $answer)
+	function post_function($ajax_data, $callback_specific_data, $answer, $phery_instance)
 	{
 		Database::insert('table', $ajax_data); // key/value pairs for e.g.
 		// $answer can be a PheryResponse
@@ -282,12 +285,13 @@ instance.
 * `no_stripslashes` => false, Don't apply stripslashes on the args
 * `exceptions` => false, Throw exceptions on errors
 * `respond_to_post` => array(), Set the functions that will be called even if is a POST but not an AJAX call
-* `compress` => false, Enable/disable GZIP/DEFLATE compression, depending on the browser support. Don't enable it if you are using Apache DEFLATE/GZIP, or zlib.output_compression Most of the time, compression will hide exceptions, because it will output plain text while the content-type is gzip
+* `compress` => false, Enable/disable GZIP/DEFLATE compression, depending on the browser support. Don't enable it if you are using Apache DEFLATE/GZIP, or zlib.output_compression Most of the time, compression will hide exceptions, because it will output plain text while the content-type is gzip, unless you also enable `error_reporting`
 * `error_reporting` => false|E_ALL|E_DEPRECATED|..., Error reporting temporarily using error_reporting(). 'false' disables the error_reporting and wont try to catch any error. Anything else than false will throw a PheryResponse->exception() with the message, code, line and file
+* `csrf` => false, Enable CSRF protection, uses PHP sessions. The meta tag must go inside the head of your page using `<?php echo Phery::instance()->csrf(); ?>`
 
 #### Phery::instance($config = null)
 
-Singleton static method, ensures just one instance of phery, usually the prefered style
+Singleton static method, ensures just one instance of phery, this is prefered over creating multiple instances
 
 #### Phery::instance()->set(array $functions)
 
@@ -313,7 +317,9 @@ The key is the function alias, the value is the function itself.
 	$class = new classy();
 
 	Phery::instance()->set(array(
-		'alias' => function(){ return PheryResponse::factory(); },
+		'alias' => function(){
+			return PheryResponse::factory();
+		},
 		'outside' => 'outside',
 		'class' => array($class, 'inside'),
 		'class' => 'classy::inside_static',
@@ -326,13 +332,27 @@ Callback/response function comprises of:
 
 ```php
 <?php
-	function func($ajax_data, $callback_data){
+	function func($ajax_data, $callback_data, $phery_instance){
 		// $ajax_data = data coming from browser, via AJAX
+		//
 		// $callback_data = can have anything you specify, plus additional information, like **submit_id** that
 		// comes automatically from the AJAX request, containing the ID of the calling DOM element, if has an id="" set
+		//
+		// $phery_instance = the current instance of Phery
+		//
 		return PheryResponse::factory(); // In most cases, you'll want to return a PheryResponse object
 	}
 ?>
+```
+
+#### Phery::instance()->csrf($check = false)
+
+Create a new token inside PHP session to prevent CSRF attacks, and return as a `<meta>` tag. Need to enable CSRF setting with `config()`
+
+```php
+<head>
+	<?php echo Phery::instance()->csrf(); ?>
+</head>
 ```
 
 #### Phery::factory(array $config = null)
@@ -347,7 +367,7 @@ Creates a new instance of phery, that is chainable
 ?>
 ```
 
-#### Phery::link_to($title, $function, array $attributes = array(), phery $phery = null)
+#### Phery::link_to($title, $function, array $attributes = array(), Phery $phery = null)
 
 Helper static method to create any element with AJAX enabled. Check sources, phpDocs or an IDE code hinting for a better scoop and detailed info
 
@@ -355,7 +375,7 @@ Helper static method to create any element with AJAX enabled. Check sources, php
 <?php echo Phery::link_to('link title', 'function_name', array('class' => 'red', 'href' => '/url')); ?>
 ```
 
-#### Phery::form_for($action, $function, array $attributes = array(), phery $phery = null)
+#### Phery::form_for($action, $function, array $attributes = array(), Phery $phery = null)
 
 Helper static method to open a form that will be able to execute AJAX submits. Check sources, phpDocs or an IDE code hinting for a better scoop and detailed info
 
@@ -367,7 +387,7 @@ Helper static method to open a form that will be able to execute AJAX submits. C
 </form>
 ```
 
-#### Phery::select_for($function, $items, array $attributes = array(), phery $phery = null)
+#### Phery::select_for($function, $items, array $attributes = array(), Phery $phery = null)
 
 Helper static method to display a select element that make AJAX calls on change.
 
@@ -387,11 +407,12 @@ Helper static method that returns the first non null/false/0 item (taken from MY
 
 Check the code completion using an IDE for a better view of the functions, read the source or check the examples
 Any jQuery function can be called through PheryResponse, even custom ones, defined through `$.fn.extend` or `$.function`
-Since version 2.0, you may nest PheryResponses, and the `this()` method was added, to access the calling element (or form) directly from PHP
+Since version 2.0, you may nest PheryResponses, and the `this()` method was added, to access the calling element (or form)
+directly from PHP
 
 ```php
 <?php
-	function func($data)
+	function func($data, $params, $phery)
 	{
 		$user = ORM::factory('user', $data['id'])
 		->values($data)
@@ -442,7 +463,7 @@ Phery::instance()->set(array(
 
 #### PheryException - Exceptions that are thrown by phery, when enabled to do so, with some descriptive errors
 
-Check the code completion using an IDE for a better view of the functions, read the source or check the examples <https://github.com/pocesar/phery/blob/master/demo.php>
+Check the code completion using an IDE for a better view of the functions, read the source or check the examples http://phery-php-ajax.net/demo.php
 
 ### Javascript client-side
 
@@ -496,21 +517,13 @@ $('form').serializeForm({'disabled':true,'all':true,'empty':false});
 
 An helper function that has been long missing from jQuery, to simply reset a form and remove all values from it. Can reset multiple forms at once
 
-#### $('element').phery('remote') or $('element').phery().remote()
-
-Trigger the AJAX call, takes no parameter. Executes the phery data associated with the element. Returns the ajax object
-
-```js
-$('a#id04').phery().remote(); // or $('a#id04').phery('remote');
-```
-
 #### $('element').phery()
 
 Returns functions associated with phery and the element
 
-##### $('a#id04').phery().remote(); // or $('a#id04').phery('remote');
+#### $('element').phery('remote') or $('element').phery().remote()
 
-Trigger the AJAX call, takes no parameter. Executes the phery data associated with the element. Returns the ajax object
+Trigger the AJAX call, takes no parameter. Executes the phery data associated with the element. Returns the jQuery AJAX object
 
 ```js
 $('a#id04').phery().remote(); // or $('a#id04').phery('remote');
@@ -565,6 +578,22 @@ Clean up the element, and remove it from the DOM. It removes all data before so 
 
 ```js
 $('a#id04').phery().remove(); // or $('a#id04').phery('remove');
+```
+
+##### $('a#id04').phery().make('function'); // or $('a#id04').phery('make', 'function');
+
+Enable Phery AJAX functions on the select elements to the function you choose
+
+```js
+$('a#id04').phery().make('remote-function'); // or $('a#id04').phery('make', 'remote-function');
+```
+
+##### $('a#id04').phery().unmake(); // or $('a#id04').phery('unmake');
+
+Remove Phery AJAX functions on the select elements
+
+```js
+$('a#id04').phery().unmake(); // or $('a#id04').phery('unmake');
 ```
 
 #### phery.remote(functionName, arguments, attributes, directCall)
@@ -648,7 +677,7 @@ Config the page to render AJAX partial views
 
 ```js
 	phery.view({
-		// Must always be an ID
+		// Must always be an ID and unique
 		'#container': {
 			// Optional, function to call before the
 			// HTML was set, can interact with existing elements on page
@@ -689,7 +718,8 @@ Config the page to render AJAX partial views
 Retrieve the data and functions associated with the container with:
 
 ```js
-	phery.view('#container') return a instance of PheryView
+	// return the instance of PheryView associated with the container
+	phery.view('#container')
 
 	// contains the data associated with the container, like every configuration (this is a clone of original data from 'view.phery')
 	phery.view('#container').data;
@@ -739,9 +769,10 @@ and the PHP side:
 Phery::instance()->views(array(
 	'#container' => function ($data, $param){
 		$render = pseudo_controller();
+
 		return
 			PheryResponse::factory()
-				->render_view($render[1] . $param['menu'], array('title' => $render[0]));
+				->render_view($render['html'] . $param['menu'], array('title' => $render['title']));
 	}
 ))->process();
 
