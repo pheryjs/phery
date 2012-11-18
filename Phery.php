@@ -128,7 +128,7 @@ class Phery implements ArrayAccess {
 			'after' => array()
 		);
 
-		$config = array_merge_recursive(
+		$config = array_replace_recursive(
 			array(
 				'exit_allowed' => true,
 				'no_stripslashes' => false,
@@ -875,7 +875,7 @@ class Phery implements ArrayAccess {
 				{
 					$this->config['csrf'] = (bool)$config['csrf'];
 
-					if ($this->config['csrf'])
+					if ($this->config['csrf'] === true)
 					{
 						if (session_id() == '')
 						{

@@ -2,7 +2,7 @@
 
 ## What do I need?
 
-+    PHP 5.3+ with JSON functions (no legacy support for PHP 4, not thoroughly tested in PHP 5.2, but it works fine)
++    PHP 5.3+ with JSON functions (no legacy support for PHP 4 or 5.2 that had the support already dropped from PHP.net itself, relies on PHP 5.3 functions)
 +    jQuery 1.7+ (strongly suggested to use 1.8.1+)
 +    Firefox 3.6+, IE 8+, Chrome 12+, Safari 5+, Opera 10+
 
@@ -34,7 +34,7 @@ Check the a lot of examples and code at http://phery-php-ajax.net/demo.php
 
 ## Releases
 
-* **2.1.0**: Nesting fix, added `access` method to `PheryResponse`, removed unecessary eval, rewrite of a couple of internal functions, added CSRF protection - 14th November 2012
+* **2.1.0**: Nesting fix, added `access` method to `PheryResponse`, removed unecessary `eval()`s, rewrite of a couple of internal functions, added CSRF protection - 18th November 2012
 * **2.0.1**: Small fix on compressed answers - 9th November 2012
 * **2.0**: Added `data-related`, to get the value from somewhere else, the behavior of data-args for single value has changed, `method` will emulate RESTful response, fixed `error_handler` and added a meaningful exception when the callback returns void instead of PheryResponse. Removed string callbacks, added PheryFunction for javascript callbacks from PHP and the ability to do nested PheryResponse calls, Improved phery.view in all browsers, fixed `phery.view` in IE8, added a bunch of utility functions in PheryResponse, implementation of this() in PheryResponse, accesses the calling element directly, simply the best function added so far, there are too many changes to list here, do a diff if you are curious - 4th November 2012
 * **1.0**: **BREAKING API CHANGES** Complete revamp of Javascript code to use 'delegate' instead of 'live', using jQuery namespace'd events and data, support for self closing HTML tags, like IMG, exposed mouse events for each element (form, select / multiple, tags) - 4th September. 2012
