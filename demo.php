@@ -1322,8 +1322,8 @@ function memusage(peak, usage, time) {
 		</div>
 	</li>
 	<li>
-		<h2>Returns plain text in this case, processed manually with the phery:done javascript callback. id => #special</h2>
-		<?php echo Phery::link_to('Regular function', 'test2', array('id' => 'special', 'args' => array('hello' => 'Im a named argument :D'))); ?>
+		<h2>Returns plain text in this case, processed manually with the phery:done javascript callback. id => #special, using clickable DIV tag</h2>
+		<?php echo Phery::link_to('Regular function', 'test2', array('id' => 'special', 'tag' => 'div', 'clickable' => true, 'args' => array('hello' => 'Im a named argument :D'))); ?>
 		<div class="readcode">
 			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 65, 'to' => 77))); ?>
 			<pre class="code"></pre>

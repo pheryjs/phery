@@ -25,7 +25,7 @@
  *
  * @link       http://phery-php-ajax.net/
  * @author     Paulo Cesar
- * @version    2.1.0
+ * @version    2.2.0
  * @license    http://opensource.org/licenses/MIT MIT License
  */
 
@@ -1049,6 +1049,12 @@ class Phery implements ArrayAccess {
 			unset($attributes['related']);
 		}
 
+		if (isset($attributes['clickable']))
+		{
+			$attributes['data-clickable'] = $attributes['clickable'];
+			unset($attributes['clickable']);
+		}
+
 		if ($include_method)
 		{
 			if (isset($attributes['method']))
@@ -1095,6 +1101,9 @@ class Phery implements ArrayAccess {
 	 *
 	 *     // Define the data-type for the communication
 	 *     'data-type' => 'json',
+	 *
+	 *     // Enable clicking on structural HTML, like DIV, HEADER, HGROUP, etc
+	 *     'clickable' => 'true',
 	 *
 	 *     // Set the encoding of the data, defaults to UTF-8
 	 *     'encoding' => 'UTF-8',

@@ -30,9 +30,28 @@
 
 	var
 		call_cache = [],
+		structural_html = [
+			'HTML',
+			'BODY',
+			'DIV',
+			'BLOCKQUOTE',
+			'BR',
+			'HR',
+			'HEAD',
+			'H1', 'H2', 'H3', 'H4', 'H5', 'H6',
+			'P',
+			'HEADER',
+			'FOOTER',
+			'NAV',
+			'SECTION',
+			'ASIDE',
+			'ARTICLE',
+			'HGROUP',
+			'FIGURE'
+		],
 		/**
 		 * @class
-		 * @version 2.1.0
+		 * @version 2.1.1
 		 */
 		phery = window.phery = window.phery || {};
 
@@ -260,7 +279,8 @@
 				'log_history':false,
 				'per_element':{
 					'events':true
-				}
+				},
+				'clickable_structure':false
 			},
 			'debug':{
 				'enable':false,
@@ -725,6 +745,13 @@
 		$document
 			.on(options.delegate.tags.join('.phery,') + '.phery', '[data-remote]:not(form,select)', function (e) {
 				var $this = $(this);
+
+				if (!options.enable.clickable_structure){
+					var is_structure = $.inArray(this.tagName, structural_html);
+					if (is_structure && is_structure !== -1 && !$this.attr('data-clickable')){
+						return false;
+					}
+				}
 
 				ajax_call.call($this);
 

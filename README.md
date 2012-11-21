@@ -34,6 +34,8 @@ Check the a lot of examples and code at http://phery-php-ajax.net/demo.php
 
 ## Releases
 
+* **2.2.0**: Added a new option that makes structural elements like DIV, HEADER, unclickable, but still can send data AJAX calls - 18th November 2012
+* **2.2.0**: Added a new option that makes structural elements like DIV, HEADER, unclickable, but still can send data AJAX calls - 18th November 2012
 * **2.1.0**: Nesting fix, added `access` method to `PheryResponse`, removed unecessary `eval()`s, rewrite of a couple of internal functions, added CSRF protection - 18th November 2012
 * **2.0.1**: Small fix on compressed answers - 9th November 2012
 * **2.0**: Added `data-related`, to get the value from somewhere else, the behavior of data-args for single value has changed, `method` will emulate RESTful response, fixed `error_handler` and added a meaningful exception when the callback returns void instead of PheryResponse. Removed string callbacks, added PheryFunction for javascript callbacks from PHP and the ability to do nested PheryResponse calls, Improved phery.view in all browsers, fixed `phery.view` in IE8, added a bunch of utility functions in PheryResponse, implementation of this() in PheryResponse, accesses the calling element directly, simply the best function added so far, there are too many changes to list here, do a diff if you are curious - 4th November 2012
@@ -801,6 +803,7 @@ The options can be set using the `key:value` in the `key` parameter, or using a 
 * `enable.log_history` (true / false, defaults to false): keep the log of errors  that can be accessed through `phery.log()`
 * `enable.php_string_callbacks` (true / false, defaults to false): jQuery functions like `animate` or `each` that take callbacks, can have the callback defined as a string inside PHP if this is enabled.
 * `enable.per_element.events` (true / false, defaults to true): enable `phery:*` events on each element
+* `enable.clickable_structure` (true / false, defaults to false): enable clicking on HTML structural elements, like DIV, HTML, etc. They are disabled by default, but can be enabled per element using `data-clickable="1"` or simply `data-clickable=""`
 
 ### Debugging
 
