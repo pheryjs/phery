@@ -1187,7 +1187,7 @@ class Phery implements ArrayAccess {
 	 * @param Phery  $phery    Pass the current instance of phery, so it can check if the functions are defined, and throw exceptions
 	 *
 	 * @static
-	 * @return string The mounted <form> HTML tag
+	 * @return string The mounted &lt;form&gt; HTML tag
 	 */
 	public static function form_for($action, $function, array $attributes = array(), Phery $phery = null)
 	{
@@ -1256,7 +1256,7 @@ class Phery implements ArrayAccess {
 	 * @param Phery  $phery    Pass the current instance of phery, so it can check if the functions are defined, and throw exceptions
 	 *
 	 * @static
-	 * @return string The mounted <select> with <option>s inside
+	 * @return string The mounted &lt;select&gt; with &lt;option&gt;s inside
 	 */
 	public static function select_for($function, array $items, array $attributes = array(), Phery $phery = null)
 	{
@@ -1539,7 +1539,7 @@ class PheryResponse extends ArrayObject {
 	 * Construct a new response
 	 *
 	 * @param string $selector Create the object already selecting the DOM element
-	 * @param array $constructor Only available if you are creating an element, like $('<p/>')
+	 * @param array $constructor Only available if you are creating an element, like $('&lt;p/&gt;')
 	 */
 	public function __construct($selector = null, array $constructor = array())
 	{
@@ -1822,7 +1822,7 @@ class PheryResponse extends ArrayObject {
 	 * </pre>
 	 *
 	 * @param string $selector optional
-	 * @param array $constructor Same as $('<p/>', {})
+	 * @param array $constructor Same as $('&lt;p/&gt;', {})
 	 *
 	 * @static
 	 * @return PheryResponse
@@ -1987,7 +1987,7 @@ class PheryResponse extends ArrayObject {
 	 * <pre>
 	 * PheryResponse::factory()->jquery()->getJSON();
 	 * </pre>
-	 * @param array $constructor Only available if you are creating a new element, like $('<p/>', {})
+	 * @param array $constructor Only available if you are creating a new element, like $('&lt;p/&gt;', {})
 	 *
 	 * @return PheryResponse
 	 */
@@ -2009,7 +2009,7 @@ class PheryResponse extends ArrayObject {
 	 * Shortcut/alias for jquery($selector) Passing null works like jQuery.func
 	 *
 	 * @param string $selector Sets the current selector for subsequent chaining
-	 * @param array $constructor Only available if you are creating a new element, like $('<p/>', {})
+	 * @param array $constructor Only available if you are creating a new element, like $('&lt;p/&gt;', {})
 	 *
 	 * @return PheryResponse
 	 */
