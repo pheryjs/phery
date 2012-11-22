@@ -80,7 +80,7 @@ Complete class declarations and functions at http://phery-php-ajax.net/docs/
 
 ```php
 <?php
-	Phery::instance($config)->(...);
+Phery::instance($config)->(...);
 ?>
 ```
 
@@ -470,35 +470,35 @@ $('form').serializeForm({'disabled':true,'all':true,'empty':false});
 * A form like:
 
 ```html
-	<form>
-		<input name="field[gender]" type="text" value="male">
-		<input name="field[name]" type="text" value="John Doe">
-		<input name="field[info][date]" type="date" value="12/12/1983">
-		<input name="breakfast" type="text" value="eggs & bacon">
-		<select name="select" multiple>
-			<option selected value="1">1</option>
-			<option selected value="2">2</option>
-			<option value="3">3</option>
-		</select>
-	</form>
+<form>
+	<input name="field[gender]" type="text" value="male">
+	<input name="field[name]" type="text" value="John Doe">
+	<input name="field[info][date]" type="date" value="12/12/1983">
+	<input name="breakfast" type="text" value="eggs & bacon">
+	<select name="select" multiple>
+		<option selected value="1">1</option>
+		<option selected value="2">2</option>
+		<option value="3">3</option>
+	</select>
+</form>
 ```
 
 * will generate an object like:
 
 ```js
-	{
-		"field":{
-			"gender":"male",
-			"name":"John Doe",
-			"info": {
-				"date":"12/12/1983"
-			}
-		},
-		"breakfast":"eggs & bacon",
-		"select":[
-			1, 2
-		]
-	}
+{
+	"field":{
+		"gender":"male",
+		"name":"John Doe",
+		"info": {
+			"date":"12/12/1983"
+		}
+	},
+	"breakfast":"eggs & bacon",
+	"select":[
+		1, 2
+	]
+}
 ```
 
 #### $('form').reset()
@@ -514,74 +514,74 @@ Returns functions associated with phery and the element
 Trigger the AJAX call, takes no parameter. Executes the phery data associated with the element. Returns the jQuery AJAX object
 
 ```js
-$('a#id04').phery().remote(); // or $('a#id04').phery('remote');
+$('element').phery().remote(); // or $('element').phery('remote');
 ```
 
-##### $('a#id04').phery().exception(msg, data); // or $('a#id04').phery('exception', msg, data);
+##### $('element').phery().exception(msg, data); // or $('element').phery('exception', msg, data);
 
 Trigger the exception handler on the element, returns the $(element).phery()
 
 ```js
-$('a#id04').phery().exception('Exception!', {'data': true}); // or $('a#id04').phery('exception', 'Exception!', {'data': true});
+$('element').phery().exception('Exception!', {'data': true}); // or $('element').phery('exception', 'Exception!', {'data': true});
 ```
 
-##### $('a#id04').phery().append_args(...); // or $('a#id04').phery('append_args', ...);
+##### $('element').phery().append_args(...); // or $('element').phery('append_args', ...);
 
 Append arguments to the current element. The initial value will decide how the parameters will behave in the future
 
 ```js
 // If the element had {'undo':1}, after the call, it will have {'undo': 1, 'data': true}
-$('a#id04').phery().append_args({'data': true}); // or $('a#id04').phery('append_args', {'data': true});
+$('element').phery().append_args({'data': true}); // or $('element').phery('append_args', {'data': true});
 ```
 
-##### $('a#id04').phery().set_args(...); // or $('a#id04').phery('set_args', ...);
+##### $('element').phery().set_args(...); // or $('element').phery('set_args', ...);
 
 Set arguments to the current element. Overwrites any data previously set.
 It cannot use single values, any string, number, etc will become a `[value]`
 It's better to always pass at least an array or prefered an object
 
 ```js
-$('a#id04').phery().set_args({'data': true}); // or $('a#id04').phery('set_args', {'data': true});
+$('element').phery().set_args({'data': true}); // or $('element').phery('set_args', {'data': true});
 ```
 
-##### $('a#id04').phery().get_args(...); // or $('a#id04').phery('get_args');
+##### $('element').phery().get_args(...); // or $('element').phery('get_args');
 
 Get arguments of the current element.
 
 ```js
-console.log($('a#id04').phery().get_args()); // or console.log($('a#id04').phery('get_args'));
+console.log($('element').phery().get_args()); // or console.log($('element').phery('get_args'));
 ```
 
-##### $('a#id04').phery().make(); // or $('a#id04').phery('make');
+##### $('element').phery().make(); // or $('element').phery('make');
 
 Add phery to the selected element, set the AJAX function name and you may pass arguments
 
 ```js
-$('a#id04').phery().make('test', {'loaded':true}); // or $('a#id04').phery('make', 'test', {'loaded': true});
+$('element').phery().make('test', {'loaded':true}); // or $('element').phery('make', 'test', {'loaded': true});
 ```
 
-##### $('a#id04').phery().remove(); // or $('a#id04').phery('remove');
+##### $('element').phery().remove(); // or $('element').phery('remove');
 
 Clean up the element, and remove it from the DOM. It removes all data before so it won't memory leak
 
 ```js
-$('a#id04').phery().remove(); // or $('a#id04').phery('remove');
+$('element').phery().remove(); // or $('element').phery('remove');
 ```
 
-##### $('a#id04').phery().make('function'); // or $('a#id04').phery('make', 'function');
+##### $('element').phery().make('function'); // or $('element').phery('make', 'function');
 
 Enable Phery AJAX functions on the select elements to the function you choose
 
 ```js
-$('a#id04').phery().make('remote-function'); // or $('a#id04').phery('make', 'remote-function');
+$('element').phery().make('remote-function'); // or $('element').phery('make', 'remote-function');
 ```
 
-##### $('a#id04').phery().unmake(); // or $('a#id04').phery('unmake');
+##### $('element').phery().unmake(); // or $('element').phery('unmake');
 
 Remove Phery AJAX functions on the select elements
 
 ```js
-$('a#id04').phery().unmake(); // or $('a#id04').phery('unmake');
+$('element').phery().unmake(); // or $('element').phery('unmake');
 ```
 
 #### phery.remote(functionName, arguments, attributes, directCall)
@@ -590,16 +590,16 @@ Calls an AJAX function directly, without binding to any existing elements, the D
 
 * `functionName`: string, name of the alias defined in Phery::instance()->set() inside PHP
 * `arguments`: object or array or variable, the best practice is to pass an object, since it can be easily accessed later through PHP, but any kind of parameter can be passed, from strings, ints, floats, and can also be null (won't be passed through ajax)
-* `attributes`: object, set any additional information about the DOM element, usually for setting another href to it. eg: {href: '/some/other/url?p=1'}
+* `attributes`: object, set any additional information about the DOM element, usually for setting another href to it. eg: `{href: '/some/other/url?p=1'}`
 * `directCall`: boolean, defaults to true, setting this to false, will return the created DOM element (invisible to the user) and can have events bound to it
 
 ```js
-	element = phery.remote('remote', {'key':'value'}, {'href': '/new/url'}, false);
-	element.bind({
-		'phery:always': function(){
-			$('body').append($(this));
-		}
-	}).phery('remote');
+element = phery.remote('remote', {'key':'value'}, {'href': '/new/url'}, false);
+element.bind({
+	'phery:always': function(){
+		$('body').append($(this));
+	}
+}).phery('remote');
 ```
 
 ### Options and global and element events
@@ -609,10 +609,10 @@ It's mainly useful to show/hide loading screens, update statuses, put an overlay
 
 #### phery.on(event, cb)
 
-These events are triggered globally, independently if called from an existing DOM element or through phery.remote()
+These events are triggered globally, independently if called from an existing DOM element or through `phery.remote()`
 The `event.target` points to the related DOM node (that was clicked, or the form that was submitted)
 
-* `before`: `function (event)` Triggered before everything, happens right after phery.remote() call
+* `before`: `function (event)` Triggered before everything, happens right after `phery.remote()` call
 * `after`: `function (event)` Triggered after all the data was parsed.
 * `beforeSend`: `function (event, xhr)` Triggered before sending the data through AJAX, Useful to add any CSRF protections here
 * `done`: `function (event, data, text, xhr)` Triggered just before the answer from the response was received successfully and will start to process the data. Returning false halts the processing, make sure to return true
@@ -622,24 +622,24 @@ The `event.target` points to the related DOM node (that was clicked, or the form
 * `json`: `function (event, obj)` Returns the json object sent from PHP
 
 ```js
-	phery.on('before', function(){
-		$('#loading').fadeIn();
-	});
+phery.on('before', function(){
+	$('#loading').fadeIn();
+});
 
-	phery.on('always', function(){
-		$('#loading').fadeOut();
-	});
+phery.on('always', function(){
+	$('#loading').fadeOut();
+});
 
 //or
 
-	phery.on({
-		'before': function(){
-			$('#loading').fadeIn();
-		},
-		'always': function(){
-			$('#loading').fadeOut();
-		}
-	});
+phery.on({
+	'before': function(){
+		$('#loading').fadeIn();
+	},
+	'always': function(){
+		$('#loading').fadeOut();
+	}
+});
 ```
 
 #### phery.off(name)
@@ -647,107 +647,107 @@ The `event.target` points to the related DOM node (that was clicked, or the form
 Remove a global event bound
 
 ```js
-	phery.off('always');
+phery.off('always');
 ```
 
 #### phery.reset_to_defaults()
 
-Reset the configuration to the defaults, see phery.config()
+Reset the configuration to the defaults, see `phery.config()`
 
 #### phery.log()
 
 Wrapper for the console.log(), but keeps a local history, if you enable it in
-phery.config()
+`phery.config()`
 
 #### phery.view(config)
 
 Config the page to render AJAX partial views
 
 ```js
-	phery.view({
-		// Must always be an ID and unique
-		'#container': {
-			// Optional, function to call before the
-			// HTML was set, can interact with existing elements on page
-			// The context of the callback is the container
-			'beforeHtml': function(data){
-				$('#menu a').removeClass('selected').filter('.' + data.class).addClass('selected');
-			},
-			// Optional, function to call to render the HTML,
-			// in a custom way. This overwrites the original function,
-			// so you might set this.html(html) manually.
-			// The context of the callback is the container
-			'render': function(html, data){
-				/* this refers to the container, in this case #container */
-				html = html.replace(' ass ', ' a** ');
-				this.html(html);
-				document.title = data.title;
-			},
-			// Optional, function to call after the HTML was set,
-			// can interact with the new contents of the page
-			// The context of the callback is the container.
-			'afterHtml': function(data, passdata){
-				if (window.history) {
-					window.history.pushState(data, data.title, data.url);
-				}
-			},
-			// Optional, defaults to a[href]:not(.no-phery,[target],[data-remote],[href*=":"],[rel~="nofollow"]).
-			// Setting the selector manually will make it 'local' to the #container, like '#container a'
-			// Links like <a rel="#nameofcontainer">click me!</a>, using the rel attribute will trigger too
-			'selector': 'a',
-			// Optional, array containing conditions for links NOT to follow,
-			// can be string, regex and function (that returns boolean, receives the url clicked, return true to exclude)
-			'exclude': ['/contact', /\d$/, function]
-			// any other phery event, like beforeSend, params, etc
-		}
-	});
+phery.view({
+	// Must always be an ID and unique
+	'#container': {
+		// Optional, function to call before the
+		// HTML was set, can interact with existing elements on page
+		// The context of the callback is the container
+		'beforeHtml': function(data){
+			$('#menu a').removeClass('selected').filter('.' + data.class).addClass('selected');
+		},
+		// Optional, function to call to render the HTML,
+		// in a custom way. This overwrites the original function,
+		// so you might set this.html(html) manually.
+		// The context of the callback is the container
+		'render': function(html, data){
+			/* this refers to the container, in this case #container */
+			html = html.replace(' ass ', ' a** ');
+			this.html(html);
+			document.title = data.title;
+		},
+		// Optional, function to call after the HTML was set,
+		// can interact with the new contents of the page
+		// The context of the callback is the container.
+		'afterHtml': function(data, passdata){
+			if (window.history) {
+				window.history.pushState(data, data.title, data.url);
+			}
+		},
+		// Optional, defaults to a[href]:not(.no-phery,[target],[data-remote],[href*=":"],[rel~="nofollow"]).
+		// Setting the selector manually will make it 'local' to the #container, like '#container a'
+		// Links like <a rel="#nameofcontainer">click me!</a>, using the rel attribute will trigger too
+		'selector': 'a',
+		// Optional, array containing conditions for links NOT to follow,
+		// can be string, regex and function (that returns boolean, receives the url clicked, return true to exclude)
+		'exclude': ['/contact', /\d$/, function]
+		// any other phery event, like beforeSend, params, etc
+	}
+});
 ```
 
 Retrieve the data and functions associated with the container with:
 
 ```js
-	// return the instance of PheryView associated with the container
-	phery.view('#container')
+// return the instance of PheryView associated with the container
+phery.view('#container')
 
-	// contains the data associated with the container, like every configuration (this is a clone of original data from 'view.phery')
-	phery.view('#container').data;
-	// Call the path to render a URL in the container
-	phery.view('#container').navigate_to('url/to/somewhere');
-	// Contains the container $(DOM) itself, got all the jquery functions on it
-	phery.view('#container').container;
-	// Check if the url is excluded, per config, returns true if excluded
-	phery.view('#container').is_excluded_url('url/path');
+// contains the data associated with the container, like every configuration (this is a clone of original data from 'view.phery')
+phery.view('#container').data;
+// Call the path to render a URL in the container
+phery.view('#container').navigate_to('url/to/somewhere');
+// Contains the container $(DOM) itself, got all the jquery functions on it
+phery.view('#container').container;
+// Check if the url is excluded, per config, returns true if excluded
+phery.view('#container').is_excluded_url('url/path');
 ```
 
 Example:
 
 ```js
-	/* Setup automatic view rendering using ajax */
-	phery.view({
-		'#container':{
-			/* We want only the links inside the container to be ajaxified */
-			'selector':'a',
-			/* Enable the browser history, and change the title */
-			'afterHtml': function(data, passdata){
-				document.title = data.title;
-				if (window.history) {
-					/* Good browsers get history API */
-					if (typeof passdata['popstate'] === 'undefined'){
-						window.history.pushState(data, data.title, data.url);
-					}
+/* Setup automatic view rendering using ajax */
+phery.view({
+	'#container':{
+		/* We want only the links inside the container to be ajaxified */
+		'selector':'a',
+		/* Enable the browser history, and change the title */
+		'afterHtml': function(data, passdata){
+			document.title = data.title;
+			if (window.history) {
+				/* Good browsers get history API */
+				if (typeof passdata['popstate'] === 'undefined'){
+					window.history.pushState(data, data.title, data.url);
 				}
-			},
-			/* phery:params let us add params, that ends in callback params and wont get mixed with arguments */
-			'params':function (event, data) {
-                // from which location we are getting the call, PHP knows nothing about it
-                data['origin'] = window.location.href;
-            }
-		}
-	});
-	/* Good browsers get back/forward button ajax navigation ;) */
-	window.onpopstate = function(e){
-		phery.view('#container').navigate_to(document.location.href, null, {'popstate': true});
-	};
+			}
+		},
+		/* phery:params let us add params, that ends in callback params and wont get mixed with arguments */
+		'params':function (event, data) {
+            // from which location we are getting the call, PHP knows nothing about it
+            data['origin'] = window.location.href;
+        }
+	}
+});
+/* Good browsers get back/forward button ajax navigation ;) */
+window.onpopstate = function(e){
+	phery.view('#container').navigate_to(document.location.href, null, {'popstate': true});
+};
 ```
 
 and the PHP side:
@@ -772,12 +772,12 @@ The current configuration options that are available in phery. Reminding that ad
 The options can be set using the `key:value` in the `key` parameter, or using a string and value. Each option can be accessed using dot notation inside the string
 
 ```js
-	phery.config({
-		'cursor': false,
-		'enable.per_element.events': false
-	});
+phery.config({
+	'cursor': false,
+	'enable.per_element.events': false
+});
 
-	phery.config('debug.display.config', true);
+phery.config('debug.display.config', true);
 ```
 
 ### Misc options
@@ -824,16 +824,16 @@ Per element events are the same from global events. Refer to `phery.on` above fo
 * `phery:params`: `function (event, obj)`
 
 ```js
-	$('form').bind({
-		// Enable them again
-		'phery:always': function(){
-			$(this).find('input').removeAttr('disabled');
-		},
-		// Disable form elements
-		'phery:before': function(){
-			$(this).find('input').attr('disabled', 'disabled');
-		}
-	});
+$('form').bind({
+	// Enable them again
+	'phery:always': function(){
+		$(this).find('input').removeAttr('disabled');
+	},
+	// Disable form elements
+	'phery:before': function(){
+		$(this).find('input').attr('disabled', 'disabled');
+	}
+});
 ```
 ## License
 
