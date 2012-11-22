@@ -32,22 +32,9 @@ The code is mostly commented using phpDoc and jsDoc, for a steep learning curve,
 
 Check the a lot of examples and code at http://phery-php-ajax.net/demo.php
 
-## Releases
+## Full API Documentation
 
-* **2.2.0**: Added a new option that makes structural elements like DIV, HEADER, unclickable, but still can send data AJAX calls - 21st November 2012
-* **2.1.0**: Nesting fix, added `access` method to `PheryResponse`, removed unecessary `eval()`s, rewrite of a couple of internal functions, added CSRF protection - 18th November 2012
-* **2.0.1**: Small fix on compressed answers - 9th November 2012
-* **2.0**: Added `data-related`, to get the value from somewhere else, the behavior of data-args for single value has changed, `method` will emulate RESTful response, fixed `error_handler` and added a meaningful exception when the callback returns void instead of PheryResponse. Removed string callbacks, added PheryFunction for javascript callbacks from PHP and the ability to do nested PheryResponse calls, Improved phery.view in all browsers, fixed `phery.view` in IE8, added a bunch of utility functions in PheryResponse, implementation of this() in PheryResponse, accesses the calling element directly, simply the best function added so far, there are too many changes to list here, do a diff if you are curious - 4th November 2012
-* **1.0**: **BREAKING API CHANGES** Complete revamp of Javascript code to use 'delegate' instead of 'live', using jQuery namespace'd events and data, support for self closing HTML tags, like IMG, exposed mouse events for each element (form, select / multiple, tags) - 4th September. 2012
-* **0.6b**: Javascript code additions, support for "change" event on SELECT elements and PHP helper for creating a SELECT, added encoding support, defaults to UTF-8, fix when argument passing when not an array or JSON object, added more jQuery functions to the IDE autocomplete phpDoc - 8th July. 2011
-* **0.5.2b**: Improved code for cursor, added $.phery.options.ajax.retry\_limit and automatic retry abilities, updated examples in index.php and adjusted documentation, minor change in PHP side - 06th May. 2011
-* **0.5.1b**: Fixed events, events will be executed as GLOBAL then PER ELEMENT. Returning false cancels propagation. Fixed console.log, updated index.php with examples and removed dependency for livequery plugin, jquery 1.5.2 got it fixed - 27th Apr. 2011
-* **0.5b**:  Added $.phery.options.default\_href, added ability to call anonymous functions callbacks directly from PHP, removed closed from script() call, added exception event - 11st Mar. 2011
-* **0.4b**:  Added more error checking, fixed some bugs, improved both PHP and js code, included jQuery 1.5.1, changed the way the callbacks are executed and handled, removed external JSON parser - 4th Mar. 2011
-* **0.3b2**: Removed some mal functioning code from js, corrected minor things in PHP and example - 15th Nov. 2010
-* **0.3b1**: Test changes to function parsing client-side, added $.callRemote(), and changes to PHP code - 23rd Oct. 2010
-* **0.2b**:  Renamed project to phery, improved js code - 11st Oct. 2010
-* **0.1b**:  First public release as Pjax - 30th Sep. 2010
+http://phery-php-ajax.net/docs/
 
 ## Documentation
 

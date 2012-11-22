@@ -31,7 +31,7 @@
 <a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
                                     Reports <b class="caret"></b></a><ul class="dropdown-menu">
 <li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
-                <span class="label label-info">6</span></a></li>
+                <span class="label label-info">5</span></a></li>
 <li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
                 <ul></ul></a></li>
 <li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
@@ -156,7 +156,7 @@ function answer($data)
 <li class="method public "><a href="#method_parents" title="parents :: Get the ancestors of each element in the current set of matched elements, optionally filtered by a selector."><span class="description">Get the ancestors of each element in the current set of matched elements, optionally filtered by a selector.</span><pre>parents()</pre></a></li>
 <li class="method public "><a href="#method_parentsUntil" title="parentsUntil :: Get the ancestors of each element in the current set of matched elements, up to but not including the element matched by the selector."><span class="description">Get the ancestors of each element in the current set of matched elements, up to but not including the element matched by the selector.</span><pre>parentsUntil()</pre></a></li>
 <li class="method public "><a href="#method_path" title="path :: Access a global object path"><span class="description">Access a global object path</span><pre>path()</pre></a></li>
-<li class="method public "><a href="#method_phery" title="phery :: Accesses the phery() methods of the calling element, same as doing $('selector').phery()"><span class="description">Accesses the phery() methods of the calling element, same as doing $('selector').phery()</span><pre>phery()</pre></a></li>
+<li class="method public "><a href="#method_phery" title="phery :: Access the phery() on the select element(s)"><span class="description">Access the phery() on the select element(s)</span><pre>phery()</pre></a></li>
 <li class="method public "><a href="#method_phery_remote" title="phery_remote :: Same as phery.remote()"><span class="description">Same as phery.remote()</span><pre>phery_remote()</pre></a></li>
 <li class="method public "><a href="#method_post" title="post :: Load data from the server using a HTTP POST request."><span class="description">Load data from the server using a HTTP POST request.</span><pre>post()</pre></a></li>
 <li class="method public "><a href="#method_prepend" title="prepend :: Prepend string/HTML to target(s)"><span class="description">Prepend string/HTML to target(s)</span><pre>prepend()</pre></a></li>
@@ -268,11 +268,11 @@ to any jquery specific call</p></div>
 <table class="table table-bordered">
 <tr>
 <th>see</th>
-<td><a href="">\global\PheryResponse::jquery()</a></td>
+<td><a href="Phery.html#%5CPheryResponse::jquery()">\PheryResponse::jquery()</a></td>
 </tr>
 <tr>
 <th>see</th>
-<td><a href="">\global\PheryResponse::j()</a></td>
+<td><a href="Phery.html#%5CPheryResponse::j()">\PheryResponse::j()</a></td>
 </tr>
 </table>
 <h3>Parameters</h3>
@@ -662,7 +662,8 @@ PheryResponse::factory()
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$func_name</h4>
-<code>string</code><code>array</code><p>Function name. If you pass a string, it will be accessed on window.func. If you pass an array, it will access a member of an object, like array('object', 'property', 'function')</p>
+<code>string</code><code>array</code><p>Function name. If you pass a string, it will be accessed on window.func.
+                               If you pass an array, it will access a member of an object, like array('object', 'property', 'function')</p>
 </div>
 <h3>Returns</h3>
 <div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
@@ -701,7 +702,7 @@ PheryResponse::factory()
 <div class="long_description"><p>Alias for attr('attribute', '')</p></div>
 <table class="table table-bordered"><tr>
 <th>see</th>
-<td><a href="">\global\PheryResponse::attr()</a></td>
+<td><a href="Phery.html#%5CPheryResponse::attr()">\PheryResponse::attr()</a></td>
 </tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
@@ -1485,9 +1486,16 @@ respond to __toString() will be converted automatically</p></div>
 <h4>$selector</h4>
 <code>string</code><p>Sets the current selector for subsequent chaining</p>
 
-<pre> PheryResponse::factory() ->jquery('.slides') ->fadeTo(0,0) ->css(array('top' => '10px', 'left' => '90px')); </pre>
+<pre>
+PheryResponse::factory()
+->jquery('.slides')
+->fadeTo(0,0)
+->css(array('top' => '10px', 'left' => '90px'));
+</pre>
 
-<pre> PheryResponse::factory()->jquery()->getJSON(); </pre>
+<pre>
+PheryResponse::factory()->jquery()->getJSON();
+</pre>
 </div>
 <div class="subelement argument">
 <h4>$constructor</h4>
@@ -1903,26 +1911,45 @@ function process()
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$namespace</h4>
-<code>string</code><code>string[]</code><p>For accessing objects, like $.namespace.function() or document.href. if you want to access a global variable, use array('object','property'). You may use a mix of getter/setter to apply a global value to a variable</p>
+<code>string</code><code>string[]</code><p>For accessing objects, like $.namespace.function() or
+                                   document.href. if you want to access a global variable,
+                                   use array('object','property'). You may use a mix of getter/setter
+                                   to apply a global value to a variable</p>
 
-<pre> PheryResponse::factory()->set_var(array('obj','newproperty'), PheryResponse::factory()->path(array('other_obj','enabled')) ); </pre>
+<pre>
+PheryResponse::factory()->set_var(array('obj','newproperty'),
+     PheryResponse::factory()->path(array('other_obj','enabled'))
+);
+</pre>
 </div>
 <h3>Returns</h3>
 <div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
 </div></div>
 </div>
 <a id="method_phery"></a><div class="element clickable method public method_phery" data-toggle="collapse" data-target=".method_phery .collapse">
-<h2>Accesses the phery() methods of the calling element, same as doing $('selector').phery()</h2>
-<pre>phery(string | array $func) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
+<h2>Access the phery() on the select element(s)</h2>
+<pre>phery($function =, $args =) : <a href="../classes/PheryResponse.html">\PheryResponse</a></pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td>Access the phery() on the select element(s)</td>
+</tr>
+</table>
 <h3>Parameters</h3>
 <div class="subelement argument">
-<h4>$func</h4>
-<code>string</code><code>array</code><p>Name of the phery function on the element or an array of functions</p>
-
-<pre> 'append_args', 'set_args', 'remote', 'exception', 'remove' </pre>
+<h4>=</h4>
+<code>$function</code><code>$args</code>
+</div>
+<div class="subelement argument">
+<h4>=</h4>
+<code>$function</code><code>$args</code>
 </div>
 <h3>Returns</h3>
 <div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
@@ -2123,7 +2150,11 @@ function process()
 </div>
 <div class="subelement argument">
 <h4>$view</h4>
-<code>bool</code><code>string</code><p>Internal means that phery will cancel the current DOM manipulation and commands and will issue another phery.remote to the location in url, useful if your PHP code is issuing redirects but you are using AJAX views. Passing false will issue a browser redirect</p></div>
+<code>bool</code><code>string</code><p>Internal means that phery will cancel the
+                               current DOM manipulation and commands and will issue another
+                               phery.remote to the location in url, useful if your PHP code is
+                               issuing redirects but you are using AJAX views.
+                               Passing false will issue a browser redirect</p></div>
 <h3>Returns</h3>
 <div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
 </div></div>
@@ -2328,7 +2359,10 @@ Warning: calling this function will reset the selector jQuery selector previousl
 <h4>$script</h4>
 <code>string</code><code>array</code><p>Script content. If provided an array, it will be joined with \n</p>
 
-<pre> PheryResponse::factory() ->script(array("if (confirm('Are you really sure?')) $('*').remove()")); </pre>
+<pre>
+PheryResponse::factory()
+->script(array("if (confirm('Are you really sure?')) $('*').remove()"));
+</pre>
 </div>
 <h3>Returns</h3>
 <div class="subelement response"><code><a href="../classes/PheryResponse.html">\PheryResponse</a></code></div>
@@ -3116,8 +3150,8 @@ PheryResponse::factory()->unset(array('customer_info','name')); // translates to
 </div>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
-            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a11</a> and<br>
-            generated on 2012-11-21T03:29:23-02:00.<br></footer></div>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
+            generated on 2012-11-22T02:22:04-02:00.<br></footer></div>
 </div>
 </body>
 </html>

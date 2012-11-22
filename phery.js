@@ -30,34 +30,35 @@
 
 	var
 		call_cache = [],
-		structural_html = [
-			'HTML',
-			'BODY',
-			'DIV',
-			'BLOCKQUOTE',
-			'BR',
-			'HR',
-			'HEAD',
-			'H1', 'H2', 'H3', 'H4', 'H5', 'H6',
-			'P',
-			'HEADER',
-			'FOOTER',
-			'NAV',
-			'SECTION',
-			'ASIDE',
-			'ARTICLE',
-			'HGROUP',
-			'FIGURE'
-		],
+		structural_html = {
+			'HTML':1,
+			'BODY':1,
+			'DIV':1,
+			'BLOCKQUOTE':1,
+			'BR':1,
+			'HR':1,
+			'HEAD':1,
+			'H1':1, 'H2':1, 'H3':1, 'H4':1, 'H5':1, 'H6':1,
+			'P':1,
+			'HEADER':1,
+			'FOOTER':1,
+			'NAV':1,
+			'SECTION':1,
+			'ASIDE':1,
+			'ARTICLE':1,
+			'HGROUP':1,
+			'FIGURE':1
+		},
 		/**
 		 * @class
-		 * @version 2.1.1
+		 * @version 2.2.1
 		 */
 		phery = window.phery = window.phery || {};
 
 	/* Code from http://javascriptweblog.wordpress.com/2011/08/08/fixing-the-javascript-typeof-operator/ */
-	Object.toType = (function toType(global) {
-		return function (obj) {
+	Object.toType = (
+		function toType(global) {
+			return function (obj) {
 			if (obj === global) {
 				return "global";
 			}
@@ -747,8 +748,7 @@
 				var $this = $(this);
 
 				if (!options.enable.clickable_structure){
-					var is_structure = $.inArray(this.tagName, structural_html);
-					if (is_structure && is_structure !== -1 && !$this.attr('data-clickable')){
+					if (typeof structural_html[this.tagName] === 'number' && !$this.attr('data-clickable')){
 						return false;
 					}
 				}
@@ -851,51 +851,6 @@
 
 		return args;
 	};
-
-	/*var access = function($this, path, value) {
-		var y, _obj = false, last = null, len = path.length;
-
-		for (y = 0; y < len; y++) {
-			if (_obj === false) {
-				if (y < len-1) {
-					if (
-						(typeof value === 'undefined' || value === '__unset__') &&
-						(typeof window[path[y]] === 'function' || typeof window[path[y]] === 'object')
-					) {
-						_obj = window[path[y]];
-					}
-				} else {
-					_obj = window;
-					last = path[y];
-				}
-			} else if (typeof _obj[path[y]] !== 'undefined') {
-				if (y === len-1) {
-					last = path[y];
-				} else {
-					_obj = _obj[path[y]];
-				}
-			}
-		}
-		if (_obj !== false && last !== null) {
-			var target = _obj;
-
-			if (typeof value !== 'undefined' && value !== '__unset__') {
-				if (Object.toType(value) === 'array' || Object.toType(value) === 'object'){
-					for (y in value) {
-						if (value.hasOwnProperty(y)) {
-							value[y] = process_parameters($this, value[y]);
-						}
-					}
-				}
-				target[last] = process_parameters($this, value)[0];
-			} else if (value === '__unset__') {
-				delete target[last];
-			}
-			_obj = _obj[last];
-		}
-
-		return _obj;
-	};*/
 
 	var process = function ($this, obj, item) {
 		var i, argv, func_name;
@@ -1083,20 +1038,6 @@
 									}
 								} else {
 									triggerPheryEvent($this, 'exception', [phery.log('object path not found in window' + argv[0].join('.'))]);
-								}
-								break;
-							/* Access the current element phery() and set */
-							case 10:
-								if (argc === 1) {
-									$this.phery(argv[0]);
-								} else if (argc) {
-									var _local = $this.phery();
-
-									if (typeof _local[argv[0]] === 'function') {
-										_local[argv[0]].apply($this, argv[1] || null);
-									} else {
-										triggerPheryEvent($this, 'exception', [phery.log('invalid phery function "' + argv[0] + '"')]);
-									}
 								}
 								break;
 							default:
@@ -1631,17 +1572,18 @@
 					},
 					/**
 					 * Call the bound remote function on the element
-					 * @return {jQuery.ajax|Boolean}
+					 * @return {jQuery}
 					 */
 					'remote':function () {
-						if ($this.data('remote')){
+						return $this.each(function(){
+							var $this = $(this);
+
 							if ($this.is('form')) {
-								return form_submit($this);
+								form_submit($this);
 							} else {
-								return ajax_call.call($this);
+								ajax_call.call($this);
 							}
-						}
-						return false;
+						});
 					},
 					/**
 					 * Append arguments to the element
@@ -1733,11 +1675,13 @@
 
 
 			if (name && Object.toType(name) === 'object') {
+				var last;
 				for (var x in name) {
 					if (name.hasOwnProperty(x) && (x in _out)) {
-						_out[x].apply($this, name[x]);
+						last = _out[x].apply($this, name[x]);
 					}
 				}
+				return last;
 			} else if (name && (name in _out)) {
 				return _out[name].apply($this, Array.prototype.slice.call(arguments, 1));
 			}

@@ -25,7 +25,7 @@
  *
  * @link       http://phery-php-ajax.net/
  * @author     Paulo Cesar
- * @version    2.2.0
+ * @version    2.2.1
  * @license    http://opensource.org/licenses/MIT MIT License
  */
 
@@ -1500,6 +1500,7 @@ class Phery implements ArrayAccess {
  * @method PheryResponse one() one($eventType, $handler) Attach a handler to an event for the elements. The handler is executed at most once per element.
  * @method PheryResponse bind() bind($eventType, $handler) Attach a handler to an event for the elements.
  * @method PheryResponse each() each($function) Iterate over a jQ object, executing a function for each matched element.
+ * @method PheryResponse phery() phery($function = null, $args = null) Access the phery() on the select element(s)
  */
 class PheryResponse extends ArrayObject {
 
@@ -1740,36 +1741,6 @@ class PheryResponse extends ArrayObject {
 			$args,
 			$attr,
 			$directCall
-		));
-	}
-
-	/**
-	 * Accesses the phery() methods of the calling element, same as doing $('selector').phery()
-	 *
-	 * @param string|array $func Name of the phery function on the element or an array of functions
-	 * <pre>
-	 * 'append_args', 'set_args', 'remote', 'exception', 'remove'
-	 * </pre>
-	 * @param ... Any data to pass to the element
-	 *
-	 * @return PheryResponse
-	 */
-	public function phery($func)
-	{
-		$this->last_selector = null;
-
-		if (!is_array($func)){
-			$args = func_get_args();
-			array_shift($args);
-
-			return $this->cmd(10, array(
-				$func,
-				$args
-			));
-		}
-
-		return $this->cmd(10, array(
-			$func,
 		));
 	}
 

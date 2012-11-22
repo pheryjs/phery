@@ -31,7 +31,7 @@
 <a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
                                     Reports <b class="caret"></b></a><ul class="dropdown-menu">
 <li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
-                <span class="label label-info">6</span></a></li>
+                <span class="label label-info">5</span></a></li>
 <li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
                 <ul></ul></a></li>
 <li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
@@ -248,13 +248,42 @@ CSRF or SQL injection attempts on all the functions, clean data or perform START
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$callbacks</h4>
-<code>array</code><pre> array( // Set a function to be called BEFORE // processing the request, if it's an // AJAX to be processed request, can be // an array of callbacks 'before' => array|function, // Set a function to be called AFTER // processing the request, if it's an AJAX // processed request, can be an array of // callbacks 'after' => array|function ); </pre>
+<code>array</code><pre>
+array(
+    // Set a function to be called BEFORE
+    // processing the request, if it's an
+    // AJAX to be processed request, can be
+    // an array of callbacks
+    'before' => array|function,
+    // Set a function to be called AFTER
+    // processing the request, if it's an AJAX
+    // processed request, can be an array of
+    // callbacks
+    'after' => array|function
+);
+</pre>
 
 <p>The callback function should be</p>
 
-<pre> // $additional_args is passed using the callback_data() function, in this case, a before callback function before_callback($ajax_data, $internal_data){ // Do stuff $_POST['args']['id'] = $additional_args['id']; return true; } // after callback would be to save the data perhaps? Just to keep the code D.R.Y. function after_callback($ajax_data, $internal_data, $PheryResponse){ $this->database->save(); $PheryResponse->merge(PheryResponse::factory('#loading')->fadeOut()); return true; } </pre>
+<pre>
+// $additional_args is passed using the callback_data() function, in this case, a before callback
+function before_callback($ajax_data, $internal_data){
+  // Do stuff
+  $_POST['args']['id'] = $additional_args['id'];
+  return true;
+}
+// after callback would be to save the data perhaps? Just to keep the code D.R.Y.
+function after_callback($ajax_data, $internal_data, $PheryResponse){
+  $this->database->save();
+  $PheryResponse->merge(PheryResponse::factory('#loading')->fadeOut());
+  return true;
+}
+</pre>
 
-<p>Returning false on the callback will make the process() phase to RETURN, but won't exit. You may manually exit on the after callback if desired Any data that should be modified will be inside $_POST['args'] (can be accessed freely on 'before', will be passed to the AJAX function)</p>
+<p>Returning false on the callback will make the process() phase to RETURN, but won't exit.
+You may manually exit on the after callback if desired
+Any data that should be modified will be inside $_POST['args'] (can be accessed freely on 'before',
+will be passed to the AJAX function)</p>
 </div>
 <h3>Returns</h3>
 <div class="subelement response"><code><a href="../classes/Phery.html">\Phery</a></code></div>
@@ -282,9 +311,32 @@ the variables. Eg.: Phery::coalesce(@$var1, @$var['asdf']);</p></div>
 <h4>$config</h4>
 <code>string</code><code>array</code><p>Associative array containing the following options</p>
 
-<pre> array( // Defaults to true, stop further script execution 'exit_allowed' => true|false, // Don't apply stripslashes on the args 'no_stripslashes' => true|false, // Throw exceptions on errors 'exceptions' => true|false, // Set the functions that will be called even if is a // POST but not an AJAX call 'respond_to_post' => array('function-alias-1','function-alias-2'), // Enable/disable GZIP/DEFLATE compression, depending on the browser support. // Don't enable it if you are using Apache DEFLATE/GZIP, or zlib.output_compression // Most of the time, compression will hide exceptions, because it will output plain // text while the content-type is gzip 'compress' => true|false, // Error reporting temporarily using error_reporting(). 'false' disables // the error_reporting and wont try to catch any error. // Anything else than false will throw a PheryResponse->exception() with // the message 'error_reporting' => false|E_ALL|E_DEPRECATED|... ); </pre>
+<pre>
+array(
+    // Defaults to true, stop further script execution
+    'exit_allowed' => true|false,
+    // Don't apply stripslashes on the args
+    'no_stripslashes' => true|false,
+    // Throw exceptions on errors
+    'exceptions' => true|false,
+    // Set the functions that will be called even if is a
+    // POST but not an AJAX call
+    'respond_to_post' => array('function-alias-1','function-alias-2'),
+    // Enable/disable GZIP/DEFLATE compression, depending on the browser support.
+    // Don't enable it if you are using Apache DEFLATE/GZIP, or zlib.output_compression
+    // Most of the time, compression will hide exceptions, because it will output plain
+    // text while the content-type is gzip
+    'compress' => true|false,
+    // Error reporting temporarily using error_reporting(). 'false' disables
+    // the error_reporting and wont try to catch any error.
+    // Anything else than false will throw a PheryResponse->exception() with
+    // the message
+    'error_reporting' => false|E_ALL|E_DEPRECATED|...
+);
+</pre>
 
-<p>If you pass a string, it will return the current config for the key specified Anything else, will output the current config as associative array</p>
+<p>If you pass a string, it will return the current config for the key specified
+Anything else, will output the current config as associative array</p>
 </div>
 <h3>Returns</h3>
 <div class="subelement response">
@@ -352,7 +404,7 @@ the variables. Eg.: Phery::coalesce(@$var1, @$var['asdf']);</p></div>
 <table class="table table-bordered">
 <tr>
 <th>see</th>
-<td><a href="">\global\Phery::config()</a></td>
+<td><a href="Phery.html#%5CPhery::config()">\Phery::config()</a></td>
 </tr>
 <tr>
 <th>static</th>
@@ -386,7 +438,19 @@ the variables. Eg.: Phery::coalesce(@$var1, @$var['asdf']);</p></div>
 <code>string</code><p>Registered function name</p></div>
 <div class="subelement argument">
 <h4>$attributes</h4>
-<code>array</code><pre> array( //Confirmation dialog 'confirm' => 'Are you sure?', // Type of call, defaults to JSON (to use PheryResponse) 'data-type' => 'json', // 'all' submits all elements on the form, even empty ones // 'disabled' enables submitting disabled elements 'submit' => array('all' => true, 'disabled' => true), // Set the encoding of the data, defaults to UTF-8 'encoding' => 'UTF-8', ); </pre>
+<code>array</code><pre>
+array(
+    //Confirmation dialog
+    'confirm' => 'Are you sure?',
+    // Type of call, defaults to JSON (to use PheryResponse)
+    'data-type' => 'json',
+    // 'all' submits all elements on the form, even empty ones
+    // 'disabled' enables submitting disabled elements
+    'submit' => array('all' => true, 'disabled' => true),
+    // Set the encoding of the data, defaults to UTF-8
+    'encoding' => 'UTF-8',
+);
+</pre>
 </div>
 <div class="subelement argument">
 <h4>$phery</h4>
@@ -405,11 +469,11 @@ the variables. Eg.: Phery::coalesce(@$var1, @$var['asdf']);</p></div>
 <table class="table table-bordered">
 <tr>
 <th>see</th>
-<td><a href="">\global\Phery::__construct()</a></td>
+<td><a href="Phery.html#%5CPhery::__construct()">\Phery::__construct()</a></td>
 </tr>
 <tr>
 <th>see</th>
-<td><a href="">\global\Phery::config()</a></td>
+<td><a href="Phery.html#%5CPhery::config()">\Phery::config()</a></td>
 </tr>
 <tr>
 <th>static</th>
@@ -464,11 +528,35 @@ the variables. Eg.: Phery::coalesce(@$var1, @$var['asdf']);</p></div>
 <h4>$attributes</h4>
 <code>array</code><p>Extra attributes that can be passed to the link, like class, style, etc</p>
 
-<pre> array( // Display confirmation on click 'confirm' => 'Are you sure?', // The tag for the item, defaults to a. If the tag is set to img, the 'src' must be set in attributes parameter 'tag' => 'a', // Define another URI for the AJAX call, this defines the HREF of A 'href' => '/path/to/url', // Extra arguments to pass to the AJAX function, will be stored // in the data-args attribute as a JSON notation 'args' => array(1, "a"), // Set the "href" attribute for non-anchor (a) AJAX tags (like buttons or spans). // Works for A links too, but it won't function without javascript, through data-target 'target' => '/default/ajax/controller', // Define the data-type for the communication 'data-type' => 'json', // Enable clicking on structural HTML, like DIV, HEADER, HGROUP, etc 'clickable' => 'true', // Set the encoding of the data, defaults to UTF-8 'encoding' => 'UTF-8', // Set the method (for restful responses) 'method' => 'PUT' ); </pre>
+<pre>
+array(
+    // Display confirmation on click
+    'confirm' => 'Are you sure?',
+    // The tag for the item, defaults to a. If the tag is set to img, the 'src' must be set in attributes parameter
+    'tag' => 'a',
+    // Define another URI for the AJAX call, this defines the HREF of A
+    'href' => '/path/to/url',
+    // Extra arguments to pass to the AJAX function, will be stored
+    // in the data-args attribute as a JSON notation
+    'args' => array(1, "a"),
+    // Set the "href" attribute for non-anchor (a) AJAX tags (like buttons or spans).
+    // Works for A links too, but it won't function without javascript, through data-target
+    'target' => '/default/ajax/controller',
+    // Define the data-type for the communication
+    'data-type' => 'json',
+    // Enable clicking on structural HTML, like DIV, HEADER, HGROUP, etc
+    'clickable' => 'true',
+    // Set the encoding of the data, defaults to UTF-8
+    'encoding' => 'UTF-8',
+    // Set the method (for restful responses)
+    'method' => 'PUT'
+);
+</pre>
 </div>
 <div class="subelement argument">
 <h4>$phery</h4>
-<code><a href="../classes/Phery.html">\Phery</a></code><p>Pass the current instance of phery, so it can check if the functions are defined, and throw exceptions</p></div>
+<code><a href="../classes/Phery.html">\Phery</a></code><p>Pass the current instance of phery, so it can check if the
+                          functions are defined, and throw exceptions</p></div>
 <h3>Returns</h3>
 <div class="subelement response">
 <code>string</code>The mounted HTML tag</div>
@@ -545,7 +633,8 @@ the variables. Eg.: Phery::coalesce(@$var1, @$var['asdf']);</p></div>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$last_call</h4>
-<code>bool</code><p>Set this to false if any other further calls to process() will happen, otherwise it will exit</p>
+<code>bool</code><p>Set this to false if any other further calls
+                       to process() will happen, otherwise it will exit</p>
 </div>
 <h3>Exceptions</h3>
 <table class="table table-bordered"><tr>
@@ -595,7 +684,25 @@ to manually return it (like when following a redirect)</h2>
 </div>
 <div class="subelement argument">
 <h4>$attributes</h4>
-<code>array</code><pre> array( // Confirmation dialog 'confirm' => 'Are you sure?', // Type of call, defaults to JSON (to use PheryResponse) 'data-type' => 'json', // The URL where it should call, translates to data-target 'target' => '/path/to/php', // Extra arguments to pass to the AJAX function, will be stored // in the args attribute as a JSON notation, translates to data-args 'args' => array(1, "a"), // Set the encoding of the data, defaults to UTF-8 'encoding' => 'UTF-8', // The current selected value, or array(1,2) for multiple 'selected' => 1 // Set the method (for restful responses) 'method' => 'PUT' ); </pre>
+<code>array</code><pre>
+array(
+    // Confirmation dialog
+    'confirm' => 'Are you sure?',
+    // Type of call, defaults to JSON (to use PheryResponse)
+    'data-type' => 'json',
+    // The URL where it should call, translates to data-target
+    'target' => '/path/to/php',
+    // Extra arguments to pass to the AJAX function, will be stored
+    // in the args attribute as a JSON notation, translates to data-args
+    'args' => array(1, "a"),
+    // Set the encoding of the data, defaults to UTF-8
+    'encoding' => 'UTF-8',
+    // The current selected value, or array(1,2) for multiple
+    'selected' => 1
+    // Set the method (for restful responses)
+    'method' => 'PUT'
+);
+</pre>
 </div>
 <div class="subelement argument">
 <h4>$phery</h4>
@@ -665,9 +772,22 @@ function func($ajax_data, $callback_data){
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$views</h4>
-<code>array</code><p>Array consisting of array('#id_of_view' => callback) The callback is like a normal phery callback, but the second parameter receives different data. But it MUST always return a PheryResponse with render_view(). You can do any manipulation like you would in regular callbacks. If you want to manipulate the DOM AFTER it was rendered, do it javascript side, using the afterHtml callback when setting up the views.</p>
+<code>array</code><p>Array consisting of array('#id_of_view' => callback)
+                    The callback is like a normal phery callback, but the second parameter
+                    receives different data. But it MUST always return a PheryResponse with
+                    render_view(). You can do any manipulation like you would in regular
+                    callbacks. If you want to manipulate the DOM AFTER it was rendered, do it
+                    javascript side, using the afterHtml callback when setting up the views.</p>
 
-<pre> Phery::instance()->views(array( '#container' => function($data, $params){ return PheryResponse::factory() ->render_view('html', array('extra data like titles, menus, etc')); } )); </pre>
+<pre>
+Phery::instance()->views(array(
+    '#container' => function($data, $params){
+         return
+             PheryResponse::factory()
+             ->render_view('html', array('extra data like titles, menus, etc'));
+     }
+));
+</pre>
 </div>
 <h3>Returns</h3>
 <div class="subelement response"><code><a href="../classes/Phery.html">\Phery</a></code></div>
@@ -768,7 +888,7 @@ function func($ajax_data, $callback_data){
 <div class="long_description"></div>
 <table class="table table-bordered"><tr>
 <th>see</th>
-<td><a href="">\global\Phery::answer_for()</a></td>
+<td><a href="Phery.html#%5CPhery::answer_for()">\Phery::answer_for()</a></td>
 </tr></table>
 </div></div>
 </div>
@@ -786,7 +906,7 @@ function func($ajax_data, $callback_data){
 <div class="long_description"></div>
 <table class="table table-bordered"><tr>
 <th>see</th>
-<td><a href="">\global\Phery::config()</a></td>
+<td><a href="Phery.html#%5CPhery::config()">\Phery::config()</a></td>
 </tr></table>
 </div></div>
 </div>
@@ -836,7 +956,7 @@ function func($ajax_data, $callback_data){
 <div class="long_description"></div>
 <table class="table table-bordered"><tr>
 <th>see</th>
-<td><a href="">\global\Phery::callback()</a></td>
+<td><a href="Phery.html#%5CPhery::callback()">\Phery::callback()</a></td>
 </tr></table>
 </div></div>
 </div>
@@ -848,7 +968,7 @@ function func($ajax_data, $callback_data){
 <div class="long_description"></div>
 <table class="table table-bordered"><tr>
 <th>see</th>
-<td><a href="">\global\Phery::process()</a></td>
+<td><a href="Phery.html#%5CPhery::process()">\Phery::process()</a></td>
 </tr></table>
 </div></div>
 </div>
@@ -860,7 +980,7 @@ function func($ajax_data, $callback_data){
 <div class="long_description"></div>
 <table class="table table-bordered"><tr>
 <th>see</th>
-<td><a href="">\global\Phery::process()</a></td>
+<td><a href="Phery.html#%5CPhery::process()">\Phery::process()</a></td>
 </tr></table>
 </div></div>
 </div>
@@ -872,7 +992,7 @@ function func($ajax_data, $callback_data){
 <div class="long_description"></div>
 <table class="table table-bordered"><tr>
 <th>see</th>
-<td><a href="">\global\Phery::set()</a></td>
+<td><a href="Phery.html#%5CPhery::set()">\Phery::set()</a></td>
 </tr></table>
 </div></div>
 </div>
@@ -885,15 +1005,15 @@ function func($ajax_data, $callback_data){
 <table class="table table-bordered">
 <tr>
 <th>see</th>
-<td><a href="">\global\Phery::link_to()</a></td>
+<td><a href="Phery.html#%5CPhery::link_to()">\Phery::link_to()</a></td>
 </tr>
 <tr>
 <th>see</th>
-<td><a href="">\global\Phery::select_for()</a></td>
+<td><a href="Phery.html#%5CPhery::select_for()">\Phery::select_for()</a></td>
 </tr>
 <tr>
 <th>see</th>
-<td><a href="">\global\Phery::form_for()</a></td>
+<td><a href="Phery.html#%5CPhery::form_for()">\Phery::form_for()</a></td>
 </tr>
 </table>
 </div></div>
@@ -904,8 +1024,8 @@ function func($ajax_data, $callback_data){
 </div>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
-            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a11</a> and<br>
-            generated on 2012-11-21T03:29:23-02:00.<br></footer></div>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
+            generated on 2012-11-22T02:22:04-02:00.<br></footer></div>
 </div>
 </body>
 </html>
