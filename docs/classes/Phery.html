@@ -248,7 +248,9 @@ CSRF or SQL injection attempts on all the functions, clean data or perform START
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$callbacks</h4>
-<code>array</code><pre>
+<code>array</code><p>The callbacks</p>
+
+<pre>
 array(
     // Set a function to be called BEFORE
     // processing the request, if it's an
@@ -404,7 +406,7 @@ Anything else, will output the current config as associative array</p>
 <table class="table table-bordered">
 <tr>
 <th>see</th>
-<td><a href="Phery.html#%5CPhery::config()">\Phery::config()</a></td>
+<td><a href="">\config</a></td>
 </tr>
 <tr>
 <th>static</th>
@@ -438,7 +440,9 @@ Anything else, will output the current config as associative array</p>
 <code>string</code><p>Registered function name</p></div>
 <div class="subelement argument">
 <h4>$attributes</h4>
-<code>array</code><pre>
+<code>array</code><p>HTML attributes</p>
+
+<pre>
 array(
     //Confirmation dialog
     'confirm' => 'Are you sure?',
@@ -469,11 +473,11 @@ array(
 <table class="table table-bordered">
 <tr>
 <th>see</th>
-<td><a href="Phery.html#%5CPhery::__construct()">\Phery::__construct()</a></td>
+<td><a href="">\__construct</a></td>
 </tr>
 <tr>
 <th>see</th>
-<td><a href="Phery.html#%5CPhery::config()">\Phery::config()</a></td>
+<td><a href="">\config</a></td>
 </tr>
 <tr>
 <th>static</th>
@@ -684,7 +688,9 @@ to manually return it (like when following a redirect)</h2>
 </div>
 <div class="subelement argument">
 <h4>$attributes</h4>
-<code>array</code><pre>
+<code>array</code><p>HTML attributes</p>
+
+<pre>
 array(
     // Confirmation dialog
     'confirm' => 'Are you sure?',
@@ -719,8 +725,9 @@ array(
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>For security reasons, these functions should not be reacheable through POST/GET requests.
 These will be set only for AJAX requests as it will only be called in case of an ajax request,
-to save resources.
-The answer/process function, should have the following structure:</p>
+to save resources.</p>
+
+<p>The answer/process function, should have the following structure:</p>
 
 <pre>
 function func($ajax_data, $callback_data){
@@ -888,7 +895,7 @@ Phery::instance()->views(array(
 <div class="long_description"></div>
 <table class="table table-bordered"><tr>
 <th>see</th>
-<td><a href="Phery.html#%5CPhery::answer_for()">\Phery::answer_for()</a></td>
+<td><a href="">\answer_for</a></td>
 </tr></table>
 </div></div>
 </div>
@@ -906,7 +913,7 @@ Phery::instance()->views(array(
 <div class="long_description"></div>
 <table class="table table-bordered"><tr>
 <th>see</th>
-<td><a href="Phery.html#%5CPhery::config()">\Phery::config()</a></td>
+<td><a href="">\config</a></td>
 </tr></table>
 </div></div>
 </div>
@@ -956,7 +963,7 @@ Phery::instance()->views(array(
 <div class="long_description"></div>
 <table class="table table-bordered"><tr>
 <th>see</th>
-<td><a href="Phery.html#%5CPhery::callback()">\Phery::callback()</a></td>
+<td><a href="">callback</a></td>
 </tr></table>
 </div></div>
 </div>
@@ -968,7 +975,7 @@ Phery::instance()->views(array(
 <div class="long_description"></div>
 <table class="table table-bordered"><tr>
 <th>see</th>
-<td><a href="Phery.html#%5CPhery::process()">\Phery::process()</a></td>
+<td><a href="">\process</a></td>
 </tr></table>
 </div></div>
 </div>
@@ -980,7 +987,7 @@ Phery::instance()->views(array(
 <div class="long_description"></div>
 <table class="table table-bordered"><tr>
 <th>see</th>
-<td><a href="Phery.html#%5CPhery::process()">\Phery::process()</a></td>
+<td><a href="">\process</a></td>
 </tr></table>
 </div></div>
 </div>
@@ -992,7 +999,7 @@ Phery::instance()->views(array(
 <div class="long_description"></div>
 <table class="table table-bordered"><tr>
 <th>see</th>
-<td><a href="Phery.html#%5CPhery::set()">\Phery::set()</a></td>
+<td><a href="">\set</a></td>
 </tr></table>
 </div></div>
 </div>
@@ -1005,15 +1012,15 @@ Phery::instance()->views(array(
 <table class="table table-bordered">
 <tr>
 <th>see</th>
-<td><a href="Phery.html#%5CPhery::link_to()">\Phery::link_to()</a></td>
+<td><a href="">\link_to</a></td>
 </tr>
 <tr>
 <th>see</th>
-<td><a href="Phery.html#%5CPhery::select_for()">\Phery::select_for()</a></td>
+<td><a href="">\select_for</a></td>
 </tr>
 <tr>
 <th>see</th>
-<td><a href="Phery.html#%5CPhery::form_for()">\Phery::form_for()</a></td>
+<td><a href="">\form_for</a></td>
 </tr>
 </table>
 </div></div>
@@ -1025,7 +1032,7 @@ Phery::instance()->views(array(
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
-            generated on 2012-11-22T03:23:06-02:00.<br></footer></div>
+            generated on 2012-11-22T04:00:15-02:00.<br></footer></div>
 </div>
 </body>
 </html>

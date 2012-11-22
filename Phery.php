@@ -38,29 +38,29 @@ class Phery implements ArrayAccess {
 
 	/**
 	 * Exception on callback() function
-	 * @see Phery::callback()
+	 * @see callback
 	 */
 	const ERROR_CALLBACK = 0;
 	/**
 	 * Exception on process() function
-	 * @see Phery::process()
+	 * @see process
 	 */
 	const ERROR_PROCESS = 1;
 	/**
 	 * Exception on set() function
-	 * @see Phery::set()
+	 * @see set
 	 */
 	const ERROR_SET = 2;
 	/**
 	 * Exception when the CSRF is invalid
-	 * @see Phery::process()
+	 * @see process
 	 */
 	const ERROR_CSRF = 4;
 	/**
 	 * Exception on static functions
-	 * @see Phery::link_to()
-	 * @see Phery::select_for()
-	 * @see Phery::form_for()
+	 * @see link_to
+	 * @see select_for
+	 * @see form_for
 	 */
 	const ERROR_TO = 3;
 
@@ -93,7 +93,7 @@ class Phery implements ArrayAccess {
 	protected $respond_to_post = array();
 	/**
 	 * Hold the answers for answer_for function
-	 * @see Phery::answer_for()
+	 * @see answer_for
 	 * @var array
 	 */
 	protected $answers = array();
@@ -113,7 +113,8 @@ class Phery implements ArrayAccess {
 	 * 'csrf' (boolean)
 	 * </pre>
 	 * @var array
-	 * @see Phery::config()
+	 *
+	 * @see config
 	 */
 	protected $config = array();
 
@@ -149,7 +150,8 @@ class Phery implements ArrayAccess {
 	 * the same data manipulation, like removing an 'id' from the $_POST['args'], or to check for potential
 	 * CSRF or SQL injection attempts on all the functions, clean data or perform START TRANSACTION for database, etc
 	 *
-	 * @param array $callbacks
+	 * @param array $callbacks The callbacks
+	 *
 	 * <pre>
 	 * array(
 	 *
@@ -168,7 +170,9 @@ class Phery implements ArrayAccess {
 	 *     'after' => array|function
 	 * );
 	 * </pre>
+	 *
 	 * The callback function should be
+	 *
 	 * <pre>
 	 *
 	 * // $additional_args is passed using the callback_data() function, in this case, a before callback
@@ -187,6 +191,7 @@ class Phery implements ArrayAccess {
 	 *   return true;
 	 * }
 	 * </pre>
+	 *
 	 * Returning false on the callback will make the process() phase to RETURN, but won't exit.
 	 * You may manually exit on the after callback if desired
 	 * Any data that should be modified will be inside $_POST['args'] (can be accessed freely on 'before',
@@ -531,6 +536,7 @@ class Phery implements ArrayAccess {
 	 *                     render_view(). You can do any manipulation like you would in regular
 	 *                     callbacks. If you want to manipulate the DOM AFTER it was rendered, do it
 	 *                     javascript side, using the afterHtml callback when setting up the views.
+	 *
 	 * <pre>
 	 * Phery::instance()->views(array(
 	 *     '#container' => function($data, $params){
@@ -808,6 +814,7 @@ class Phery implements ArrayAccess {
 	 * Config the current instance of Phery
 	 *
 	 * @param string|array $config Associative array containing the following options
+	 *
 	 * <pre>
 	 * array(
 	 *     // Defaults to true, stop further script execution
@@ -837,6 +844,7 @@ class Phery implements ArrayAccess {
 	 *
 	 * );
 	 * </pre>
+	 *
 	 * If you pass a string, it will return the current config for the key specified
 	 * Anything else, will output the current config as associative array
 	 *
@@ -926,8 +934,8 @@ class Phery implements ArrayAccess {
 	 *
 	 * @param array $config Associative config array
 	 *
-	 * @see Phery::__construct()
-	 * @see Phery::config()
+	 * @see __construct
+	 * @see config
 	 * @static
 	 * @return Phery
 	 */
@@ -950,7 +958,9 @@ class Phery implements ArrayAccess {
 	 * For security reasons, these functions should not be reacheable through POST/GET requests.
 	 * These will be set only for AJAX requests as it will only be called in case of an ajax request,
 	 * to save resources.
+	 *
 	 * The answer/process function, should have the following structure:
+	 *
 	 * <pre>
 	 * function func($ajax_data, $callback_data){
 	 *   $r = new PheryResponse; // or PheryResponse::factory();
@@ -1006,7 +1016,7 @@ class Phery implements ArrayAccess {
 	 *
 	 * @param array $config Associative config array
 	 *
-	 * @see Phery::config()
+	 * @see config
 	 * @static
 	 * @return Phery
 	 */
@@ -1080,6 +1090,7 @@ class Phery implements ArrayAccess {
 	 * @param string $content    The content of the link. This is ignored for self closing tags, img, input, iframe
 	 * @param string $function   The PHP function assigned name on Phery::set()
 	 * @param array  $attributes Extra attributes that can be passed to the link, like class, style, etc
+	 *
 	 * <pre>
 	 * array(
 	 *     // Display confirmation on click
@@ -1112,6 +1123,7 @@ class Phery implements ArrayAccess {
 	 *     'method' => 'PUT'
 	 * );
 	 * </pre>
+	 *
 	 * @param Phery  $phery      Pass the current instance of phery, so it can check if the
 	 *                           functions are defined, and throw exceptions
 	 *
@@ -1167,7 +1179,8 @@ class Phery implements ArrayAccess {
 	 *
 	 * @param string $action   where to go, can be empty
 	 * @param string $function Registered function name
-	 * @param array  $attributes
+	 * @param array  $attributes HTML attributes
+	 *
 	 * <pre>
 	 * array(
 	 *     //Confirmation dialog
@@ -1184,6 +1197,7 @@ class Phery implements ArrayAccess {
 	 *     'encoding' => 'UTF-8',
 	 * );
 	 * </pre>
+	 *
 	 * @param Phery  $phery    Pass the current instance of phery, so it can check if the functions are defined, and throw exceptions
 	 *
 	 * @static
@@ -1227,7 +1241,8 @@ class Phery implements ArrayAccess {
 	 *
 	 * @param string $function Registered function name
 	 * @param array  $items    Options for the select, 'value' => 'text' representation
-	 * @param array  $attributes
+	 * @param array  $attributes HTML attributes
+	 *
 	 * <pre>
 	 * array(
 	 *     // Confirmation dialog
@@ -1253,6 +1268,7 @@ class Phery implements ArrayAccess {
 	 *     'method' => 'PUT'
 	 * );
 	 * </pre>
+	 *
 	 * @param Phery  $phery    Pass the current instance of phery, so it can check if the functions are defined, and throw exceptions
 	 *
 	 * @static
@@ -1811,6 +1827,7 @@ class PheryResponse extends ArrayObject {
 
 	/**
 	 * Create a new PheryResponse instance for chaining, fast and effective for one line returns
+	 *
 	 * <pre>
 	 * function answer($data)
 	 * {
@@ -1865,6 +1882,7 @@ class PheryResponse extends ArrayObject {
 	/**
 	 * Merge another response to this one.
 	 * Selectors with the same name will be added in order, for example:
+	 *
 	 * <pre>
 	 * function process()
 	 * {
@@ -1977,6 +1995,7 @@ class PheryResponse extends ArrayObject {
 	 * Sets the selector, so you can chain many calls to it. Passing # works like jQuery.func
 	 *
 	 * @param string $selector Sets the current selector for subsequent chaining
+	 *
 	 * <pre>
 	 * PheryResponse::factory()
 	 * ->jquery('.slides')
@@ -1987,6 +2006,7 @@ class PheryResponse extends ArrayObject {
 	 * <pre>
 	 * PheryResponse::factory()->jquery()->getJSON();
 	 * </pre>
+	 *
 	 * @param array $constructor Only available if you are creating a new element, like $('&lt;p/&gt;', {})
 	 *
 	 * @return PheryResponse
@@ -2104,7 +2124,9 @@ class PheryResponse extends ArrayObject {
 
 	/**
 	 * Set the attribute of a jQuery selector
+	 *
 	 * Example:
+	 *
 	 * <pre>
 	 * PheryResponse::factory()
 	 * ->attr('href', 'http://url.com', 'a#link-' . $args['id']);
@@ -2170,7 +2192,7 @@ class PheryResponse extends ArrayObject {
 	 * Warning: calling this function will reset the selector jQuery selector previously stated
 	 *
 	 * @param string|array $func_name Function name
-	 * @param array  $args      Any additional arguments to pass to the function
+	 * @param array        $args      Any additional arguments to pass to the function
 	 *
 	 * @return PheryResponse
 	 */
@@ -2187,7 +2209,8 @@ class PheryResponse extends ArrayObject {
 	/**
 	 * Clear the selected attribute.
 	 * Alias for attr('attribute', '')
-	 * @see PheryResponse::attr()
+	 *
+	 * @see attr
 	 *
 	 * @param string $attr     Name of the DOM attribute to clear, such as 'innerHTML', 'style', 'href', etc not the jQuery counterparts
 	 * @param string $selector [optional] Provide the jQuery selector directly
@@ -2250,6 +2273,7 @@ class PheryResponse extends ArrayObject {
 	 * Warning: calling this function will reset the selector jQuery selector previously set
 	 *
 	 * @param string|array $script Script content. If provided an array, it will be joined with \n
+	 *
 	 * <pre>
 	 * PheryResponse::factory()
 	 * ->script(array("if (confirm('Are you really sure?')) $('*').remove()"));
@@ -2428,8 +2452,8 @@ class PheryResponse extends ArrayObject {
 	 * @param $name
 	 * @param $arguments
 	 *
-	 * @see PheryResponse::jquery()
-	 * @see PheryResponse::j()
+	 * @see jquery
+	 * @see j
 	 * @return PheryResponse
 	 */
 	public function __call($name, $arguments)
@@ -2609,7 +2633,9 @@ class PheryFunction {
 	/**
 	 * Sets new raw parameter to be passed, that will be eval'ed.
 	 *
+	 * <pre>
 	 * $raw = new PheryFunction('function($val){ return $val; }');
+	 * </pre>
 	 *
 	 * @param   string|array  $value      Raw function string. If you pass an array,
 	 *                                    it will be joined with a line break
@@ -2687,7 +2713,9 @@ class PheryFunction {
 	/**
 	 * Return the value of the expression as a string.
 	 *
+	 * <pre>
 	 *     echo $expression;
+	 * </pre>
 	 *
 	 * @return  string
 	 */
