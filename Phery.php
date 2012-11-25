@@ -25,7 +25,7 @@
  *
  * @link       http://phery-php-ajax.net/
  * @author     Paulo Cesar
- * @version    2.2.1
+ * @version    2.2.2
  * @license    http://opensource.org/licenses/MIT MIT License
  */
 
@@ -38,29 +38,29 @@ class Phery implements ArrayAccess {
 
 	/**
 	 * Exception on callback() function
-	 * @see callback
+	 * @see callback()
 	 */
 	const ERROR_CALLBACK = 0;
 	/**
 	 * Exception on process() function
-	 * @see process
+	 * @see process()
 	 */
 	const ERROR_PROCESS = 1;
 	/**
 	 * Exception on set() function
-	 * @see set
+	 * @see set()
 	 */
 	const ERROR_SET = 2;
 	/**
 	 * Exception when the CSRF is invalid
-	 * @see process
+	 * @see process()
 	 */
 	const ERROR_CSRF = 4;
 	/**
 	 * Exception on static functions
-	 * @see link_to
-	 * @see select_for
-	 * @see form_for
+	 * @see link_to()
+	 * @see select_for()
+	 * @see form_for()
 	 */
 	const ERROR_TO = 3;
 
@@ -93,7 +93,7 @@ class Phery implements ArrayAccess {
 	protected $respond_to_post = array();
 	/**
 	 * Hold the answers for answer_for function
-	 * @see answer_for
+	 * @see answer_for()
 	 * @var array
 	 */
 	protected $answers = array();
@@ -104,17 +104,18 @@ class Phery implements ArrayAccess {
 	protected $views = array();
 	/**
 	 * Config
-	 * <pre>
+	 *
+	 * <code>
 	 * 'exit_allowed' (boolean)
 	 * 'no_stripslashes' (boolean)
 	 * 'exceptions' (boolean)
 	 * 'respond_to_post' (array)
 	 * 'compress' (boolean)
 	 * 'csrf' (boolean)
-	 * </pre>
+	 * </code>
 	 * @var array
 	 *
-	 * @see config
+	 * @see config()
 	 */
 	protected $config = array();
 
@@ -175,7 +176,8 @@ class Phery implements ArrayAccess {
 	 *
 	 * <pre>
 	 *
-	 * // $additional_args is passed using the callback_data() function, in this case, a before callback
+	 * // $additional_args is passed using the callback_data() function,
+	 * // in this case, a before callback
 	 *
 	 * function before_callback($ajax_data, $internal_data){
 	 *   // Do stuff
@@ -287,11 +289,11 @@ class Phery implements ArrayAccess {
 	/**
 	 * Set any data to pass to the callbacks
 	 *
-	 * @param mixed ... Parameters, can be anything
+	 * @param mixed $args,... Parameters, can be anything
 	 *
 	 * @return Phery
 	 */
-	public function data()
+	public function data($args)
 	{
 		foreach (func_get_args() as $arg)
 		{
@@ -812,10 +814,7 @@ class Phery implements ArrayAccess {
 
 	/**
 	 * Config the current instance of Phery
-	 *
-	 * @param string|array $config Associative array containing the following options
-	 *
-	 * <pre>
+	 * <code>
 	 * array(
 	 *     // Defaults to true, stop further script execution
 	 *     'exit_allowed' => true|false,
@@ -843,10 +842,12 @@ class Phery implements ArrayAccess {
 	 *     'error_reporting' => false|E_ALL|E_DEPRECATED|...
 	 *
 	 * );
-	 * </pre>
+	 * </code>
 	 *
 	 * If you pass a string, it will return the current config for the key specified
 	 * Anything else, will output the current config as associative array
+	 *
+	 * @param string|array $config Associative array containing the following options
 	 *
 	 * @return Phery|string|array
 	 */
@@ -934,8 +935,8 @@ class Phery implements ArrayAccess {
 	 *
 	 * @param array $config Associative config array
 	 *
-	 * @see __construct
-	 * @see config
+	 * @see __construct()
+	 * @see config()
 	 * @static
 	 * @return Phery
 	 */
@@ -961,21 +962,29 @@ class Phery implements ArrayAccess {
 	 *
 	 * The answer/process function, should have the following structure:
 	 *
-	 * <pre>
-	 * function func($ajax_data, $callback_data){
+	 * <code>
+	 * function func($ajax_data, $callback_data, $phery){
 	 *   $r = new PheryResponse; // or PheryResponse::factory();
 	 *
 	 *   // Sometimes the $callback_data will have an item called 'submit_id',
 	 *   // is the ID of the calling DOM element.
 	 *   // if (isset($callback_data['submit_id'])) {  }
+	 *   // $phery will be the current phery instance that called this callback
 	 *
 	 *   $r->jquery('#id')->animate(...);
-	 *      return $r;
+	 *   return $r;
 	 * }
-	 * </pre>
+	 * </code>
 	 *
 	 * @param array $functions An array of functions to register to the instance.
-	 *
+	 * <pre>
+	 * array(
+	 *   'function1' => 'function',
+	 *   'function2' => array($this, 'method'),
+	 *   'function3' => 'StaticClass::name',
+	 *   'function4' => array(new ClassName, 'method')
+ 	 * );
+	 * </pre>
 	 * @return Phery
 	 */
 	public function set(array $functions)
@@ -1016,7 +1025,7 @@ class Phery implements ArrayAccess {
 	 *
 	 * @param array $config Associative config array
 	 *
-	 * @see config
+	 * @see config()
 	 * @static
 	 * @return Phery
 	 */
@@ -1061,7 +1070,7 @@ class Phery implements ArrayAccess {
 
 		if (isset($attributes['clickable']))
 		{
-			$attributes['data-clickable'] = $attributes['clickable'];
+			$attributes['data-clickable'] = "";
 			unset($attributes['clickable']);
 		}
 
@@ -1090,13 +1099,13 @@ class Phery implements ArrayAccess {
 	 * @param string $content    The content of the link. This is ignored for self closing tags, img, input, iframe
 	 * @param string $function   The PHP function assigned name on Phery::set()
 	 * @param array  $attributes Extra attributes that can be passed to the link, like class, style, etc
-	 *
 	 * <pre>
 	 * array(
 	 *     // Display confirmation on click
 	 *     'confirm' => 'Are you sure?',
 	 *
-	 *     // The tag for the item, defaults to a. If the tag is set to img, the 'src' must be set in attributes parameter
+	 *     // The tag for the item, defaults to a. If the tag is set to img, the
+	 *     // 'src' must be set in attributes parameter
 	 *     'tag' => 'a',
 	 *
 	 *     // Define another URI for the AJAX call, this defines the HREF of A
@@ -1179,7 +1188,7 @@ class Phery implements ArrayAccess {
 	 *
 	 * @param string $action   where to go, can be empty
 	 * @param string $function Registered function name
-	 * @param array  $attributes HTML attributes
+	 * @param array  $attributes Configuration of the element plus any HTML attributes
 	 *
 	 * <pre>
 	 * array(
@@ -1241,7 +1250,7 @@ class Phery implements ArrayAccess {
 	 *
 	 * @param string $function Registered function name
 	 * @param array  $items    Options for the select, 'value' => 'text' representation
-	 * @param array  $attributes HTML attributes
+	 * @param array  $attributes Configuration of the element plus any HTML attributes
 	 *
 	 * <pre>
 	 * array(
@@ -1418,11 +1427,11 @@ class Phery implements ArrayAccess {
 	 * To not raise any E_NOTICES (if enabled in your error reporting), call it with @ before
 	 * the variables. Eg.: Phery::coalesce(@$var1, @$var['asdf']);
 	 *
-	 * @param ...
+	 * @param mixed $args,... Any number of arguments
 	 *
 	 * @return mixed
 	 */
-	public static function coalesce()
+	public static function coalesce($args)
 	{
 		$args = func_get_args();
 		foreach ($args as &$arg)
@@ -1441,82 +1450,83 @@ class Phery implements ArrayAccess {
  * Standard response for the json parser
  * @package    Phery
  *
- * @method PheryResponse ajax() ajax($url, $settings = null) Perform an asynchronous HTTP (Ajax) request.
- * @method PheryResponse ajaxSetup() ajaxSetup($obj) Set default values for future Ajax requests.
- * @method PheryResponse post() post($url, $success = null) Load data from the server using a HTTP POST request.
- * @method PheryResponse get() get($url, $success = null) Load data from the server using a HTTP GET request.
- * @method PheryResponse getJSON() getJSON($url, $success = null) Load JSON-encoded data from the server using a GET HTTP request.
- * @method PheryResponse getScript() getScript($url, $success = null) Load a JavaScript file from the server using a GET HTTP request, then execute it.
- * @method PheryResponse detach() detach() Detach a DOM element retaining the events attached to it
- * @method PheryResponse prependTo() prependTo($target) Prepend DOM element to target
- * @method PheryResponse appendTo() appendTo($target) Append DOM element to target
- * @method PheryResponse replaceWith() replaceWith($newContent) The content to insert. May be an HTML string, DOM element, or jQuery object.
- * @method PheryResponse css() css($propertyName, $value = null) propertyName: A CSS property name. value: A value to set for the property.
- * @method PheryResponse toggle() toggle($speed) Toggle an object visible or hidden, can be animated with 'fast', 'slow', 'normal'
- * @method PheryResponse hide() hide($speed = 0) Hide an object, can be animated with 'fast', 'slow', 'normal'
- * @method PheryResponse show() show($speed = 0) Show an object, can be animated with 'fast', 'slow', 'normal'
- * @method PheryResponse toggleClass() toggleClass($className) Add/Remove a class from an element
- * @method PheryResponse data() data($name, $data) Add data to element
- * @method PheryResponse addClass() addClass($className) Add a class from an element
- * @method PheryResponse removeClass() removeClass($className) Remove a class from an element
- * @method PheryResponse animate() animate($prop, $dur, $easing = null, $cb = null) Perform a custom animation of a set of CSS properties.
- * @method PheryResponse trigger() trigger($eventName, $args = array()) Trigger an event
- * @method PheryResponse triggerHandler() triggerHandler($eventType, $extraParameters = array()) Execute all handlers attached to an element for an event.
- * @method PheryResponse fadeIn() fadeIn($prop, $dur, $easing, $cb) Animate an element
- * @method PheryResponse filter() filter($selector) Reduce the set of matched elements to those that match the selector or pass the function's test.
- * @method PheryResponse fadeTo() fadeTo($dur, $opacity) Animate an element
- * @method PheryResponse fadeOut() fadeOut($prop, $dur, $easing, $cb) Animate an element
- * @method PheryResponse slideUp() slideUp($dur, $cb) Hide with slide up animation
- * @method PheryResponse slideDown() slideDown($dur, $cb) Show with slide down animation
- * @method PheryResponse slideToggle() slideToggle($dur, $cb) Toggle show/hide the element, using slide animation
- * @method PheryResponse unbind() unbind($name) Unbind an event from an element
- * @method PheryResponse undelegate() undelegate() Remove a handler from the event for all elements which match the current selector, now or in the future, based upon a specific set of root elements.
- * @method PheryResponse stop() stop() Stop animation on elements
- * @method PheryResponse die() die($name) Unbind an event from an element set by live()
- * @method PheryResponse val() val($content) Set the value of an element
- * @method PheryResponse removeData() removeData($name) Remove element data added with data()
- * @method PheryResponse removeAttr() removeAttr($name) Remove an attribute from an element
- * @method PheryResponse scrollTop() scrollTop($val) Set the scroll from the top
- * @method PheryResponse scrollLeft() scrollLeft($val) Set the scroll from the left
- * @method PheryResponse height() height($val) Set the height from the left
- * @method PheryResponse width() width($val) Set the width from the left
- * @method PheryResponse slice() slice($start, $end) Reduce the set of matched elements to a subset specified by a range of indices.
- * @method PheryResponse not() not($val) Remove elements from the set of matched elements.
- * @method PheryResponse eq() eq($selector) Reduce the set of matched elements to the one at the specified index.
- * @method PheryResponse offset() offset($coordinates) Set the current coordinates of every element in the set of matched elements, relative to the document.
- * @method PheryResponse map() map($callback) Pass each element in the current matched set through a function, producing a new jQuery object containing the return values.
- * @method PheryResponse children() children($selector) Get the children of each element in the set of matched elements, optionally filtered by a selector.
- * @method PheryResponse closest() closest($selector) Get the first ancestor element that matches the selector, beginning at the current element and progressing up through the DOM tree.
- * @method PheryResponse find() find($selector) Get the descendants of each element in the current set of matched elements, filtered by a selector, jQuery object, or element.
- * @method PheryResponse next() next($selector = null) Get the immediately following sibling of each element in the set of matched elements, optionally filtered by a selector.
- * @method PheryResponse nextAll() nextAll($selector) Get all following siblings of each element in the set of matched elements, optionally filtered by a selector.
- * @method PheryResponse nextUntil() nextUntil($selector) Get all following siblings of each element up to  but not including the element matched by the selector.
- * @method PheryResponse parentsUntil() parentsUntil($selector) Get the ancestors of each element in the current set of matched elements, up to but not including the element matched by the selector.
- * @method PheryResponse offsetParent() offsetParent() Get the closest ancestor element that is positioned.
- * @method PheryResponse parent() parent($selector = null) Get the parent of each element in the current set of matched elements, optionally filtered by a selector.
- * @method PheryResponse parents() parents($selector) Get the ancestors of each element in the current set of matched elements, optionally filtered by a selector.
- * @method PheryResponse prev() prev($selector = null) Get the immediately preceding sibling of each element in the set of matched elements, optionally filtered by a selector.
- * @method PheryResponse prevAll() prevAll($selector) Get all preceding siblings of each element in the set of matched elements, optionally filtered by a selector.
- * @method PheryResponse prevUntil() prevUntil($selector) Get the ancestors of each element in the current set of matched elements, optionally filtered by a selector.
- * @method PheryResponse siblings() siblings($selector) Get the siblings of each element in the set of matched elements, optionally filtered by a selector.
- * @method PheryResponse add() add($selector) Add elements to the set of matched elements.
- * @method PheryResponse andSelf() andSelf() Add the previous set of elements on the stack to the current set.
- * @method PheryResponse contents() contents() Get the children of each element in the set of matched elements, including text nodes.
- * @method PheryResponse end() end() End the most recent filtering operation in the current chain and return the set of matched elements to its previous state.
- * @method PheryResponse after() after($content) Insert content, specified by the parameter, after each element in the set of matched elements.
- * @method PheryResponse before() before($content) Insert content, specified by the parameter, before each element in the set of matched elements.
- * @method PheryResponse insertAfter() insertAfter($target) Insert every element in the set of matched elements after the target.
- * @method PheryResponse insertbefore() insertBefore($target) Insert every element in the set of matched elements before the target.
- * @method PheryResponse unwrap() unwrap() Remove the parents of the set of matched elements from the DOM, leaving the matched elements in their place.
- * @method PheryResponse wrap() wrap($wrappingElement) Wrap an HTML structure around each element in the set of matched elements.
- * @method PheryResponse wrapAll() wrapAll($wrappingElement) Wrap an HTML structure around all elements in the set of matched elements.
- * @method PheryResponse wrapInner() wrapInner($wrappingElement) Wrap an HTML structure around the content of each element in the set of matched elements.
- * @method PheryResponse delegate() delegate($selector, $eventType, $handler) Attach a handler to one or more events for all elements that match the selector, now or in the future, based on a specific set of root elements.
- * @method PheryResponse live() live($eventType, $handler) Attach a handler to the event for all elements which match the current selector, now or in the future.
- * @method PheryResponse one() one($eventType, $handler) Attach a handler to an event for the elements. The handler is executed at most once per element.
- * @method PheryResponse bind() bind($eventType, $handler) Attach a handler to an event for the elements.
- * @method PheryResponse each() each($function) Iterate over a jQ object, executing a function for each matched element.
- * @method PheryResponse phery() phery($function = null, $args = null) Access the phery() on the select element(s)
+ * @method PheryResponse ajax(string $url, array $settings = null) Perform an asynchronous HTTP (Ajax) request.
+ * @method PheryResponse ajaxSetup(array $obj) Set default values for future Ajax requests.
+ * @method PheryResponse post(string $url, PheryFunction $success = null) Load data from the server using a HTTP POST request.
+ * @method PheryResponse get(string $url, PheryFunction $success = null) Load data from the server using a HTTP GET request.
+ * @method PheryResponse getJSON(string $url, PheryFunction $success = null) Load JSON-encoded data from the server using a GET HTTP request.
+ * @method PheryResponse getScript(string $url, PheryFunction $success = null) Load a JavaScript file from the server using a GET HTTP request, then execute it.
+ * @method PheryResponse detach() Detach a DOM element retaining the events attached to it
+ * @method PheryResponse prependTo(string $target) Prepend DOM element to target
+ * @method PheryResponse appendTo(string $target) Append DOM element to target
+ * @method PheryResponse replaceWith(string $newContent) The content to insert. May be an HTML string, DOM element, or jQuery object.
+ * @method PheryResponse css(string $propertyName, mixed $value = null) propertyName: A CSS property name. value: A value to set for the property.
+ * @method PheryResponse toggle(string $speed) Toggle an object visible or hidden, can be animated with 'fast', 'slow', 'normal'
+ * @method PheryResponse hide(string $speed = 0) Hide an object, can be animated with 'fast', 'slow', 'normal'
+ * @method PheryResponse show(string $speed = 0) Show an object, can be animated with 'fast', 'slow', 'normal'
+ * @method PheryResponse toggleClass(string $className) Add/Remove a class from an element
+ * @method PheryResponse data(string $name, mixed $data) Add data to element
+ * @method PheryResponse addClass(string $className) Add a class from an element
+ * @method PheryResponse removeClass(string $className) Remove a class from an element
+ * @method PheryResponse animate(array $prop, int $dur, string $easing = null, PheryFunction $cb = null) Perform a custom animation of a set of CSS properties.
+ * @method PheryResponse trigger(string $eventName, array $args = null) Trigger an event
+ * @method PheryResponse triggerHandler(string $eventType, array $extraParameters = null) Execute all handlers attached to an element for an event.
+ * @method PheryResponse fadeIn(string $speed) Fade in an element
+ * @method PheryResponse filter(string $selector) Reduce the set of matched elements to those that match the selector or pass the function's test.
+ * @method PheryResponse fadeTo(int $dur, float $opacity) Fade an element to opacity
+ * @method PheryResponse fadeOut(string $speed) Fade out an element
+ * @method PheryResponse slideUp(int $dur, PheryFunction $cb = null) Hide with slide up animation
+ * @method PheryResponse slideDown(int $dur, PheryFunction $cb = null) Show with slide down animation
+ * @method PheryResponse slideToggle(int $dur, PheryFunction $cb = null) Toggle show/hide the element, using slide animation
+ * @method PheryResponse unbind(string $name) Unbind an event from an element
+ * @method PheryResponse undelegate() Remove a handler from the event for all elements which match the current selector, now or in the future, based upon a specific set of root elements.
+ * @method PheryResponse stop() Stop animation on elements
+ * @method PheryResponse die(string $name) Unbind an event from an element set by live()
+ * @method PheryResponse val(string $content) Set the value of an element
+ * @method PheryResponse removeData(string $name) Remove element data added with data()
+ * @method PheryResponse removeAttr(string $name) Remove an attribute from an element
+ * @method PheryResponse scrollTop(int $val) Set the scroll from the top
+ * @method PheryResponse scrollLeft(int $val) Set the scroll from the left
+ * @method PheryResponse height(int $val) Set the height from the left
+ * @method PheryResponse width(int $val) Set the width from the left
+ * @method PheryResponse slice(int $start, int $end) Reduce the set of matched elements to a subset specified by a range of indices.
+ * @method PheryResponse not(string $val) Remove elements from the set of matched elements.
+ * @method PheryResponse eq(int $selector) Reduce the set of matched elements to the one at the specified index.
+ * @method PheryResponse offset(array $coordinates) Set the current coordinates of every element in the set of matched elements, relative to the document.
+ * @method PheryResponse map(PheryFunction $callback) Pass each element in the current matched set through a function, producing a new jQuery object containing the return values.
+ * @method PheryResponse children(string $selector) Get the children of each element in the set of matched elements, optionally filtered by a selector.
+ * @method PheryResponse closest(string $selector) Get the first ancestor element that matches the selector, beginning at the current element and progressing up through the DOM tree.
+ * @method PheryResponse find(string $selector) Get the descendants of each element in the current set of matched elements, filtered by a selector, jQuery object, or element.
+ * @method PheryResponse next(string $selector = null) Get the immediately following sibling of each element in the set of matched elements, optionally filtered by a selector.
+ * @method PheryResponse nextAll(string $selector) Get all following siblings of each element in the set of matched elements, optionally filtered by a selector.
+ * @method PheryResponse nextUntil(string $selector) Get all following siblings of each element up to  but not including the element matched by the selector.
+ * @method PheryResponse parentsUntil(string $selector) Get the ancestors of each element in the current set of matched elements, up to but not including the element matched by the selector.
+ * @method PheryResponse offsetParent() Get the closest ancestor element that is positioned.
+ * @method PheryResponse parent(string $selector = null) Get the parent of each element in the current set of matched elements, optionally filtered by a selector.
+ * @method PheryResponse parents(string $selector) Get the ancestors of each element in the current set of matched elements, optionally filtered by a selector.
+ * @method PheryResponse prev(string $selector = null) Get the immediately preceding sibling of each element in the set of matched elements, optionally filtered by a selector.
+ * @method PheryResponse prevAll(string $selector) Get all preceding siblings of each element in the set of matched elements, optionally filtered by a selector.
+ * @method PheryResponse prevUntil(string $selector) Get the ancestors of each element in the current set of matched elements, optionally filtered by a selector.
+ * @method PheryResponse siblings(string $selector) Get the siblings of each element in the set of matched elements, optionally filtered by a selector.
+ * @method PheryResponse add(PheryResponse $selector) Add elements to the set of matched elements.
+ * @method PheryResponse andSelf() Add the previous set of elements on the stack to the current set.
+ * @method PheryResponse contents() Get the children of each element in the set of matched elements, including text nodes.
+ * @method PheryResponse end() End the most recent filtering operation in the current chain and return the set of matched elements to its previous state.
+ * @method PheryResponse after(string $content) Insert content, specified by the parameter, after each element in the set of matched elements.
+ * @method PheryResponse before(string $content) Insert content, specified by the parameter, before each element in the set of matched elements.
+ * @method PheryResponse insertAfter(string $target) Insert every element in the set of matched elements after the target.
+ * @method PheryResponse insertBefore(string $target) Insert every element in the set of matched elements before the target.
+ * @method PheryResponse unwrap() Remove the parents of the set of matched elements from the DOM, leaving the matched elements in their place.
+ * @method PheryResponse wrap(string $wrappingElement) Wrap an HTML structure around each element in the set of matched elements.
+ * @method PheryResponse wrapAll(string $wrappingElement) Wrap an HTML structure around all elements in the set of matched elements.
+ * @method PheryResponse wrapInner(string $wrappingElement) Wrap an HTML structure around the content of each element in the set of matched elements.
+ * @method PheryResponse delegate(string $selector, string $eventType, PheryFunction $handler) Attach a handler to one or more events for all elements that match the selector, now or in the future, based on a specific set of root elements.
+ * @method PheryResponse live(string $eventType, PheryFunction $handler) Attach a handler to the event for all elements which match the current selector, now or in the future.
+ * @method PheryResponse one(string $eventType, PheryFunction $handler) Attach a handler to an event for the elements. The handler is executed at most once per element.
+ * @method PheryResponse bind(string $eventType, PheryFunction $handler) Attach a handler to an event for the elements.
+ * @method PheryResponse each(PheryFunction $function) Iterate over a jQ object, executing a function for each matched element.
+ * @method PheryResponse phery(string $function = null, array $args = null) Access the phery() on the select element(s)
+ *
  */
 class PheryResponse extends ArrayObject {
 
@@ -1702,7 +1712,7 @@ class PheryResponse extends ArrayObject {
 	/**
 	 * Get a response by name
 	 *
-	 * @param $name
+	 * @param string $name
 	 *
 	 * @return PheryResponse|null
 	 */
@@ -1741,10 +1751,11 @@ class PheryResponse extends ArrayObject {
 	/**
 	 * Same as phery.remote()
 	 *
-	 * @param string  $remote Function
-	 * @param array   $args   Arguments to pass to the
-	 * @param array   $attr   Here you may set like data-method, data-target, data-type
-	 * @param boolean $directCall
+	 * @param string  $remote     Function
+	 * @param array   $args       Arguments to pass to the
+	 * @param array   $attr       Here you may set like data-method, data-target, data-type
+	 * @param boolean $directCall Setting to false returns the jQuery object, that can bind
+	 *                            events, append to DOM, etc
 	 *
 	 * @return PheryResponse
 	 */
@@ -1765,15 +1776,15 @@ class PheryResponse extends ArrayObject {
 	 * can set properties inside objects if you pass an array as the variable.
 	 * If it doesn't exist it will be created
 	 *
-	 * <pre>
+	 * <code>
 	 * // window.customer_info = {'name': 'John','surname': 'Doe', 'age': 39}
 	 * PheryResponse::factory()->set_var('customer_info', array('name' => 'John', 'surname' => 'Doe', 'age' => 39));
-	 * </pre>
+	 * </code>
 	 *
-	 * <pre>
+	 * <code>
 	 * // window.customer_info.name = 'John'
 	 * PheryResponse::factory()->set_var(array('customer_info','name'), 'John');
-	 * </pre>
+	 * </code>
 	 *
 	 * @param string|array $variable Global variable name
 	 * @param mixed        $data     Any data
@@ -1805,13 +1816,13 @@ class PheryResponse extends ArrayObject {
 	 * Delete a global variable, that can be accessed directly through window, can unset object properties,
 	 * if you pass an array
 	 *
-	 * <pre>
+	 * <code>
 	 * PheryResponse::factory()->unset('customer_info');
-	 * </pre>
+	 * </code>
 	 *
-	 * <pre>
+	 * <code>
 	 * PheryResponse::factory()->unset(array('customer_info','name')); // translates to delete customer_info['name']
-	 * </pre>
+	 * </code>
 	 *
 	 * @param string|array $variable Global variable name
 	 * @return PheryResponse
@@ -1828,7 +1839,7 @@ class PheryResponse extends ArrayObject {
 	/**
 	 * Create a new PheryResponse instance for chaining, fast and effective for one line returns
 	 *
-	 * <pre>
+	 * <code>
 	 * function answer($data)
 	 * {
 	 *  return
@@ -1836,7 +1847,7 @@ class PheryResponse extends ArrayObject {
 	 *         ->attr('href', '#')
 	 *         ->alert('done');
 	 * }
-	 * </pre>
+	 * </code>
 	 *
 	 * @param string $selector optional
 	 * @param array $constructor Same as $('&lt;p/&gt;', {})
@@ -1883,7 +1894,7 @@ class PheryResponse extends ArrayObject {
 	 * Merge another response to this one.
 	 * Selectors with the same name will be added in order, for example:
 	 *
-	 * <pre>
+	 * <code>
 	 * function process()
 	 * {
 	 *      $response = PheryResponse::factory('a.links')->remove();
@@ -1893,7 +1904,7 @@ class PheryResponse extends ArrayObject {
 	 *      $response2 = PheryResponse::factory('a.links')->addClass('red');
 	 *      return $response->merge($response2);
 	 * }
-	 * </pre>
+	 * </code>
 	 *
 	 * @param PheryResponse|string $phery Another PheryResponse object or a name of response
 	 *
@@ -1943,11 +1954,11 @@ class PheryResponse extends ArrayObject {
 	/**
 	 * Pretty print to console.log
 	 *
-	 * @param ... Any var
+	 * @param mixed $vars,... Any var
 	 *
 	 * @return PheryResponse
 	 */
-	public function print_vars()
+	public function print_vars($vars)
 	{
 		$this->last_selector = null;
 
@@ -1967,11 +1978,11 @@ class PheryResponse extends ArrayObject {
 	/**
 	 * Dump var to console.log
 	 *
-	 * @param ... Any var
+	 * @param mixed $vars,... Any var
 	 *
 	 * @return PheryResponse
 	 */
-	public function dump_vars()
+	public function dump_vars($vars)
 	{
 		$this->last_selector = null;
 		$args = array();
@@ -2127,10 +2138,10 @@ class PheryResponse extends ArrayObject {
 	 *
 	 * Example:
 	 *
-	 * <pre>
+	 * <code>
 	 * PheryResponse::factory()
 	 * ->attr('href', 'http://url.com', 'a#link-' . $args['id']);
-	 * </pre>
+	 * </code>
 	 *
 	 * @param string $attr     HTML attribute of the item
 	 * @param string $data     Value
@@ -2171,11 +2182,11 @@ class PheryResponse extends ArrayObject {
 	 *
 	 * @param string|array $func_name Function name. If you pass a string, it will be accessed on window.func.
 	 *                                If you pass an array, it will access a member of an object, like array('object', 'property', 'function')
-	 * @param              mixed      ... Any additional arguments to pass to the function
+	 * @param              mixed      $args,... Any additional arguments to pass to the function
 	 *
 	 * @return PheryResponse
 	 */
-	public function call($func_name)
+	public function call($func_name, $args = null)
 	{
 		$args = func_get_args();
 		array_shift($args);
@@ -2210,7 +2221,7 @@ class PheryResponse extends ArrayObject {
 	 * Clear the selected attribute.
 	 * Alias for attr('attribute', '')
 	 *
-	 * @see attr
+	 * @see attr()
 	 *
 	 * @param string $attr     Name of the DOM attribute to clear, such as 'innerHTML', 'style', 'href', etc not the jQuery counterparts
 	 * @param string $selector [optional] Provide the jQuery selector directly
@@ -2445,15 +2456,51 @@ class PheryResponse extends ArrayObject {
 	}
 
 	/**
+	 * Include a stylesheet in the head of the page
+	 *
+	 * @param array $path An array of stylesheets, comprising of 'id' => 'path'
+	 * @param bool $replace Replace any existing ids
+	 * @return PheryResponse
+	 */
+	public function include_stylesheet(array $path, $replace = false)
+	{
+		$this->last_selector = null;
+
+		return $this->cmd(10, array(
+			'c',
+			$path,
+			$replace
+		));
+	}
+
+	/**
+	 * Include a script in the head of the page
+	 *
+	 * @param array $path An array of scripts, comprising of 'id' => 'path'
+	 * @param bool $replace Replace any existing ids
+	 * @return PheryResponse
+	 */
+	public function include_script($path, $replace = false)
+	{
+		$this->last_selector = null;
+
+		return $this->cmd(10, array(
+			'j',
+			$path,
+			$replace
+		));
+	}
+
+	/**
 	 * Magically map to any additional jQuery function.
 	 * To reach this magically called functions, the jquery() selector must be called prior
 	 * to any jquery specific call
 	 *
-	 * @param $name
-	 * @param $arguments
+	 * @param string $name
+	 * @param array $arguments
 	 *
-	 * @see jquery
-	 * @see j
+	 * @see jquery()
+	 * @see j()
 	 * @return PheryResponse
 	 */
 	public function __call($name, $arguments)
@@ -2633,9 +2680,9 @@ class PheryFunction {
 	/**
 	 * Sets new raw parameter to be passed, that will be eval'ed.
 	 *
-	 * <pre>
+	 * <code>
 	 * $raw = new PheryFunction('function($val){ return $val; }');
-	 * </pre>
+	 * </code>
 	 *
 	 * @param   string|array  $value      Raw function string. If you pass an array,
 	 *                                    it will be joined with a line break
@@ -2713,9 +2760,9 @@ class PheryFunction {
 	/**
 	 * Return the value of the expression as a string.
 	 *
-	 * <pre>
+	 * <code>
 	 *     echo $expression;
-	 * </pre>
+	 * </code>
 	 *
 	 * @return  string
 	 */

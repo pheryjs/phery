@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  *
- * Copyright © 2012 Paulo Cesar, http://phery-php-ajax.net/
+ * Copyright © 2010-2012 Paulo Cesar, http://phery-php-ajax.net/
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -51,7 +51,7 @@
 		},
 		/**
 		 * @class
-		 * @version 2.2.1
+		 * @version 2.2.2
 		 */
 		phery = window.phery = window.phery || {};
 
@@ -586,7 +586,10 @@
 
 						related.each(function () {
 							var $this = $(this);
-							if ($this.attr('id')) {
+
+							if ($this.is('form')) {
+								tmprelated = per_data(tmprelated, $this.serializeForm());
+							} else if ($this.attr('id')) {
 								tmprelated[$this.attr('id')] = $this.val();
 							} else if ($this.attr('name')) {
 								tmprelated[$this.attr('name')] = $this.val();
@@ -1038,6 +1041,53 @@
 									}
 								} else {
 									triggerPheryEvent($this, 'exception', [phery.log('object path not found in window' + argv[0].join('.'))]);
+								}
+								break;
+							/* Include script/stylesheet */
+							case 10:
+								var head = $('head'), file = null, i;
+
+								switch (argv[0])
+								{
+									case 'j':
+										for (i in argv[1]) {
+											if (argv[1].hasOwnProperty(i)){
+												file = $('<script></script>', {
+													'type': 'text/javascript',
+													'src': argv[1][i],
+													'id': i
+												});
+
+												if (!head.find('script#' + i).size()){
+													head[0].appendChild(file[0]);
+												} else {
+													if (argv[2]) {
+														head.find('script#' + i).replaceWith(file);
+													}
+												}
+											}
+										}
+										break;
+									case 'c':
+										for (i in argv[1]) {
+											if (argv[1].hasOwnProperty(i)){
+												file = $('<link/>', {
+													'type': 'text/css',
+													'rel': 'stylesheet',
+													'href': argv[1][i],
+													'id': i
+												});
+
+												if (!head.find('link#' + i).size()){
+													head[0].appendChild(file[0]);
+												} else {
+													if (argv[2]) {
+														head.find('link#' + i).replaceWith(file);
+													}
+												}
+											}
+										}
+										break;
 								}
 								break;
 							default:

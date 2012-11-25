@@ -1,14 +1,20 @@
+### v2.2.2 - 25th November 2012
+    * Fixed data-related for forms
+    * Added include_stylesheet and include_script shortcuts in PheryResponse to automatically add scripts and stylesheets to the page head
+    * Changed DOCS from phpDocumentor to ApiGen
+    * Fixed phpDoc inside Phery.php to proper format
+
 ### v2.2.1 - 22nd November 2012
-    * Changed the `phery()` call to be a magic method instead of implemented in `PheryResponse`, so it can be accessed using `this()` and selectors
-    * Created `HISTORY.md` instead of putting the history inside `README.md`
-    * `$('element').phery('remote')` now execute for all of the selected elements and return `jQuery`
+    * Changed the phery() call to be a magic method instead of implemented in PheryResponse, so it can be accessed using this() and selectors
+    * Created HISTORY.md instead of putting the history inside README.md
+    * $('element').phery('remote') now execute for all of the selected elements and return jQuery
 
 ### v2.2.0 - 21st November 2012
     * Added a new option that makes structural elements like DIV, HEADER, unclickable, but still can send data AJAX calls
 
 ### v2.1.0 - 18th November 2012
-    * Nesting fix, added `access` method to `PheryResponse`
-    * Removed unecessary `eval()`s
+    * Nesting fix, added access method to PheryResponse
+    * Removed unecessary eval()s
     * Rewrite of a couple of internal functions
     * Added CSRF protection
 
@@ -16,21 +22,21 @@
     * Small fix on compressed answers
 
 ### v2.0 - 4th November 2012
-    * Added `data-related`, to get the value from somewhere else
+    * Added data-related, to get the value from somewhere else
     * The behavior of data-args for single value has changed
-    * `data-method` will emulate RESTful response
-    * Fixed `error_handler` and added a meaningful exception when the callback returns void instead of PheryResponse.
+    * data-method will emulate RESTful response
+    * Fixed error_handler and added a meaningful exception when the callback returns void instead of PheryResponse.
     * Removed string callbacks
     * Added PheryFunction for javascript callbacks from PHP
     * Added the ability to do nested PheryResponse calls
     * Improved phery.view in all browsers
-    * Fixed `phery.view` in IE8
+    * Fixed phery.view in IE8
     * Added a bunch of utility functions in PheryResponse
     * Implementation of this() in PheryResponse, accesses the calling element directly, simply the best function added so far
 
 ### v1.0 - 4th September. 2012
     * **BREAKING API CHANGES**
-    * Complete revamp of Javascript code to use 'delegate' instead of 'live
+    * Complete revamp of Javascript code to use 'delegate' instead of 'live'
     * Using jQuery namespace'd events and data
     * Support for self closing HTML tags, like IMG
     * Exposed mouse events for each element (form, select / multiple, tags)
@@ -45,7 +51,7 @@
 
 ### v0.5.2b - 06th May. 2011
     * Improved code for cursor
-    * Added $.phery.options.ajax.retry\_limit and automatic retry abilities
+    * Added $.phery.options.ajax.retry_limit and automatic retry abilities
     * Updated examples in index.php and adjusted documentation
     * Minor change in PHP side
 
@@ -55,7 +61,7 @@
     * Updated index.php with examples and removed dependency for livequery plugin, jquery 1.5.2 got it fixed
 
 ### v0.5b - 11st Mar. 2011
-    * Added $.phery.options.default\_href
+    * Added $.phery.options.default_href
     * Added ability to call anonymous functions callbacks directly from PHP
     * Removed closure from script() call
     * Added exception event

@@ -358,6 +358,7 @@ Creates a new instance of phery, that is chainable
 #### Phery::link_to($title, $function, array $attributes = array(), Phery $phery = null)
 
 Helper static method to create any element with AJAX enabled. Check sources, phpDocs or an IDE code hinting for a better scoop and detailed info
+When creating this element, if you use `data-related`, you can merge multiple forms in one AJAX call
 
 ```php
 <?php echo Phery::link_to('link title', 'function_name', array('class' => 'red', 'href' => '/url')); ?>
@@ -366,6 +367,7 @@ Helper static method to create any element with AJAX enabled. Check sources, php
 #### Phery::form_for($action, $function, array $attributes = array(), Phery $phery = null)
 
 Helper static method to open a form that will be able to execute AJAX submits. Check sources, phpDocs or an IDE code hinting for a better scoop and detailed info
+When creating this element, if you use `data-related`, you can merge multiple forms in one AJAX call
 
 ```php
 <?php echo Phery::form_for('/url-to-action/or/empty-means-current-url', 'function_name', array('class' => 'form', 'id' => 'form_id', 'submit' => array('disabled' => true, 'all' => true))) ?>
@@ -378,6 +380,7 @@ Helper static method to open a form that will be able to execute AJAX submits. C
 #### Phery::select_for($function, $items, array $attributes = array(), Phery $phery = null)
 
 Helper static method to display a select element that make AJAX calls on change.
+When creating this element, if you use `data-related`, you can merge multiple forms in one AJAX call
 
 ```php
 <?php echo Phery::select_for('function_name', array(1 => 'true', 2 => 'hello', 3 => 'control'), array('selected' => 2)) ?>

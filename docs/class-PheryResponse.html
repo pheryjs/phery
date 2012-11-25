@@ -1,0 +1,5919 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="generator" content="ApiGen 2.8.0" />
+
+	<title>Class PheryResponse | Phery</title>
+
+	<script type="text/javascript" src="resources/combined.js?3294260260"></script>
+	<script type="text/javascript" src="elementlist.js?1787287492"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360" />
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', "UA-10569443-14"]);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+			<h3>Packages</h3>
+			<ul>
+				<li class="active"><a href="package-Phery.html">Phery</a>
+						</li>
+			</ul>
+		</div>
+
+		<hr />
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-Phery.html">Phery</a></li>
+				<li><a href="class-PheryFunction.html">PheryFunction</a></li>
+				<li class="active"><a href="class-PheryResponse.html">PheryResponse</a></li>
+			</ul>
+
+
+
+			<h3>Exceptions</h3>
+			<ul>
+				<li><a href="class-PheryException.html">PheryException</a></li>
+			</ul>
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="" />
+		<input type="hidden" name="ie" value="UTF-8" />
+		<input type="text" name="q" class="text" />
+		<input type="submit" value="Search" />
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="package-Phery.html" title="Summary of Phery"><span>Package</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class PheryResponse</h1>
+
+
+	<div class="description">
+	
+<p>Standard response for the json parser</p>
+
+	</div>
+
+	<dl class="tree">
+		<dd style="padding-left:0px">
+ArrayObject
+			 implements 
+<span>IteratorAggregate</span>, 
+			
+<span>Traversable</span>, 
+			
+<span>ArrayAccess</span>, 
+			
+<span>Serializable</span>, 
+			
+<span>Countable</span>
+			
+			
+		</dd>
+		<dd style="padding-left:30px">
+			<img src="resources/inherit.png" alt="Extended by" />
+<b><span>PheryResponse</span></b>			
+			
+			
+		</dd>
+	</dl>
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		
+		<b>Package:</b> <a href="package-Phery.html">Phery</a><br />
+
+				<b>License:</b>
+				<a href="http://opensource.org/licenses/MIT">MIT License</a><br />
+				<b>Author:</b>
+				Paulo Cesar<br />
+		<b>Located at</b> <a href="source-class-PheryResponse.html#1449-2661" title="Go to source code">Phery.php</a><br />
+	</div>
+
+
+
+	<table class="summary" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="__construct" id="___construct">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___construct">#</a>
+		<code><a href="source-class-PheryResponse.html#1564-1575" title="Go to source code">__construct</a>( <span>string <var>$selector</var> = <span class="php-keyword1">null</span></span>, <span>array <var>$constructor</var> = <span class="php-keyword1">array</span>()</span> )</code>
+
+		<div class="description short">
+			
+<p>Construct a new response</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Construct a new response</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$selector</var></dt>
+					<dd><code>string</code><br>$selector Create the object already selecting the DOM element</dd>
+					<dt><var>$constructor</var></dt>
+					<dd><code>array</code><br>$constructor Only available if you are creating an element, like $('&lt;p/&gt;')</dd>
+				</dl></div>
+
+
+
+
+				<h4>Overrides</h4>
+				<div class="list"><code>ArrayObject::__construct()</code></div>
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="renew_csrf" id="_renew_csrf">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_renew_csrf">#</a>
+		<code><a href="source-class-PheryResponse.html#1577-1592" title="Go to source code">renew_csrf</a>( <span><code><a href="class-Phery.html">Phery</a></code> <var>$instance</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Renew the CSRF token on a given Phery instance Resets any selectors that were
+being chained before</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Renew the CSRF token on a given Phery instance Resets any selectors that were
+being chained before</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$instance</var></dt>
+					<dd><code><code><a href="class-Phery.html">Phery</a></code></code><br>$instance Instance of Phery</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="set_response_name" id="_set_response_name">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_set_response_name">#</a>
+		<code><a href="source-class-PheryResponse.html#1594-1611" title="Go to source code">set_response_name</a>( <span>string <var>$name</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Set the name of this response</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Set the name of this response</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$name</var></dt>
+					<dd><code>string</code><br>$name Name of current response</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_response_name" id="_get_response_name">
+
+		<td class="attributes"><code>
+			 public 
+			null|string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_response_name">#</a>
+		<code><a href="source-class-PheryResponse.html#1613-1621" title="Go to source code">get_response_name</a>( )</code>
+
+		<div class="description short">
+			
+<p>Get the name of this response</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get the name of this response</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>null|string</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="set_global" id="_set_global">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_set_global">#</a>
+		<code><a href="source-class-PheryResponse.html#1623-1642" title="Go to source code">set_global</a>( <span>array|string <var>$name</var></span>, <span>mixed <var>$value</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Set a global value that can be accessed through $pheryresponse['value']</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Set a global value that can be accessed through $pheryresponse['value']</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$name</var></dt>
+					<dd><code>array|string</code></dd>
+					<dt><var>$value</var></dt>
+					<dd><code>mixed</code><br>$value [Optional]</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="unset_global" id="_unset_global">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_unset_global">#</a>
+		<code><a href="source-class-PheryResponse.html#1644-1652" title="Go to source code">unset_global</a>( <span>string <var>$name</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Unset a global variable</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Unset a global variable</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$name</var></dt>
+					<dd><code>string</code><br>$name Variable name</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="offsetExists" id="_offsetExists">
+
+		<td class="attributes"><code>
+			 public 
+			mixed
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_offsetExists">#</a>
+		<code><a href="source-class-PheryResponse.html#1654-1669" title="Go to source code">offsetExists</a>( <span>string|integer <var>$index</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Will check for globals and local values</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Will check for globals and local values</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$index</var></dt>
+					<dd><code>string|integer</code><br>$index</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>mixed</code><br />
+				</div>
+
+
+
+				<h4>Overrides</h4>
+				<div class="list"><code>ArrayObject::offsetExists()</code></div>
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="offsetSet" id="_offsetSet">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_offsetSet">#</a>
+		<code><a href="source-class-PheryResponse.html#1671-1689" title="Go to source code">offsetSet</a>( <span>string|integer|null <var>$index</var></span>, <span>mixed <var>$newval</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Set local variables, will be available only in this instance</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Set local variables, will be available only in this instance</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$index</var></dt>
+					<dd><code>string|integer|null</code><br>$index</dd>
+					<dt><var>$newval</var></dt>
+					<dd><code>mixed</code><br>$newval</dd>
+				</dl></div>
+
+
+
+
+				<h4>Overrides</h4>
+				<div class="list"><code>ArrayObject::offsetSet()</code></div>
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="offsetGet" id="_offsetGet">
+
+		<td class="attributes"><code>
+			 public 
+			mixed|null
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_offsetGet">#</a>
+		<code><a href="source-class-PheryResponse.html#1691-1710" title="Go to source code">offsetGet</a>( <span>mixed <var>$index</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Return null if no value</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Return null if no value</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$index</var></dt>
+					<dd><code>mixed</code><br>$index</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>mixed|null</code><br />
+				</div>
+
+
+
+				<h4>Overrides</h4>
+				<div class="list"><code>ArrayObject::offsetGet()</code></div>
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_response" id="_get_response">
+
+		<td class="attributes"><code>
+			 public static
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>|null
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_response">#</a>
+		<code><a href="source-class-PheryResponse.html#1712-1727" title="Go to source code">get_response</a>( <span>string <var>$name</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Get a response by name</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get a response by name</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$name</var></dt>
+					<dd><code>string</code><br>$name</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code>|null</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_merged" id="_get_merged">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>|null
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_merged">#</a>
+		<code><a href="source-class-PheryResponse.html#1729-1749" title="Go to source code">get_merged</a>( <span>string <var>$name</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Get merged response data as a new PheryResponse. This method works like a
+constructor if the previous response was destroyed</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get merged response data as a new PheryResponse. This method works like a
+constructor if the previous response was destroyed</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$name</var></dt>
+					<dd><code>string</code><br>$name Name of the merged response</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code>|null</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="phery_remote" id="_phery_remote">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_phery_remote">#</a>
+		<code><a href="source-class-PheryResponse.html#1751-1772" title="Go to source code">phery_remote</a>( <span>string <var>$remote</var></span>, <span>array <var>$args</var> = <span class="php-keyword1">array</span>()</span>, <span>array <var>$attr</var> = <span class="php-keyword1">array</span>()</span>, <span>boolean <var>$directCall</var> = <span class="php-keyword1">true</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Same as phery.remote()</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Same as phery.remote()</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$remote</var></dt>
+					<dd><code>string</code><br>$remote Function</dd>
+					<dt><var>$args</var></dt>
+					<dd><code>array</code><br>$args Arguments to pass to the</dd>
+					<dt><var>$attr</var></dt>
+					<dd><code>array</code><br>$attr Here you may set like data-method, data-target, data-type</dd>
+					<dt><var>$directCall</var></dt>
+					<dd><code>boolean</code><br>$directCall Setting to false returns the jQuery object, that can bind events,
+append to DOM, etc</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="set_var" id="_set_var">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_set_var">#</a>
+		<code><a href="source-class-PheryResponse.html#1774-1813" title="Go to source code">set_var</a>( <span>string|array <var>$variable</var></span>, <span>mixed <var>$data</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Set a global variable, that can be accessed directly through window object,
+can set properties inside objects if you pass an array as the variable. If it
+doesn't exist it will be created</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Set a global variable, that can be accessed directly through window object,
+can set properties inside objects if you pass an array as the variable. If it
+doesn't exist it will be created</p>
+
+<pre>
+<span
+class="php-comment">// window.customer_info = {'name': 'John','surname': 'Doe', 'age': 39}</span>
+PheryResponse::factory()-&gt;set_var(<span
+class="php-quote">'customer_info'</span>, <span
+class="php-keyword1">array</span>(<span
+class="php-quote">'name'</span> =&gt; <span
+class="php-quote">'John'</span>, <span
+class="php-quote">'surname'</span> =&gt; <span
+class="php-quote">'Doe'</span>, <span class="php-quote">'age'</span> =&gt; <span
+class="php-num">39</span>));
+</pre>
+
+<pre>
+<span
+class="php-comment">// window.customer_info.name = 'John'</span>
+PheryResponse::factory()-&gt;set_var(<span
+class="php-keyword1">array</span>(<span
+class="php-quote">'customer_info'</span>,<span
+class="php-quote">'name'</span>), <span class="php-quote">'John'</span>);
+</pre>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$variable</var></dt>
+					<dd><code>string|array</code><br>$variable Global variable name</dd>
+					<dt><var>$data</var></dt>
+					<dd><code>mixed</code><br>$data Any data</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="unset_var" id="_unset_var">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_unset_var">#</a>
+		<code><a href="source-class-PheryResponse.html#1815-1837" title="Go to source code">unset_var</a>( <span>string|array <var>$variable</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Delete a global variable, that can be accessed directly through window, can
+unset object properties, if you pass an array</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Delete a global variable, that can be accessed directly through window, can
+unset object properties, if you pass an array</p>
+
+<pre>
+PheryResponse::factory()-&gt;<span class="php-keyword1">unset</span>(<span
+class="php-quote">'customer_info'</span>);
+</pre>
+
+<pre>
+PheryResponse::factory()-&gt;<span class="php-keyword1">unset</span>(<span
+class="php-keyword1">array</span>(<span
+class="php-quote">'customer_info'</span>,<span
+class="php-quote">'name'</span>)); <span
+class="php-comment">// translates to delete customer_info['name']</span>
+</pre>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$variable</var></dt>
+					<dd><code>string|array</code><br>$variable Global variable name</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="factory" id="_factory">
+
+		<td class="attributes"><code>
+			 public static
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_factory">#</a>
+		<code><a href="source-class-PheryResponse.html#1839-1861" title="Go to source code">factory</a>( <span>string <var>$selector</var> = <span class="php-keyword1">null</span></span>, <span>array <var>$constructor</var> = <span class="php-keyword1">array</span>()</span> )</code>
+
+		<div class="description short">
+			
+<p>Create a new PheryResponse instance for chaining, fast and effective for one
+line returns</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Create a new PheryResponse instance for chaining, fast and effective for one
+line returns</p>
+
+<pre>
+<span class="php-keyword1">function</span> answer(<span
+class="php-var">$data</span>)
+{
+ <span
+class="php-keyword1">return</span>
+        PheryResponse::factory(<span
+class="php-quote">'a#link-'</span>.<span class="php-var">$data</span>[<span
+class="php-quote">'rel'</span>])
+        -&gt;attr(<span
+class="php-quote">'href'</span>, <span
+class="php-quote">'#'</span>)
+        -&gt;alert(<span
+class="php-quote">'done'</span>);
+}
+</pre>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$selector</var></dt>
+					<dd><code>string</code><br>$selector optional</dd>
+					<dt><var>$constructor</var></dt>
+					<dd><code>array</code><br>$constructor Same as $('&lt;p/&gt;', {})</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="remove_selector" id="_remove_selector">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_remove_selector">#</a>
+		<code><a href="source-class-PheryResponse.html#1863-1879" title="Go to source code">remove_selector</a>( <span>string|integer <var>$selector</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Remove a batch of calls for a selector. Won't remove for merged responses.
+Passing an integer, will remove commands, like dump_vars, call, etc</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Remove a batch of calls for a selector. Won't remove for merged responses.
+Passing an integer, will remove commands, like dump_vars, call, etc</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$selector</var></dt>
+					<dd><code>string|integer</code><br>$selector</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="this" id="_this">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_this">#</a>
+		<code><a href="source-class-PheryResponse.html#1881-1891" title="Go to source code">this</a>( )</code>
+
+		<div class="description short">
+			
+<p>Access the current calling DOM element without the need for IDs, names,
+etc</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Access the current calling DOM element without the need for IDs, names,
+etc</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="merge" id="_merge">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_merge">#</a>
+		<code><a href="source-class-PheryResponse.html#1893-1928" title="Go to source code">merge</a>( <span><code><a href="class-PheryResponse.html">PheryResponse</a></code>|string <var>$phery</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Merge another response to this one. Selectors with the same name will be
+added in order, for example:</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Merge another response to this one. Selectors with the same name will be
+added in order, for example:</p>
+
+<pre>
+<span class="php-keyword1">function</span> process()
+{
+     <span
+class="php-var">$response</span> = PheryResponse::factory(<span
+class="php-quote">'a.links'</span>)-&gt;remove();
+     <span
+class="php-comment">// $response will execute before</span>
+     <span
+class="php-comment">// there will be no more &quot;a.links&quot; in the DOM, so the addClass() will fail silently</span>
+     <span
+class="php-comment">// to invert the order, merge $response to $response2</span>
+     <span
+class="php-var">$response2</span> = PheryResponse::factory(<span
+class="php-quote">'a.links'</span>)-&gt;addClass(<span
+class="php-quote">'red'</span>);
+     <span
+class="php-keyword1">return</span> <span
+class="php-var">$response</span>-&gt;merge(<span
+class="php-var">$response2</span>);
+}
+</pre>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$phery</var></dt>
+					<dd><code><code><a href="class-PheryResponse.html">PheryResponse</a></code>|string</code><br>$phery Another PheryResponse object or a name of response</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="unmerge" id="_unmerge">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_unmerge">#</a>
+		<code><a href="source-class-PheryResponse.html#1930-1952" title="Go to source code">unmerge</a>( <span><code><a href="class-PheryResponse.html">PheryResponse</a></code>|string <var>$phery</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Remove a previously merged response</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Remove a previously merged response</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$phery</var></dt>
+					<dd><code><code><a href="class-PheryResponse.html">PheryResponse</a></code>|string</code><br>$phery</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="print_vars" id="_print_vars">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_print_vars">#</a>
+		<code><a href="source-class-PheryResponse.html#1954-1976" title="Go to source code">print_vars</a>( <span>mixed <var>$vars</var>,…</span> )</code>
+
+		<div class="description short">
+			
+<p>Pretty print to console.log</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Pretty print to console.log</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$vars</var>,…</dt>
+					<dd><code>mixed</code><br>$vars,... Any var</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="dump_vars" id="_dump_vars">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_dump_vars">#</a>
+		<code><a href="source-class-PheryResponse.html#1978-2003" title="Go to source code">dump_vars</a>( <span>mixed <var>$vars</var>,…</span> )</code>
+
+		<div class="description short">
+			
+<p>Dump var to console.log</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Dump var to console.log</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$vars</var>,…</dt>
+					<dd><code>mixed</code><br>$vars,... Any var</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="jquery" id="_jquery">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_jquery">#</a>
+		<code><a href="source-class-PheryResponse.html#2005-2037" title="Go to source code">jquery</a>( <span>string <var>$selector</var> = <span class="php-quote">'#'</span></span>, <span>array <var>$constructor</var> = <span class="php-keyword1">array</span>()</span> )</code>
+
+		<div class="description short">
+			
+<p>Sets the selector, so you can chain many calls to it. Passing # works like
+jQuery.func</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Sets the selector, so you can chain many calls to it. Passing # works like
+jQuery.func</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$selector</var></dt>
+					<dd><code>string</code><br>$selector Sets the current selector for subsequent chaining
+<pre>
+PheryResponse::factory()
+-&gt;jquery('.slides')
+-&gt;fadeTo(0,0)
+-&gt;css(array('top' =&gt; '10px', 'left' =&gt; '90px'));
+</pre>
+
+<pre>
+PheryResponse::factory()-&gt;jquery()-&gt;getJSON();
+</pre>
+</dd>
+					<dt><var>$constructor</var></dt>
+					<dd><code>array</code><br>$constructor Only available if you are creating a new element, like
+$('&lt;p/&gt;', {})</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="j" id="_j">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_j">#</a>
+		<code><a href="source-class-PheryResponse.html#2039-2050" title="Go to source code">j</a>( <span>string <var>$selector</var> = <span class="php-quote">'#'</span></span>, <span>array <var>$constructor</var> = <span class="php-keyword1">array</span>()</span> )</code>
+
+		<div class="description short">
+			
+<p>Shortcut/alias for jquery($selector) Passing null works like jQuery.func</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Shortcut/alias for jquery($selector) Passing null works like jQuery.func</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$selector</var></dt>
+					<dd><code>string</code><br>$selector Sets the current selector for subsequent chaining</dd>
+					<dt><var>$constructor</var></dt>
+					<dd><code>array</code><br>$constructor Only available if you are creating a new element, like
+$('&lt;p/&gt;', {})</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="alert" id="_alert">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_alert">#</a>
+		<code><a href="source-class-PheryResponse.html#2052-2071" title="Go to source code">alert</a>( <span>string <var>$msg</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Show an alert box</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Show an alert box</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$msg</var></dt>
+					<dd><code>string</code><br>$msg Message to be displayed</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="json" id="_json">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_json">#</a>
+		<code><a href="source-class-PheryResponse.html#2073-2087" title="Go to source code">json</a>( <span>mixed <var>$obj</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Pass JSON to the browser</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Pass JSON to the browser</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$obj</var></dt>
+					<dd><code>mixed</code><br>$obj Data to be encoded to json (usually an array or a JsonSerializable)</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="remove" id="_remove">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_remove">#</a>
+		<code><a href="source-class-PheryResponse.html#2089-2099" title="Go to source code">remove</a>( <span>string|boolean <var>$selector</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Remove the current jQuery selector</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Remove the current jQuery selector</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$selector</var></dt>
+					<dd><code>string|boolean</code><br>$selector Set a selector</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="cmd" id="_cmd">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_cmd">#</a>
+		<code><a href="source-class-PheryResponse.html#2101-2134" title="Go to source code">cmd</a>( <span>integer|string|array <var>$cmd</var></span>, <span>array <var>$args</var> = <span class="php-keyword1">array</span>()</span>, <span>string <var>$selector</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Add a command to the response</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Add a command to the response</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$cmd</var></dt>
+					<dd><code>integer|string|array</code><br>$cmd Integer for command, see phery.js for more info</dd>
+					<dt><var>$args</var></dt>
+					<dd><code>array</code><br>$args Array to pass to the response</dd>
+					<dt><var>$selector</var></dt>
+					<dd><code>string</code><br>$selector Insert the jquery selector</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="attr" id="_attr">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_attr">#</a>
+		<code><a href="source-class-PheryResponse.html#2136-2158" title="Go to source code">attr</a>( <span>string <var>$attr</var></span>, <span>string <var>$data</var></span>, <span>string <var>$selector</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Set the attribute of a jQuery selector</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Set the attribute of a jQuery selector</p>
+
+<p>Example:</p>
+
+<pre>
+PheryResponse::factory()
+-&gt;attr(<span
+class="php-quote">'href'</span>, <span
+class="php-quote">'http://url.com'</span>, <span
+class="php-quote">'a#link-'</span> . <span class="php-var">$args</span>[<span
+class="php-quote">'id'</span>]);
+</pre>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$attr</var></dt>
+					<dd><code>string</code><br>$attr HTML attribute of the item</dd>
+					<dt><var>$data</var></dt>
+					<dd><code>string</code><br>$data Value</dd>
+					<dt><var>$selector</var></dt>
+					<dd><code>string</code><br>$selector [optional] Provide the jQuery selector directly</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="exception" id="_exception">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_exception">#</a>
+		<code><a href="source-class-PheryResponse.html#2160-2177" title="Go to source code">exception</a>( <span>string <var>$msg</var></span>, <span>mixed <var>$data</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Trigger the phery:exception event on the calling element with additional
+data</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Trigger the phery:exception event on the calling element with additional
+data</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$msg</var></dt>
+					<dd><code>string</code><br>$msg Message to pass to the exception</dd>
+					<dt><var>$data</var></dt>
+					<dd><code>mixed</code><br>$data Any data to pass, can be anything</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="call" id="_call">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_call">#</a>
+		<code><a href="source-class-PheryResponse.html#2179-2199" title="Go to source code">call</a>( <span>string|array <var>$func_name</var></span>, <span>mixed <var>$args</var>,…</span> )</code>
+
+		<div class="description short">
+			
+<p>Call a javascript function. Warning: calling this function will reset the
+selector jQuery selector previously stated</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Call a javascript function. Warning: calling this function will reset the
+selector jQuery selector previously stated</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$func_name</var></dt>
+					<dd><code>string|array</code><br>$func_name Function name. If you pass a string, it will be accessed on
+window.func. If you pass an array, it will access a member of an object, like
+array('object', 'property', 'function')</dd>
+					<dt><var>$args</var>,…</dt>
+					<dd><code>mixed</code><br>$args,... Any additional arguments to pass to the function</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="apply" id="_apply">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_apply">#</a>
+		<code><a href="source-class-PheryResponse.html#2201-2218" title="Go to source code">apply</a>( <span>string|array <var>$func_name</var></span>, <span>array <var>$args</var> = <span class="php-keyword1">array</span>()</span> )</code>
+
+		<div class="description short">
+			
+<p>Call 'apply' on a javascript function. Warning: calling this function will
+reset the selector jQuery selector previously stated</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Call 'apply' on a javascript function. Warning: calling this function will
+reset the selector jQuery selector previously stated</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$func_name</var></dt>
+					<dd><code>string|array</code><br>$func_name Function name</dd>
+					<dt><var>$args</var></dt>
+					<dd><code>array</code><br>$args Any additional arguments to pass to the function</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="clear" id="_clear">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_clear">#</a>
+		<code><a href="source-class-PheryResponse.html#2220-2234" title="Go to source code">clear</a>( <span>string <var>$attr</var></span>, <span>string <var>$selector</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Clear the selected attribute. Alias for attr('attribute', '')</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Clear the selected attribute. Alias for attr('attribute', '')</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$attr</var></dt>
+					<dd><code>string</code><br>$attr Name of the DOM attribute to clear, such as 'innerHTML', 'style', 'href',
+etc not the jQuery counterparts</dd>
+					<dt><var>$selector</var></dt>
+					<dd><code>string</code><br>$selector [optional] Provide the jQuery selector directly</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+				<h4>See</h4>
+				<div class="list">
+						<code><code><a href="class-PheryResponse.html#_attr">PheryResponse::attr()</a></code></code><br />
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="html" id="_html">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_html">#</a>
+		<code><a href="source-class-PheryResponse.html#2236-2256" title="Go to source code">html</a>( <span>string <var>$content</var></span>, <span>string <var>$selector</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Set the HTML content of an element. Automatically typecasted to string, so
+classes that respond to __toString() will be converted automatically</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Set the HTML content of an element. Automatically typecasted to string, so
+classes that respond to __toString() will be converted automatically</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$content</var></dt>
+					<dd><code>string</code><br>$content</dd>
+					<dt><var>$selector</var></dt>
+					<dd><code>string</code><br>$selector [optional] Provide the jQuery selector directly</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="text" id="_text">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_text">#</a>
+		<code><a href="source-class-PheryResponse.html#2258-2278" title="Go to source code">text</a>( <span>string <var>$content</var></span>, <span>string <var>$selector</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Set the text of an element. Automatically typecasted to string, so classes
+that respond to __toString() will be converted automatically</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Set the text of an element. Automatically typecasted to string, so classes
+that respond to __toString() will be converted automatically</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$content</var></dt>
+					<dd><code>string</code><br>$content</dd>
+					<dt><var>$selector</var></dt>
+					<dd><code>string</code><br>$selector [optional] Provide the jQuery selector directly</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="script" id="_script">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_script">#</a>
+		<code><a href="source-class-PheryResponse.html#2280-2307" title="Go to source code">script</a>( <span>string|array <var>$script</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Compile a script and call it on-the-fly. There is a closure on the executed
+function, so to reach out global variables, you need to use window.variable
+Warning: calling this function will reset the selector jQuery selector
+previously set</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Compile a script and call it on-the-fly. There is a closure on the executed
+function, so to reach out global variables, you need to use window.variable
+Warning: calling this function will reset the selector jQuery selector
+previously set</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$script</var></dt>
+					<dd><code>string|array</code><br>$script Script content. If provided an array, it will be joined with \n
+<pre>
+PheryResponse::factory()
+-&gt;script(array("if (confirm('Are you really sure?')) $('*').remove()"));
+</pre>
+</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="path" id="_path">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_path">#</a>
+		<code><a href="source-class-PheryResponse.html#2309-2330" title="Go to source code">path</a>( <span>string|string[] <var>$namespace</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Access a global object path</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Access a global object path</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$namespace</var></dt>
+					<dd><code>string|string[]</code><br>$namespace For accessing objects, like $.namespace.function() or document.href.
+if you want to access a global variable, use array('object','property'). You may
+use a mix of getter/setter to apply a global value to a variable
+<pre>
+PheryResponse::factory()-&gt;set_var(array('obj','newproperty'),
+     PheryResponse::factory()-&gt;path(array('other_obj','enabled'))
+);
+</pre>
+</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="render_view" id="_render_view">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_render_view">#</a>
+		<code><a href="source-class-PheryResponse.html#2331-2353" title="Go to source code">render_view</a>( <span>string <var>$html</var></span>, <span>array <var>$data</var> = <span class="php-keyword1">array</span>()</span> )</code>
+
+		<div class="description short">
+			
+<p>Render a view to the container previously specified</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Render a view to the container previously specified</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$html</var></dt>
+					<dd><code>string</code><br>$html HTML to be replaced in the container</dd>
+					<dt><var>$data</var></dt>
+					<dd><code>array</code><br>$data Array of data to pass to the before/after functions set on Phery.view</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+				<h4>See</h4>
+				<div class="list">
+						Phery.view() on JS<br />
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="redirect" id="_redirect">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_redirect">#</a>
+		<code><a href="source-class-PheryResponse.html#2355-2404" title="Go to source code">redirect</a>( <span>string <var>$url</var></span>, <span>boolean|string <var>$view</var> = <span class="php-keyword1">false</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Creates a redirect</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Creates a redirect</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$url</var></dt>
+					<dd><code>string</code><br>$url Complete url with http:// (according to W3 <a
+href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.30">http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.30</a>)</dd>
+					<dt><var>$view</var></dt>
+					<dd><code>boolean|string</code><br>$view Internal means that phery will cancel the current DOM manipulation and
+commands and will issue another phery.remote to the location in url, useful if
+your PHP code is issuing redirects but you are using AJAX views. Passing false
+will issue a browser redirect</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="prepend" id="_prepend">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_prepend">#</a>
+		<code><a href="source-class-PheryResponse.html#2406-2424" title="Go to source code">prepend</a>( <span>string <var>$content</var></span>, <span>string <var>$selector</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Prepend string/HTML to target(s)</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Prepend string/HTML to target(s)</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$content</var></dt>
+					<dd><code>string</code><br>$content Content to be prepended to the selected element</dd>
+					<dt><var>$selector</var></dt>
+					<dd><code>string</code><br>$selector [optional] Optional jquery selector string</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="reset_response" id="_reset_response">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_reset_response">#</a>
+		<code><a href="source-class-PheryResponse.html#2426-2436" title="Go to source code">reset_response</a>( )</code>
+
+		<div class="description short">
+			
+<p>Clear all the selectors and commands in the current response.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Clear all the selectors and commands in the current response.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="append" id="_append">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_append">#</a>
+		<code><a href="source-class-PheryResponse.html#2438-2456" title="Go to source code">append</a>( <span>string <var>$content</var></span>, <span>string <var>$selector</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Append string/HTML to target(s)</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Append string/HTML to target(s)</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$content</var></dt>
+					<dd><code>string</code><br>$content Content to be appended to the selected element</dd>
+					<dt><var>$selector</var></dt>
+					<dd><code>string</code><br>$selector [optional] Optional jquery selector string</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+				<h4>Overrides</h4>
+				<div class="list"><code>ArrayObject::append()</code></div>
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="include_stylesheet" id="_include_stylesheet">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_include_stylesheet">#</a>
+		<code><a href="source-class-PheryResponse.html#2458-2474" title="Go to source code">include_stylesheet</a>( <span>array <var>$path</var></span>, <span>boolean <var>$replace</var> = <span class="php-keyword1">false</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Include a stylesheet in the head of the page</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Include a stylesheet in the head of the page</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$path</var></dt>
+					<dd><code>array</code><br>$path An array of stylesheets, comprising of 'id' =&gt; 'path'</dd>
+					<dt><var>$replace</var></dt>
+					<dd><code>boolean</code><br>$replace Replace any existing ids</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="include_script" id="_include_script">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_include_script">#</a>
+		<code><a href="source-class-PheryResponse.html#2476-2492" title="Go to source code">include_script</a>( <span>array <var>$path</var></span>, <span>boolean <var>$replace</var> = <span class="php-keyword1">false</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Include a script in the head of the page</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Include a script in the head of the page</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$path</var></dt>
+					<dd><code>array</code><br>$path An array of scripts, comprising of 'id' =&gt; 'path'</dd>
+					<dt><var>$replace</var></dt>
+					<dd><code>boolean</code><br>$replace Replace any existing ids</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="__call" id="___call">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___call">#</a>
+		<code><a href="source-class-PheryResponse.html#2494-2529" title="Go to source code">__call</a>( <span>string <var>$name</var></span>, <span>array <var>$arguments</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Magically map to any additional jQuery function. To reach this magically
+called functions, the jquery() selector must be called prior to any jquery
+specific call</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Magically map to any additional jQuery function. To reach this magically
+called functions, the jquery() selector must be called prior to any jquery
+specific call</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$name</var></dt>
+					<dd><code>string</code><br>$name</dd>
+					<dt><var>$arguments</var></dt>
+					<dd><code>array</code><br>$arguments</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+				<h4>See</h4>
+				<div class="list">
+						<code><code><a href="class-PheryResponse.html#_jquery">PheryResponse::jquery()</a></code></code><br />
+						<code><code><a href="class-PheryResponse.html#_j">PheryResponse::j()</a></code></code><br />
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="typecast" id="_typecast">
+
+		<td class="attributes"><code>
+			 protected static
+			mixed
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_typecast">#</a>
+		<code><a href="source-class-PheryResponse.html#2531-2582" title="Go to source code">typecast</a>( <span>mixed <var>$argument</var></span>, <span>boolean <var>$toString</var> = <span class="php-keyword1">true</span></span>, <span>boolean <var>$nested</var> = <span class="php-keyword1">false</span></span>, <span>integer <var>$depth</var> = <span class="php-num">4</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Convert, to a maximum depth, nested responses, and typecast int properly</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Convert, to a maximum depth, nested responses, and typecast int properly</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$argument</var></dt>
+					<dd><code>mixed</code><br>$argument The value</dd>
+					<dt><var>$toString</var></dt>
+					<dd><code>boolean</code><br>$toString Call class __toString() if possible, and typecast int correctly</dd>
+					<dt><var>$nested</var></dt>
+					<dd><code>boolean</code><br>$nested Should it look for nested arrays and classes?</dd>
+					<dt><var>$depth</var></dt>
+					<dd><code>integer</code><br>$depth Max depth</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>mixed</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="process_merged" id="_process_merged">
+
+		<td class="attributes"><code>
+			 protected 
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_process_merged">#</a>
+		<code><a href="source-class-PheryResponse.html#2584-2603" title="Go to source code">process_merged</a>( )</code>
+
+		<div class="description short">
+			
+<p>Process merged responses</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Process merged responses</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>array</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="render" id="_render">
+
+		<td class="attributes"><code>
+			 public 
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_render">#</a>
+		<code><a href="source-class-PheryResponse.html#2605-2612" title="Go to source code">render</a>( )</code>
+
+		<div class="description short">
+			
+<p>Return the JSON encoded data</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Return the JSON encoded data</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="__toString" id="___toString">
+
+		<td class="attributes"><code>
+			 public 
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___toString">#</a>
+		<code><a href="source-class-PheryResponse.html#2614-2622" title="Go to source code">__toString</a>( )</code>
+
+		<div class="description short">
+			
+<p>Return the JSON encoded data if the object is typecasted as a string</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Return the JSON encoded data if the object is typecasted as a string</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="unserialize" id="_unserialize">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_unserialize">#</a>
+		<code><a href="source-class-PheryResponse.html#2624-2646" title="Go to source code">unserialize</a>( <span>string <var>$serialized</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Initialize the instance from a serialized state</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Initialize the instance from a serialized state</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$serialized</var></dt>
+					<dd><code>string</code><br>$serialized</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+				<h4>Throws</h4>
+				<div class="list">
+					<code><code><a href="class-PheryException.html">PheryException</a></code></code><br />
+				</div>
+
+
+				<h4>Overrides</h4>
+				<div class="list"><code>ArrayObject::unserialize()</code></div>
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="serialize" id="_serialize">
+
+		<td class="attributes"><code>
+			 public 
+			string|boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_serialize">#</a>
+		<code><a href="source-class-PheryResponse.html#2648-2660" title="Go to source code">serialize</a>( )</code>
+
+		<div class="description short">
+			
+<p>Serialize the response in JSON</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Serialize the response in JSON</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string|boolean</code><br />
+				</div>
+
+
+
+				<h4>Overrides</h4>
+				<div class="list"><code>ArrayObject::serialize()</code></div>
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+	<table class="summary inherited">
+	<caption>Methods inherited from ArrayObject</caption>
+	<tr>
+		<td><code>
+asort(), 
+count(), 
+exchangeArray(), 
+getArrayCopy(), 
+getFlags(), 
+getIterator(), 
+getIteratorClass(), 
+ksort(), 
+natcasesort(), 
+natsort(), 
+offsetUnset(), 
+setFlags(), 
+setIteratorClass(), 
+uasort(), 
+uksort()
+		</code></td>
+	</tr>
+	</table>
+
+
+	<table class="summary" id="methods">
+	<caption>Magic methods summary</caption>
+	<tr data-order="ajax" id="m_ajax">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_ajax">#</a>
+		<code><a href="source-class-PheryResponse.html#1453" title="Go to source code">ajax</a>( <span>string <var>$url</var> = </span>, <span>array <var>$settings</var> = <span class="php-keyword1">null</span>) Perform an asynchronous HTTP (Ajax</span> )</code>
+
+		<div class="description short">
+			
+<p>request.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>request.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$url</var></dt>
+					<dd><code>string</code><br>$url</dd>
+					<dt><var>$settings</var></dt>
+					<dd><code>array</code><br>$settings</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="ajaxSetup" id="m_ajaxSetup">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_ajaxSetup">#</a>
+		<code><a href="source-class-PheryResponse.html#1454" title="Go to source code">ajaxSetup</a>( <span>array <var>$obj</var> = </span> )</code>
+
+		<div class="description short">
+			
+<p>Set default values for future Ajax requests.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Set default values for future Ajax requests.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$obj</var></dt>
+					<dd><code>array</code><br>$obj</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="post" id="m_post">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_post">#</a>
+		<code><a href="source-class-PheryResponse.html#1455" title="Go to source code">post</a>( <span>string <var>$url</var> = </span>, <span><code><a href="class-PheryFunction.html">PheryFunction</a></code> <var>$success</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Load data from the server using a HTTP POST request.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Load data from the server using a HTTP POST request.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$url</var></dt>
+					<dd><code>string</code><br>$url</dd>
+					<dt><var>$success</var></dt>
+					<dd><code><code><a href="class-PheryFunction.html">PheryFunction</a></code></code><br>$success</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get" id="m_get">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_get">#</a>
+		<code><a href="source-class-PheryResponse.html#1456" title="Go to source code">get</a>( <span>string <var>$url</var> = </span>, <span><code><a href="class-PheryFunction.html">PheryFunction</a></code> <var>$success</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Load data from the server using a HTTP GET request.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Load data from the server using a HTTP GET request.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$url</var></dt>
+					<dd><code>string</code><br>$url</dd>
+					<dt><var>$success</var></dt>
+					<dd><code><code><a href="class-PheryFunction.html">PheryFunction</a></code></code><br>$success</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getJSON" id="m_getJSON">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_getJSON">#</a>
+		<code><a href="source-class-PheryResponse.html#1457" title="Go to source code">getJSON</a>( <span>string <var>$url</var> = </span>, <span><code><a href="class-PheryFunction.html">PheryFunction</a></code> <var>$success</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Load JSON-encoded data from the server using a GET HTTP request.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Load JSON-encoded data from the server using a GET HTTP request.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$url</var></dt>
+					<dd><code>string</code><br>$url</dd>
+					<dt><var>$success</var></dt>
+					<dd><code><code><a href="class-PheryFunction.html">PheryFunction</a></code></code><br>$success</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getScript" id="m_getScript">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_getScript">#</a>
+		<code><a href="source-class-PheryResponse.html#1458" title="Go to source code">getScript</a>( <span>string <var>$url</var> = </span>, <span><code><a href="class-PheryFunction.html">PheryFunction</a></code> <var>$success</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Load a JavaScript file from the server using a GET HTTP request, then execute
+it.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Load a JavaScript file from the server using a GET HTTP request, then execute
+it.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$url</var></dt>
+					<dd><code>string</code><br>$url</dd>
+					<dt><var>$success</var></dt>
+					<dd><code><code><a href="class-PheryFunction.html">PheryFunction</a></code></code><br>$success</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="detach" id="m_detach">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_detach">#</a>
+		<code><a href="source-class-PheryResponse.html#1459" title="Go to source code">detach</a>( )</code>
+
+		<div class="description short">
+			
+<p>Detach a DOM element retaining the events attached to it</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Detach a DOM element retaining the events attached to it</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="prependTo" id="m_prependTo">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_prependTo">#</a>
+		<code><a href="source-class-PheryResponse.html#1460" title="Go to source code">prependTo</a>( <span>string <var>$target</var> = </span> )</code>
+
+		<div class="description short">
+			
+<p>Prepend DOM element to target</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Prepend DOM element to target</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$target</var></dt>
+					<dd><code>string</code><br>$target</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="appendTo" id="m_appendTo">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_appendTo">#</a>
+		<code><a href="source-class-PheryResponse.html#1461" title="Go to source code">appendTo</a>( <span>string <var>$target</var> = </span> )</code>
+
+		<div class="description short">
+			
+<p>Append DOM element to target</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Append DOM element to target</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$target</var></dt>
+					<dd><code>string</code><br>$target</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="replaceWith" id="m_replaceWith">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_replaceWith">#</a>
+		<code><a href="source-class-PheryResponse.html#1462" title="Go to source code">replaceWith</a>( <span>string <var>$newContent</var> = </span> )</code>
+
+		<div class="description short">
+			
+<p>The content to insert. May be an HTML string, DOM element, or jQuery
+object.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>The content to insert. May be an HTML string, DOM element, or jQuery
+object.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$newContent</var></dt>
+					<dd><code>string</code><br>$newContent</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="css" id="m_css">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_css">#</a>
+		<code><a href="source-class-PheryResponse.html#1463" title="Go to source code">css</a>( <span>string <var>$propertyName</var> = </span>, <span>mixed <var>$value</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+<p>propertyName: A CSS property name. value: A value to set for the
+property.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>propertyName: A CSS property name. value: A value to set for the
+property.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$propertyName</var></dt>
+					<dd><code>string</code><br>$propertyName</dd>
+					<dt><var>$value</var></dt>
+					<dd><code>mixed</code><br>$value</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="toggle" id="m_toggle">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_toggle">#</a>
+		<code><a href="source-class-PheryResponse.html#1464" title="Go to source code">toggle</a>( <span>string <var>$speed</var> = </span> )</code>
+
+		<div class="description short">
+			
+<p>Toggle an object visible or hidden, can be animated with 'fast', 'slow',
+'normal'</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Toggle an object visible or hidden, can be animated with 'fast', 'slow',
+'normal'</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$speed</var></dt>
+					<dd><code>string</code><br>$speed</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="hide" id="m_hide">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_hide">#</a>
+		<code><a href="source-class-PheryResponse.html#1465" title="Go to source code">hide</a>( <span>string <var>$speed</var> = <span class="php-num">0</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Hide an object, can be animated with 'fast', 'slow', 'normal'</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Hide an object, can be animated with 'fast', 'slow', 'normal'</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$speed</var></dt>
+					<dd><code>string</code><br>$speed</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="show" id="m_show">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_show">#</a>
+		<code><a href="source-class-PheryResponse.html#1466" title="Go to source code">show</a>( <span>string <var>$speed</var> = <span class="php-num">0</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Show an object, can be animated with 'fast', 'slow', 'normal'</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Show an object, can be animated with 'fast', 'slow', 'normal'</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$speed</var></dt>
+					<dd><code>string</code><br>$speed</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="toggleClass" id="m_toggleClass">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_toggleClass">#</a>
+		<code><a href="source-class-PheryResponse.html#1467" title="Go to source code">toggleClass</a>( <span>string <var>$className</var> = </span> )</code>
+
+		<div class="description short">
+			
+<p>Add/Remove a class from an element</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Add/Remove a class from an element</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$className</var></dt>
+					<dd><code>string</code><br>$className</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="data" id="m_data">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_data">#</a>
+		<code><a href="source-class-PheryResponse.html#1468" title="Go to source code">data</a>( <span>string <var>$name</var> = </span>, <span>mixed <var>$data</var> = </span> )</code>
+
+		<div class="description short">
+			
+<p>Add data to element</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Add data to element</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$name</var></dt>
+					<dd><code>string</code><br>$name</dd>
+					<dt><var>$data</var></dt>
+					<dd><code>mixed</code><br>$data</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="addClass" id="m_addClass">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_addClass">#</a>
+		<code><a href="source-class-PheryResponse.html#1469" title="Go to source code">addClass</a>( <span>string <var>$className</var> = </span> )</code>
+
+		<div class="description short">
+			
+<p>Add a class from an element</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Add a class from an element</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$className</var></dt>
+					<dd><code>string</code><br>$className</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="removeClass" id="m_removeClass">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_removeClass">#</a>
+		<code><a href="source-class-PheryResponse.html#1470" title="Go to source code">removeClass</a>( <span>string <var>$className</var> = </span> )</code>
+
+		<div class="description short">
+			
+<p>Remove a class from an element</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Remove a class from an element</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$className</var></dt>
+					<dd><code>string</code><br>$className</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="animate" id="m_animate">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_animate">#</a>
+		<code><a href="source-class-PheryResponse.html#1471" title="Go to source code">animate</a>( <span>array <var>$prop</var> = </span>, <span>integer <var>$dur</var> = </span>, <span>string <var>$easing</var> = <span class="php-keyword1">null</span></span>, <span><code><a href="class-PheryFunction.html">PheryFunction</a></code> <var>$cb</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Perform a custom animation of a set of CSS properties.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Perform a custom animation of a set of CSS properties.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$prop</var></dt>
+					<dd><code>array</code><br>$prop</dd>
+					<dt><var>$dur</var></dt>
+					<dd><code>integer</code><br>$dur</dd>
+					<dt><var>$easing</var></dt>
+					<dd><code>string</code><br>$easing</dd>
+					<dt><var>$cb</var></dt>
+					<dd><code><code><a href="class-PheryFunction.html">PheryFunction</a></code></code><br>$cb</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="trigger" id="m_trigger">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_trigger">#</a>
+		<code><a href="source-class-PheryResponse.html#1472" title="Go to source code">trigger</a>( <span>string <var>$eventName</var> = </span>, <span>array <var>$args</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Trigger an event</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Trigger an event</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$eventName</var></dt>
+					<dd><code>string</code><br>$eventName</dd>
+					<dt><var>$args</var></dt>
+					<dd><code>array</code><br>$args</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="triggerHandler" id="m_triggerHandler">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_triggerHandler">#</a>
+		<code><a href="source-class-PheryResponse.html#1473" title="Go to source code">triggerHandler</a>( <span>string <var>$eventType</var> = </span>, <span>array <var>$extraParameters</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Execute all handlers attached to an element for an event.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Execute all handlers attached to an element for an event.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$eventType</var></dt>
+					<dd><code>string</code><br>$eventType</dd>
+					<dt><var>$extraParameters</var></dt>
+					<dd><code>array</code><br>$extraParameters</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="fadeIn" id="m_fadeIn">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_fadeIn">#</a>
+		<code><a href="source-class-PheryResponse.html#1474" title="Go to source code">fadeIn</a>( <span>string <var>$speed</var> = </span> )</code>
+
+		<div class="description short">
+			
+<p>Fade in an element</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Fade in an element</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$speed</var></dt>
+					<dd><code>string</code><br>$speed</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="filter" id="m_filter">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_filter">#</a>
+		<code><a href="source-class-PheryResponse.html#1475" title="Go to source code">filter</a>( <span>string <var>$selector</var> = </span> )</code>
+
+		<div class="description short">
+			
+<p>Reduce the set of matched elements to those that match the selector or pass
+the function's test.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Reduce the set of matched elements to those that match the selector or pass
+the function's test.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$selector</var></dt>
+					<dd><code>string</code><br>$selector</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="fadeTo" id="m_fadeTo">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_fadeTo">#</a>
+		<code><a href="source-class-PheryResponse.html#1476" title="Go to source code">fadeTo</a>( <span>integer <var>$dur</var> = </span>, <span>float <var>$opacity</var> = </span> )</code>
+
+		<div class="description short">
+			
+<p>Fade an element to opacity</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Fade an element to opacity</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$dur</var></dt>
+					<dd><code>integer</code><br>$dur</dd>
+					<dt><var>$opacity</var></dt>
+					<dd><code>float</code><br>$opacity</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="fadeOut" id="m_fadeOut">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_fadeOut">#</a>
+		<code><a href="source-class-PheryResponse.html#1477" title="Go to source code">fadeOut</a>( <span>string <var>$speed</var> = </span> )</code>
+
+		<div class="description short">
+			
+<p>Fade out an element</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Fade out an element</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$speed</var></dt>
+					<dd><code>string</code><br>$speed</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="slideUp" id="m_slideUp">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_slideUp">#</a>
+		<code><a href="source-class-PheryResponse.html#1478" title="Go to source code">slideUp</a>( <span>integer <var>$dur</var> = </span>, <span><code><a href="class-PheryFunction.html">PheryFunction</a></code> <var>$cb</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Hide with slide up animation</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Hide with slide up animation</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$dur</var></dt>
+					<dd><code>integer</code><br>$dur</dd>
+					<dt><var>$cb</var></dt>
+					<dd><code><code><a href="class-PheryFunction.html">PheryFunction</a></code></code><br>$cb</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="slideDown" id="m_slideDown">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_slideDown">#</a>
+		<code><a href="source-class-PheryResponse.html#1479" title="Go to source code">slideDown</a>( <span>integer <var>$dur</var> = </span>, <span><code><a href="class-PheryFunction.html">PheryFunction</a></code> <var>$cb</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Show with slide down animation</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Show with slide down animation</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$dur</var></dt>
+					<dd><code>integer</code><br>$dur</dd>
+					<dt><var>$cb</var></dt>
+					<dd><code><code><a href="class-PheryFunction.html">PheryFunction</a></code></code><br>$cb</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="slideToggle" id="m_slideToggle">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_slideToggle">#</a>
+		<code><a href="source-class-PheryResponse.html#1480" title="Go to source code">slideToggle</a>( <span>integer <var>$dur</var> = </span>, <span><code><a href="class-PheryFunction.html">PheryFunction</a></code> <var>$cb</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Toggle show/hide the element, using slide animation</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Toggle show/hide the element, using slide animation</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$dur</var></dt>
+					<dd><code>integer</code><br>$dur</dd>
+					<dt><var>$cb</var></dt>
+					<dd><code><code><a href="class-PheryFunction.html">PheryFunction</a></code></code><br>$cb</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="unbind" id="m_unbind">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_unbind">#</a>
+		<code><a href="source-class-PheryResponse.html#1481" title="Go to source code">unbind</a>( <span>string <var>$name</var> = </span> )</code>
+
+		<div class="description short">
+			
+<p>Unbind an event from an element</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Unbind an event from an element</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$name</var></dt>
+					<dd><code>string</code><br>$name</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="undelegate" id="m_undelegate">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_undelegate">#</a>
+		<code><a href="source-class-PheryResponse.html#1482" title="Go to source code">undelegate</a>( )</code>
+
+		<div class="description short">
+			
+<p>Remove a handler from the event for all elements which match the current
+selector, now or in the future, based upon a specific set of root elements.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Remove a handler from the event for all elements which match the current
+selector, now or in the future, based upon a specific set of root elements.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="stop" id="m_stop">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_stop">#</a>
+		<code><a href="source-class-PheryResponse.html#1483" title="Go to source code">stop</a>( )</code>
+
+		<div class="description short">
+			
+<p>Stop animation on elements</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Stop animation on elements</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="die" id="m_die">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_die">#</a>
+		<code><a href="source-class-PheryResponse.html#1484" title="Go to source code">die</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="val" id="m_val">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_val">#</a>
+		<code><a href="source-class-PheryResponse.html#1485" title="Go to source code">val</a>( <span>string <var>$content</var> = </span> )</code>
+
+		<div class="description short">
+			
+<p>Set the value of an element</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Set the value of an element</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$content</var></dt>
+					<dd><code>string</code><br>$content</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="removeData" id="m_removeData">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_removeData">#</a>
+		<code><a href="source-class-PheryResponse.html#1486" title="Go to source code">removeData</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="removeAttr" id="m_removeAttr">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_removeAttr">#</a>
+		<code><a href="source-class-PheryResponse.html#1487" title="Go to source code">removeAttr</a>( <span>string <var>$name</var> = </span> )</code>
+
+		<div class="description short">
+			
+<p>Remove an attribute from an element</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Remove an attribute from an element</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$name</var></dt>
+					<dd><code>string</code><br>$name</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="scrollTop" id="m_scrollTop">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_scrollTop">#</a>
+		<code><a href="source-class-PheryResponse.html#1488" title="Go to source code">scrollTop</a>( <span>integer <var>$val</var> = </span> )</code>
+
+		<div class="description short">
+			
+<p>Set the scroll from the top</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Set the scroll from the top</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$val</var></dt>
+					<dd><code>integer</code><br>$val</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="scrollLeft" id="m_scrollLeft">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_scrollLeft">#</a>
+		<code><a href="source-class-PheryResponse.html#1489" title="Go to source code">scrollLeft</a>( <span>integer <var>$val</var> = </span> )</code>
+
+		<div class="description short">
+			
+<p>Set the scroll from the left</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Set the scroll from the left</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$val</var></dt>
+					<dd><code>integer</code><br>$val</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="height" id="m_height">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_height">#</a>
+		<code><a href="source-class-PheryResponse.html#1490" title="Go to source code">height</a>( <span>integer <var>$val</var> = </span> )</code>
+
+		<div class="description short">
+			
+<p>Set the height from the left</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Set the height from the left</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$val</var></dt>
+					<dd><code>integer</code><br>$val</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="width" id="m_width">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_width">#</a>
+		<code><a href="source-class-PheryResponse.html#1491" title="Go to source code">width</a>( <span>integer <var>$val</var> = </span> )</code>
+
+		<div class="description short">
+			
+<p>Set the width from the left</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Set the width from the left</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$val</var></dt>
+					<dd><code>integer</code><br>$val</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="slice" id="m_slice">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_slice">#</a>
+		<code><a href="source-class-PheryResponse.html#1492" title="Go to source code">slice</a>( <span>integer <var>$start</var> = </span>, <span>integer <var>$end</var> = </span> )</code>
+
+		<div class="description short">
+			
+<p>Reduce the set of matched elements to a subset specified by a range of
+indices.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Reduce the set of matched elements to a subset specified by a range of
+indices.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$start</var></dt>
+					<dd><code>integer</code><br>$start</dd>
+					<dt><var>$end</var></dt>
+					<dd><code>integer</code><br>$end</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="not" id="m_not">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_not">#</a>
+		<code><a href="source-class-PheryResponse.html#1493" title="Go to source code">not</a>( <span>string <var>$val</var> = </span> )</code>
+
+		<div class="description short">
+			
+<p>Remove elements from the set of matched elements.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Remove elements from the set of matched elements.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$val</var></dt>
+					<dd><code>string</code><br>$val</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="eq" id="m_eq">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_eq">#</a>
+		<code><a href="source-class-PheryResponse.html#1494" title="Go to source code">eq</a>( <span>integer <var>$selector</var> = </span> )</code>
+
+		<div class="description short">
+			
+<p>Reduce the set of matched elements to the one at the specified index.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Reduce the set of matched elements to the one at the specified index.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$selector</var></dt>
+					<dd><code>integer</code><br>$selector</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="offset" id="m_offset">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_offset">#</a>
+		<code><a href="source-class-PheryResponse.html#1495" title="Go to source code">offset</a>( <span>array <var>$coordinates</var> = </span> )</code>
+
+		<div class="description short">
+			
+<p>Set the current coordinates of every element in the set of matched elements,
+relative to the document.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Set the current coordinates of every element in the set of matched elements,
+relative to the document.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$coordinates</var></dt>
+					<dd><code>array</code><br>$coordinates</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="map" id="m_map">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_map">#</a>
+		<code><a href="source-class-PheryResponse.html#1496" title="Go to source code">map</a>( <span><code><a href="class-PheryFunction.html">PheryFunction</a></code> <var>$callback</var> = </span> )</code>
+
+		<div class="description short">
+			
+<p>Pass each element in the current matched set through a function, producing a
+new jQuery object containing the return values.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Pass each element in the current matched set through a function, producing a
+new jQuery object containing the return values.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$callback</var></dt>
+					<dd><code><code><a href="class-PheryFunction.html">PheryFunction</a></code></code><br>$callback</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="children" id="m_children">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_children">#</a>
+		<code><a href="source-class-PheryResponse.html#1497" title="Go to source code">children</a>( <span>string <var>$selector</var> = </span> )</code>
+
+		<div class="description short">
+			
+<p>Get the children of each element in the set of matched elements, optionally
+filtered by a selector.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get the children of each element in the set of matched elements, optionally
+filtered by a selector.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$selector</var></dt>
+					<dd><code>string</code><br>$selector</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="closest" id="m_closest">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_closest">#</a>
+		<code><a href="source-class-PheryResponse.html#1498" title="Go to source code">closest</a>( <span>string <var>$selector</var> = </span> )</code>
+
+		<div class="description short">
+			
+<p>Get the first ancestor element that matches the selector, beginning at the
+current element and progressing up through the DOM tree.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get the first ancestor element that matches the selector, beginning at the
+current element and progressing up through the DOM tree.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$selector</var></dt>
+					<dd><code>string</code><br>$selector</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="find" id="m_find">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_find">#</a>
+		<code><a href="source-class-PheryResponse.html#1499" title="Go to source code">find</a>( <span>string <var>$selector</var> = </span> )</code>
+
+		<div class="description short">
+			
+<p>Get the descendants of each element in the current set of matched elements,
+filtered by a selector, jQuery object, or element.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get the descendants of each element in the current set of matched elements,
+filtered by a selector, jQuery object, or element.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$selector</var></dt>
+					<dd><code>string</code><br>$selector</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="next" id="m_next">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_next">#</a>
+		<code><a href="source-class-PheryResponse.html#1500" title="Go to source code">next</a>( <span>string <var>$selector</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Get the immediately following sibling of each element in the set of matched
+elements, optionally filtered by a selector.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get the immediately following sibling of each element in the set of matched
+elements, optionally filtered by a selector.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$selector</var></dt>
+					<dd><code>string</code><br>$selector</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="nextAll" id="m_nextAll">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_nextAll">#</a>
+		<code><a href="source-class-PheryResponse.html#1501" title="Go to source code">nextAll</a>( <span>string <var>$selector</var> = </span> )</code>
+
+		<div class="description short">
+			
+<p>Get all following siblings of each element in the set of matched elements,
+optionally filtered by a selector.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get all following siblings of each element in the set of matched elements,
+optionally filtered by a selector.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$selector</var></dt>
+					<dd><code>string</code><br>$selector</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="nextUntil" id="m_nextUntil">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_nextUntil">#</a>
+		<code><a href="source-class-PheryResponse.html#1502" title="Go to source code">nextUntil</a>( <span>string <var>$selector</var> = </span> )</code>
+
+		<div class="description short">
+			
+<p>Get all following siblings of each element up to but not including the
+element matched by the selector.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get all following siblings of each element up to but not including the
+element matched by the selector.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$selector</var></dt>
+					<dd><code>string</code><br>$selector</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="parentsUntil" id="m_parentsUntil">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_parentsUntil">#</a>
+		<code><a href="source-class-PheryResponse.html#1503" title="Go to source code">parentsUntil</a>( <span>string <var>$selector</var> = </span> )</code>
+
+		<div class="description short">
+			
+<p>Get the ancestors of each element in the current set of matched elements, up
+to but not including the element matched by the selector.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get the ancestors of each element in the current set of matched elements, up
+to but not including the element matched by the selector.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$selector</var></dt>
+					<dd><code>string</code><br>$selector</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="offsetParent" id="m_offsetParent">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_offsetParent">#</a>
+		<code><a href="source-class-PheryResponse.html#1504" title="Go to source code">offsetParent</a>( )</code>
+
+		<div class="description short">
+			
+<p>Get the closest ancestor element that is positioned.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get the closest ancestor element that is positioned.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="parent" id="m_parent">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_parent">#</a>
+		<code><a href="source-class-PheryResponse.html#1505" title="Go to source code">parent</a>( <span>string <var>$selector</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Get the parent of each element in the current set of matched elements,
+optionally filtered by a selector.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get the parent of each element in the current set of matched elements,
+optionally filtered by a selector.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$selector</var></dt>
+					<dd><code>string</code><br>$selector</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="parents" id="m_parents">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_parents">#</a>
+		<code><a href="source-class-PheryResponse.html#1506" title="Go to source code">parents</a>( <span>string <var>$selector</var> = </span> )</code>
+
+		<div class="description short">
+			
+<p>Get the ancestors of each element in the current set of matched elements,
+optionally filtered by a selector.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get the ancestors of each element in the current set of matched elements,
+optionally filtered by a selector.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$selector</var></dt>
+					<dd><code>string</code><br>$selector</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="prev" id="m_prev">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_prev">#</a>
+		<code><a href="source-class-PheryResponse.html#1507" title="Go to source code">prev</a>( <span>string <var>$selector</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Get the immediately preceding sibling of each element in the set of matched
+elements, optionally filtered by a selector.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get the immediately preceding sibling of each element in the set of matched
+elements, optionally filtered by a selector.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$selector</var></dt>
+					<dd><code>string</code><br>$selector</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="prevAll" id="m_prevAll">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_prevAll">#</a>
+		<code><a href="source-class-PheryResponse.html#1508" title="Go to source code">prevAll</a>( <span>string <var>$selector</var> = </span> )</code>
+
+		<div class="description short">
+			
+<p>Get all preceding siblings of each element in the set of matched elements,
+optionally filtered by a selector.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get all preceding siblings of each element in the set of matched elements,
+optionally filtered by a selector.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$selector</var></dt>
+					<dd><code>string</code><br>$selector</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="prevUntil" id="m_prevUntil">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_prevUntil">#</a>
+		<code><a href="source-class-PheryResponse.html#1509" title="Go to source code">prevUntil</a>( <span>string <var>$selector</var> = </span> )</code>
+
+		<div class="description short">
+			
+<p>Get the ancestors of each element in the current set of matched elements,
+optionally filtered by a selector.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get the ancestors of each element in the current set of matched elements,
+optionally filtered by a selector.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$selector</var></dt>
+					<dd><code>string</code><br>$selector</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="siblings" id="m_siblings">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_siblings">#</a>
+		<code><a href="source-class-PheryResponse.html#1510" title="Go to source code">siblings</a>( <span>string <var>$selector</var> = </span> )</code>
+
+		<div class="description short">
+			
+<p>Get the siblings of each element in the set of matched elements, optionally
+filtered by a selector.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get the siblings of each element in the set of matched elements, optionally
+filtered by a selector.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$selector</var></dt>
+					<dd><code>string</code><br>$selector</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="add" id="m_add">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_add">#</a>
+		<code><a href="source-class-PheryResponse.html#1511" title="Go to source code">add</a>( <span><code><a href="class-PheryResponse.html">PheryResponse</a></code> <var>$selector</var> = </span> )</code>
+
+		<div class="description short">
+			
+<p>Add elements to the set of matched elements.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Add elements to the set of matched elements.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$selector</var></dt>
+					<dd><code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br>$selector</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="andSelf" id="m_andSelf">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_andSelf">#</a>
+		<code><a href="source-class-PheryResponse.html#1512" title="Go to source code">andSelf</a>( )</code>
+
+		<div class="description short">
+			
+<p>Add the previous set of elements on the stack to the current set.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Add the previous set of elements on the stack to the current set.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="contents" id="m_contents">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_contents">#</a>
+		<code><a href="source-class-PheryResponse.html#1513" title="Go to source code">contents</a>( )</code>
+
+		<div class="description short">
+			
+<p>Get the children of each element in the set of matched elements, including
+text nodes.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get the children of each element in the set of matched elements, including
+text nodes.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="end" id="m_end">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_end">#</a>
+		<code><a href="source-class-PheryResponse.html#1514" title="Go to source code">end</a>( )</code>
+
+		<div class="description short">
+			
+<p>End the most recent filtering operation in the current chain and return the
+set of matched elements to its previous state.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>End the most recent filtering operation in the current chain and return the
+set of matched elements to its previous state.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="after" id="m_after">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_after">#</a>
+		<code><a href="source-class-PheryResponse.html#1515" title="Go to source code">after</a>( <span>string <var>$content</var> = </span> )</code>
+
+		<div class="description short">
+			
+<p>Insert content, specified by the parameter, after each element in the set of
+matched elements.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Insert content, specified by the parameter, after each element in the set of
+matched elements.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$content</var></dt>
+					<dd><code>string</code><br>$content</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="before" id="m_before">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_before">#</a>
+		<code><a href="source-class-PheryResponse.html#1516" title="Go to source code">before</a>( <span>string <var>$content</var> = </span> )</code>
+
+		<div class="description short">
+			
+<p>Insert content, specified by the parameter, before each element in the set of
+matched elements.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Insert content, specified by the parameter, before each element in the set of
+matched elements.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$content</var></dt>
+					<dd><code>string</code><br>$content</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="insertAfter" id="m_insertAfter">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_insertAfter">#</a>
+		<code><a href="source-class-PheryResponse.html#1517" title="Go to source code">insertAfter</a>( <span>string <var>$target</var> = </span> )</code>
+
+		<div class="description short">
+			
+<p>Insert every element in the set of matched elements after the target.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Insert every element in the set of matched elements after the target.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$target</var></dt>
+					<dd><code>string</code><br>$target</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="insertBefore" id="m_insertBefore">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_insertBefore">#</a>
+		<code><a href="source-class-PheryResponse.html#1518" title="Go to source code">insertBefore</a>( <span>string <var>$target</var> = </span> )</code>
+
+		<div class="description short">
+			
+<p>Insert every element in the set of matched elements before the target.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Insert every element in the set of matched elements before the target.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$target</var></dt>
+					<dd><code>string</code><br>$target</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="unwrap" id="m_unwrap">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_unwrap">#</a>
+		<code><a href="source-class-PheryResponse.html#1519" title="Go to source code">unwrap</a>( )</code>
+
+		<div class="description short">
+			
+<p>Remove the parents of the set of matched elements from the DOM, leaving the
+matched elements in their place.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Remove the parents of the set of matched elements from the DOM, leaving the
+matched elements in their place.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="wrap" id="m_wrap">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_wrap">#</a>
+		<code><a href="source-class-PheryResponse.html#1520" title="Go to source code">wrap</a>( <span>string <var>$wrappingElement</var> = </span> )</code>
+
+		<div class="description short">
+			
+<p>Wrap an HTML structure around each element in the set of matched
+elements.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Wrap an HTML structure around each element in the set of matched
+elements.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$wrappingElement</var></dt>
+					<dd><code>string</code><br>$wrappingElement</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="wrapAll" id="m_wrapAll">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_wrapAll">#</a>
+		<code><a href="source-class-PheryResponse.html#1521" title="Go to source code">wrapAll</a>( <span>string <var>$wrappingElement</var> = </span> )</code>
+
+		<div class="description short">
+			
+<p>Wrap an HTML structure around all elements in the set of matched
+elements.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Wrap an HTML structure around all elements in the set of matched
+elements.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$wrappingElement</var></dt>
+					<dd><code>string</code><br>$wrappingElement</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="wrapInner" id="m_wrapInner">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_wrapInner">#</a>
+		<code><a href="source-class-PheryResponse.html#1522" title="Go to source code">wrapInner</a>( <span>string <var>$wrappingElement</var> = </span> )</code>
+
+		<div class="description short">
+			
+<p>Wrap an HTML structure around the content of each element in the set of
+matched elements.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Wrap an HTML structure around the content of each element in the set of
+matched elements.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$wrappingElement</var></dt>
+					<dd><code>string</code><br>$wrappingElement</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="delegate" id="m_delegate">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_delegate">#</a>
+		<code><a href="source-class-PheryResponse.html#1523" title="Go to source code">delegate</a>( <span>string <var>$selector</var> = </span>, <span>string <var>$eventType</var> = </span>, <span><code><a href="class-PheryFunction.html">PheryFunction</a></code> <var>$handler</var> = </span> )</code>
+
+		<div class="description short">
+			
+<p>Attach a handler to one or more events for all elements that match the
+selector, now or in the future, based on a specific set of root elements.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Attach a handler to one or more events for all elements that match the
+selector, now or in the future, based on a specific set of root elements.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$selector</var></dt>
+					<dd><code>string</code><br>$selector</dd>
+					<dt><var>$eventType</var></dt>
+					<dd><code>string</code><br>$eventType</dd>
+					<dt><var>$handler</var></dt>
+					<dd><code><code><a href="class-PheryFunction.html">PheryFunction</a></code></code><br>$handler</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="live" id="m_live">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_live">#</a>
+		<code><a href="source-class-PheryResponse.html#1524" title="Go to source code">live</a>( <span>string <var>$eventType</var> = </span>, <span><code><a href="class-PheryFunction.html">PheryFunction</a></code> <var>$handler</var> = </span> )</code>
+
+		<div class="description short">
+			
+<p>Attach a handler to the event for all elements which match the current
+selector, now or in the future.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Attach a handler to the event for all elements which match the current
+selector, now or in the future.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$eventType</var></dt>
+					<dd><code>string</code><br>$eventType</dd>
+					<dt><var>$handler</var></dt>
+					<dd><code><code><a href="class-PheryFunction.html">PheryFunction</a></code></code><br>$handler</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="one" id="m_one">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_one">#</a>
+		<code><a href="source-class-PheryResponse.html#1525" title="Go to source code">one</a>( <span>string <var>$eventType</var> = </span>, <span><code><a href="class-PheryFunction.html">PheryFunction</a></code> <var>$handler</var> = </span> )</code>
+
+		<div class="description short">
+			
+<p>Attach a handler to an event for the elements. The handler is executed at
+most once per element.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Attach a handler to an event for the elements. The handler is executed at
+most once per element.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$eventType</var></dt>
+					<dd><code>string</code><br>$eventType</dd>
+					<dt><var>$handler</var></dt>
+					<dd><code><code><a href="class-PheryFunction.html">PheryFunction</a></code></code><br>$handler</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="bind" id="m_bind">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_bind">#</a>
+		<code><a href="source-class-PheryResponse.html#1526" title="Go to source code">bind</a>( <span>string <var>$eventType</var> = </span>, <span><code><a href="class-PheryFunction.html">PheryFunction</a></code> <var>$handler</var> = </span> )</code>
+
+		<div class="description short">
+			
+<p>Attach a handler to an event for the elements.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Attach a handler to an event for the elements.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$eventType</var></dt>
+					<dd><code>string</code><br>$eventType</dd>
+					<dt><var>$handler</var></dt>
+					<dd><code><code><a href="class-PheryFunction.html">PheryFunction</a></code></code><br>$handler</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="each" id="m_each">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_each">#</a>
+		<code><a href="source-class-PheryResponse.html#1527" title="Go to source code">each</a>( <span><code><a href="class-PheryFunction.html">PheryFunction</a></code> <var>$function</var> = </span> )</code>
+
+		<div class="description short">
+			
+<p>Iterate over a jQ object, executing a function for each matched element.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Iterate over a jQ object, executing a function for each matched element.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$function</var></dt>
+					<dd><code><code><a href="class-PheryFunction.html">PheryFunction</a></code></code><br>$function</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="phery" id="m_phery">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#m_phery">#</a>
+		<code><a href="source-class-PheryResponse.html#1528" title="Go to source code">phery</a>( <span>string <var>$function</var> = <span class="php-keyword1">null</span></span>, <span>array <var>$args</var> = <span class="php-keyword1">null</span>) Access the phery() on the select element(s</span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$function</var></dt>
+					<dd><code>string</code><br>$function</dd>
+					<dt><var>$args</var></dt>
+					<dd><code>array</code><br>$args</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+	<table class="summary inherited">
+	<caption>Constants inherited from ArrayObject</caption>
+	<tr>
+		<td><code>
+<b>ARRAY_AS_PROPS</b>, 
+<b>STD_PROP_LIST</b>
+		</code></td>
+	</tr>
+	</table>
+
+
+
+	<table class="summary" id="properties">
+	<caption>Properties summary</caption>
+	<tr data-order="responses" id="$responses">
+		<td class="attributes"><code>
+			protected static 
+			<code><a href="class-PheryResponse.html">PheryResponse</a>[]</code>
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-PheryResponse.html#1533-1537" title="Go to source code"><var>$responses</var></a>
+		</td>
+		<td class="value"><code><span class="php-keyword1">array</span>()</code></td>
+		<td class="description"><div>
+			<a href="#$responses" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>All responses that were created in the run, access them through their
+name</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>All responses that were created in the run, access them through their
+name</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="global" id="$global">
+		<td class="attributes"><code>
+			protected static 
+			array
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-PheryResponse.html#1538-1542" title="Go to source code"><var>$global</var></a>
+		</td>
+		<td class="value"><code><span class="php-keyword1">array</span>()</code></td>
+		<td class="description"><div>
+			<a href="#$global" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>Common data available to all responses</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Common data available to all responses</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="last_selector" id="$last_selector">
+		<td class="attributes"><code>
+			protected  
+			string
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-PheryResponse.html#1543-1547" title="Go to source code"><var>$last_selector</var></a>
+		</td>
+		<td class="value"><code><span class="php-keyword1">null</span></code></td>
+		<td class="description"><div>
+			<a href="#$last_selector" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>Last jQuery selector defined</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Last jQuery selector defined</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="data" id="$data">
+		<td class="attributes"><code>
+			protected  
+			array
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-PheryResponse.html#1548-1552" title="Go to source code"><var>$data</var></a>
+		</td>
+		<td class="value"><code><span class="php-keyword1">array</span>()</code></td>
+		<td class="description"><div>
+			<a href="#$data" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>Array containing answer data</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Array containing answer data</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="merged" id="$merged">
+		<td class="attributes"><code>
+			protected  
+			array
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-PheryResponse.html#1553-1557" title="Go to source code"><var>$merged</var></a>
+		</td>
+		<td class="value"><code><span class="php-keyword1">array</span>()</code></td>
+		<td class="description"><div>
+			<a href="#$merged" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>Array containing merged data</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Array containing merged data</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="name" id="$name">
+		<td class="attributes"><code>
+			protected  
+			string
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-PheryResponse.html#1558-1562" title="Go to source code"><var>$name</var></a>
+		</td>
+		<td class="value"><code><span class="php-keyword1">null</span></code></td>
+		<td class="description"><div>
+			<a href="#$name" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>Name of the current response</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Name of the current response</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		Phery API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
+	</div>
+</div>
+</div>
+</body>
+</html>

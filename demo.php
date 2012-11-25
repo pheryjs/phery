@@ -1649,7 +1649,7 @@ function memusage(peak, usage, time) {
  * 'all' on 'submit' will submit every field, even checkboxes that are not checked
  * 'disabled' on 'submit' will submit fields that are disabled
  */
-echo Phery::form_for('', 'form', array('id' => 'testform', 'submit' => array('disabled' => false, 'all' => false), 'args' => array('whadyousay' => 'OH YEAH')));
+echo Phery::form_for('', 'form', array('id' => 'testform', 'submit' => array('disabled' => false, 'all' => false), 'related' => '#unob_form', 'args' => array('whadyousay' => 'OH YEAH')));
 ?>
 <fieldset>
 	<label for="first_name">First Name:</label>

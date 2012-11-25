@@ -1,0 +1,2075 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="generator" content="ApiGen 2.8.0" />
+
+	<title>Class Phery | Phery</title>
+
+	<script type="text/javascript" src="resources/combined.js?3294260260"></script>
+	<script type="text/javascript" src="elementlist.js?1787287492"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360" />
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', "UA-10569443-14"]);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+			<h3>Packages</h3>
+			<ul>
+				<li class="active"><a href="package-Phery.html">Phery</a>
+						</li>
+			</ul>
+		</div>
+
+		<hr />
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li class="active"><a href="class-Phery.html">Phery</a></li>
+				<li><a href="class-PheryFunction.html">PheryFunction</a></li>
+				<li><a href="class-PheryResponse.html">PheryResponse</a></li>
+			</ul>
+
+
+
+			<h3>Exceptions</h3>
+			<ul>
+				<li><a href="class-PheryException.html">PheryException</a></li>
+			</ul>
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="" />
+		<input type="hidden" name="ie" value="UTF-8" />
+		<input type="text" name="q" class="text" />
+		<input type="submit" value="Search" />
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="package-Phery.html" title="Summary of Phery"><span>Package</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class Phery</h1>
+
+
+	<div class="description">
+	
+<p>Main class for Phery</p>
+
+	</div>
+
+	<dl class="tree">
+		<dd style="padding-left:0px">
+<b><span>Phery</span></b>			
+			 implements 
+<span>ArrayAccess</span>
+			
+			
+		</dd>
+	</dl>
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		
+		<b>Package:</b> <a href="package-Phery.html">Phery</a><br />
+
+				<b>License:</b>
+				<a href="http://opensource.org/licenses/MIT">MIT License</a><br />
+				<b>Author:</b>
+				Paulo Cesar<br />
+		<b>Located at</b> <a href="source-class-Phery.html#32-1447" title="Go to source code">Phery.php</a><br />
+	</div>
+
+
+
+	<table class="summary" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="__construct" id="___construct">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___construct">#</a>
+		<code><a href="source-class-Phery.html#122-146" title="Go to source code">__construct</a>( <span>array <var>$config</var> = <span class="php-keyword1">array</span>()</span> )</code>
+
+		<div class="description short">
+			
+<p>Construct the new Phery instance</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Construct the new Phery instance</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$config</var></dt>
+					<dd><code>array</code><br>$config Config array</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="callback" id="_callback">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-Phery.html">Phery</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_callback">#</a>
+		<code><a href="source-class-Phery.html#148-265" title="Go to source code">callback</a>( <span>array <var>$callbacks</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Set callbacks for before and after filters. Callbacks are useful for example,
+if you have 2 or more AJAX functions, and you need to perform the same data
+manipulation, like removing an 'id' from the $_POST['args'], or to check for
+potential CSRF or SQL injection attempts on all the functions, clean data or
+perform START TRANSACTION for database, etc</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Set callbacks for before and after filters. Callbacks are useful for example,
+if you have 2 or more AJAX functions, and you need to perform the same data
+manipulation, like removing an 'id' from the $_POST['args'], or to check for
+potential CSRF or SQL injection attempts on all the functions, clean data or
+perform START TRANSACTION for database, etc</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$callbacks</var></dt>
+					<dd><code>array</code><br>$callbacks The callbacks
+<pre>
+array(
+
+    // Set a function to be called BEFORE
+    // processing the request, if it's an
+    // AJAX to be processed request, can be
+    // an array of callbacks
+
+    'before' =&gt; array|function,
+
+    // Set a function to be called AFTER
+    // processing the request, if it's an AJAX
+    // processed request, can be an array of
+    // callbacks
+
+    'after' =&gt; array|function
+);
+</pre>
+ The callback function should be
+<pre>
+
+// $additional_args is passed using the callback_data() function,
+// in this case, a before callback
+
+function before_callback($ajax_data, $internal_data){
+  // Do stuff
+  $_POST['args']['id'] = $additional_args['id'];
+  return true;
+}
+
+// after callback would be to save the data perhaps? Just to keep the code D.R.Y.
+
+function after_callback($ajax_data, $internal_data, $PheryResponse){
+  $this-&gt;database-&gt;save();
+  $PheryResponse-&gt;merge(PheryResponse::factory('#loading')-&gt;fadeOut());
+  return true;
+}
+</pre>
+ Returning false on the callback will make the process() phase to RETURN, but
+won't exit. You may manually exit on the after callback if desired Any data that
+should be modified will be inside $_POST['args'] (can be accessed freely on
+'before', will be passed to the AJAX function)</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-Phery.html">Phery</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="exception" id="_exception">
+
+		<td class="attributes"><code>
+			 protected static
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_exception">#</a>
+		<code><a href="source-class-Phery.html#267-285" title="Go to source code">exception</a>( <span><code><a href="class-Phery.html">Phery</a></code> <var>$phery</var></span>, <span>string <var>$exception</var></span>, <span>integer <var>$code</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Throw an exception if enabled</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Throw an exception if enabled</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$phery</var></dt>
+					<dd><code><code><a href="class-Phery.html">Phery</a></code></code><br>$phery Instance</dd>
+					<dt><var>$exception</var></dt>
+					<dd><code>string</code><br>$exception</dd>
+					<dt><var>$code</var></dt>
+					<dd><code>integer</code><br>$code</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>boolean</code><br />
+				</div>
+
+				<h4>Throws</h4>
+				<div class="list">
+					<code><code><a href="class-PheryException.html">PheryException</a></code></code><br />
+				</div>
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="data" id="_data">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-Phery.html">Phery</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_data">#</a>
+		<code><a href="source-class-Phery.html#289-311" title="Go to source code">data</a>( <span>mixed <var>$args</var>,…</span> )</code>
+
+		<div class="description short">
+			
+<p>Set any data to pass to the callbacks</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Set any data to pass to the callbacks</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$args</var>,…</dt>
+					<dd><code>mixed</code><br>$args,... Parameters, can be anything</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-Phery.html">Phery</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="args" id="_args">
+
+		<td class="attributes"><code>
+			 public static
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_args">#</a>
+		<code><a href="source-class-Phery.html#313-324" title="Go to source code">args</a>( <span>array <var>$data</var></span>, <span>string <var>$encoding</var> = <span class="php-quote">'UTF-8'</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Encode PHP code to put inside data-args, usually for updating the data
+there</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Encode PHP code to put inside data-args, usually for updating the data
+there</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$data</var></dt>
+					<dd><code>array</code><br>$data Any data that can be converted using json_encode</dd>
+					<dt><var>$encoding</var></dt>
+					<dd><code>string</code><br>$encoding Encoding for the arguments</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br>Return json_encode'd and htmlentities'd string<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="csrf" id="_csrf">
+
+		<td class="attributes"><code>
+			 public 
+			string|boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_csrf">#</a>
+		<code><a href="source-class-Phery.html#326-361" title="Go to source code">csrf</a>( <span>boolean <var>$check</var> = <span class="php-keyword1">false</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Output the meta HTML with the token. This method needs to use sessions
+through session_start</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Output the meta HTML with the token. This method needs to use sessions
+through session_start</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$check</var></dt>
+					<dd><code>boolean</code><br>$check Check if the current token is valid</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string|boolean</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="is_ajax" id="_is_ajax">
+
+		<td class="attributes"><code>
+			 public static
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_is_ajax">#</a>
+		<code><a href="source-class-Phery.html#363-385" title="Go to source code">is_ajax</a>( <span>boolean <var>$is_phery</var> = <span class="php-keyword1">false</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Check if the current call is an ajax call</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Check if the current call is an ajax call</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$is_phery</var></dt>
+					<dd><code>boolean</code><br>$is_phery Check if is an ajax call and a phery specific call</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>boolean</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="answer_for" id="_answer_for">
+
+		<td class="attributes"><code>
+			 public 
+			mixed
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_answer_for">#</a>
+		<code><a href="source-class-Phery.html#411-427" title="Go to source code">answer_for</a>( <span>string <var>$alias</var></span>, <span>mixed <var>$default</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Return the data associatated with a processed POST call</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Return the data associatated with a processed POST call</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$alias</var></dt>
+					<dd><code>string</code><br>$alias The name of the alias for the process function</dd>
+					<dt><var>$default</var></dt>
+					<dd><code>mixed</code><br>$default Any data that should be returned if there's no answer, defaults to null</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>mixed</code><br>Return $default if no data available, defaults to NULL<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="error_handler" id="_error_handler">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_error_handler">#</a>
+		<code><a href="source-class-Phery.html#429-449" title="Go to source code">error_handler</a>( <span>integer <var>$errno</var></span>, <span>string <var>$errstr</var></span>, <span>string <var>$errfile</var></span>, <span>integer <var>$errline</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Default error handler</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Default error handler</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$errno</var></dt>
+					<dd><code>integer</code><br>$errno</dd>
+					<dt><var>$errstr</var></dt>
+					<dd><code>string</code><br>$errstr</dd>
+					<dt><var>$errfile</var></dt>
+					<dd><code>string</code><br>$errfile</dd>
+					<dt><var>$errline</var></dt>
+					<dd><code>integer</code><br>$errline</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="shutdown_handler" id="_shutdown_handler">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_shutdown_handler">#</a>
+		<code><a href="source-class-Phery.html#451-482" title="Go to source code">shutdown_handler</a>( <span>boolean <var>$compressed</var> = <span class="php-keyword1">false</span></span>, <span>boolean <var>$errors</var> = <span class="php-keyword1">false</span></span>, <span>boolean <var>$handled</var> = <span class="php-keyword1">false</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Default shutdown handler</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Default shutdown handler</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$compressed</var></dt>
+					<dd><code>boolean</code><br>$compressed</dd>
+					<dt><var>$errors</var></dt>
+					<dd><code>boolean</code><br>$errors</dd>
+					<dt><var>$handled</var></dt>
+					<dd><code>boolean</code><br>$handled</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="respond" id="_respond">
+
+		<td class="attributes"><code>
+			 public static
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_respond">#</a>
+		<code><a href="source-class-Phery.html#484-530" title="Go to source code">respond</a>( <span>string|<code><a href="class-PheryResponse.html">PheryResponse</a></code> <var>$response</var></span>, <span>boolean <var>$compress</var> = <span class="php-keyword1">false</span></span>, <span>string <var>$name</var> = <span class="php-quote">''</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Helper function to properly output the headers for a PheryResponse in case
+you need to manually return it (like when following a redirect)</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Helper function to properly output the headers for a PheryResponse in case
+you need to manually return it (like when following a redirect)</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$response</var></dt>
+					<dd><code>string|<code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br>$response The response or a string</dd>
+					<dt><var>$compress</var></dt>
+					<dd><code>boolean</code><br>$compress Either to compress the response or not</dd>
+					<dt><var>$name</var></dt>
+					<dd><code>string</code><br>$name This parameter can be ignored</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="views" id="_views">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-Phery.html">Phery</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_views">#</a>
+		<code><a href="source-class-Phery.html#532-569" title="Go to source code">views</a>( <span>array <var>$views</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Set the callback for view portions, as defined in Phery.view()</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Set the callback for view portions, as defined in Phery.view()</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$views</var></dt>
+					<dd><code>array</code><br>$views Array consisting of array('#id_of_view' =&gt; callback) The callback is
+like a normal phery callback, but the second parameter receives different data.
+But it MUST always return a PheryResponse with render_view(). You can do any
+manipulation like you would in regular callbacks. If you want to manipulate the
+DOM AFTER it was rendered, do it javascript side, using the afterHtml callback
+when setting up the views.
+<pre>
+Phery::instance()-&gt;views(array(
+    '#container' =&gt; function($data, $params){
+         return
+             PheryResponse::factory()
+             -&gt;render_view('html', array('extra data like titles, menus, etc'));
+     }
+));
+</pre>
+</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-Phery.html">Phery</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="before_user_func" id="_before_user_func">
+
+		<td class="attributes"><code>
+			 protected 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_before_user_func">#</a>
+		<code><a href="source-class-Phery.html#571-594" title="Go to source code">before_user_func</a>( )</code>
+
+		<div class="description short">
+			
+<p>Initialize stuff before calling the AJAX function</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Initialize stuff before calling the AJAX function</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="process" id="_process">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_process">#</a>
+		<code><a href="source-class-Phery.html#787-813" title="Go to source code">process</a>( <span>boolean <var>$last_call</var> = <span class="php-keyword1">true</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Process the AJAX requests if any</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Process the AJAX requests if any</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$last_call</var></dt>
+					<dd><code>boolean</code><br>$last_call Set this to false if any other further calls to process() will
+happen, otherwise it will exit</dd>
+				</dl></div>
+
+
+				<h4>Throws</h4>
+				<div class="list">
+					<code><code><a href="class-PheryException.html">PheryException</a></code></code><br />
+				</div>
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="config" id="_config">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-Phery.html">Phery</a></code>|string|array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_config">#</a>
+		<code><a href="source-class-Phery.html#815-931" title="Go to source code">config</a>( <span>string|array <var>$config</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Config the current instance of Phery <code> array(<br />
+// Defaults to true, stop further script execution<br />
+'exit_allowed' =&gt; true|false,</code></p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Config the current instance of Phery</p>
+
+<pre>
+<span class="php-keyword1">array</span>(
+    <span
+class="php-comment">// Defaults to true, stop further script execution</span>
+    <span
+class="php-quote">'exit_allowed'</span> =&gt; <span
+class="php-keyword1">true</span>|<span class="php-keyword1">false</span>,
+
+<span
+class="php-comment">// Don't apply stripslashes on the args</span>
+    <span
+class="php-quote">'no_stripslashes'</span> =&gt; <span
+class="php-keyword1">true</span>|<span
+class="php-keyword1">false</span>,
+
+    <span
+class="php-comment">// Throw exceptions on errors</span>
+    <span
+class="php-quote">'exceptions'</span> =&gt; <span
+class="php-keyword1">true</span>|<span
+class="php-keyword1">false</span>,
+
+    <span
+class="php-comment">// Set the functions that will be called even if is a</span>
+    <span
+class="php-comment">// POST but not an AJAX call</span>
+    <span
+class="php-quote">'respond_to_post'</span> =&gt; <span
+class="php-keyword1">array</span>(<span
+class="php-quote">'function-alias-1'</span>,<span
+class="php-quote">'function-alias-2'</span>),
+
+    <span
+class="php-comment">// Enable/disable GZIP/DEFLATE compression, depending on the browser support.</span>
+    <span
+class="php-comment">// Don't enable it if you are using Apache DEFLATE/GZIP, or zlib.output_compression</span>
+    <span
+class="php-comment">// Most of the time, compression will hide exceptions, because it will output plain</span>
+    <span
+class="php-comment">// text while the content-type is gzip</span>
+    <span
+class="php-quote">'compress'</span> =&gt; <span
+class="php-keyword1">true</span>|<span
+class="php-keyword1">false</span>,
+
+    <span
+class="php-comment">// Error reporting temporarily using error_reporting(). 'false' disables</span>
+    <span
+class="php-comment">// the error_reporting and wont try to catch any error.</span>
+    <span
+class="php-comment">// Anything else than false will throw a PheryResponse-&gt;exception() with</span>
+    <span
+class="php-comment">// the message</span>
+    <span
+class="php-quote">'error_reporting'</span> =&gt; <span
+class="php-keyword1">false</span>|E_ALL|E_DEPRECATED|...
+
+);
+</pre>
+
+<p>If you pass a string, it will return the current config for the key specified
+Anything else, will output the current config as associative array</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$config</var></dt>
+					<dd><code>string|array</code><br>$config Associative array containing the following options</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-Phery.html">Phery</a></code>|string|array</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="instance" id="_instance">
+
+		<td class="attributes"><code>
+			 public static
+			<code><a href="class-Phery.html">Phery</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_instance">#</a>
+		<code><a href="source-class-Phery.html#933-955" title="Go to source code">instance</a>( <span>array <var>$config</var> = <span class="php-keyword1">array</span>()</span> )</code>
+
+		<div class="description short">
+			
+<p>Generates just one instance. Useful to use in many included files.
+Chainable</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Generates just one instance. Useful to use in many included files.
+Chainable</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$config</var></dt>
+					<dd><code>array</code><br>$config Associative config array</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-Phery.html">Phery</a></code></code><br />
+				</div>
+
+
+				<h4>See</h4>
+				<div class="list">
+						<code><code><a href="class-Phery.html#___construct">Phery::__construct()</a></code></code><br />
+						<code><code><a href="class-Phery.html#_config">Phery::config()</a></code></code><br />
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="set" id="_set">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-Phery.html">Phery</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_set">#</a>
+		<code><a href="source-class-Phery.html#957-1021" title="Go to source code">set</a>( <span>array <var>$functions</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Sets the functions to respond to the ajax call. For security reasons, these
+functions should not be reacheable through POST/GET requests. These will be set
+only for AJAX requests as it will only be called in case of an ajax request, to
+save resources.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Sets the functions to respond to the ajax call. For security reasons, these
+functions should not be reacheable through POST/GET requests. These will be set
+only for AJAX requests as it will only be called in case of an ajax request, to
+save resources.</p>
+
+<p>The answer/process function, should have the following structure:</p>
+
+<pre>
+<span class="php-keyword1">function</span> func(<span
+class="php-var">$ajax_data</span>, <span
+class="php-var">$callback_data</span>, <span
+class="php-var">$phery</span>){
+  <span class="php-var">$r</span> = <span
+class="php-keyword1">new</span> PheryResponse; <span
+class="php-comment">// or PheryResponse::factory();</span>
+
+  <span
+class="php-comment">// Sometimes the $callback_data will have an item called 'submit_id',</span>
+  <span
+class="php-comment">// is the ID of the calling DOM element.</span>
+  <span
+class="php-comment">// if (isset($callback_data['submit_id'])) {  }</span>
+  <span
+class="php-comment">// $phery will be the current phery instance that called this callback</span>
+
+  <span
+class="php-var">$r</span>-&gt;jquery(<span
+class="php-quote">'#id'</span>)-&gt;animate(...);
+  <span
+class="php-keyword1">return</span> <span class="php-var">$r</span>;
+}
+</pre>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$functions</var></dt>
+					<dd><code>array</code><br>$functions An array of functions to register to the instance.
+<pre>
+array(
+  'function1' =&gt; 'function',
+  'function2' =&gt; array($this, 'method'),
+  'function3' =&gt; 'StaticClass::name',
+  'function4' =&gt; array(new ClassName, 'method')
+);
+</pre>
+</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-Phery.html">Phery</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="factory" id="_factory">
+
+		<td class="attributes"><code>
+			 public static
+			<code><a href="class-Phery.html">Phery</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_factory">#</a>
+		<code><a href="source-class-Phery.html#1023-1035" title="Go to source code">factory</a>( <span>array <var>$config</var> = <span class="php-keyword1">array</span>()</span> )</code>
+
+		<div class="description short">
+			
+<p>Create a new instance of Phery that can be chained, without the need of
+assigning it to a variable</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Create a new instance of Phery that can be chained, without the need of
+assigning it to a variable</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$config</var></dt>
+					<dd><code>array</code><br>$config Associative config array</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-Phery.html">Phery</a></code></code><br />
+				</div>
+
+
+				<h4>See</h4>
+				<div class="list">
+						<code><code><a href="class-Phery.html#_config">Phery::config()</a></code></code><br />
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="common_check" id="_common_check">
+
+		<td class="attributes"><code>
+			 protected static
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_common_check">#</a>
+		<code><a href="source-class-Phery.html#1037-1094" title="Go to source code">common_check</a>( <span>array <var>&amp; $attributes</var></span>, <span>boolean <var>$include_method</var> = <span class="php-keyword1">true</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Common check for all static factories</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Common check for all static factories</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$attributes</var></dt>
+					<dd><code>array</code><br>$attributes</dd>
+					<dt><var>$include_method</var></dt>
+					<dd><code>boolean</code><br>$include_method</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="link_to" id="_link_to">
+
+		<td class="attributes"><code>
+			 public static
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_link_to">#</a>
+		<code><a href="source-class-Phery.html#1096-1184" title="Go to source code">link_to</a>( <span>string <var>$content</var></span>, <span>string <var>$function</var></span>, <span>array <var>$attributes</var> = <span class="php-keyword1">array</span>()</span>, <span><code><a href="class-Phery.html">Phery</a></code> <var>$phery</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Helper function that generates an ajax link, defaults to "A" tag</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Helper function that generates an ajax link, defaults to "A" tag</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$content</var></dt>
+					<dd><code>string</code><br>$content The content of the link. This is ignored for self closing tags, img,
+input, iframe</dd>
+					<dt><var>$function</var></dt>
+					<dd><code>string</code><br>$function The PHP function assigned name on Phery::set()</dd>
+					<dt><var>$attributes</var></dt>
+					<dd><code>array</code><br>$attributes Extra attributes that can be passed to the link, like class, style,
+etc
+<pre>
+array(
+    // Display confirmation on click
+    'confirm' =&gt; 'Are you sure?',
+
+    // The tag for the item, defaults to a. If the tag is set to img, the
+    // 'src' must be set in attributes parameter
+    'tag' =&gt; 'a',
+
+    // Define another URI for the AJAX call, this defines the HREF of A
+    'href' =&gt; '/path/to/url',
+
+    // Extra arguments to pass to the AJAX function, will be stored
+    // in the data-args attribute as a JSON notation
+    'args' =&gt; array(1, "a"),
+
+    // Set the "href" attribute for non-anchor (a) AJAX tags (like buttons or spans).
+    // Works for A links too, but it won't function without javascript, through data-target
+    'target' =&gt; '/default/ajax/controller',
+
+    // Define the data-type for the communication
+    'data-type' =&gt; 'json',
+
+    // Enable clicking on structural HTML, like DIV, HEADER, HGROUP, etc
+    'clickable' =&gt; 'true',
+
+    // Set the encoding of the data, defaults to UTF-8
+    'encoding' =&gt; 'UTF-8',
+
+    // Set the method (for restful responses)
+    'method' =&gt; 'PUT'
+);
+</pre>
+</dd>
+					<dt><var>$phery</var></dt>
+					<dd><code><code><a href="class-Phery.html">Phery</a></code></code><br>$phery Pass the current instance of phery, so it can check if the functions are
+defined, and throw exceptions</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br>The mounted HTML tag<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="form_for" id="_form_for">
+
+		<td class="attributes"><code>
+			 public static
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_form_for">#</a>
+		<code><a href="source-class-Phery.html#1186-1246" title="Go to source code">form_for</a>( <span>string <var>$action</var></span>, <span>string <var>$function</var></span>, <span>array <var>$attributes</var> = <span class="php-keyword1">array</span>()</span>, <span><code><a href="class-Phery.html">Phery</a></code> <var>$phery</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Create a &lt;form&gt; tag with ajax enabled. Must be closed manually with
+&lt;/form&gt;</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Create a &lt;form&gt; tag with ajax enabled. Must be closed manually with
+&lt;/form&gt;</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$action</var></dt>
+					<dd><code>string</code><br>$action where to go, can be empty</dd>
+					<dt><var>$function</var></dt>
+					<dd><code>string</code><br>$function Registered function name</dd>
+					<dt><var>$attributes</var></dt>
+					<dd><code>array</code><br>$attributes Configuration of the element plus any HTML attributes
+<pre>
+array(
+    //Confirmation dialog
+    'confirm' =&gt; 'Are you sure?',
+
+    // Type of call, defaults to JSON (to use PheryResponse)
+    'data-type' =&gt; 'json',
+
+    // 'all' submits all elements on the form, even empty ones
+    // 'disabled' enables submitting disabled elements
+    'submit' =&gt; array('all' =&gt; true, 'disabled' =&gt; true),
+
+    // Set the encoding of the data, defaults to UTF-8
+    'encoding' =&gt; 'UTF-8',
+);
+</pre>
+</dd>
+					<dt><var>$phery</var></dt>
+					<dd><code><code><a href="class-Phery.html">Phery</a></code></code><br>$phery Pass the current instance of phery, so it can check if the functions are
+defined, and throw exceptions</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br>The mounted &lt;form&gt; HTML tag<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="select_for" id="_select_for">
+
+		<td class="attributes"><code>
+			 public static
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_select_for">#</a>
+		<code><a href="source-class-Phery.html#1248-1343" title="Go to source code">select_for</a>( <span>string <var>$function</var></span>, <span>array <var>$items</var></span>, <span>array <var>$attributes</var> = <span class="php-keyword1">array</span>()</span>, <span><code><a href="class-Phery.html">Phery</a></code> <var>$phery</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Create a &lt;select&gt; element with ajax enabled "onchange" event.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Create a &lt;select&gt; element with ajax enabled "onchange" event.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$function</var></dt>
+					<dd><code>string</code><br>$function Registered function name</dd>
+					<dt><var>$items</var></dt>
+					<dd><code>array</code><br>$items Options for the select, 'value' =&gt; 'text' representation</dd>
+					<dt><var>$attributes</var></dt>
+					<dd><code>array</code><br>$attributes Configuration of the element plus any HTML attributes
+<pre>
+array(
+    // Confirmation dialog
+    'confirm' =&gt; 'Are you sure?',
+
+    // Type of call, defaults to JSON (to use PheryResponse)
+    'data-type' =&gt; 'json',
+
+    // The URL where it should call, translates to data-target
+    'target' =&gt; '/path/to/php',
+
+    // Extra arguments to pass to the AJAX function, will be stored
+    // in the args attribute as a JSON notation, translates to data-args
+    'args' =&gt; array(1, "a"),
+
+    // Set the encoding of the data, defaults to UTF-8
+    'encoding' =&gt; 'UTF-8',
+
+    // The current selected value, or array(1,2) for multiple
+    'selected' =&gt; 1
+
+    // Set the method (for restful responses)
+    'method' =&gt; 'PUT'
+);
+</pre>
+</dd>
+					<dt><var>$phery</var></dt>
+					<dd><code><code><a href="class-Phery.html">Phery</a></code></code><br>$phery Pass the current instance of phery, so it can check if the functions are
+defined, and throw exceptions</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br>The mounted &lt;select&gt; with &lt;option&gt;s inside<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="offsetExists" id="_offsetExists">
+
+		<td class="attributes"><code>
+			 public 
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_offsetExists">#</a>
+		<code><a href="source-class-Phery.html#1345-1355" title="Go to source code">offsetExists</a>( <span>mixed <var>$offset</var></span> )</code>
+
+		<div class="description short">
+			
+<p>OffsetExists</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>OffsetExists</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$offset</var></dt>
+					<dd><code>mixed</code><br>$offset</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>boolean</code><br />
+				</div>
+
+
+
+
+				<h4>Implementation of</h4>
+				<div class="list"><code>ArrayAccess::offsetExists()</code></div>
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="offsetUnset" id="_offsetUnset">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_offsetUnset">#</a>
+		<code><a href="source-class-Phery.html#1357-1368" title="Go to source code">offsetUnset</a>( <span>mixed <var>$offset</var></span> )</code>
+
+		<div class="description short">
+			
+<p>OffsetUnset</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>OffsetUnset</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$offset</var></dt>
+					<dd><code>mixed</code><br>$offset</dd>
+				</dl></div>
+
+
+
+
+
+				<h4>Implementation of</h4>
+				<div class="list"><code>ArrayAccess::offsetUnset()</code></div>
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="offsetGet" id="_offsetGet">
+
+		<td class="attributes"><code>
+			 public 
+			mixed|null
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_offsetGet">#</a>
+		<code><a href="source-class-Phery.html#1370-1385" title="Go to source code">offsetGet</a>( <span>mixed <var>$offset</var></span> )</code>
+
+		<div class="description short">
+			
+<p>OffsetGet</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>OffsetGet</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$offset</var></dt>
+					<dd><code>mixed</code><br>$offset</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>mixed|null</code><br />
+				</div>
+
+
+
+
+				<h4>Implementation of</h4>
+				<div class="list"><code>ArrayAccess::offsetGet()</code></div>
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="offsetSet" id="_offsetSet">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_offsetSet">#</a>
+		<code><a href="source-class-Phery.html#1387-1396" title="Go to source code">offsetSet</a>( <span>mixed <var>$offset</var></span>, <span>mixed <var>$value</var></span> )</code>
+
+		<div class="description short">
+			
+<p>offsetSet</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>offsetSet</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$offset</var></dt>
+					<dd><code>mixed</code><br>$offset</dd>
+					<dt><var>$value</var></dt>
+					<dd><code>mixed</code><br>$value</dd>
+				</dl></div>
+
+
+
+
+
+				<h4>Implementation of</h4>
+				<div class="list"><code>ArrayAccess::offsetSet()</code></div>
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="__set" id="___set">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___set">#</a>
+		<code><a href="source-class-Phery.html#1398-1406" title="Go to source code">__set</a>( <span>string <var>$name</var></span>, <span>mixed <var>$value</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Set shared data</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Set shared data</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$name</var></dt>
+					<dd><code>string</code><br>$name</dd>
+					<dt><var>$value</var></dt>
+					<dd><code>mixed</code><br>$value</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="__get" id="___get">
+
+		<td class="attributes"><code>
+			 public 
+			mixed
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___get">#</a>
+		<code><a href="source-class-Phery.html#1408-1423" title="Go to source code">__get</a>( <span>string <var>$name</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Get shared data</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get shared data</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$name</var></dt>
+					<dd><code>string</code><br>$name</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>mixed</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="coalesce" id="_coalesce">
+
+		<td class="attributes"><code>
+			 public static
+			mixed
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_coalesce">#</a>
+		<code><a href="source-class-Phery.html#1425-1446" title="Go to source code">coalesce</a>( <span>mixed <var>$args</var>,…</span> )</code>
+
+		<div class="description short">
+			
+<p>Utility function taken from MYSQL. To not raise any E_NOTICES (if enabled in
+your error reporting), call it with @ before the variables. Eg.:
+Phery::coalesce(@$var1, @$var['asdf']);</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Utility function taken from MYSQL. To not raise any E_NOTICES (if enabled in
+your error reporting), call it with @ before the variables. Eg.:
+Phery::coalesce(@$var1, @$var['asdf']);</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$args</var>,…</dt>
+					<dd><code>mixed</code><br>$args,... Any number of arguments</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>mixed</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+	<table class="summary" id="constants">
+	<caption>Constants summary</caption>
+	<tr data-order="ERROR_CALLBACK" id="ERROR_CALLBACK">
+
+		<td class="attributes"><code>integer</code></td>
+		<td class="name"><code>
+				<a href="source-class-Phery.html#39-43" title="Go to source code"><b>ERROR_CALLBACK</b></a>
+		</code></td>
+		<td class="value"><code><span class="php-num">0</span></code></td>
+		<td class="description"><div>
+			<a href="#ERROR_CALLBACK" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>Exception on callback() function</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Exception on callback() function</p>
+
+
+					<h4>See</h4>
+					<div class="list">
+							<code><code><a href="class-Phery.html#_callback">Phery::callback()</a></code></code><br />
+					</div>
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="ERROR_PROCESS" id="ERROR_PROCESS">
+
+		<td class="attributes"><code>integer</code></td>
+		<td class="name"><code>
+				<a href="source-class-Phery.html#44-48" title="Go to source code"><b>ERROR_PROCESS</b></a>
+		</code></td>
+		<td class="value"><code><span class="php-num">1</span></code></td>
+		<td class="description"><div>
+			<a href="#ERROR_PROCESS" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>Exception on process() function</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Exception on process() function</p>
+
+
+					<h4>See</h4>
+					<div class="list">
+							<code><code><a href="class-Phery.html#_process">Phery::process()</a></code></code><br />
+					</div>
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="ERROR_SET" id="ERROR_SET">
+
+		<td class="attributes"><code>integer</code></td>
+		<td class="name"><code>
+				<a href="source-class-Phery.html#49-53" title="Go to source code"><b>ERROR_SET</b></a>
+		</code></td>
+		<td class="value"><code><span class="php-num">2</span></code></td>
+		<td class="description"><div>
+			<a href="#ERROR_SET" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>Exception on set() function</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Exception on set() function</p>
+
+
+					<h4>See</h4>
+					<div class="list">
+							<code><code><a href="class-Phery.html#_set">Phery::set()</a></code></code><br />
+					</div>
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="ERROR_CSRF" id="ERROR_CSRF">
+
+		<td class="attributes"><code>integer</code></td>
+		<td class="name"><code>
+				<a href="source-class-Phery.html#54-58" title="Go to source code"><b>ERROR_CSRF</b></a>
+		</code></td>
+		<td class="value"><code><span class="php-num">4</span></code></td>
+		<td class="description"><div>
+			<a href="#ERROR_CSRF" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>Exception when the CSRF is invalid</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Exception when the CSRF is invalid</p>
+
+
+					<h4>See</h4>
+					<div class="list">
+							<code><code><a href="class-Phery.html#_process">Phery::process()</a></code></code><br />
+					</div>
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="ERROR_TO" id="ERROR_TO">
+
+		<td class="attributes"><code>integer</code></td>
+		<td class="name"><code>
+				<a href="source-class-Phery.html#59-65" title="Go to source code"><b>ERROR_TO</b></a>
+		</code></td>
+		<td class="value"><code><span class="php-num">3</span></code></td>
+		<td class="description"><div>
+			<a href="#ERROR_TO" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>Exception on static functions</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Exception on static functions</p>
+
+
+					<h4>See</h4>
+					<div class="list">
+							<code><code><a href="class-Phery.html#_link_to">Phery::link_to()</a></code></code><br />
+							<code><code><a href="class-Phery.html#_select_for">Phery::select_for()</a></code></code><br />
+							<code><code><a href="class-Phery.html#_form_for">Phery::form_for()</a></code></code><br />
+					</div>
+			</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+	<table class="summary" id="properties">
+	<caption>Properties summary</caption>
+	<tr data-order="functions" id="$functions">
+		<td class="attributes"><code>
+			protected  
+			array
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-Phery.html#67-71" title="Go to source code"><var>$functions</var></a>
+		</td>
+		<td class="value"><code><span class="php-keyword1">array</span>()</code></td>
+		<td class="description"><div>
+			<a href="#$functions" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>The functions registered</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>The functions registered</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="callbacks" id="$callbacks">
+		<td class="attributes"><code>
+			protected  
+			array
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-Phery.html#72-76" title="Go to source code"><var>$callbacks</var></a>
+		</td>
+		<td class="value"><code><span class="php-keyword1">array</span>()</code></td>
+		<td class="description"><div>
+			<a href="#$callbacks" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>The callbacks registered</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>The callbacks registered</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="data" id="$data">
+		<td class="attributes"><code>
+			protected  
+			array
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-Phery.html#77-81" title="Go to source code"><var>$data</var></a>
+		</td>
+		<td class="value"><code><span class="php-keyword1">array</span>()</code></td>
+		<td class="description"><div>
+			<a href="#$data" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>The callback data to be passed to callbacks and responses</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>The callback data to be passed to callbacks and responses</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="instance" id="$instance">
+		<td class="attributes"><code>
+			protected static 
+			<code><a href="class-Phery.html">Phery</a></code>
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-Phery.html#82-87" title="Go to source code"><var>$instance</var></a>
+		</td>
+		<td class="value"><code><span class="php-keyword1">null</span></code></td>
+		<td class="description"><div>
+			<a href="#$instance" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>Static instance for singleton</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Static instance for singleton</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="respond_to_post" id="$respond_to_post">
+		<td class="attributes"><code>
+			protected  
+			array
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-Phery.html#88-93" title="Go to source code"><var>$respond_to_post</var></a>
+		</td>
+		<td class="value"><code><span class="php-keyword1">array</span>()</code></td>
+		<td class="description"><div>
+			<a href="#$respond_to_post" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>Will call the functions defined in this variable even if it wasn't sent by
+AJAX, use it wisely. (good for SEO though?)</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Will call the functions defined in this variable even if it wasn't sent by
+AJAX, use it wisely. (good for SEO though?)</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="answers" id="$answers">
+		<td class="attributes"><code>
+			protected  
+			array
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-Phery.html#94-99" title="Go to source code"><var>$answers</var></a>
+		</td>
+		<td class="value"><code><span class="php-keyword1">array</span>()</code></td>
+		<td class="description"><div>
+			<a href="#$answers" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>Hold the answers for answer_for function</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Hold the answers for answer_for function</p>
+
+
+					<h4>See</h4>
+					<div class="list">
+							<code><code><a href="class-Phery.html#_answer_for">Phery::answer_for()</a></code></code><br />
+					</div>
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="views" id="$views">
+		<td class="attributes"><code>
+			protected  
+			array
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-Phery.html#100-104" title="Go to source code"><var>$views</var></a>
+		</td>
+		<td class="value"><code><span class="php-keyword1">array</span>()</code></td>
+		<td class="description"><div>
+			<a href="#$views" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>Render view function</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Render view function</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="config" id="$config">
+		<td class="attributes"><code>
+			protected  
+			array
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-Phery.html#105-120" title="Go to source code"><var>$config</var></a>
+		</td>
+		<td class="value"><code><span class="php-keyword1">array</span>()</code></td>
+		<td class="description"><div>
+			<a href="#$config" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>Config</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Config</p>
+
+<pre>
+<span class="php-quote">'exit_allowed'</span> (boolean)
+<span
+class="php-quote">'no_stripslashes'</span> (boolean)
+<span
+class="php-quote">'exceptions'</span> (boolean)
+<span
+class="php-quote">'respond_to_post'</span> (<span
+class="php-keyword1">array</span>)
+<span
+class="php-quote">'compress'</span> (boolean)
+<span
+class="php-quote">'csrf'</span> (boolean)
+</pre>
+
+
+					<h4>See</h4>
+					<div class="list">
+							<code><code><a href="class-Phery.html#_config">Phery::config()</a></code></code><br />
+					</div>
+			</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		Phery API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
+	</div>
+</div>
+</div>
+</body>
+</html>
