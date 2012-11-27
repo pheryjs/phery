@@ -1,3 +1,6 @@
+### v2.2.3 - 27th November 2012
+    * Small fix in the Javascript code, that won't try to process non-PheryResponse returns
+
 ### v2.2.2 - 25th November 2012
     * Fixed data-related for forms
     * Added include_stylesheet and include_script shortcuts in PheryResponse to automatically add scripts and stylesheets to the page head

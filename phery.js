@@ -51,7 +51,7 @@
 		},
 		/**
 		 * @class
-		 * @version 2.2.2
+		 * @version 2.2.3
 		 */
 		phery = window.phery = window.phery || {};
 
@@ -888,6 +888,11 @@
 	function processRequest(data) {
 		/*jshint validthis:true */
 		if (!this.data('remote.phery') && !this.data('view.phery')) {
+			triggerPheryEvent(this, 'after', []);
+			return;
+		}
+
+		if (Object.toType(data) !== 'object') {
 			triggerPheryEvent(this, 'after', []);
 			return;
 		}

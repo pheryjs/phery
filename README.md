@@ -792,7 +792,7 @@ phery.config('debug.display.config', true);
 * `enable.log_history` (true / false, defaults to false): keep the log of errors  that can be accessed through `phery.log()`
 * `enable.php_string_callbacks` (true / false, defaults to false): jQuery functions like `animate` or `each` that take callbacks, can have the callback defined as a string inside PHP if this is enabled.
 * `enable.per_element.events` (true / false, defaults to true): enable `phery:*` events on each element
-* `enable.clickable_structure` (true / false, defaults to false): enable clicking on HTML structural elements, like DIV, HTML, etc. They are disabled by default, but can be enabled per element using `data-clickable="1"` or simply `data-clickable=""`
+* `enable.clickable_structure` (true / false, defaults to false): enable clicking on HTML structural elements, like DIV, HTML, etc. They are disabled by default, but can be enabled per element using `data-clickable="1"`
 
 ### Debugging
 

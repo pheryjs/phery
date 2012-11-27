@@ -1473,6 +1473,9 @@ function memusage(peak, usage, time) {
 	</li>
 	<li>
 		<h2>Show a colorbox with dynamic content (the logic is reversed, it isnt the colorbox that calls the AJAX, its the AJAX that shows the colorbox)</h2>
+		<p>
+			Needs to place "colorbox/colorbox/jquery.colorbox-min.js" and "colorbox/example1/colorbox.css" for this to work
+		</p>
 		<a id="colorbox-btn">Colorbox!</a>	<a data-remote="colorbox" data-args="<?php echo Phery::args(array('other-way-around' => true)) ?>">Colorbox! (add this parent &lt;li&gt; inside the colorbox using this and the links still works as it should)</a>
 		<div class="readcode">
 			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 751, 'to' => 776))); ?>

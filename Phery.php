@@ -25,7 +25,7 @@
  *
  * @link       http://phery-php-ajax.net/
  * @author     Paulo Cesar
- * @version    2.2.2
+ * @version    2.2.3
  * @license    http://opensource.org/licenses/MIT MIT License
  */
 
@@ -1070,7 +1070,7 @@ class Phery implements ArrayAccess {
 
 		if (isset($attributes['clickable']))
 		{
-			$attributes['data-clickable'] = "";
+			$attributes['data-clickable'] = "1";
 			unset($attributes['clickable']);
 		}
 
