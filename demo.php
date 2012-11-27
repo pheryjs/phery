@@ -24,10 +24,10 @@ PheryResponse::factory()
 ->css('cursor', 'pointer')
 ->css('border', 'solid 3px #000')
 ->one('click', PheryFunction::factory(array(
-		'function(){',
+		//'function(){',
 			'var $this = $(this);',
 			'$(this).fadeOut("slow").promise().done(function(){ $this.remove(); });',
-		'}'
+		//'}'
 	)
 ))
 ->prependTo('body')

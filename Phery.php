@@ -2679,13 +2679,16 @@ class PheryFunction {
 
 	/**
 	 * Sets new raw parameter to be passed, that will be eval'ed.
+	 * If you don't pass the function(){ } it will be appended
 	 *
 	 * <code>
 	 * $raw = new PheryFunction('function($val){ return $val; }');
+	 * // or
+	 * $raw = new PheryFunction('alert("done");'); // turns into function(){ alert("done"); }
 	 * </code>
 	 *
 	 * @param   string|array  $value      Raw function string. If you pass an array,
-	 *                                    it will be joined with a line break
+	 *                                    it will be joined with a line feed \n
 	 * @param   array         $parameters You can pass parameters that will be replaced
 	 *                                    in the $value when compiling
 	 */
@@ -2702,6 +2705,12 @@ class PheryFunction {
 			{
 				$this->value = $value;
 			}
+
+			if (!preg_match('/^function/i', $this->value))
+			{
+				$this->value = 'function(){' . $this->value . '}';
+			}
+
 			$this->parameters = $parameters;
 		}
 	}

@@ -117,7 +117,7 @@
 </span></span><span id="25" class="l"><a class="l" href="#25">  25: </a><span class="php-comment"> *
 </span></span><span id="26" class="l"><a class="l" href="#26">  26: </a><span class="php-comment"> * @link       http://phery-php-ajax.net/
 </span></span><span id="27" class="l"><a class="l" href="#27">  27: </a><span class="php-comment"> * @author     Paulo Cesar
-</span></span><span id="28" class="l"><a class="l" href="#28">  28: </a><span class="php-comment"> * @version    2.2.2
+</span></span><span id="28" class="l"><a class="l" href="#28">  28: </a><span class="php-comment"> * @version    2.2.3
 </span></span><span id="29" class="l"><a class="l" href="#29">  29: </a><span class="php-comment"> * @license    http://opensource.org/licenses/MIT MIT License
 </span></span><span id="30" class="l"><a class="l" href="#30">  30: </a><span class="php-comment"> */</span>
 </span><span id="31" class="l"><a class="l" href="#31">  31: </a>
@@ -1162,7 +1162,7 @@
 </span><span id="1070" class="l"><a class="l" href="#1070">1070: </a>
 </span><span id="1071" class="l"><a class="l" href="#1071">1071: </a>        <span class="php-keyword1">if</span> (<span class="php-keyword1">isset</span>(<span class="php-var">$attributes</span>[<span class="php-quote">'clickable'</span>]))
 </span><span id="1072" class="l"><a class="l" href="#1072">1072: </a>        {
-</span><span id="1073" class="l"><a class="l" href="#1073">1073: </a>            <span class="php-var">$attributes</span>[<span class="php-quote">'data-clickable'</span>] = <span class="php-quote">&quot;&quot;</span>;
+</span><span id="1073" class="l"><a class="l" href="#1073">1073: </a>            <span class="php-var">$attributes</span>[<span class="php-quote">'data-clickable'</span>] = <span class="php-quote">&quot;1&quot;</span>;
 </span><span id="1074" class="l"><a class="l" href="#1074">1074: </a>            <span class="php-keyword1">unset</span>(<span class="php-var">$attributes</span>[<span class="php-quote">'clickable'</span>]);
 </span><span id="1075" class="l"><a class="l" href="#1075">1075: </a>        }
 </span><span id="1076" class="l"><a class="l" href="#1076">1076: </a>
@@ -2771,139 +2771,148 @@
 </span><span id="2679" class="l"><a class="l" href="#2679">2679: </a>
 </span><span id="2680" class="l"><a class="l" href="#2680">2680: </a>    <span class="php-comment">/**
 </span></span><span id="2681" class="l"><a class="l" href="#2681">2681: </a><span class="php-comment">     * Sets new raw parameter to be passed, that will be eval'ed.
-</span></span><span id="2682" class="l"><a class="l" href="#2682">2682: </a><span class="php-comment">     *
-</span></span><span id="2683" class="l"><a class="l" href="#2683">2683: </a><span class="php-comment">     * &lt;code&gt;
-</span></span><span id="2684" class="l"><a class="l" href="#2684">2684: </a><span class="php-comment">     * $raw = new PheryFunction('function($val){ return $val; }');
-</span></span><span id="2685" class="l"><a class="l" href="#2685">2685: </a><span class="php-comment">     * &lt;/code&gt;
-</span></span><span id="2686" class="l"><a class="l" href="#2686">2686: </a><span class="php-comment">     *
-</span></span><span id="2687" class="l"><a class="l" href="#2687">2687: </a><span class="php-comment">     * @param   string|array  $value      Raw function string. If you pass an array,
-</span></span><span id="2688" class="l"><a class="l" href="#2688">2688: </a><span class="php-comment">     *                                    it will be joined with a line break
-</span></span><span id="2689" class="l"><a class="l" href="#2689">2689: </a><span class="php-comment">     * @param   array         $parameters You can pass parameters that will be replaced
-</span></span><span id="2690" class="l"><a class="l" href="#2690">2690: </a><span class="php-comment">     *                                    in the $value when compiling
-</span></span><span id="2691" class="l"><a class="l" href="#2691">2691: </a><span class="php-comment">     */</span>
-</span><span id="2692" class="l"><a class="l" href="#2692">2692: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="___construct" href="#___construct">__construct</a>(<span class="php-var">$value</span>, <span class="php-var">$parameters</span> = <span class="php-keyword1">array</span>())
-</span><span id="2693" class="l"><a class="l" href="#2693">2693: </a>    {
-</span><span id="2694" class="l"><a class="l" href="#2694">2694: </a>        <span class="php-keyword1">if</span> (!<span class="php-keyword1">empty</span>(<span class="php-var">$value</span>))
-</span><span id="2695" class="l"><a class="l" href="#2695">2695: </a>        {
-</span><span id="2696" class="l"><a class="l" href="#2696">2696: </a>            <span class="php-comment">// Set the expression string</span>
-</span><span id="2697" class="l"><a class="l" href="#2697">2697: </a>            <span class="php-keyword1">if</span> (<span class="php-keyword2">is_array</span>(<span class="php-var">$value</span>))
-</span><span id="2698" class="l"><a class="l" href="#2698">2698: </a>            {
-</span><span id="2699" class="l"><a class="l" href="#2699">2699: </a>                <span class="php-var">$this</span>-&gt;value = <span class="php-keyword2">join</span>(<span class="php-quote">&quot;\n&quot;</span>, <span class="php-var">$value</span>);
-</span><span id="2700" class="l"><a class="l" href="#2700">2700: </a>            }
-</span><span id="2701" class="l"><a class="l" href="#2701">2701: </a>            <span class="php-keyword1">elseif</span> (<span class="php-keyword2">is_string</span>(<span class="php-var">$value</span>))
-</span><span id="2702" class="l"><a class="l" href="#2702">2702: </a>            {
-</span><span id="2703" class="l"><a class="l" href="#2703">2703: </a>                <span class="php-var">$this</span>-&gt;value = <span class="php-var">$value</span>;
-</span><span id="2704" class="l"><a class="l" href="#2704">2704: </a>            }
-</span><span id="2705" class="l"><a class="l" href="#2705">2705: </a>            <span class="php-var">$this</span>-&gt;parameters = <span class="php-var">$parameters</span>;
-</span><span id="2706" class="l"><a class="l" href="#2706">2706: </a>        }
-</span><span id="2707" class="l"><a class="l" href="#2707">2707: </a>    }
+</span></span><span id="2682" class="l"><a class="l" href="#2682">2682: </a><span class="php-comment">     * If you don't pass the function(){ } it will be appended
+</span></span><span id="2683" class="l"><a class="l" href="#2683">2683: </a><span class="php-comment">     *
+</span></span><span id="2684" class="l"><a class="l" href="#2684">2684: </a><span class="php-comment">     * &lt;code&gt;
+</span></span><span id="2685" class="l"><a class="l" href="#2685">2685: </a><span class="php-comment">     * $raw = new PheryFunction('function($val){ return $val; }');
+</span></span><span id="2686" class="l"><a class="l" href="#2686">2686: </a><span class="php-comment">     * // or
+</span></span><span id="2687" class="l"><a class="l" href="#2687">2687: </a><span class="php-comment">     * $raw = new PheryFunction('alert(&quot;done&quot;);'); // turns into function(){ alert(&quot;done&quot;); }
+</span></span><span id="2688" class="l"><a class="l" href="#2688">2688: </a><span class="php-comment">     * &lt;/code&gt;
+</span></span><span id="2689" class="l"><a class="l" href="#2689">2689: </a><span class="php-comment">     *
+</span></span><span id="2690" class="l"><a class="l" href="#2690">2690: </a><span class="php-comment">     * @param   string|array  $value      Raw function string. If you pass an array,
+</span></span><span id="2691" class="l"><a class="l" href="#2691">2691: </a><span class="php-comment">     *                                    it will be joined with a line feed \n
+</span></span><span id="2692" class="l"><a class="l" href="#2692">2692: </a><span class="php-comment">     * @param   array         $parameters You can pass parameters that will be replaced
+</span></span><span id="2693" class="l"><a class="l" href="#2693">2693: </a><span class="php-comment">     *                                    in the $value when compiling
+</span></span><span id="2694" class="l"><a class="l" href="#2694">2694: </a><span class="php-comment">     */</span>
+</span><span id="2695" class="l"><a class="l" href="#2695">2695: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="___construct" href="#___construct">__construct</a>(<span class="php-var">$value</span>, <span class="php-var">$parameters</span> = <span class="php-keyword1">array</span>())
+</span><span id="2696" class="l"><a class="l" href="#2696">2696: </a>    {
+</span><span id="2697" class="l"><a class="l" href="#2697">2697: </a>        <span class="php-keyword1">if</span> (!<span class="php-keyword1">empty</span>(<span class="php-var">$value</span>))
+</span><span id="2698" class="l"><a class="l" href="#2698">2698: </a>        {
+</span><span id="2699" class="l"><a class="l" href="#2699">2699: </a>            <span class="php-comment">// Set the expression string</span>
+</span><span id="2700" class="l"><a class="l" href="#2700">2700: </a>            <span class="php-keyword1">if</span> (<span class="php-keyword2">is_array</span>(<span class="php-var">$value</span>))
+</span><span id="2701" class="l"><a class="l" href="#2701">2701: </a>            {
+</span><span id="2702" class="l"><a class="l" href="#2702">2702: </a>                <span class="php-var">$this</span>-&gt;value = <span class="php-keyword2">join</span>(<span class="php-quote">&quot;\n&quot;</span>, <span class="php-var">$value</span>);
+</span><span id="2703" class="l"><a class="l" href="#2703">2703: </a>            }
+</span><span id="2704" class="l"><a class="l" href="#2704">2704: </a>            <span class="php-keyword1">elseif</span> (<span class="php-keyword2">is_string</span>(<span class="php-var">$value</span>))
+</span><span id="2705" class="l"><a class="l" href="#2705">2705: </a>            {
+</span><span id="2706" class="l"><a class="l" href="#2706">2706: </a>                <span class="php-var">$this</span>-&gt;value = <span class="php-var">$value</span>;
+</span><span id="2707" class="l"><a class="l" href="#2707">2707: </a>            }
 </span><span id="2708" class="l"><a class="l" href="#2708">2708: </a>
-</span><span id="2709" class="l"><a class="l" href="#2709">2709: </a>    <span class="php-comment">/**
-</span></span><span id="2710" class="l"><a class="l" href="#2710">2710: </a><span class="php-comment">     * Bind a variable to a parameter.
-</span></span><span id="2711" class="l"><a class="l" href="#2711">2711: </a><span class="php-comment">     *
-</span></span><span id="2712" class="l"><a class="l" href="#2712">2712: </a><span class="php-comment">     * @param   string  $param  parameter key to replace
-</span></span><span id="2713" class="l"><a class="l" href="#2713">2713: </a><span class="php-comment">     * @param   mixed   $var    variable to use
-</span></span><span id="2714" class="l"><a class="l" href="#2714">2714: </a><span class="php-comment">     * @return  PheryFunction
-</span></span><span id="2715" class="l"><a class="l" href="#2715">2715: </a><span class="php-comment">     */</span>
-</span><span id="2716" class="l"><a class="l" href="#2716">2716: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_bind" href="#_bind">bind</a>(<span class="php-var">$param</span>, &amp; <span class="php-var">$var</span>)
-</span><span id="2717" class="l"><a class="l" href="#2717">2717: </a>    {
-</span><span id="2718" class="l"><a class="l" href="#2718">2718: </a>        <span class="php-var">$this</span>-&gt;parameters[<span class="php-var">$param</span>] =&amp; <span class="php-var">$var</span>;
-</span><span id="2719" class="l"><a class="l" href="#2719">2719: </a>
-</span><span id="2720" class="l"><a class="l" href="#2720">2720: </a>        <span class="php-keyword1">return</span> <span class="php-var">$this</span>;
-</span><span id="2721" class="l"><a class="l" href="#2721">2721: </a>    }
-</span><span id="2722" class="l"><a class="l" href="#2722">2722: </a>
-</span><span id="2723" class="l"><a class="l" href="#2723">2723: </a>    <span class="php-comment">/**
-</span></span><span id="2724" class="l"><a class="l" href="#2724">2724: </a><span class="php-comment">     * Set the value of a parameter.
-</span></span><span id="2725" class="l"><a class="l" href="#2725">2725: </a><span class="php-comment">     *
-</span></span><span id="2726" class="l"><a class="l" href="#2726">2726: </a><span class="php-comment">     * @param   string  $param  parameter key to replace
-</span></span><span id="2727" class="l"><a class="l" href="#2727">2727: </a><span class="php-comment">     * @param   mixed   $value  value to use
-</span></span><span id="2728" class="l"><a class="l" href="#2728">2728: </a><span class="php-comment">     * @return  PheryFunction
-</span></span><span id="2729" class="l"><a class="l" href="#2729">2729: </a><span class="php-comment">     */</span>
-</span><span id="2730" class="l"><a class="l" href="#2730">2730: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_param" href="#_param">param</a>(<span class="php-var">$param</span>, <span class="php-var">$value</span>)
-</span><span id="2731" class="l"><a class="l" href="#2731">2731: </a>    {
-</span><span id="2732" class="l"><a class="l" href="#2732">2732: </a>        <span class="php-var">$this</span>-&gt;parameters[<span class="php-var">$param</span>] = <span class="php-var">$value</span>;
-</span><span id="2733" class="l"><a class="l" href="#2733">2733: </a>
-</span><span id="2734" class="l"><a class="l" href="#2734">2734: </a>        <span class="php-keyword1">return</span> <span class="php-var">$this</span>;
-</span><span id="2735" class="l"><a class="l" href="#2735">2735: </a>    }
-</span><span id="2736" class="l"><a class="l" href="#2736">2736: </a>
-</span><span id="2737" class="l"><a class="l" href="#2737">2737: </a>    <span class="php-comment">/**
-</span></span><span id="2738" class="l"><a class="l" href="#2738">2738: </a><span class="php-comment">     * Add multiple parameter values.
-</span></span><span id="2739" class="l"><a class="l" href="#2739">2739: </a><span class="php-comment">     *
-</span></span><span id="2740" class="l"><a class="l" href="#2740">2740: </a><span class="php-comment">     * @param   array   $params list of parameter values
-</span></span><span id="2741" class="l"><a class="l" href="#2741">2741: </a><span class="php-comment">     * @return  PheryFunction
-</span></span><span id="2742" class="l"><a class="l" href="#2742">2742: </a><span class="php-comment">     */</span>
-</span><span id="2743" class="l"><a class="l" href="#2743">2743: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_parameters" href="#_parameters">parameters</a>(<span class="php-keyword1">array</span> <span class="php-var">$params</span>)
-</span><span id="2744" class="l"><a class="l" href="#2744">2744: </a>    {
-</span><span id="2745" class="l"><a class="l" href="#2745">2745: </a>        <span class="php-var">$this</span>-&gt;parameters = <span class="php-var">$params</span> + <span class="php-var">$this</span>-&gt;parameters;
-</span><span id="2746" class="l"><a class="l" href="#2746">2746: </a>
-</span><span id="2747" class="l"><a class="l" href="#2747">2747: </a>        <span class="php-keyword1">return</span> <span class="php-var">$this</span>;
-</span><span id="2748" class="l"><a class="l" href="#2748">2748: </a>    }
-</span><span id="2749" class="l"><a class="l" href="#2749">2749: </a>
-</span><span id="2750" class="l"><a class="l" href="#2750">2750: </a>    <span class="php-comment">/**
-</span></span><span id="2751" class="l"><a class="l" href="#2751">2751: </a><span class="php-comment">     * Get the value as a string.
-</span></span><span id="2752" class="l"><a class="l" href="#2752">2752: </a><span class="php-comment">     *
-</span></span><span id="2753" class="l"><a class="l" href="#2753">2753: </a><span class="php-comment">     * @return  string
-</span></span><span id="2754" class="l"><a class="l" href="#2754">2754: </a><span class="php-comment">     */</span>
-</span><span id="2755" class="l"><a class="l" href="#2755">2755: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_value" href="#_value">value</a>()
-</span><span id="2756" class="l"><a class="l" href="#2756">2756: </a>    {
-</span><span id="2757" class="l"><a class="l" href="#2757">2757: </a>        <span class="php-keyword1">return</span> (string) <span class="php-var">$this</span>-&gt;value;
-</span><span id="2758" class="l"><a class="l" href="#2758">2758: </a>    }
-</span><span id="2759" class="l"><a class="l" href="#2759">2759: </a>
-</span><span id="2760" class="l"><a class="l" href="#2760">2760: </a>    <span class="php-comment">/**
-</span></span><span id="2761" class="l"><a class="l" href="#2761">2761: </a><span class="php-comment">     * Return the value of the expression as a string.
-</span></span><span id="2762" class="l"><a class="l" href="#2762">2762: </a><span class="php-comment">     *
-</span></span><span id="2763" class="l"><a class="l" href="#2763">2763: </a><span class="php-comment">     * &lt;code&gt;
-</span></span><span id="2764" class="l"><a class="l" href="#2764">2764: </a><span class="php-comment">     *     echo $expression;
-</span></span><span id="2765" class="l"><a class="l" href="#2765">2765: </a><span class="php-comment">     * &lt;/code&gt;
-</span></span><span id="2766" class="l"><a class="l" href="#2766">2766: </a><span class="php-comment">     *
-</span></span><span id="2767" class="l"><a class="l" href="#2767">2767: </a><span class="php-comment">     * @return  string
-</span></span><span id="2768" class="l"><a class="l" href="#2768">2768: </a><span class="php-comment">     */</span>
-</span><span id="2769" class="l"><a class="l" href="#2769">2769: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="___toString" href="#___toString">__toString</a>()
-</span><span id="2770" class="l"><a class="l" href="#2770">2770: </a>    {
-</span><span id="2771" class="l"><a class="l" href="#2771">2771: </a>        <span class="php-keyword1">return</span> <span class="php-var">$this</span>-&gt;value();
-</span><span id="2772" class="l"><a class="l" href="#2772">2772: </a>    }
-</span><span id="2773" class="l"><a class="l" href="#2773">2773: </a>
-</span><span id="2774" class="l"><a class="l" href="#2774">2774: </a>    <span class="php-comment">/**
-</span></span><span id="2775" class="l"><a class="l" href="#2775">2775: </a><span class="php-comment">     * Compile function and return it. Replaces any parameters with
-</span></span><span id="2776" class="l"><a class="l" href="#2776">2776: </a><span class="php-comment">     * their given values.
-</span></span><span id="2777" class="l"><a class="l" href="#2777">2777: </a><span class="php-comment">     *
-</span></span><span id="2778" class="l"><a class="l" href="#2778">2778: </a><span class="php-comment">     * @return  string
-</span></span><span id="2779" class="l"><a class="l" href="#2779">2779: </a><span class="php-comment">     */</span>
-</span><span id="2780" class="l"><a class="l" href="#2780">2780: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_compile" href="#_compile">compile</a>()
-</span><span id="2781" class="l"><a class="l" href="#2781">2781: </a>    {
-</span><span id="2782" class="l"><a class="l" href="#2782">2782: </a>        <span class="php-var">$value</span> = <span class="php-var">$this</span>-&gt;value();
-</span><span id="2783" class="l"><a class="l" href="#2783">2783: </a>
-</span><span id="2784" class="l"><a class="l" href="#2784">2784: </a>        <span class="php-keyword1">if</span> ( ! <span class="php-keyword1">empty</span>(<span class="php-var">$this</span>-&gt;parameters))
-</span><span id="2785" class="l"><a class="l" href="#2785">2785: </a>        {
-</span><span id="2786" class="l"><a class="l" href="#2786">2786: </a>            <span class="php-var">$params</span> = <span class="php-var">$this</span>-&gt;parameters;
-</span><span id="2787" class="l"><a class="l" href="#2787">2787: </a>            <span class="php-var">$value</span> = <span class="php-keyword2">strtr</span>(<span class="php-var">$value</span>, <span class="php-var">$params</span>);
-</span><span id="2788" class="l"><a class="l" href="#2788">2788: </a>        }
-</span><span id="2789" class="l"><a class="l" href="#2789">2789: </a>
-</span><span id="2790" class="l"><a class="l" href="#2790">2790: </a>        <span class="php-keyword1">return</span> <span class="php-var">$value</span>;
-</span><span id="2791" class="l"><a class="l" href="#2791">2791: </a>    }
+</span><span id="2709" class="l"><a class="l" href="#2709">2709: </a>            <span class="php-keyword1">if</span> (!<span class="php-keyword2">preg_match</span>(<span class="php-quote">'/^function/i'</span>, <span class="php-var">$this</span>-&gt;value))
+</span><span id="2710" class="l"><a class="l" href="#2710">2710: </a>            {
+</span><span id="2711" class="l"><a class="l" href="#2711">2711: </a>                <span class="php-var">$this</span>-&gt;value = <span class="php-quote">'function(){'</span> . <span class="php-var">$this</span>-&gt;value . <span class="php-quote">'}'</span>;
+</span><span id="2712" class="l"><a class="l" href="#2712">2712: </a>            }
+</span><span id="2713" class="l"><a class="l" href="#2713">2713: </a>
+</span><span id="2714" class="l"><a class="l" href="#2714">2714: </a>            <span class="php-var">$this</span>-&gt;parameters = <span class="php-var">$parameters</span>;
+</span><span id="2715" class="l"><a class="l" href="#2715">2715: </a>        }
+</span><span id="2716" class="l"><a class="l" href="#2716">2716: </a>    }
+</span><span id="2717" class="l"><a class="l" href="#2717">2717: </a>
+</span><span id="2718" class="l"><a class="l" href="#2718">2718: </a>    <span class="php-comment">/**
+</span></span><span id="2719" class="l"><a class="l" href="#2719">2719: </a><span class="php-comment">     * Bind a variable to a parameter.
+</span></span><span id="2720" class="l"><a class="l" href="#2720">2720: </a><span class="php-comment">     *
+</span></span><span id="2721" class="l"><a class="l" href="#2721">2721: </a><span class="php-comment">     * @param   string  $param  parameter key to replace
+</span></span><span id="2722" class="l"><a class="l" href="#2722">2722: </a><span class="php-comment">     * @param   mixed   $var    variable to use
+</span></span><span id="2723" class="l"><a class="l" href="#2723">2723: </a><span class="php-comment">     * @return  PheryFunction
+</span></span><span id="2724" class="l"><a class="l" href="#2724">2724: </a><span class="php-comment">     */</span>
+</span><span id="2725" class="l"><a class="l" href="#2725">2725: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_bind" href="#_bind">bind</a>(<span class="php-var">$param</span>, &amp; <span class="php-var">$var</span>)
+</span><span id="2726" class="l"><a class="l" href="#2726">2726: </a>    {
+</span><span id="2727" class="l"><a class="l" href="#2727">2727: </a>        <span class="php-var">$this</span>-&gt;parameters[<span class="php-var">$param</span>] =&amp; <span class="php-var">$var</span>;
+</span><span id="2728" class="l"><a class="l" href="#2728">2728: </a>
+</span><span id="2729" class="l"><a class="l" href="#2729">2729: </a>        <span class="php-keyword1">return</span> <span class="php-var">$this</span>;
+</span><span id="2730" class="l"><a class="l" href="#2730">2730: </a>    }
+</span><span id="2731" class="l"><a class="l" href="#2731">2731: </a>
+</span><span id="2732" class="l"><a class="l" href="#2732">2732: </a>    <span class="php-comment">/**
+</span></span><span id="2733" class="l"><a class="l" href="#2733">2733: </a><span class="php-comment">     * Set the value of a parameter.
+</span></span><span id="2734" class="l"><a class="l" href="#2734">2734: </a><span class="php-comment">     *
+</span></span><span id="2735" class="l"><a class="l" href="#2735">2735: </a><span class="php-comment">     * @param   string  $param  parameter key to replace
+</span></span><span id="2736" class="l"><a class="l" href="#2736">2736: </a><span class="php-comment">     * @param   mixed   $value  value to use
+</span></span><span id="2737" class="l"><a class="l" href="#2737">2737: </a><span class="php-comment">     * @return  PheryFunction
+</span></span><span id="2738" class="l"><a class="l" href="#2738">2738: </a><span class="php-comment">     */</span>
+</span><span id="2739" class="l"><a class="l" href="#2739">2739: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_param" href="#_param">param</a>(<span class="php-var">$param</span>, <span class="php-var">$value</span>)
+</span><span id="2740" class="l"><a class="l" href="#2740">2740: </a>    {
+</span><span id="2741" class="l"><a class="l" href="#2741">2741: </a>        <span class="php-var">$this</span>-&gt;parameters[<span class="php-var">$param</span>] = <span class="php-var">$value</span>;
+</span><span id="2742" class="l"><a class="l" href="#2742">2742: </a>
+</span><span id="2743" class="l"><a class="l" href="#2743">2743: </a>        <span class="php-keyword1">return</span> <span class="php-var">$this</span>;
+</span><span id="2744" class="l"><a class="l" href="#2744">2744: </a>    }
+</span><span id="2745" class="l"><a class="l" href="#2745">2745: </a>
+</span><span id="2746" class="l"><a class="l" href="#2746">2746: </a>    <span class="php-comment">/**
+</span></span><span id="2747" class="l"><a class="l" href="#2747">2747: </a><span class="php-comment">     * Add multiple parameter values.
+</span></span><span id="2748" class="l"><a class="l" href="#2748">2748: </a><span class="php-comment">     *
+</span></span><span id="2749" class="l"><a class="l" href="#2749">2749: </a><span class="php-comment">     * @param   array   $params list of parameter values
+</span></span><span id="2750" class="l"><a class="l" href="#2750">2750: </a><span class="php-comment">     * @return  PheryFunction
+</span></span><span id="2751" class="l"><a class="l" href="#2751">2751: </a><span class="php-comment">     */</span>
+</span><span id="2752" class="l"><a class="l" href="#2752">2752: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_parameters" href="#_parameters">parameters</a>(<span class="php-keyword1">array</span> <span class="php-var">$params</span>)
+</span><span id="2753" class="l"><a class="l" href="#2753">2753: </a>    {
+</span><span id="2754" class="l"><a class="l" href="#2754">2754: </a>        <span class="php-var">$this</span>-&gt;parameters = <span class="php-var">$params</span> + <span class="php-var">$this</span>-&gt;parameters;
+</span><span id="2755" class="l"><a class="l" href="#2755">2755: </a>
+</span><span id="2756" class="l"><a class="l" href="#2756">2756: </a>        <span class="php-keyword1">return</span> <span class="php-var">$this</span>;
+</span><span id="2757" class="l"><a class="l" href="#2757">2757: </a>    }
+</span><span id="2758" class="l"><a class="l" href="#2758">2758: </a>
+</span><span id="2759" class="l"><a class="l" href="#2759">2759: </a>    <span class="php-comment">/**
+</span></span><span id="2760" class="l"><a class="l" href="#2760">2760: </a><span class="php-comment">     * Get the value as a string.
+</span></span><span id="2761" class="l"><a class="l" href="#2761">2761: </a><span class="php-comment">     *
+</span></span><span id="2762" class="l"><a class="l" href="#2762">2762: </a><span class="php-comment">     * @return  string
+</span></span><span id="2763" class="l"><a class="l" href="#2763">2763: </a><span class="php-comment">     */</span>
+</span><span id="2764" class="l"><a class="l" href="#2764">2764: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_value" href="#_value">value</a>()
+</span><span id="2765" class="l"><a class="l" href="#2765">2765: </a>    {
+</span><span id="2766" class="l"><a class="l" href="#2766">2766: </a>        <span class="php-keyword1">return</span> (string) <span class="php-var">$this</span>-&gt;value;
+</span><span id="2767" class="l"><a class="l" href="#2767">2767: </a>    }
+</span><span id="2768" class="l"><a class="l" href="#2768">2768: </a>
+</span><span id="2769" class="l"><a class="l" href="#2769">2769: </a>    <span class="php-comment">/**
+</span></span><span id="2770" class="l"><a class="l" href="#2770">2770: </a><span class="php-comment">     * Return the value of the expression as a string.
+</span></span><span id="2771" class="l"><a class="l" href="#2771">2771: </a><span class="php-comment">     *
+</span></span><span id="2772" class="l"><a class="l" href="#2772">2772: </a><span class="php-comment">     * &lt;code&gt;
+</span></span><span id="2773" class="l"><a class="l" href="#2773">2773: </a><span class="php-comment">     *     echo $expression;
+</span></span><span id="2774" class="l"><a class="l" href="#2774">2774: </a><span class="php-comment">     * &lt;/code&gt;
+</span></span><span id="2775" class="l"><a class="l" href="#2775">2775: </a><span class="php-comment">     *
+</span></span><span id="2776" class="l"><a class="l" href="#2776">2776: </a><span class="php-comment">     * @return  string
+</span></span><span id="2777" class="l"><a class="l" href="#2777">2777: </a><span class="php-comment">     */</span>
+</span><span id="2778" class="l"><a class="l" href="#2778">2778: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="___toString" href="#___toString">__toString</a>()
+</span><span id="2779" class="l"><a class="l" href="#2779">2779: </a>    {
+</span><span id="2780" class="l"><a class="l" href="#2780">2780: </a>        <span class="php-keyword1">return</span> <span class="php-var">$this</span>-&gt;value();
+</span><span id="2781" class="l"><a class="l" href="#2781">2781: </a>    }
+</span><span id="2782" class="l"><a class="l" href="#2782">2782: </a>
+</span><span id="2783" class="l"><a class="l" href="#2783">2783: </a>    <span class="php-comment">/**
+</span></span><span id="2784" class="l"><a class="l" href="#2784">2784: </a><span class="php-comment">     * Compile function and return it. Replaces any parameters with
+</span></span><span id="2785" class="l"><a class="l" href="#2785">2785: </a><span class="php-comment">     * their given values.
+</span></span><span id="2786" class="l"><a class="l" href="#2786">2786: </a><span class="php-comment">     *
+</span></span><span id="2787" class="l"><a class="l" href="#2787">2787: </a><span class="php-comment">     * @return  string
+</span></span><span id="2788" class="l"><a class="l" href="#2788">2788: </a><span class="php-comment">     */</span>
+</span><span id="2789" class="l"><a class="l" href="#2789">2789: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_compile" href="#_compile">compile</a>()
+</span><span id="2790" class="l"><a class="l" href="#2790">2790: </a>    {
+</span><span id="2791" class="l"><a class="l" href="#2791">2791: </a>        <span class="php-var">$value</span> = <span class="php-var">$this</span>-&gt;value();
 </span><span id="2792" class="l"><a class="l" href="#2792">2792: </a>
-</span><span id="2793" class="l"><a class="l" href="#2793">2793: </a>    <span class="php-comment">/**
-</span></span><span id="2794" class="l"><a class="l" href="#2794">2794: </a><span class="php-comment">     * Static instantation for PheryFunction
-</span></span><span id="2795" class="l"><a class="l" href="#2795">2795: </a><span class="php-comment">     *
-</span></span><span id="2796" class="l"><a class="l" href="#2796">2796: </a><span class="php-comment">     * @param string|array $value
-</span></span><span id="2797" class="l"><a class="l" href="#2797">2797: </a><span class="php-comment">     * @param array        $parameters
-</span></span><span id="2798" class="l"><a class="l" href="#2798">2798: </a><span class="php-comment">     *
-</span></span><span id="2799" class="l"><a class="l" href="#2799">2799: </a><span class="php-comment">     * @return PheryFunction
-</span></span><span id="2800" class="l"><a class="l" href="#2800">2800: </a><span class="php-comment">     */</span>
-</span><span id="2801" class="l"><a class="l" href="#2801">2801: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">static</span> <span class="php-keyword1">function</span> <a id="_factory" href="#_factory">factory</a>(<span class="php-var">$value</span>, <span class="php-var">$parameters</span> = <span class="php-keyword1">array</span>())
-</span><span id="2802" class="l"><a class="l" href="#2802">2802: </a>    {
-</span><span id="2803" class="l"><a class="l" href="#2803">2803: </a>        <span class="php-keyword1">return</span> <span class="php-keyword1">new</span> PheryFunction(<span class="php-var">$value</span>, <span class="php-var">$parameters</span>);
-</span><span id="2804" class="l"><a class="l" href="#2804">2804: </a>    }
-</span><span id="2805" class="l"><a class="l" href="#2805">2805: </a>}
-</span><span id="2806" class="l"><a class="l" href="#2806">2806: </a>
-</span><span id="2807" class="l"><a class="l" href="#2807">2807: </a><span class="php-comment">/**
-</span></span><span id="2808" class="l"><a class="l" href="#2808">2808: </a><span class="php-comment"> * Exception class for Phery specific exceptions
-</span></span><span id="2809" class="l"><a class="l" href="#2809">2809: </a><span class="php-comment"> * @package    Phery
-</span></span><span id="2810" class="l"><a class="l" href="#2810">2810: </a><span class="php-comment"> */</span>
-</span><span id="2811" class="l"><a class="l" href="#2811">2811: </a><span class="php-keyword1">class</span> <a id="PheryException" href="#PheryException">PheryException</a> <span class="php-keyword1">extends</span> Exception {
-</span><span id="2812" class="l"><a class="l" href="#2812">2812: </a>
-</span><span id="2813" class="l"><a class="l" href="#2813">2813: </a>}
-</span><span id="2814" class="l"><a class="l" href="#2814">2814: </a></span></code></pre>
+</span><span id="2793" class="l"><a class="l" href="#2793">2793: </a>        <span class="php-keyword1">if</span> ( ! <span class="php-keyword1">empty</span>(<span class="php-var">$this</span>-&gt;parameters))
+</span><span id="2794" class="l"><a class="l" href="#2794">2794: </a>        {
+</span><span id="2795" class="l"><a class="l" href="#2795">2795: </a>            <span class="php-var">$params</span> = <span class="php-var">$this</span>-&gt;parameters;
+</span><span id="2796" class="l"><a class="l" href="#2796">2796: </a>            <span class="php-var">$value</span> = <span class="php-keyword2">strtr</span>(<span class="php-var">$value</span>, <span class="php-var">$params</span>);
+</span><span id="2797" class="l"><a class="l" href="#2797">2797: </a>        }
+</span><span id="2798" class="l"><a class="l" href="#2798">2798: </a>
+</span><span id="2799" class="l"><a class="l" href="#2799">2799: </a>        <span class="php-keyword1">return</span> <span class="php-var">$value</span>;
+</span><span id="2800" class="l"><a class="l" href="#2800">2800: </a>    }
+</span><span id="2801" class="l"><a class="l" href="#2801">2801: </a>
+</span><span id="2802" class="l"><a class="l" href="#2802">2802: </a>    <span class="php-comment">/**
+</span></span><span id="2803" class="l"><a class="l" href="#2803">2803: </a><span class="php-comment">     * Static instantation for PheryFunction
+</span></span><span id="2804" class="l"><a class="l" href="#2804">2804: </a><span class="php-comment">     *
+</span></span><span id="2805" class="l"><a class="l" href="#2805">2805: </a><span class="php-comment">     * @param string|array $value
+</span></span><span id="2806" class="l"><a class="l" href="#2806">2806: </a><span class="php-comment">     * @param array        $parameters
+</span></span><span id="2807" class="l"><a class="l" href="#2807">2807: </a><span class="php-comment">     *
+</span></span><span id="2808" class="l"><a class="l" href="#2808">2808: </a><span class="php-comment">     * @return PheryFunction
+</span></span><span id="2809" class="l"><a class="l" href="#2809">2809: </a><span class="php-comment">     */</span>
+</span><span id="2810" class="l"><a class="l" href="#2810">2810: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">static</span> <span class="php-keyword1">function</span> <a id="_factory" href="#_factory">factory</a>(<span class="php-var">$value</span>, <span class="php-var">$parameters</span> = <span class="php-keyword1">array</span>())
+</span><span id="2811" class="l"><a class="l" href="#2811">2811: </a>    {
+</span><span id="2812" class="l"><a class="l" href="#2812">2812: </a>        <span class="php-keyword1">return</span> <span class="php-keyword1">new</span> PheryFunction(<span class="php-var">$value</span>, <span class="php-var">$parameters</span>);
+</span><span id="2813" class="l"><a class="l" href="#2813">2813: </a>    }
+</span><span id="2814" class="l"><a class="l" href="#2814">2814: </a>}
+</span><span id="2815" class="l"><a class="l" href="#2815">2815: </a>
+</span><span id="2816" class="l"><a class="l" href="#2816">2816: </a><span class="php-comment">/**
+</span></span><span id="2817" class="l"><a class="l" href="#2817">2817: </a><span class="php-comment"> * Exception class for Phery specific exceptions
+</span></span><span id="2818" class="l"><a class="l" href="#2818">2818: </a><span class="php-comment"> * @package    Phery
+</span></span><span id="2819" class="l"><a class="l" href="#2819">2819: </a><span class="php-comment"> */</span>
+</span><span id="2820" class="l"><a class="l" href="#2820">2820: </a><span class="php-keyword1">class</span> <a id="PheryException" href="#PheryException">PheryException</a> <span class="php-keyword1">extends</span> Exception {
+</span><span id="2821" class="l"><a class="l" href="#2821">2821: </a>
+</span><span id="2822" class="l"><a class="l" href="#2822">2822: </a>}
+</span><span id="2823" class="l"><a class="l" href="#2823">2823: </a></span></code></pre>
 
 	<div id="footer">
 		Phery API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>

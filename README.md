@@ -159,7 +159,8 @@ Add any additional data, that will be accessible to either process functions or 
 
 #### Phery::args(array $data, $encoding = 'UTF-8')
 
-Encode arguments that phery can understand (json_encode'd) that does inside data-args
+Encode arguments that phery can understand (json_encode'd) that does inside data-args.
+Doing it by hand can have some unwanted side effects, since the JSON must be perfectly made
 
 ```html
 <a data-args="<?=Phery::args(array('id' => 1));?>" data-remote="remote">Click me</a>
@@ -183,11 +184,13 @@ Set `$is_phery` to true to check specifically for phery call
 
 #### Phery::instance()->answer_for($alias, $default = NULL)
 
-Gets the answer for a form submit that wasn't sent through AJAX and is present in the `respond_to_post` list. Returns `$default` if no answer available
+Gets the answer for a form submit that wasn't sent through AJAX and is present in the `respond_to_post` list.
+Returns `$default` if no answer available
 
 ```php
 <?php
-	$database_result = Phery::instance()->answer_for('alias', false); // in this case, returns a Database result
+	// in this case, returns a Database result
+	$database_result = Phery::instance()->answer_for('alias', false);
 	if ($database_result === false)
 	{
 		$database_result = new Database_Result(...);
@@ -202,7 +205,8 @@ May be registered as a handler using `set_error_handler('Phery::error_handler', 
 
 #### Phery::shudown_handler()
 
-Public static function that should be used only with `register_shutdown_handler('Phery::shutdown_handler);` having no other useful meaning
+Public static function that should be used only with `register_shutdown_handler('Phery::shutdown_handler);`
+having no other useful meaning
 
 #### Phery::respond($response, $compress = false)
 
@@ -242,8 +246,8 @@ total content size, even less with GZIP
 
 #### Phery::instance()->process($last_call = true)
 
-Takes just one parameter, $last_call, in case you want to call process() again later, with a different set. **last_call** won't allow the
-process to return until you call it again or exit the code inside a callback function.
+Takes just one parameter, $last_call, in case you want to call process() again later, with a different set.
+**last_call** won't allow the process to return until you call it again or exit the code inside a callback function.
 
 ```php
 <?php
@@ -269,7 +273,7 @@ process to return until you call it again or exit the code inside a callback fun
 Set configuration for the current instance of phery. Passed as an associative array, and can be passed when creating a new
 instance.
 
-* `exit_allowed` => true, Defaults to true, stop further script execution
+* `exit_allowed` => true, Defaults to true, stop further script execution. Set this to false on frameworks that need to do proper cleanup
 * `no_stripslashes` => false, Don't apply stripslashes on the args
 * `exceptions` => false, Throw exceptions on errors
 * `respond_to_post` => array(), Set the functions that will be called even if is a POST but not an AJAX call
@@ -335,7 +339,8 @@ Callback/response function comprises of:
 
 #### Phery::instance()->csrf($check = false)
 
-Create a new token inside PHP session to prevent CSRF attacks, and return as a `<meta>` tag. Need to enable CSRF setting with `config()`
+Create a new token inside PHP session to prevent CSRF attacks, and return as a `<meta>` tag.
+Need to enable CSRF setting with `config()`
 
 ```php
 <head>
@@ -357,7 +362,8 @@ Creates a new instance of phery, that is chainable
 
 #### Phery::link_to($title, $function, array $attributes = array(), Phery $phery = null)
 
-Helper static method to create any element with AJAX enabled. Check sources, phpDocs or an IDE code hinting for a better scoop and detailed info
+Helper static method to create any element with AJAX enabled. Check sources, phpDocs or an IDE code hinting
+for a better scoop and detailed info <http://phery-php-ajax.net/docs/class-Phery.html#_link_to>
 When creating this element, if you use `data-related`, you can merge multiple forms in one AJAX call
 
 ```php
@@ -366,7 +372,9 @@ When creating this element, if you use `data-related`, you can merge multiple fo
 
 #### Phery::form_for($action, $function, array $attributes = array(), Phery $phery = null)
 
-Helper static method to open a form that will be able to execute AJAX submits. Check sources, phpDocs or an IDE code hinting for a better scoop and detailed info
+Helper static method to open a form that will be able to execute AJAX submits.
+Check sources, phpDocs or an IDE code hinting for a better scoop and detailed info
+<http://phery-php-ajax.net/docs/class-Phery.html#_form_for>
 When creating this element, if you use `data-related`, you can merge multiple forms in one AJAX call
 
 ```php
@@ -380,6 +388,7 @@ When creating this element, if you use `data-related`, you can merge multiple fo
 #### Phery::select_for($function, $items, array $attributes = array(), Phery $phery = null)
 
 Helper static method to display a select element that make AJAX calls on change.
+<http://phery-php-ajax.net/docs/class-Phery.html#_select_for>
 When creating this element, if you use `data-related`, you can merge multiple forms in one AJAX call
 
 ```php
@@ -400,6 +409,7 @@ Check the code completion using an IDE for a better view of the functions, read 
 Any jQuery function can be called through PheryResponse, even custom ones, defined through `$.fn.extend` or `$.function`
 Since version 2.0, you may nest PheryResponses, and the `this()` method was added, to access the calling element (or form)
 directly from PHP
+<http://phery-php-ajax.net/docs/class-PheryResponse.html>
 
 ```php
 <?php
@@ -444,7 +454,14 @@ Another example:
 
 function remote()
 {
-	return PheryResponse::factory()->this()->animate({opacity: 0.3}, 1500, PheryFunction::factory('function(){ alert("done!"); }'));
+	return
+		PheryResponse::factory()
+		->this()
+		->animate(
+			array('opacity' => 0.3),
+			1500,
+			PheryFunction::factory('function(){ alert("done!"); }')
+		);
 }
 
 Phery::instance()->set(array(
@@ -570,15 +587,6 @@ Clean up the element, and remove it from the DOM. It removes all data before so 
 ```js
 $('element').phery().remove(); // or $('element').phery('remove');
 ```
-
-##### $('element').phery().make('function'); // or $('element').phery('make', 'function');
-
-Enable Phery AJAX functions on the select elements to the function you choose
-
-```js
-$('element').phery().make('remote-function'); // or $('element').phery('make', 'remote-function');
-```
-
 ##### $('element').phery().unmake(); // or $('element').phery('unmake');
 
 Remove Phery AJAX functions on the select elements
@@ -590,6 +598,7 @@ $('element').phery().unmake(); // or $('element').phery('unmake');
 #### phery.remote(functionName, arguments, attributes, directCall)
 
 Calls an AJAX function directly, without binding to any existing elements, the DOM element is created and removed on-the-fly
+If directCall is false, it will return a `jQuery` element, if not, it will return an `jqXHR` object
 
 * `functionName`: string, name of the alias defined in Phery::instance()->set() inside PHP
 * `arguments`: object or array or variable, the best practice is to pass an object, since it can be easily accessed later through PHP, but any kind of parameter can be passed, from strings, ints, floats, and can also be null (won't be passed through ajax)
