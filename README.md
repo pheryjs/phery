@@ -182,22 +182,6 @@ Set `$is_phery` to true to check specifically for phery call
 ?>
 ```
 
-#### Phery::instance()->answer_for($alias, $default = NULL)
-
-Gets the answer for a form submit that wasn't sent through AJAX and is present in the `respond_to_post` list.
-Returns `$default` if no answer available
-
-```php
-<?php
-	// in this case, returns a Database result
-	$database_result = Phery::instance()->answer_for('alias', false);
-	if ($database_result === false)
-	{
-		$database_result = new Database_Result(...);
-	}
-?>
-```
-
 #### Phery::error_handler($errno, $errstr, $errfile, $errline)
 
 Public static function that throws a exception and return a PheryResponse with the exception.
@@ -273,13 +257,12 @@ Takes just one parameter, $last_call, in case you want to call process() again l
 Set configuration for the current instance of phery. Passed as an associative array, and can be passed when creating a new
 instance.
 
-* `exit_allowed` => true, Defaults to true, stop further script execution. Set this to false on frameworks that need to do proper cleanup
-* `no_stripslashes` => false, Don't apply stripslashes on the args
-* `exceptions` => false, Throw exceptions on errors
-* `respond_to_post` => array(), Set the functions that will be called even if is a POST but not an AJAX call
-* `compress` => false, Enable/disable GZIP/DEFLATE compression, depending on the browser support. Don't enable it if you are using Apache DEFLATE/GZIP, or zlib.output_compression Most of the time, compression will hide exceptions, because it will output plain text while the content-type is gzip, unless you also enable `error_reporting`
-* `error_reporting` => false|E_ALL|E_DEPRECATED|..., Error reporting temporarily using error_reporting(). 'false' disables the error_reporting and wont try to catch any error. Anything else than false will throw a PheryResponse->exception() with the message, code, line and file
-* `csrf` => false, Enable CSRF protection, uses PHP sessions. The meta tag must go inside the head of your page using `<?php echo Phery::instance()->csrf(); ?>`
+* `exit_allowed` => `true`, Defaults to true, stop further script execution. Set this to false on frameworks that need to do proper cleanup
+* `no_stripslashes` => `false`, Don't apply stripslashes on the args
+* `exceptions` => `false`, Throw exceptions on errors
+* `compress` => `false`, Enable/disable GZIP/DEFLATE compression, depending on the browser support. Don't enable it if you are using Apache DEFLATE/GZIP, or zlib.output_compression Most of the time, compression will hide exceptions, because it will output plain text while the content-type is gzip, unless you also enable `error_reporting`
+* `error_reporting` => `false|E_ALL|E_DEPRECATED|...`, Error reporting temporarily using error_reporting(). 'false' disables the error_reporting and wont try to catch any error. Anything else than false will throw a PheryResponse->exception() with the message, code, line and file
+* `csrf` => `false`, Enable CSRF protection, uses PHP sessions. The meta tag must go inside the head of your page using `<?php echo Phery::instance()->csrf(); ?>`
 
 #### Phery::instance($config = null)
 

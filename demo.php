@@ -132,7 +132,7 @@ function form($data)
 function thisone($data)
 {
 	// When being called from non AJAX call, will be processed later in the body
-	// set through 'respond_to_post'
+	// set through 'respond_to_post' DEPRECATED
 	if (!Phery::is_ajax())
 	{
 		// You may do something different without AJAX,
@@ -340,9 +340,9 @@ try
 			/**
 			 * This allows the responses to receive data and respond EVEN if
 			 * not called by ajax (ie on a browser with javascript disabled/blocked).
-			 * Good to ensure forms submission
+			 * Good to ensure forms submission DEPRECATED
 			 */
-			'respond_to_post' => array('thisone'),
+			//'respond_to_post' => array('thisone'),
 			/**
 			 * Compress using DEFLATE or GZIP, in this order, whichever is available
 			 * in the browser. Check if APACHE is already compressing it with gzip.
@@ -463,7 +463,7 @@ try
 				$r->dump_vars($r);
 			}
 
-			return $r->phery('append_args', array('woohoo' => 'true'));
+			return $r->this()->phery('append_args', array('wow' => 'true'));
 		},
 		// instance method call
 		'test' => array($instance, 'test'),
@@ -755,7 +755,7 @@ try
 					PheryResponse::factory()
 					//->call(array('$', 'colorbox', 'close'));
 					// or
-					->path(array('$','colorbox'))->close();
+					->access(array('$','colorbox'))->close();
 			}
 			if (empty($data['other-way-around']))
 			{
@@ -1323,7 +1323,13 @@ function memusage(peak, usage, time) {
 	</li>
 	<li>
 		<h2>Returns plain text in this case, processed manually with the phery:done javascript callback. id => #special, using clickable DIV tag</h2>
-		<?php echo Phery::link_to('Regular function', 'test2', array('id' => 'special', 'tag' => 'div', 'clickable' => true, 'args' => array('hello' => 'Im a named argument :D'))); ?>
+		<?php echo Phery::link_to('Regular function', 'test2', array('id' => 'special', 'tag' => 'div', 'clickable' => true, 'args' => array('hello' => 'Im a named argument :D')), null, true); ?>
+			<p>This is a P inside the DIV, but it's parent is clickable</p>
+			<figure>
+				<img src="http://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/License_icon-mit-2.svg/256px-License_icon-mit-2.svg.png" alt="MIT Logo">
+				<figcaption>This figure is inside the clickable div as well</figcaption>
+			</figure>
+		</div>
 		<div class="readcode">
 			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 65, 'to' => 77))); ?>
 			<pre class="code"></pre>
@@ -1703,30 +1709,6 @@ echo Phery::form_for('', 'form', array('id' => 'testform', 'submit' => array('di
 	<p><input type="submit" value="Send form"></p>
 </fieldset>
 <?php echo '</form>'; ?>
-
-<div class="readcode">
-	<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 124, 'to' => 130))); ?>
-	<pre class="code"></pre>
-</div>
-
-<?php echo Phery::form_for('', 'thisone', array('id' => 'unob_form')); ?>
-<fieldset>
-	<h5>This is a 'respond to post' form (means it doesn't need javascript/AJAX to function, but work both ways). The data will still be submitted and available. Disable javascript
-		and submit the form to check it out</h5>
-	<?php
-	if (($answer = $phery->answer_for('thisone')))
-	{
-		echo '<h1>This form was submitted without javascript.<br/>Raw contents of POST<br/><br/><pre>' . htmlentities(print_r($_POST, true)) . '</pre></h1>';
-		echo '<h2>This is the function result:</br></h2>';
-		echo '<pre>' . print_r($answer, true) . '</pre>';
-	}
-	?>
-	<label for="f">Data</label>
-	<input name="f" id="f" type="text" value="testing">
-
-	<p><input type="submit" value="Send form"></p>
-</fieldset>
-<?php echo '</form>';    ?>
 
 <hr>
 

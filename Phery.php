@@ -25,7 +25,7 @@
  *
  * @link       http://phery-php-ajax.net/
  * @author     Paulo Cesar
- * @version    2.2.3
+ * @version    2.3.0
  * @license    http://opensource.org/licenses/MIT MIT License
  */
 
@@ -86,18 +86,6 @@ class Phery implements ArrayAccess {
 	 */
 	protected static $instance = null;
 	/**
-	 * Will call the functions defined in this variable even
-	 * if it wasn't sent by AJAX, use it wisely. (good for SEO though?)
-	 * @var array
-	 */
-	protected $respond_to_post = array();
-	/**
-	 * Hold the answers for answer_for function
-	 * @see answer_for()
-	 * @var array
-	 */
-	protected $answers = array();
-	/**
 	 * Render view function
 	 * @var array
 	 */
@@ -109,7 +97,6 @@ class Phery implements ArrayAccess {
 	 * 'exit_allowed' (boolean)
 	 * 'no_stripslashes' (boolean)
 	 * 'exceptions' (boolean)
-	 * 'respond_to_post' (array)
 	 * 'compress' (boolean)
 	 * 'csrf' (boolean)
 	 * </code>
@@ -135,7 +122,6 @@ class Phery implements ArrayAccess {
 				'exit_allowed' => true,
 				'no_stripslashes' => false,
 				'exceptions' => false,
-				'respond_to_post' => array(),
 				'compress' => false,
 				'csrf' => false,
 				'error_reporting' => false
@@ -409,24 +395,6 @@ class Phery implements ArrayAccess {
 	}
 
 	/**
-	 * Return the data associatated with a processed POST call
-	 *
-	 * @param string $alias   The name of the alias for the process function
-	 * @param mixed  $default Any data that should be returned if there's no answer, defaults to null
-	 *
-	 * @return mixed Return $default if no data available, defaults to NULL
-	 */
-	public function answer_for($alias, $default = null)
-	{
-		if (isset($this->answers[$alias]) && !empty($this->answers[$alias]))
-		{
-			return $this->answers[$alias];
-		}
-
-		return $default;
-	}
-
-	/**
 	 * Default error handler
 	 *
 	 * @param int $errno
@@ -541,7 +509,7 @@ class Phery implements ArrayAccess {
 	 *
 	 * <pre>
 	 * Phery::instance()->views(array(
-	 *     '#container' => function($data, $params){
+	 *     'section#container' => function($data, $params){
 	 *          return
 	 *              PheryResponse::factory()
 	 *              ->render_view('html', array('extra data like titles, menus, etc'));
@@ -557,10 +525,6 @@ class Phery implements ArrayAccess {
 		{
 			if (is_callable($callback))
 			{
-				if ($container[0] !== '#')
-				{
-					$container = '#' . $container;
-				}
 				$this->views[$container] = $callback;
 			}
 		}
@@ -596,12 +560,11 @@ class Phery implements ArrayAccess {
 	/**
 	 * Process the requests if any
 	 *
-	 * @param boolean $respond_to_post
 	 * @param boolean $last_call
 	 *
 	 * @return boolean
 	 */
-	private function process_data($respond_to_post, $last_call)
+	private function process_data($last_call)
 	{
 		$response = null;
 		$view = false;
@@ -639,20 +602,6 @@ class Phery implements ArrayAccess {
 		if ($remote !== false)
 		{
 			$this->data['remote'] = $remote;
-
-			if ($respond_to_post === true)
-			{
-				if ($this->config['no_stripslashes'] === false)
-				{
-					$args = $this->stripslashes_recursive($_POST);
-				}
-				else
-				{
-					$args = $_POST;
-				}
-
-				unset($args['phery']['remote']);
-			}
 		}
 
 		if (!empty($_POST['args']))
@@ -666,7 +615,7 @@ class Phery implements ArrayAccess {
 				$args = $_POST['args'];
 			}
 
-			if ($last_call === true || $respond_to_post === true)
+			if ($last_call === true)
 			{
 				unset($_POST['args']);
 			}
@@ -719,14 +668,7 @@ class Phery implements ArrayAccess {
 
 				$_POST['phery']['remote'] = $remote;
 
-				if ($respond_to_post === false)
-				{
-					self::respond($response, $this->config['compress'], 'function "'. $remote . '"');
-				}
-				else
-				{
-					$this->answers[$remote] = $response;
-				}
+				self::respond($response, $this->config['compress'], 'function "'. $remote . '"');
 			}
 			else
 			{
@@ -765,19 +707,16 @@ class Phery implements ArrayAccess {
 			}
 		}
 
-		if ($respond_to_post === false)
+		if ($response === null && $last_call & !$view)
 		{
-			if ($response === null && $last_call & !$view)
-			{
-				self::respond(PheryResponse::factory());
-			}
+			self::respond(PheryResponse::factory());
+		}
 
-			if ($this->config['exit_allowed'] === true)
+		if ($this->config['exit_allowed'] === true)
+		{
+			if ($last_call || $response !== null)
 			{
-				if ($last_call || $response !== null)
-				{
-					exit;
-				}
+				exit;
 			}
 		}
 
@@ -800,16 +739,6 @@ class Phery implements ArrayAccess {
 			// AJAX call
 			$this->process_data(false, $last_call);
 		}
-		elseif (
-			count($this->respond_to_post) &&
-			strtoupper($_SERVER['REQUEST_METHOD']) === 'POST' &&
-			isset($_POST['phery']) && isset($_POST['phery']['remote']) &&
-			in_array($_POST['phery']['remote'], $this->respond_to_post)
-		)
-		{
-			// Regular processing, respond to post, pass the $_POST variable to the function anyway
-			$this->process_data(true, false);
-		}
 	}
 
 	/**
@@ -824,10 +753,6 @@ class Phery implements ArrayAccess {
 	 *
 	 *     // Throw exceptions on errors
 	 *     'exceptions' => true|false,
-	 *
-	 *     // Set the functions that will be called even if is a
-	 *     // POST but not an AJAX call
-	 *     'respond_to_post' => array('function-alias-1','function-alias-2'),
 	 *
 	 *     // Enable/disable GZIP/DEFLATE compression, depending on the browser support.
 	 *     // Don't enable it if you are using Apache DEFLATE/GZIP, or zlib.output_compression
@@ -902,20 +827,6 @@ class Phery implements ArrayAccess {
 					else
 					{
 						$this->config['error_reporting'] = false;
-					}
-				}
-
-				if (isset($config['respond_to_post']) && is_array($config['respond_to_post']))
-				{
-					if (count($config['respond_to_post']))
-					{
-						$this->respond_to_post = array_merge_recursive(
-							$this->respond_to_post, $config['respond_to_post']
-						);
-					}
-					else
-					{
-						$this->respond_to_post = array();
 					}
 				}
 
@@ -1135,11 +1046,13 @@ class Phery implements ArrayAccess {
 	 *
 	 * @param Phery  $phery      Pass the current instance of phery, so it can check if the
 	 *                           functions are defined, and throw exceptions
+	 * @param boolean $no_close  Don't close the tag, useful if you want to create an AJAX DIV with a lot of content inside,
+	 *                           but the DIV itself isn't clikable
 	 *
 	 * @static
 	 * @return string The mounted HTML tag
 	 */
-	public static function link_to($content, $function, array $attributes = array(), Phery $phery = null)
+	public static function link_to($content, $function, array $attributes = array(), Phery $phery = null, $no_close = false)
 	{
 		if (!$function)
 		{
@@ -1173,7 +1086,11 @@ class Phery implements ArrayAccess {
 
 		if (!in_array(strtolower($tag), array('img', 'input', 'iframe', 'hr', 'area', 'embed', 'keygen')))
 		{
-			$ret[] = ">{$content}</{$tag}>";
+			$ret[] = ">{$content}";
+			if (!$no_close)
+			{
+				$ret[] = "</{$tag}>";
+			}
 		}
 		else
 		{
@@ -1240,7 +1157,7 @@ class Phery implements ArrayAccess {
 		{
 			$ret[] = "{$attribute}=\"" . htmlentities($value, ENT_COMPAT, $encoding, false) . "\"";
 		}
-		$ret[] = '><input type="hidden" name="phery[remote]" value="' . $function . '"/>';
+		$ret[] = '>';
 
 		return join(' ', $ret);
 	}
@@ -1560,6 +1477,11 @@ class PheryResponse extends ArrayObject {
 	 * @var string
 	 */
 	protected $name = null;
+	/**
+	 * Internal count for multiple paths
+	 * @var int
+	 */
+	protected static $internal_count = 0;
 
 	/**
 	 * Construct a new response
@@ -1572,6 +1494,15 @@ class PheryResponse extends ArrayObject {
 		parent::__construct(array(), self::ARRAY_AS_PROPS);
 		$this->jquery($selector, $constructor);
 		$this->set_response_name(uniqid("", true));
+	}
+
+	/**
+	 * Increment the internal counter, so there are no conflicting stacked commands
+	 * @param string $type Selector
+	 */
+	protected function set_internal_counter($type)
+	{
+		$this->last_selector = '{'.$type.(self::$internal_count++).'}';
 	}
 
 	/**
@@ -1761,7 +1692,7 @@ class PheryResponse extends ArrayObject {
 	 */
 	public function phery_remote($remote, $args = array(), $attr = array(), $directCall = true)
 	{
-		$this->last_selector = '-';
+		$this->set_internal_counter('-');
 
 		return $this->cmd(0xff, array(
 			$remote,
@@ -1885,7 +1816,7 @@ class PheryResponse extends ArrayObject {
 	 */
 	public function this()
 	{
-		$this->last_selector = '~';
+		$this->set_internal_counter('~');
 
 		return $this;
 	}
@@ -2022,11 +1953,18 @@ class PheryResponse extends ArrayObject {
 	 *
 	 * @return PheryResponse
 	 */
-	public function jquery($selector = '#', array $constructor = array())
+	public function jquery($selector = null, array $constructor = array())
 	{
-		$this->last_selector = $selector;
+		if (!$selector)
+		{
+			$this->set_internal_counter('#');
+		}
+		else
+		{
+			$this->last_selector = $selector;
+		}
 
-		if (count($constructor) && isset($selector) && is_string($selector) && substr($selector, 0, 1) === '<')
+		if (is_string($selector) && count($constructor) && isset($selector) && is_string($selector) && substr($selector, 0, 1) === '<')
 		{
 			foreach ($constructor as $name => $value)
 			{
@@ -2309,10 +2247,10 @@ class PheryResponse extends ArrayObject {
 	/**
 	 * Access a global object path
 	 *
-	 * @param string|string[] $namespace     For accessing objects, like $.namespace.function() or
-	 *                                    document.href. if you want to access a global variable,
-	 *                                    use array('object','property'). You may use a mix of getter/setter
-	 *                                    to apply a global value to a variable
+	 * @param string|string[] $namespace             For accessing objects, like $.namespace.function() or
+	 *                                               document.href. if you want to access a global variable,
+	 *                                               use array('object','property'). You may use a mix of getter/setter
+	 *                                               to apply a global value to a variable
 	 *
 	 * <pre>
 	 * PheryResponse::factory()->set_var(array('obj','newproperty'),
@@ -2320,14 +2258,19 @@ class PheryResponse extends ArrayObject {
 	 * );
 	 * </pre>
 	 *
+	 * @param boolean         $new                   Create a new instance of the object, acts like "var v = new JsClass"
+	 *                                               only works on classes, don't try to use new on a variable or a property
+	 *                                               that can't be instantiated
+	 *
 	 * @return PheryResponse
 	 */
-	public function path($namespace)
+	public function access($namespace, $new = false)
 	{
-		$this->last_selector = '+';
+		$this->set_internal_counter('+');
 
-		return $this->cmd(!is_array($namespace) ? array($namespace) : $namespace);
+		return $this->cmd(!is_array($namespace) ? array($namespace) : $namespace, array($new));
 	}
+
 	/**
 	 * Render a view to the container previously specified
 	 *
@@ -2706,7 +2649,7 @@ class PheryFunction {
 				$this->value = $value;
 			}
 
-			if (!preg_match('/^function/i', $this->value))
+			if (!preg_match('/^\s*function/im', $this->value))
 			{
 				$this->value = 'function(){' . $this->value . '}';
 			}
