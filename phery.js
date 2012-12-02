@@ -30,7 +30,7 @@
 	"use strict";
 
 	if (typeof define === 'function' && define.amd) {
-		// AMD. Register as an anonymous module.
+		// AMD. Register as phery module.
 		define('phery', ['jquery'], factory);
 	} else {
 		// Browser globals
@@ -41,6 +41,9 @@
 
 		var
 			call_cache = [],
+			/**
+			 * @enum {Number}
+			 */
 			structural_html = {
 				'HTML':1,
 				'BODY':1,
@@ -60,13 +63,14 @@
 				'HGROUP':1,
 				'FIGURE':1
 			},
+			typedefs = {},
 			/**
 			 * @class
-			 * @version 2.3.0
+			 * @version 2.3.1
 			 */
-				phery = window.phery = window.phery || {};
+			phery = window.phery = window.phery || {};
 
-		phery.version = '2.3.0';
+		phery.version = '2.3.1';
 
 		/* Code from http://javascriptweblog.wordpress.com/2011/08/08/fixing-the-javascript-typeof-operator/ */
 		Object.toType = (function toType(global) {
@@ -193,6 +197,10 @@
 			return this_data;
 		}
 
+		/**
+		 * @this {jQuery}
+		 * @param {*} args
+		 */
 		function append_args(args) {
 			/*jshint validthis: true */
 			var this_data, x;
@@ -209,6 +217,10 @@
 			}
 		}
 
+		/**
+		 * @this {jQuery}
+		 * @param {*} args
+		 */
 		function set_args(args) {
 			/*jshint validthis: true */
 			if (Object.toType(args) !== 'function') {
@@ -217,7 +229,8 @@
 		}
 
 		/**
-		 * Compare array
+		 * Compare two arrays
+		 *
 		 * @param {Array} x
 		 * @param {Array} y
 		 * @return {Boolean}
@@ -237,6 +250,13 @@
 			return true;
 		}
 
+		/**
+		 * Create a function from a string
+		 *
+		 * @param {String} str
+		 * @param {Boolean} process
+		 * @return {*}
+		 */
 		function str_is_function(str, process) {
 			if (!str || typeof str['toString'] !== 'function') {
 				return false;
@@ -280,69 +300,71 @@
 
 		var
 			options = {},
-			defaults = {
-				'cursor':true,
-				'default_href':false,
-				'ajax':{
-					'retries':0
-				},
-				'enable':{
-					'log':false,
-					'log_history':false,
-					'per_element':{
-						'events':true
-					},
-					'clickable_structure':false
-				},
-				'debug':{
-					'enable':false,
-					'display':{
-						'events':true,
-						'remote':true,
-						'config':true
-					}
-				},
-				'delegate':{
-					'confirm':['click'],
-					'form':['submit'],
-					'select_multiple':['blur'],
-					'select':['change'],
-					'tags':['click']
-				}
-			},
-			_callbacks = {
-				'before':function () {
-					return true;
-				},
-				'beforeSend':function () {
-					return true;
-				},
-				'params':function () {
-					return true;
-				},
-				'always':function () {
-					return true;
-				},
-				'fail':function () {
-					return true;
-				},
-				'done':function () {
-					return true;
-				},
-				'after':function () {
-					return true;
-				},
-				'exception':function () {
-					return true;
-				},
-				'json':function () {
-					return true;
-				}
-			},
 			callbacks = $('<div/>'),
 			_log = [],
 			$original_cursor,
 			$body_html;
+
+		typedefs._callbacks = {
+			'before':function () {
+				return true;
+			},
+			'beforeSend':function () {
+				return true;
+			},
+			'params':function () {
+				return true;
+			},
+			'always':function () {
+				return true;
+			},
+			'fail':function () {
+				return true;
+			},
+			'done':function () {
+				return true;
+			},
+			'after':function () {
+				return true;
+			},
+			'exception':function () {
+				return true;
+			},
+			'json':function () {
+				return true;
+			}
+		};
+
+		typedefs.defaults = {
+			'cursor':true,
+			'default_href':false,
+			'ajax':{
+				'retries':0
+			},
+			'enable':{
+				'log':false,
+				'log_history':false,
+				'per_element':{
+					'events':true
+				},
+				'clickable_structure':false
+			},
+			'debug':{
+				'enable':false,
+				'display':{
+					'events':true,
+					'remote':true,
+					'config':true
+				}
+			},
+			'delegate':{
+				'confirm':['click'],
+				'form':['submit'],
+				'select_multiple':['blur'],
+				'select':['change'],
+				'tags':['click']
+			}
+		};
 
 		function debug(data, type) {
 			if (options.debug.enable) {
@@ -442,7 +464,7 @@
 		}
 
 		/**
-		 * @param $this
+		 * @param {jQuery} $this
 		 * @return {boolean|jQuery.ajax}
 		 */
 		function form_submit($this) {
@@ -454,6 +476,12 @@
 			return ajax_call.call($this);
 		}
 
+		/**
+		 * Ajax calls
+		 *
+		 * @param {Object} args
+		 * @return {*}
+		 */
 		function ajax_call(args) {
 			/*jshint validthis:true*/
 			if (triggerPheryEvent(this, 'before') === false) {
@@ -665,7 +693,7 @@
 
 			var
 				_fail = function (xhr, status, error) {
-					if (this.retry_limit && status === 'timeout') {
+					if (this.retry_limit > 0 && status === 'timeout') {
 						this.try_count++;
 
 						if (this.try_count <= this.retry_limit) {
@@ -700,7 +728,7 @@
 					return true;
 				},
 				_always = function (data, text, xhr) {
-					if (xhr.readyState !== 4 && this.try_count && this.try_count <= this.retry_limit) {
+					if (xhr.readyState !== 4 && this.try_count > 0 && this.try_count <= this.retry_limit) {
 						return false;
 					}
 
@@ -909,7 +937,7 @@
 				return;
 			}
 
-			var $jq, argv, argc, $this = this, is_selector, funct, _data, _argv, special;
+			var $jq, argv, argc, $this = this, is_selector, funct, _data, _argv, special = null;
 
 			if (data && countProperties(data)) {
 				var x;
@@ -924,8 +952,8 @@
 
 						is_selector =
 							(special) ||
-								(x.toString().charAt(0) === '<') ||
-								(x.toString().search(/^[0-9]+$/) === -1)
+							(x.toString().charAt(0) === '<') ||
+							(x.toString().search(/^[0-9]+$/) === -1)
 						;
 						/* check if it has a selector */
 
@@ -1195,7 +1223,7 @@
 			_apply(original);
 		}
 
-		options = $.extend(true, {}, defaults, options);
+		options = $.extend(true, {}, typedefs.defaults, options);
 
 		$(function () {
 			$body_html = $('body,html');
@@ -1207,7 +1235,7 @@
 		/**
 		 * Config phery singleton
 		 *
-		 * @param {String|Object} key name using dot notation (group.subconfig)
+		 * @param {String|typedefs.defaults} key name using dot notation (group.subconfig)
 		 * @param {String|Boolean|undefined} value
 		 * @return {phery}
 		 */
@@ -1234,7 +1262,7 @@
 		 * @return {phery}
 		 */
 		phery.reset_to_defaults = function () {
-			options = $.extend(true, {}, defaults);
+			options = $.extend(true, {}, typedefs.defaults);
 			_apply(options, true);
 			return phery;
 		};
@@ -1335,7 +1363,7 @@
 
 		/**
 		 * Set the global callbacks
-		 * @param {Object|String} event Key:value containing events or string.
+		 * @param {typedefs._callbacks|String} event Key:value containing events or string.
 		 * <pre>
 		 *    phery.on('always', fn); // or
 		 *    phery.on({'always': fn});
@@ -1351,7 +1379,7 @@
 					}
 				}
 			} else if (typeof event === 'string' && typeof cb === 'function') {
-				if (event in _callbacks) {
+				if (event in typedefs._callbacks) {
 					debug(['phery.on', {
 						event:event,
 						callback:cb
@@ -1449,10 +1477,76 @@
 				};
 			};
 
+		typedefs.viewopts = {
+			/**
+			 * Optional, function to call before the
+			 * HTML was set, can interact with existing elements on page
+			 * The context of the callback is the container
+			 * Passdata is a temp data that is kept between requests
+			 * @type {function(object,*)}
+			 */
+			'beforeHtml': 1,
+			/**
+			 * Optional, function to call to render the HTML,
+			 * in a custom way. This overwrites the original function,
+			 * so you might set this.html(html) manually.
+			 * The context of the callback is the container.
+			 * Passdata is a temp data that is kept between requests
+			 * @type {function(string,object,*)}
+			 */
+			'render': 1,
+			/**
+			 * Optional, function to call after the HTML was set,
+			 * can interact with the new contents of the page
+			 * The context of the callback is the container.
+			 * Passdata is a temp data that is kept between requests
+			 * @type {function(object,*)}
+			 */
+			'afterHtml': 1,
+			/**
+			 * Optional, defaults to a[href]:not(.no-phery,[target],[data-remote],[href*=":"],[rel~="nofollow"]).
+			 * Setting the selector manually will make it 'local' to the #container, like '#container a'
+			 * Links like <a rel="#nameofcontainer">click me!</a>, using the rel attribute will trigger too
+			 * @type {string}
+			 */
+			'selector':1,
+			/**
+			 * Optional, array containing conditions for links NOT to follow,
+			 * can be string, regex and function (that returns boolean, receives the url clicked, return true to exclude)
+			 * @type {Array.<{RegExp|String|function(string)}>}
+			 */
+			'exclude':1
+		};
+
+		typedefs.view = {
+			/**
+			 * Container data object
+			 * @type {*}
+			 */
+			data: 1,
+			/**
+			 * The container itself
+			 * @type {jQuery}
+			 */
+			container: 1,
+			/**
+			 * Load the URL in the container
+			 * @type {function(string): jQuery.ajax}
+			 * @return {jQuery.ajax}
+			 */
+			navigate_to: 1,
+			/**
+			 * Check if the URL is excluded
+			 * @type {function(string): Boolean}
+			 * @return {Boolean}
+			 */
+			is_excluded_url: 1
+		};
+
 		/**
 		 * Enable AJAX partials for the site. Disable links that responds
 		 * to it using the <code>.no-phery</code> class
-		 * @param {Object|String} config containing the view references to containers and respective configs.
+		 * @param {typedefs.viewopts|String} config containing the view references to containers and respective configs.
 		 * It's easier to maintain using IDs (like "#container") instead of selectors, like "div > section:eq(0)"
 		 * <pre>
 		 * {
@@ -1491,7 +1585,7 @@
 		 * {
 		 *      'data': container.data,			// selector, callbacks, etc
 		 *      'container': $(container),		// jquery container itself
-		 *      'remote': function(url),		// function to navigate to url set
+		 *      'navigate_to': function(url),	// function to navigate to url set
 		 *      'is_excluded_url': function(url)// check if the URL is excluded
 		 * }
 		 * </pre>
@@ -1499,7 +1593,7 @@
 		 * <pre>
 		 * phery.view({'#container':false});
 		 * </pre>
-		 * @return {PheryView|phery}
+		 * @return {PheryView|typedefs.view|phery}
 		 */
 		phery.view = function (config) {
 			if (typeof config === 'string') {
@@ -1589,7 +1683,7 @@
 							.on('click.view.' + _bound, selector, _containers[_container], event);
 
 						for (var _x in config[_container]) {
-							if (config[_container].hasOwnProperty(_x) && typeof _callbacks[_x] !== 'undefined') {
+							if (config[_container].hasOwnProperty(_x) && typeof typedefs._callbacks[_x] !== 'undefined') {
 								$container.on('phery:' + (_x) + '.phery.view', config[_container][_x]);
 							}
 						}

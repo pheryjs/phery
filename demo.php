@@ -9,7 +9,7 @@ if (version_compare(PHP_VERSION, '5.3.3', '<'))
 
 ini_set('display_errors', 1);
 
-$end_line = 798;
+$end_line = 798; date_default_timezone_set('UTC');
 $memory_start = 0;
 $start_time = microtime(true);
 
@@ -202,9 +202,9 @@ function post_callback($data, $callback_specific_data_as_array, $PheryResponse, 
 
 function timeout($data, $parameters)
 {
-	$r = PheryResponse::factory();
+	$r = PheryResponse::factory();	session_write_close(); // Needed because it will hang future calls, when using CSRF
 
-	if (!empty($data['callback']) && !empty($parameters['retries']))
+	if (isset($data['callback']) && !empty($parameters['retries']))
 	{
 		// The URL will have a retries when doing a retry
 		return $r->alert('Second time it worked, no error callback call ;)');
@@ -725,7 +725,7 @@ try
 
 	$phery
 	->config(array(
-		// Catch the errors
+		// Catch ALL the errors and use the internal error handler
 		'error_reporting' => E_ALL
 	))
 	->callback(array('before' => array(), 'after' => array()))
@@ -918,7 +918,8 @@ $(function () {
 		}
 	});
 
-	$('.togglecode').on('phery:beforeSend', function(e, xhr, settings){
+	$('.togglecode')
+	.on('phery:beforeSend', function(e, xhr, settings){
 		var
 			$this = $(this),
 			code = $this.parent().find('.code'),
@@ -1329,7 +1330,7 @@ function memusage(peak, usage, time) {
 				<img src="http://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/License_icon-mit-2.svg/256px-License_icon-mit-2.svg.png" alt="MIT Logo">
 				<figcaption>This figure is inside the clickable div as well</figcaption>
 			</figure>
-		</div>
+		<?php echo "</div>"; ?>
 		<div class="readcode">
 			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 65, 'to' => 77))); ?>
 			<pre class="code"></pre>
@@ -1353,7 +1354,7 @@ function memusage(peak, usage, time) {
 	</li>
 	<li>
 		<h2>Leaves the page, HTML tag is set to 'button'</h2>
-		<?php echo Phery::link_to('Redirect to google.com', 'test5', array('tag' => 'button')); ?>
+		<?php echo Phery::link_to('Redirect to google.com', 'test5', array('tag' => 'button', 'confirm' => 'Are you sure you want to go to Google?')); ?>
 		<div class="readcode">
 			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 475, 'to' => 478))); ?>
 			<pre class="code"></pre>
@@ -1658,7 +1659,7 @@ function memusage(peak, usage, time) {
  * 'all' on 'submit' will submit every field, even checkboxes that are not checked
  * 'disabled' on 'submit' will submit fields that are disabled
  */
-echo Phery::form_for('', 'form', array('id' => 'testform', 'submit' => array('disabled' => false, 'all' => false), 'related' => '#unob_form', 'args' => array('whadyousay' => 'OH YEAH')));
+echo Phery::form_for('', 'form', array('id' => 'testform', 'submit' => array('disabled' => false, 'all' => false), 'related' => '#alert', 'args' => array('whadyousay' => 'OH YEAH')));
 ?>
 <fieldset>
 	<label for="first_name">First Name:</label>

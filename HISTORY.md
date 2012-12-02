@@ -1,10 +1,19 @@
+### v2.3.1 - 2nd December 2012
+	* Fixed a serious ordering JSON problem in Chrome and IE (broken by design)
+	* Fixed left overs from respond_to_post support
+	* Fixed redirect function in PheryResponse
+	* Fixed merged responses
+	* Fixed AJAX retry on error
+	* Changed print_vars on PheryResponse to use var_export and return usable PHP code, instead of print_r
+
 ### v2.3.0 - 30th November 2012
-    * Consecutive calls to jquery(), access(), phery_remote(), this() now don't stack under a single common command
     * Renamed path() to access() in PheryResponse, makes more sense
+    * Consecutive calls to jquery(), access(), phery_remote(), this() now don't stack under a single common command
     * phery.view now accepts any type of selector, not only ids
     * Removed respond_to_post, there's no use for it since it's an AJAX library
-    * Added $no_close option for the link_for function, you may create ajax containers and close it yourself
+    * Added $no_close option for the link_to function, you may create ajax containers and close it yourself
     * Made the library AMD compatible
+    * Fixed PheryFunction function declarations starting with white space
 
 ### v2.2.3 - 27th November 2012
     * Small fix in the Javascript code, that won't try to process non-PheryResponse returns

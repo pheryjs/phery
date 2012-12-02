@@ -2,7 +2,7 @@
 
 ## What do I need?
 
-+    PHP 5.3+ with JSON functions (no legacy support for PHP 4 or 5.2 that had the support already dropped from PHP.net itself, relies on PHP 5.3 functions)
++    PHP 5.3.3+ with JSON functions (no legacy support for PHP 4 or 5.2 that had the support already dropped from PHP.net itself, relies on PHP 5.3 functions)
 +    jQuery 1.7+ (strongly suggested to use 1.8.1+)
 +    Firefox 3.6+, IE 8+, Chrome 12+, Safari 5+, Opera 10+
 
@@ -189,7 +189,7 @@ May be registered as a handler using `set_error_handler('Phery::error_handler', 
 
 #### Phery::shudown_handler()
 
-Public static function that should be used only with `register_shutdown_handler('Phery::shutdown_handler);`
+Public static function that should be used only with `register_shutdown_function('Phery::shutdown_handler');`
 having no other useful meaning
 
 #### Phery::respond($response, $compress = false)
@@ -343,7 +343,7 @@ Creates a new instance of phery, that is chainable
 ?>
 ```
 
-#### Phery::link_to($title, $function, array $attributes = array(), Phery $phery = null)
+#### Phery::link_to($title, $function, array $attributes = array(), Phery $phery = null, $no_close = false)
 
 Helper static method to create any element with AJAX enabled. Check sources, phpDocs or an IDE code hinting
 for a better scoop and detailed info <http://phery-php-ajax.net/docs/class-Phery.html#_link_to>

@@ -25,7 +25,7 @@
  *
  * @link       http://phery-php-ajax.net/
  * @author     Paulo Cesar
- * @version    2.3.0
+ * @version    2.3.1
  * @license    http://opensource.org/licenses/MIT MIT License
  */
 
@@ -39,6 +39,7 @@ class Phery implements ArrayAccess {
 	/**
 	 * Exception on callback() function
 	 * @see callback()
+	 * @type int
 	 */
 	const ERROR_CALLBACK = 0;
 	/**
@@ -97,6 +98,7 @@ class Phery implements ArrayAccess {
 	 * 'exit_allowed' (boolean)
 	 * 'no_stripslashes' (boolean)
 	 * 'exceptions' (boolean)
+	 * 'error_reporting' (int)
 	 * 'compress' (boolean)
 	 * 'csrf' (boolean)
 	 * </code>
@@ -105,6 +107,11 @@ class Phery implements ArrayAccess {
 	 * @see config()
 	 */
 	protected $config = array();
+	/**
+	 * If the class was just initiated
+	 * @var bool
+	 */
+	private $init = true;
 
 	/**
 	 * Construct the new Phery instance
@@ -117,7 +124,7 @@ class Phery implements ArrayAccess {
 			'after' => array()
 		);
 
-		$config = array_replace_recursive(
+		$config = array_replace(
 			array(
 				'exit_allowed' => true,
 				'no_stripslashes' => false,
@@ -446,6 +453,11 @@ class Phery implements ArrayAccess {
 			}
 		}
 
+		if (session_id() !== '')
+		{
+			session_write_close();
+		}
+
 		exit;
 	}
 
@@ -465,6 +477,8 @@ class Phery implements ArrayAccess {
 		{
 			if (!headers_sent())
 			{
+				session_write_close();
+
 				header('Cache-Control: no-cache, must-revalidate');
 				header('Expires: 0');
 				header('Content-Type: application/json');
@@ -544,8 +558,6 @@ class Phery implements ArrayAccess {
 			set_error_handler('Phery::error_handler', $this->config['error_reporting']);
 		}
 
-		register_shutdown_function('Phery::shutdown_handler', $this->config['compress'], $this->config['error_reporting'] !== false);
-
 		if (empty($_POST['phery']['csrf']))
 		{
 			$_POST['phery']['csrf'] = '';
@@ -580,7 +592,7 @@ class Phery implements ArrayAccess {
 			unset($_GET['_']);
 		}
 
-		if (!empty($_GET['_try_count']))
+		if (isset($_GET['_try_count']))
 		{
 			$this->data['retries'] = (int)$_GET['_try_count'];
 			unset($_GET['_try_count']);
@@ -720,25 +732,31 @@ class Phery implements ArrayAccess {
 			}
 		}
 
+		if ($this->config['error_reporting'] !== false)
+		{
+			restore_error_handler();
+		}
+
 		return true;
 	}
 
 	/**
-	 * Process the AJAX requests if any
+	 * Process the AJAX requests if any.
 	 *
 	 * @param bool $last_call Set this to false if any other further calls
 	 *                        to process() will happen, otherwise it will exit
 	 *
 	 * @throws PheryException
-	 * @return void
+	 * @return boolean Return false if any error happened
 	 */
 	public function process($last_call = true)
 	{
 		if (self::is_ajax(true))
 		{
 			// AJAX call
-			$this->process_data(false, $last_call);
+			return $this->process_data($last_call);
 		}
+		return true;
 	}
 
 	/**
@@ -778,6 +796,8 @@ class Phery implements ArrayAccess {
 	 */
 	public function config($config = null)
 	{
+		$register_function = false;
+
 		if (!empty($config))
 		{
 			if (is_array($config))
@@ -802,6 +822,8 @@ class Phery implements ArrayAccess {
 					if (!ini_get('zlib.output_compression'))
 					{
 						$this->config['compress'] = (bool)$config['compress'];
+
+						$register_function = true;
 					}
 				}
 
@@ -828,6 +850,14 @@ class Phery implements ArrayAccess {
 					{
 						$this->config['error_reporting'] = false;
 					}
+
+					$register_function = true;
+				}
+
+				if ($register_function || $this->init)
+				{
+					register_shutdown_function('Phery::shutdown_handler', $this->config['compress'], $this->config['error_reporting'] !== false);
+					$this->init = false;
 				}
 
 				return $this;
@@ -1482,6 +1512,11 @@ class PheryResponse extends ArrayObject {
 	 * @var int
 	 */
 	protected static $internal_count = 0;
+	/**
+	 * Internal count for multiple commands
+	 * @var int
+	 */
+	protected $internal_cmd_count = 0;
 
 	/**
 	 * Construct a new response
@@ -1492,7 +1527,9 @@ class PheryResponse extends ArrayObject {
 	public function __construct($selector = null, array $constructor = array())
 	{
 		parent::__construct(array(), self::ARRAY_AS_PROPS);
+
 		$this->jquery($selector, $constructor);
+
 		$this->set_response_name(uniqid("", true));
 	}
 
@@ -1900,7 +1937,7 @@ class PheryResponse extends ArrayObject {
 			{
 				$arg = get_object_vars($arg);
 			}
-			$args[$name] = array(print_r($arg, true));
+			$args[$name] = array(var_export($arg, true));
 		}
 
 		return $this->cmd(6, $args);
@@ -1936,7 +1973,7 @@ class PheryResponse extends ArrayObject {
 	/**
 	 * Sets the selector, so you can chain many calls to it. Passing # works like jQuery.func
 	 *
-	 * @param string $selector Sets the current selector for subsequent chaining
+	 * @param string|boolean $selector Sets the current selector for subsequent chaining
 	 *
 	 * <pre>
 	 * PheryResponse::factory()
@@ -1953,9 +1990,9 @@ class PheryResponse extends ArrayObject {
 	 *
 	 * @return PheryResponse
 	 */
-	public function jquery($selector = null, array $constructor = array())
+	public function jquery($selector = false, array $constructor = array())
 	{
-		if (!$selector)
+		if ($selector === false)
 		{
 			$this->set_internal_counter('#');
 		}
@@ -1977,12 +2014,12 @@ class PheryResponse extends ArrayObject {
 	/**
 	 * Shortcut/alias for jquery($selector) Passing null works like jQuery.func
 	 *
-	 * @param string $selector Sets the current selector for subsequent chaining
+	 * @param string|boolean $selector Sets the current selector for subsequent chaining
 	 * @param array $constructor Only available if you are creating a new element, like $('&lt;p/&gt;', {})
 	 *
 	 * @return PheryResponse
 	 */
-	public function j($selector = '#', array $constructor = array())
+	public function j($selector = false, array $constructor = array())
 	{
 		return $this->jquery($selector, $constructor);
 	}
@@ -2051,7 +2088,7 @@ class PheryResponse extends ArrayObject {
 
 		if ($selector === null)
 		{
-			$this->data[] = array(
+			$this->data['0'.($this->internal_cmd_count++)] = array(
 				'c' => $cmd,
 				'a' => $args
 			);
@@ -2254,7 +2291,7 @@ class PheryResponse extends ArrayObject {
 	 *
 	 * <pre>
 	 * PheryResponse::factory()->set_var(array('obj','newproperty'),
-	 *      PheryResponse::factory()->path(array('other_obj','enabled'))
+	 *      PheryResponse::factory()->access(array('other_obj','enabled'))
 	 * );
 	 * </pre>
 	 *
@@ -2309,17 +2346,21 @@ class PheryResponse extends ArrayObject {
 	 */
 	public function redirect($url, $view = false)
 	{
-		if ($view === false && !preg_match('#https?\://#i', $url))
+		if ($view === false && !preg_match('#^https?\://#i', $url))
 		{
 			$_url = (empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] === 'off' ? 'http://' : 'https://') . $_SERVER['HTTP_HOST'];
+			$start = substr($url, 0, 1);
 
-			if (!empty($url[0]) && ($url[0] === '/' || $url[0] === '?'))
+			if (!empty($start))
 			{
-				$_url .= str_replace('?'.$_SERVER['QUERY_STRING'], '', $_SERVER['REQUEST_URI']);
-			}
-			elseif ($url[0] !== '/')
-			{
-				$_url .= '/';
+				if ($start === '?')
+				{
+					$_url .= str_replace('?' . $_SERVER['QUERY_STRING'], '', $_SERVER['REQUEST_URI']);
+				}
+				elseif ($start !== '/')
+				{
+					$_url .= '/';
+				}
 			}
 			$_url .= $url;
 		}
@@ -2509,10 +2550,18 @@ class PheryResponse extends ArrayObject {
 			}
 			elseif (is_object($argument))
 			{
-				$rc = new ReflectionClass(get_class($argument));
-				if ($rc->hasMethod('__toString'))
+				$class = get_class($argument);
+				if ($class !== false)
 				{
-					$argument = "{$argument}";
+					$rc = new ReflectionClass(get_class($argument));
+					if ($rc->hasMethod('__toString'))
+					{
+						$argument = "{$argument}";
+					}
+					else
+					{
+						$argument = json_decode(json_encode($argument), true);
+					}
 				}
 				else
 				{
@@ -2532,14 +2581,36 @@ class PheryResponse extends ArrayObject {
 	{
 		$data = $this->data;
 
-		if (empty($data) && $this->last_selector !== null)
+		if (empty($data) && $this->last_selector !== null && !$this->is_special_selector('#'))
 		{
 			$data[$this->last_selector] = array();
 		}
 
 		foreach ($this->merged as $r)
 		{
-			$data = array_merge_recursive($data, $r);
+			foreach ($r as $selector => $response)
+			{
+				if (!ctype_digit($selector))
+				{
+					if (isset($data[$selector]))
+					{
+						$data[$selector] = array_merge_recursive($data[$selector], $response);
+					}
+					else
+					{
+						$data[$selector] = $response;
+					}
+				}
+				else
+				{
+					$selector = (int)$selector;
+					while (isset($data['0'.$selector]))
+					{
+						$selector++;
+					}
+					$data['0'.$selector] = $response;
+				}
+			}
 		}
 
 		return $data;
@@ -2600,6 +2671,30 @@ class PheryResponse extends ArrayObject {
 			'name' => $this->name,
 			'merged' => $this->merged,
 		));
+	}
+
+	/**
+	 * Determine if the last selector or the selector provided is an special
+	 *
+	 * @param string $type
+	 * @param string $selector
+	 * @return boolean
+	 */
+	protected function is_special_selector($type = null, $selector = null)
+	{
+		$selector = Phery::coalesce($selector, $this->last_selector);
+
+		if ($selector && preg_match('/\{([\D]+)\d+\}/', $selector, $matches))
+		{
+			if ($type === null)
+			{
+				return true;
+			}
+
+			return ($matches[1] === $type);
+		}
+
+		return false;
 	}
 }
 
