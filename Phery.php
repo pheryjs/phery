@@ -411,7 +411,10 @@ class Phery implements ArrayAccess {
 	 */
 	public static function error_handler($errno, $errstr, $errfile, $errline)
 	{
-		ob_end_clean();
+		while (ob_get_level() > 0)
+		{
+			ob_end_clean();
+		}
 
 		$response = PheryResponse::factory()->exception($errstr, array(
 			'code' => $errno,
