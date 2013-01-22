@@ -3,7 +3,7 @@
 ## What do I need?
 
 +    PHP 5.3.3+ with JSON functions (no legacy support for PHP 4 or 5.2 that had the support already dropped from PHP.net itself, relies on PHP 5.3 functions)
-+    jQuery 1.7+ (strongly suggested to use 1.8.1+)
++    jQuery 1.7+ (strongly suggested to use 1.8.1+, not compatible with version >=1.9)
 +    Firefox 3.6+, IE 8+, Chrome 12+, Safari 5+, Opera 10+
 
 ## Introduction

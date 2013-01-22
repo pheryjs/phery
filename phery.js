@@ -66,11 +66,11 @@
 			typedefs = {},
 			/**
 			 * @class
-			 * @version 2.3.1
+			 * @version 2.3.2
 			 */
 			phery = window.phery = window.phery || {};
 
-		phery.version = '2.3.1';
+		phery.version = '2.3.2';
 
 		/* Code from http://javascriptweblog.wordpress.com/2011/08/08/fixing-the-javascript-typeof-operator/ */
 		Object.toType = (function toType(global) {

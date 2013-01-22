@@ -799,7 +799,7 @@ $exception = array('from' => (__LINE__ - 17), 'to' => (__LINE__ - 2));
 <!doctype html>
 <html>
 <head>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.js"></script>
 <meta charset="utf-8">
 <title>Phery AJAX jQuery</title>
 <?php echo $phery->csrf(); ?>

@@ -1,3 +1,6 @@
+### v2.3.2 - 2nd December 2012
+    * Currently incompatible with jQuery >=1.9, new version in the workings
+
 ### v2.3.1 - 2nd December 2012
 	* Fixed a serious ordering JSON problem in Chrome and IE (broken by design)
 	* Fixed left overs from respond_to_post support
