@@ -1,7 +1,7 @@
 {
-	"name":"phery.js",
+	"name":"phery",
 	"version":"2.4.0",
-	"title":"Phery PHP Ajax",
+	"title":"Phery.js PHP Ajax",
 	"author":{
 		"name":"Paulo Cesar",
 		"url":"http://github.com/pocesar"
