@@ -1,6 +1,6 @@
 <?php
 //Ensure that it's completly compatible with strict mode and throws no notices or warnings, and not using any deprecated code
-error_reporting(E_ALL | E_STRICT | E_DEPRECATED);
+error_reporting(-1);
 
 if (version_compare(PHP_VERSION, '5.3.3', '<'))
 {
@@ -9,7 +9,7 @@ if (version_compare(PHP_VERSION, '5.3.3', '<'))
 
 ini_set('display_errors', 1);
 
-$end_line = 798; date_default_timezone_set('UTC');
+$end_line = 867; date_default_timezone_set('UTC');
 $memory_start = 0;
 $start_time = microtime(true);
 
@@ -19,10 +19,11 @@ PheryResponse::set_global('global', true);
 
 // Create a named response so we can include it later by the name
 PheryResponse::factory()
-->j('<div/>')
+->j('<div/>', array(
+	'css' => array('cursor' => 'pointer','border' => 'solid 3px #000'
+	)
+))
 ->html('This is a <i>new</i> <b>element</b>')
-->css('cursor', 'pointer')
-->css('border', 'solid 3px #000')
 ->one('click', PheryFunction::factory(array(
 		//'function(){',
 			'var $this = $(this);',
@@ -44,7 +45,7 @@ class myClass {
 			PheryResponse::factory('div.test')
 			->merge('scrollTop') // merge the named response
 			->filter(':eq(1)')
-			->toggle('fast')
+			->addClass('fast')
 			->text($ajax_data['hi'])
 			->jquery('a')
 			// Create callbacks directly from PHP! No need to do this, just to show it's possible
@@ -116,32 +117,29 @@ function trigger()
 		->trigger('test')
 		->jquery('<li/>') // Create a new element like in jQuery and append to the ul
 		->css('backgroundColor', '#0f0')
-		->html('<h1>Dynamically added, its already bound with phery AJAX upon creation because of jquery delegate()</h1><a data-remote="surprise">Click me (execute script calling window.location.reload)</a>')
+		->html('<h1>Dynamically added, its already bound with phery.js AJAX upon creation because of jquery delegate()</h1>' . Phery::link_to('Click me (execute script calling window.location.reload)', 'surprise'))
 		->appendTo('#add');
 }
 
 // data contains form data
 function form($data)
 {
+	$files = array();
+	foreach (PheryResponse::files('file') as $file){
+		$files[] = 'filename: ' . strip_tags($file['name']) . ' / size: ' . $file['size'] . 'B';
+	}
+
 	return
 		PheryResponse::factory('div.test:eq(0)')
 		->merge('scrollTop')
-		->text(print_r($data, true));
+		->text(print_r($data, true))
+		->unless(count($files) === 0)
+		->append("\n\n-----Files Uploaded-----\n\n" . join("\n\n", $files))
+		->dump_vars($data);
 }
 
 function thisone($data)
 {
-	// When being called from non AJAX call, will be processed later in the body
-	// set through 'respond_to_post' DEPRECATED
-	if (!Phery::is_ajax())
-	{
-		// You may do something different without AJAX,
-		// better not to use a PheryResponse unless you're going to parse it later.
-		// The best solution would be return an array or a new class, because everything
-		// will be allowed when responding to post
-		return array('error' => true, 'content' => 'Return this string for form submit', 'f' => $data['f']);
-	}
-
 	return
 		PheryResponse::factory()
 		->dump_vars($data);
@@ -207,7 +205,7 @@ function timeout($data, $parameters)
 	if (isset($data['callback']) && !empty($parameters['retries']))
 	{
 		// The URL will have a retries when doing a retry
-		return $r->alert('Second time it worked, no error callback call ;)');
+		return $r->call(array('console', 'log'), 'Second time it worked, no error callback call ;)');
 	}
 	sleep(5); // Sleep for 5 seconds to timeout the AJAX request, and trigger our retry
 	return $r;
@@ -234,12 +232,9 @@ function mem_end($data, $callback, $phery_answer)
 		(string)(round(microtime(true) - $start_time, 6))
 	);
 
-	if (Phery::is_ajax())
+	if ($phery_answer instanceof PheryResponse)
 	{
-		if ($phery_answer instanceof PheryResponse)
-		{
-			$phery_answer->apply('memusage', $mem);
-		}
+		$phery_answer->apply('memusage', $mem);
 	}
 }
 
@@ -250,7 +245,7 @@ $instance = new myClass;
 $phery = new Phery;
 
 /* Pseudo page menu */
-$menu = '<a href="?page=home">home</a> <a href="?page=about">about us</a> <a href="?page=contact">contact us</a> <a href="?page=notfound">Doesnt exist</a> <a href="?page=redirect">Redirect to home (inline)</a> <a href="?page=excluded">Excluded (full refresh)</a>';
+$menu = '<a href="?page=home">home</a> <a href="?page=about">about us</a> <a href="?page=contact">contact us</a> <a href="?page=notfound">Doesnt exist</a> <a href="?page=redirect">Redirect to home (inline)</a> <a href="?page=excluded#container">Excluded (full refresh)</a>';
 
 /* Quick hack to emulate a controller based website */
 function pseudo_controller()
@@ -282,11 +277,11 @@ HTML;
 				return array($title, $html);
 				break;
 			case 'contact':
-				$title = 'Contact Us';
-				$html = <<<HTML
+				$title = 'Contact Us'; $form = Phery::form_for('', 'form');
+				$html = <<<"HTML"
 <h1>Contact us</h1>
 <p>Use the form below to contact us</p>
-<form data-remote="form" method="POST">
+{$form}
 <p>
 	<label>Name</label>
 	<input name="name" type="text">
@@ -337,12 +332,6 @@ try
 			 * silently
 			 */
 			'exceptions' => true,
-			/**
-			 * This allows the responses to receive data and respond EVEN if
-			 * not called by ajax (ie on a browser with javascript disabled/blocked).
-			 * Good to ensure forms submission DEPRECATED
-			 */
-			//'respond_to_post' => array('thisone'),
 			/**
 			 * Compress using DEFLATE or GZIP, in this order, whichever is available
 			 * in the browser. Check if APACHE is already compressing it with gzip.
@@ -426,7 +415,7 @@ try
 					}
 				}
 				array_unshift($code, 'Lines: '.((int)$config['from']).' to '.((int)$config['to'])."\n\n");
-				$r->this()->parent()->find('.code')->text(join("", $code));
+				$r->this->parent()->find('.code')->text(join("", $code));
 			}
 			fclose($file);
 			return $r;
@@ -434,7 +423,7 @@ try
 		'this'=> function(){
 			return
 				PheryResponse::factory()
-				->this()
+				->this
 				->css(array(
 					'backgroundColor' => '#000',
 					'color' => '#fff'
@@ -463,7 +452,7 @@ try
 				$r->dump_vars($r);
 			}
 
-			return $r->this()->phery('append_args', array('wow' => 'true'));
+			return $r->this->phery('append_args', array('wow' => 'true'));
 		},
 		// instance method call
 		'test' => array($instance, 'test'),
@@ -504,7 +493,7 @@ try
 			$r = PheryResponse::factory($complement['submit_id'])->next('div');
 			// If the select has a name, the value of the select element will be passed as
 			// a key => value of it's name. Or it could be used as
-			// PheryResponse::factory()->this()->next('div');
+			// PheryResponse::factory()->this->next('div');
 			$html = array();
 			error_reporting(0);
 			switch (Phery::coalesce($data['named'], $data[0]))
@@ -572,9 +561,9 @@ try
 		},
 		'reuse' => function($data, $b)
 		{
-			$r = PheryResponse::factory($b['submit_id'])
-			->find('div')
-			->toggle('fast');
+			$r = PheryResponse::factory('#widgets div')->removeClass('focus-widget')
+			->j($b['submit_id'])->addClass('focus-widget')
+			->find('div')->show();
 
 			if (count($data))
 			{
@@ -618,7 +607,7 @@ try
 						$_SESSION['data'][$_GET['id']] = array(
 							'alert' => $data['alert'],
 							'incoming' => $data['incoming'],
-							'incoming2' => $data['incoming2'],
+							'named' => $data['named'],
 							'holy' => $data[0],
 							'one' => $data[1],
 						);
@@ -668,7 +657,7 @@ try
 				);
 			*/
 			return
-				PheryResponse::factory()->this()->before(
+				PheryResponse::factory()->this->before(
 					PheryResponse::factory('<p/>', array(
 						'text' => 'Text content at UNIX ' . time()
 					))
@@ -737,23 +726,23 @@ try
 		'deep-nesting' => function(){
 			$r = new PheryResponse('<h3/>');
 			$d = new PheryResponse('<p/>');
-			$v = new PheryResponse('<div id="blah"/>');
+			$v = new PheryResponse('<div id="blah_'.(mt_rand()).'"/>');
 			return
 			$r->append(
 				$d
 				->append(
 					$v
-					->text('test')
+					->text('this element can be clicked')
 					->bind('click', PheryFunction::factory('function(){ alert(this.id); }'))
 				)
-			)->insertAfter(PheryResponse::factory()->this());
+			)->insertAfter(PheryResponse::factory()->this);
 		},
 		'colorbox' => function($data){
 			if (!empty($data['close']))
 			{
 				return
 					PheryResponse::factory()
-					//->call(array('$', 'colorbox', 'close'));
+					//->jquery->colorbox->close() or ->call(array('$', 'colorbox', 'close'));
 					// or
 					->access(array('$','colorbox'))->close();
 			}
@@ -761,19 +750,97 @@ try
 			{
 				return
 					PheryResponse::factory()
-					->jquery()
+					->jquery
 					->colorbox(array(
-						'html' => '<a data-remote="colorbox" data-args="'.Phery::args(array('close' => true)).'">Look, im inside PHP, loaded with everything already ;)<br>Clicking this will call $.colorbox.close();</a>',
+						'html' =>
+						Phery::link_to('Look, im inside PHP, loaded with everything already ;)<br>Clicking this will call $.colorbox.close();', 'colorbox', array('args' => array('close' => true))),
 					));
 			}
 			return
 				PheryResponse::factory()
-				->jquery()
+				->jquery
 				->colorbox(array(
 					'inline' => true,
-					'href' => PheryResponse::factory()->this()->parent(),
+					'href' => PheryResponse::factory()->this->parent(),
 				));
 		},
+		'fileupload' => function($data) {
+			$r = new PheryResponse;
+			$files = $r->files('files');
+			foreach ($files as $index => $file) {
+				unset($files[$index]['tmp_name']);
+			}
+			return $r->dump_vars($files);
+		},
+		'autocomplete' => function($data) {
+			$r = new PheryResponse;
+			$states = array(
+				'Alabama',
+				'Alaska',
+				'Arizona',
+				'Arkansas',
+				'California',
+				'Colorado',
+				'Connecticut',
+				'Delaware',
+				'Florida',
+				'Georgia',
+				'Hawaii',
+				'Idaho',
+				'Illinois',
+				'Indiana',
+				'Iowa',
+				'Kansas',
+				'Kentucky',
+				'Louisiana',
+				'Maine',
+				'Maryland',
+				'Massachusetts',
+				'Michigan',
+				'Minnesota',
+				'Mississippi',
+				'Missouri',
+				'Montana',
+				'Nebraska',
+				'Nevada',
+				'New Hampshire',
+				'New Jersey',
+				'New Mexico',
+				'New York',
+				'North Carolina',
+				'North Dakota',
+				'Ohio',
+				'Oklahoma',
+				'Oregon',
+				'Pennsylvania',
+				'Rhode Island',
+				'South Carolina',
+				'South Dakota',
+				'Tennessee',
+				'Texas',
+				'Utah',
+				'Vermont',
+				'Virginia',
+				'Washington',
+				'West Virginia',
+				'Wisconsin',
+				'Wyoming',
+			);
+			$lis = array();
+
+			$search = trim($data['state']);
+
+			foreach($states as $state)
+			{
+				if (stripos($state, $search) !== false)
+				{
+					$lis[] = '<li>' . $state . '</li>';
+				}
+			}
+
+			$r->this->find('ul')->html(join('', $lis));
+			return $r;
+		}
 	))
 	->process();
 }
@@ -799,11 +866,11 @@ $exception = array('from' => (__LINE__ - 17), 'to' => (__LINE__ - 2));
 <!doctype html>
 <html>
 <head>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
 <meta charset="utf-8">
-<title>Phery AJAX jQuery</title>
+<title>phery.js AJAX jQuery</title>
 <?php echo $phery->csrf(); ?>
-<script src="colorbox/colorbox/jquery.colorbox-min.js" id="colorbox-script" type="text/javascript"></script>
+<script src="colorbox/colorbox/jquery.colorbox.js" id="colorbox-script" type="text/javascript"></script>
 <link rel="stylesheet" href="colorbox/example1/colorbox.css">
 <script src="phery.js" type="text/javascript"></script>
 <script type="text/javascript">
@@ -825,39 +892,42 @@ $(function () {
 	$usage = $('#usage');
 	$('#version').text('jQuery Version: ' + $().jquery);
 
-	$('div.test').bind({
+	$('div.test').on({
 		'test':function () { // bind a custom event to the DIVs
 			$(this).show(0).text('triggered custom event "TEST"!');
 		}
 	});
 
+	/*****************************
+	 *  RECEIVE ANY TYPE OF DATA *
+	 *****************************/
 	/*
 	 *
 	 * Manually process the result of ajax call, can be anything
 	 *
 	 */
-	$('#special').bind({
+	$('#special').on({
 		'phery:done':function (data, text, xhr) {
 			// The object will receive the text, return data from 'test' function, it's a JSON string
-			alert(text);
+			//alert(text);
 			// Now lets convert back to an object
 			var obj = $.parseJSON(text);
-			console.log(obj);
+			console.log(['text: ', text, 'json: ', obj]);
 			// Do stuff with new obj
 			// Returning false will prevent the parser to continue executing the commands and parsing
 			// for jquery calls, because this text/html answer won't have any
 			return false;
 		}
 	})
-		// The data-type must override the type to 'html', since the default is 'json'
-	.data('type', 'html');
+	// The data-phery-type must override the type to 'html', since the default is 'json'
+	.phery('data', 'type', 'html');
 
 	/*
 	 *
 	 * Bind the phery:always, after data was received, and there was no error
 	 *
 	 */
-	$('#special2').bind({
+	$('#special2').on({
 		'phery:always':function (xhr) {
 			var $this = $(this);
 			$this.show(0);
@@ -867,28 +937,33 @@ $(function () {
 		}
 	});
 
-	var to_pre = function () {
+	/****************************
+	 *  FORMAT CODE FROM TABLES *
+	 ****************************/
+	var to_pre = function (e) {
 				var $div = $('div.test:eq(0)');
 				var text = $div.html();
 				// This doesnt work for IE7 or IE8, no idea why, the CRLF wont be replaced by <br>
 				$div.html('<pre>' + text + '</pre>');
 			};
+
 	/*
 	 *
 	 * Let's just bind to the form, so we can apply some formatting to the text coming from print_r() PHP
 	 *
 	 */
-	$('form').bind({
-		'phery:always': to_pre
-	});
+	$(document).on('phery:always', 'form', to_pre);
 
+	/**************************
+	 *  TEST FORM TOGGLES     *
+	 **************************/
 	var $form = $('#testform');
 
 	var f = function (el, name) {
 		var $this = $(el);
-		var $submit = $form.data('submit.phery');
+		var $submit = $form.phery('data', 'submit');
 		$submit[name] = $this.prop('checked');
-		$form.data('submit', $submit);
+		$form.phery('data', 'submit', $submit);
 	};
 
 	$('#disable').click(function () {
@@ -902,6 +977,9 @@ $(function () {
 	var
 	$loading = $('#loading');
 
+	/**************************
+	 *  EXCEPTION HIGHLIGHT   *
+	 **************************/
 	$(document)
 	.on('mouseenter', '#exceptions a', function(){
 		var $this = $(this);
@@ -918,6 +996,9 @@ $(function () {
 		}
 	});
 
+	/*****************************
+	 *  SEE PHP CODE/TOGGLE CODE *
+	 *****************************/
 	$('.togglecode')
 	.on('phery:beforeSend', function(e, xhr, settings){
 		var
@@ -935,9 +1016,12 @@ $(function () {
 		return true;
 	});
 
+	/**************************
+	 *  GLOBAL AJAX EVENTS    *
+	 **************************/
 	/*
 	 *
-	 * Global phery events
+	 * Global phery.js events
 	 *
 	 * You can set global events to be triggered, in this case, fadeIn and out the loading div
 	 * On global events, the current delegated dom node will be available in event.target
@@ -946,15 +1030,22 @@ $(function () {
 		'before':function (event) {
 			$loading.removeClass('error').fadeIn('fast');
 
+			// catch all event to apply some classes and arguments
 			if (event.target.is('#modify')) {
 				event.target.phery('set_args', {
 					'alert':event.target.next('input').val(),
 					'callback':'callme'
 				});
+			} else {
+				// disable for our AJAX container and autocomplete
+				if (!event.target.is('div#container,div.autocomplete')) {
+					$(event.target).addClass('loading');
+				}
 			}
 		},
 		'always':function (event, xhr) {
 			$loading.fadeOut('fast');
+			$(event.target).removeClass('loading');
 		},
 		'fail':function (event, xhr, status) {
 			if (status !== 'canceled') {
@@ -1008,6 +1099,9 @@ $(function () {
 		alert(e);
 	};
 
+	/**************************
+	 *  CONFIG PHERY.JS       *
+	 **************************/
 	phery.config({
 		/*
 		 * Retry one more time, if fails, then trigger events.error
@@ -1036,26 +1130,39 @@ $(function () {
 		/*
 		 * Log messages that can be accessed on phery.log()
 		 */
-		'enable.log_history':true
+		'enable.log_history':true,
+		/*
+		 * Enable inline loading of responses
+		 */
+		'inline.enabled': true
 	});
 
 	// 2 seconds timeout for AJAX
 	// any AJAX option can be set through jQuery
-	$.ajaxSetup({timeout:2000});
+	$.ajaxSetup({timeout:5000});
 
 	$loading.fadeOut(0);
 
+	/**************************
+	 *  FORM VALIDATION       *
+	 **************************/
 	$('#validate').click(function () {
 		if ($(this).prop('checked')) {
 			load_validate();
 		}
 	});
 
+	/**************************
+	 *  COLORBOX              *
+	 **************************/
 	$('#colorbox-btn').click(function(){
 		phery.remote('colorbox');
 	});
 
-	$('#loaddata').bind({
+	/**************************
+	 *  JSON LOADING DATA     *
+	 **************************/
+	$('#loaddata').on({
 		'phery:json': function(event, data){
 			var tbody = $('#datatable tbody'), tr;
 			for (var x = 0; x < data.length; x++)
@@ -1070,7 +1177,10 @@ $(function () {
 		}
 	});
 
-	$('#ajax').bind('click',function () {
+	/**************************
+	 *  AJAX PARTIAL VIEWS    *
+	 **************************/
+	$('#ajax').on('click',function () {
 		var $this = $(this);
 		if ($this.prop('checked')) {
 			/* Setup automatic view rendering using ajax */
@@ -1115,6 +1225,9 @@ $(function () {
 		}
 	}).triggerHandler('click');
 
+	/**************************
+	 *  ENABLE/DISABLE DEBUG *
+	 *************************/
 	$('#debug').click(function () {
 		phery.config({
 			/*
@@ -1129,6 +1242,58 @@ $(function () {
 		.find('span')
 		.text(enabled ? 'ON' : 'OFF');
 	});
+
+	/**************************
+	 *  PROXY CALLS          *
+	 *************************/
+	$('#proxy').click(function(){
+		phery.remote('proxy', null, {'proxy': $form});
+	});
+
+	/**************************
+	 *  FILE UPLOAD ON PICK   *
+	 *************************/
+	$('#files').on({
+		'change':function(){
+			phery.remote('fileupload', null,  {'el': $(this)});
+		},
+		'phery:progress': function(e, progress){
+			if (progress.lengthComputable){
+				$('progress').val((progress.loaded / progress.total) * 100);
+			}
+		}
+	});
+
+	/**************************
+	 *  AUTO COMPLETE        *
+	 *************************/
+	var typing_interval;
+
+	$('.autocomplete').on('keyup', function(e){
+		var $this = $(this);
+		if (!$this.data('input')) {
+			//cache it for performance
+			$this.data('input', $this.find('input'));
+		}
+
+		if ($this.data('input').val().length > 2) {
+			clearTimeout(typing_interval);
+			typing_interval = setTimeout(function(){
+				$this.phery('remote'); // our data is being fetched using 'related' attribute ;)
+			}, 300);
+		}
+	}).on('blur', 'input', function(){
+		clearTimeout(typing_interval);
+	});
+
+	/**************************
+	 *  INLINE LOAD          *
+	 *************************/
+	<?php
+		$str = "\\\`ç\nasdf'";
+		PheryResponse::factory()->dump_vars(array('inline_load' => array('dump_vars', $str)))->inline_load(true);
+	?>
+
 });
 
 function load_validate() {
@@ -1143,7 +1308,7 @@ function load_validate() {
 		'id':name
 	});
 
-	$(script).bind('load', Validatize);
+	$(script).on('load', Validatize);
 
 	$('head')[0].appendChild(script[0]);
 }
@@ -1231,6 +1396,23 @@ function memusage(peak, usage, time) {
 		border-radius:         3px;
 	}
 
+	.loading {
+		position: relative;
+		opacity: 0.5;
+	}
+	.loading:after {
+		background: rgba(200, 200, 200, 0.9) url('//i.stack.imgur.com/KOCJh.gif') no-repeat 50% 50%;
+		display: block;
+		height:100%;
+		width:100%;
+		box-sizing: border-box;
+		position: absolute;
+		top: 0;
+		left: 0;
+		z-index: 100;
+		content: ' ';
+	}
+
 	.error {
 		background: #f00 !important;
 	}
@@ -1260,6 +1442,15 @@ function memusage(peak, usage, time) {
 		cursor: pointer;
 	}
 
+	#debug:after {
+		content: ' (Click to change)';
+		color: #0088d8;
+	}
+
+	#debug span{
+		text-decoration: underline;
+	}
+
 	#exceptions li {
 		padding: 4px;
 	}
@@ -1268,6 +1459,23 @@ function memusage(peak, usage, time) {
 		-moz-box-shadow:    3px 3px 3px 1px #f00;
 		-webkit-box-shadow: 3px 3px 3px 1px #f00;
 		box-shadow:         3px 3px 3px 1px #f00;
+	}
+
+	.fast {
+		-webkit-transition: opacity 2s ease-in-out;
+		-moz-transition:    opacity 2s ease-in-out;
+		-o-transition:      opacity 2s ease-in-out;
+		transition:         opacity 2s ease-in-out;
+		opacity: 0.8;
+	}
+
+	.focus-widget {
+		-webkit-box-shadow: inset 0px 0px 7px 8px #000000;
+		-ms-box-shadow: inset 0px 0px 7px 8px #000000;
+		-moz-box-shadow: inset 0px 0px 7px 8px #000000;
+		box-shadow:         inset 0px 0px 7px 8px #000000;
+		margin:  10px 0;
+		padding: 20px;
 	}
 
 	.external {
@@ -1299,7 +1507,9 @@ function memusage(peak, usage, time) {
 	<p id="version"></p>
 </div>
 
-<h2 id="debug">Check the Firebug/Console for the messages this page outputs, DEBUG is set to <span>OFF</span> (click to change)</h2>
+<p style="font-weight: bold;font-size: 18px;">Check the Firebug/Console for the messages and object dumps this page outputs</p>
+
+<h2 id="debug">DEBUG is set to <span>OFF</span></h2>
 
 <hr>
 <div class="test" style="border:solid 1px #000; padding: 20px;">Div.test</div>
@@ -1310,7 +1520,7 @@ function memusage(peak, usage, time) {
 		<h2>Using HTML 'b' tag, chain commands for css() and animate(), id #special2</h2>
 		<?php echo Phery::link_to('Test data and check it on callback phery:always', 'data', array('tag' => 'b', 'id' => 'special2', 'style' => 'cursor:pointer;')); ?>
 		<div class="readcode">
-			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 79, 'to' => 100))); ?>
+			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 80, 'to' => 101))); ?>
 			<pre class="code"></pre>
 		</div>
 	</li>
@@ -1318,7 +1528,7 @@ function memusage(peak, usage, time) {
 		<h2>Magic call to jquery toggle() on 'div.test' using filter(':eq(1)')</h2>
 		<?php echo Phery::link_to('Instance method call', 'test', array('confirm' => 'Are you sure?', 'args' => array('hi' => 'test'))); ?>
 		<div class="readcode">
-			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 40, 'to' => 63))); ?>
+			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 41, 'to' => 64))); ?>
 			<pre class="code"></pre>
 		</div>
 	</li>
@@ -1327,12 +1537,12 @@ function memusage(peak, usage, time) {
 		<?php echo Phery::link_to('Regular function', 'test2', array('id' => 'special', 'tag' => 'div', 'clickable' => true, 'args' => array('hello' => 'Im a named argument :D')), null, true); ?>
 			<p>This is a P inside the DIV, but it's parent is clickable</p>
 			<figure>
-				<img src="http://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/License_icon-mit-2.svg/256px-License_icon-mit-2.svg.png" alt="MIT Logo">
+				<img src="http://lorempixel.com/400/200/" alt="lorempixel">
 				<figcaption>This figure is inside the clickable div as well</figcaption>
 			</figure>
 		<?php echo "</div>"; ?>
 		<div class="readcode">
-			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 65, 'to' => 77))); ?>
+			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 108, 'to' => 111))); ?>
 			<pre class="code"></pre>
 		</div>
 	</li>
@@ -1340,7 +1550,7 @@ function memusage(peak, usage, time) {
 		<h2>Call a lambda function that returns an alert according to the parameters passed, which is 'first', then 'second', set to uppercase by the callback function</h2>
 		<?php echo Phery::link_to('Call to lambda', 'test3', array('args' => array('first', 'second'))); ?>
 		<div class="readcode">
-			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 699, 'to' => 709))); ?>
+			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 688, 'to' => 698))); ?>
 			<pre class="code"></pre>
 		</div>
 	</li>
@@ -1348,7 +1558,7 @@ function memusage(peak, usage, time) {
 		<h2>Call to an existing javascript function an array of integers</h2>
 		<?php echo Phery::link_to('Static call from class', 'test4', array('args' => array(1, 2, 4, 6, 19))); ?>
 		<div class="readcode">
-			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 65, 'to' => 77))); ?>
+			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 66, 'to' => 78))); ?>
 			<pre class="code"></pre>
 		</div>
 	</li>
@@ -1356,7 +1566,7 @@ function memusage(peak, usage, time) {
 		<h2>Leaves the page, HTML tag is set to 'button'</h2>
 		<?php echo Phery::link_to('Redirect to google.com', 'test5', array('tag' => 'button', 'confirm' => 'Are you sure you want to go to Google?')); ?>
 		<div class="readcode">
-			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 475, 'to' => 478))); ?>
+			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 464, 'to' => 467))); ?>
 			<pre class="code"></pre>
 		</div>
 	</li>
@@ -1372,7 +1582,7 @@ function memusage(peak, usage, time) {
 		<h2>Call to a function that returns an animate() with a callback and executes before and after callbacks</h2>
 		<?php echo Phery::link_to('Testing callbacks', 'the_one_with_expr', array('id' => 'look-i-have-an-id', 'args' => array(1, 2, 3, 'a', 'b', 'c'))); ?>
 		<div class="readcode">
-			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 150, 'to' => 158))); ?>
+			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 148, 'to' => 156))); ?>
 			<pre class="code"></pre>
 		</div>
 	</li>
@@ -1380,7 +1590,7 @@ function memusage(peak, usage, time) {
 		<h2>Nested PheryResponse call</h2>
 		<?php echo Phery::link_to('Nested!', 'nested'); ?>
 		<div class="readcode">
-			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 661, 'to' => 676))); ?>
+			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 650, 'to' => 665))); ?>
 			<pre class="code"></pre>
 		</div>
 	</li>
@@ -1388,15 +1598,15 @@ function memusage(peak, usage, time) {
 		<h2>Deep nesting PheryResponse and PheryFunction calls</h2>
 		<?php echo Phery::link_to('Deep Nested!', 'deep-nesting'); ?>
 		<div class="readcode">
-			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 737, 'to' => 750))); ?>
+			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 726, 'to' => 739))); ?>
 			<pre class="code"></pre>
 		</div>
 	</li>
 	<li>
-		<h2>Manual phery.remote('test', {'hi': 'test'}) onclick , with arguments</h2>
-		<a onclick="phery.remote('test', {'hi': 'test'});">Inline onclick event</a>
+		<h2>Old school phery.remote('test', {'hi': 'manual'}) onclick, with arguments</h2>
+		<a onclick="phery.remote('test', {'hi': 'manual'});">Inline onclick event</a>
 		<div class="readcode">
-			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 40, 'to' => 63))); ?>
+			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 41, 'to' => 64))); ?>
 			<pre class="code"></pre>
 		</div>
 	</li>
@@ -1404,7 +1614,7 @@ function memusage(peak, usage, time) {
 		<h2>Trigger event 'test' on both divs (and a green on-the-fly div appended at the bottom)</h2>
 		<?php echo Phery::link_to('Trigger event', 'trigger'); ?>
 		<div class="readcode">
-			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 112, 'to' => 121))); ?>
+			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 113, 'to' => 122))); ?>
 			<pre class="code"></pre>
 		</div>
 	</li>
@@ -1416,7 +1626,7 @@ function memusage(peak, usage, time) {
 		<h2>Global exception handler</h2>
 		<?php echo Phery::link_to('Trigger global exception callback returning invalid javascript', 'invalid'); ?>
 		<div class="readcode">
-			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 494, 'to' => 498))); ?>
+			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 483, 'to' => 487))); ?>
 			<pre class="code"></pre>
 		</div>
 	</li>
@@ -1424,7 +1634,7 @@ function memusage(peak, usage, time) {
 		<h2>Retry on timeout</h2>
 		<?php echo Phery::link_to('Timeout retry then give up', 'timeout'); ?>
 		<div class="readcode">
-			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 203, 'to' => 214))); ?>
+			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 201, 'to' => 212))); ?>
 			<pre class="code"></pre>
 		</div>
 	</li>
@@ -1432,7 +1642,7 @@ function memusage(peak, usage, time) {
 		<h2>Retry on timeout, then accept second call</h2>
 		<?php echo Phery::link_to('Timeout retry then work', 'timeout', array('args' => array('callback' => true))); ?>
 		<div class="readcode">
-			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 203, 'to' => 214))); ?>
+			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 201, 'to' => 212))); ?>
 			<pre class="code"></pre>
 		</div>
 	</li>
@@ -1440,24 +1650,24 @@ function memusage(peak, usage, time) {
 		<h2>Custom error reporting for a bit of code</h2>
 		<?php echo Phery::link_to('Exception', 'on_purpose_exception'); ?>
 		<div class="readcode">
-			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 733, 'to' => 736))); ?>
+			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 722, 'to' => 725))); ?>
 			<pre class="code"></pre>
 		</div>
 	</li>
 	<li>
-		<h2>Dump vars vs Print vars (watch the Firebug console)</h2>
+		<h2>Dump vars vs Print vars (watch the Firebug console, some ajax arguments will be appended on-the-fly after first call)</h2>
 		<?php echo Phery::link_to('Dump vars', 'dumpvars'); ?>
 		<?php echo Phery::link_to('Print vars', 'dumpvars', array('args' => array('is_print' => true))); ?>
 		<div class="readcode">
-			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 445, 'to' => 467))); ?>
+			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 434, 'to' => 456))); ?>
 			<pre class="code"></pre>
 		</div>
 	</li>
 	<li>
-		<h2>Using PheryResponse::factory()->this() to access the calling element</h2>
+		<h2>Using PheryResponse::factory()->this to access the calling element</h2>
 		<?php echo Phery::link_to('This', 'this'); ?>
 		<div class="readcode">
-			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 434, 'to' => 444))); ?>
+			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 423, 'to' => 433))); ?>
 			<pre class="code"></pre>
 		</div>
 	</li>
@@ -1466,15 +1676,15 @@ function memusage(peak, usage, time) {
 		<?php echo Phery::link_to('I have no arguments, click me', 'before', array('id' => 'modify')); ?>
 		<input type="text" id="alert" value="Yes its an alert" /> &laquo; change this to set the data to be sent
 		<div class="readcode">
-			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 567, 'to' => 572))); ?>
+			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 556, 'to' => 561))); ?>
 			<pre class="code"></pre>
 		</div>
 	</li>
 	<li>
 		<h2>Image tag click (using the <i>Phery::link_to</i> builder)</h2>
-		<?php echo Phery::link_to(null, 'img', array('src' => '//upload.wikimedia.org/wikipedia/commons/6/63/Wikipedia-logo.png', 'tag' => 'img', 'style' => 'cursor:pointer')) ?>
+		<?php echo Phery::link_to(null, 'img', array('src' => '//upload.wikimedia.org/wikipedia/commons/6/63/Wikipedia-logo.png', 'alt' => 'Wikipedia Logo', 'tag' => 'img', 'style' => 'cursor:pointer')) ?>
 		<div class="readcode">
-			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 589, 'to' => 594))); ?>
+			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 578, 'to' => 583))); ?>
 			<pre class="code"></pre>
 		</div>
 	</li>
@@ -1483,13 +1693,42 @@ function memusage(peak, usage, time) {
 		<p>
 			Needs to place "colorbox/colorbox/jquery.colorbox-min.js" and "colorbox/example1/colorbox.css" for this to work
 		</p>
-		<a id="colorbox-btn">Colorbox!</a>	<a data-remote="colorbox" data-args="<?php echo Phery::args(array('other-way-around' => true)) ?>">Colorbox! (add this parent &lt;li&gt; inside the colorbox using this and the links still works as it should)</a>
+		<a id="colorbox-btn">Colorbox!</a> <?php echo Phery::link_to('Colorbox! (add this parent &lt;li&gt; inside the colorbox using this and the links still works as it should)', 'colorbox', array('args' => array('other-way-around' => true))); ?>
 		<div class="readcode">
-			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 751, 'to' => 776))); ?>
+			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 740, 'to' => 766))); ?>
 			<pre class="code"></pre>
 		</div>
 	</li>
+	<li>
+		<h2>Upload multiple files with progress (only on good browsers plus the <i>el</i> attr in phery.remote, can upload multiple files at once, ctrl+click select the files)</h2>
+		<input type="file" id="files" name="files" multiple="multiple">
+		<progress max="100" value="0"></progress>
+		<div class="readcode">
+			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 767, 'to' => 774))); ?>
+			<pre class="code"></pre>
+		</div>
+	</li>
+	<li>
+		<h2>Proxy only the events to another element</h2>
+		<a id="proxy">Proxy it to the form and trigger an exception on the form behalf</a>
+	</li>
 </ul>
+
+<h1>Quick auto complete example</h1>
+<p>
+	A quick demonstration of how easy to use autocomplete with phery.js, type more than 3 letters any part of an US states name.
+	Got a 300ms delay once stop typing, it's not a real delay from the library. The whole autocomplete code is only 15 lines of javascript code.
+</p>
+<?php echo Phery::link_to('', 'autocomplete', array('class' => 'autocomplete', 'related' => 'input', 'tag' => 'div'), null, true); ?>
+	<input type="text" autocomplete="off" name="state">
+	<ul></ul>
+<?php echo '</div>'; ?>
+
+<div class="readcode">
+	<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 775, 'to' => 843))); ?>
+	<pre class="code"></pre>
+</div>
+
 
 <h1>Working with JSON (like with Backbone.js)</h1>
 
@@ -1498,9 +1737,9 @@ function memusage(peak, usage, time) {
 	a library like <a target="_blank" class="external" href="http://backbonejs.org/">Backbone.js</a>, that works with collections and models, and usually have a view attached, or <a href="http://datatables.net/" target="_blank" class="external">Datatables</a>
 </p>
 
-<a data-remote="json" id="loaddata">Load data</a>
+<?php echo Phery::link_to('Load Data', 'json', array('id' => 'loaddata')); ?>
 <div class="readcode">
-	<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 545, 'to' => 559))); ?>
+	<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 534, 'to' => 548))); ?>
 	<pre class="code"></pre>
 </div>
 <table id="datatable">
@@ -1518,15 +1757,17 @@ function memusage(peak, usage, time) {
 
 <p>
 	Following the D.R.Y. paradigm, you can use the same phery.remote call in similar widget compositions.
-	If the current element doesn't have an ID, the imediate ID of the parent will be used.
+	If the current element doesn't have an ID, the imediate ID of the parent will be used. It's using the
+	'related' special attribute to aggregate data from many sources. When using 'related', it's always relative
+	to the current element, so using 'input' is like using '$(this).find('input')'
 </p>
 
 <div class="readcode">
-	<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 573, 'to' => 588))); ?>
+	<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 562, 'to' => 577))); ?>
 	<pre class="code"></pre>
 </div>
 
-<table>
+<table id="widgets">
 	<tr>
 		<td>
 			<div id="id1">
@@ -1540,7 +1781,7 @@ function memusage(peak, usage, time) {
 	<tr>
 		<td>
 			<div id="id2">
-				<?php echo Phery::link_to("Open (notice the 'local' data-related)", 'reuse', array('related' => '~ input[type="text"]')) ?>
+				<?php echo Phery::link_to("Open (notice the 'local' data-phery-related)", 'reuse', array('related' => '~ input[type="text"]')) ?>
 				<div style="display: none">
 					The current value
 				</div>
@@ -1551,7 +1792,7 @@ function memusage(peak, usage, time) {
 	<tr>
 		<td>
 			<div id="id3">
-				<?php echo Phery::link_to("Open (notice the 'local' data-related)", 'reuse', array('related' => '~ input,#id2 input')) ?>
+				<?php echo Phery::link_to("Open (notice the 'local' data-phery-related)", 'reuse', array('related' => '~ input,#id2 input')) ?>
 				<div style="display: none">
 					The current value
 				</div>
@@ -1562,7 +1803,7 @@ function memusage(peak, usage, time) {
 	<tr>
 		<td>
 			<div id="id4">
-				<a data-remote="reuse" data-related="~ .send">Open (notice the 'local' data-related)</a>
+				<?php echo Phery::link_to("Open (notice the 'local' data-phery-related)", 'reuse', array('related' => '~ .send')); ?>
 				<div style="display: none">
 					The current value
 				</div>
@@ -1575,7 +1816,7 @@ function memusage(peak, usage, time) {
 <h1>Selects</h1>
 
 <div class="readcode">
-	<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 502, 'to' => 537))); ?>
+	<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 491, 'to' => 526))); ?>
 	<pre class="code"></pre>
 </div>
 
@@ -1588,7 +1829,7 @@ function memusage(peak, usage, time) {
 <div></div>
 
 <div class="readcode">
-	<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 561, 'to' => 566))); ?>
+	<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 550, 'to' => 555))); ?>
 	<pre class="code"></pre>
 </div>
 
@@ -1598,14 +1839,14 @@ function memusage(peak, usage, time) {
 <h1>RESTful</h1>
 
 <p>
-	REST is emulated to make it easier to reuse the same Phery function. This is not intended to be used as CORS.
-	Everything uses the same url id (as ?id=1) but with different outcomes. The <b>data-related</b> attribute, when
+	REST is emulated to make it easier to reuse the same phery.js function. This is not intended to be used as CORS.
+	Everything uses the same url id (as ?id=1) but with different outcomes. The <b>data-phery-related</b> attribute, when
 	written in plain text, can have any jQuery selector, or a mix of jQuery selectors. The resulting value will have all
 	values merged
 </p>
 
 <div class="readcode">
-	<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 595, 'to' => 660))); ?>
+	<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 584, 'to' => 649))); ?>
 	<pre class="code"></pre>
 </div>
 
@@ -1650,6 +1891,11 @@ function memusage(peak, usage, time) {
 <p>
 	<input id="validate" type="checkbox"> Enable <a href="https://github.com/jzaefferer/jquery-validation" class="external" target="_blank">jQuery Validate</a> on form
 </p>
+
+<div class="readcode">
+	<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 125, 'to' => 139))); ?>
+	<pre class="code"></pre>
+</div>
 
 <?php
 /* form_for is a helper function that will create a form that is ready to be submitted through phery
@@ -1704,6 +1950,11 @@ echo Phery::form_for('', 'form', array('id' => 'testform', 'submit' => array('di
 		<option value="Day">Day</option>
 		<option value="Night">Night</option>
 	</select>
+	<label>File</label>
+	<label>This is a "one file" input</label>
+	<input type="file" name="file">
+	<label>This is a "multiple files" input</label>
+	<input type="file" name="file" multiple="multiple">
 	<label for="disabled-input">Disabled input (can be submitted with submit => array('disabled' => true))</label>
 	<input type="text" id="disabled-input" name="disabled-input" value="this is disabled and wont be submitted" disabled>
 
@@ -1716,7 +1967,7 @@ echo Phery::form_for('', 'form', array('id' => 'testform', 'submit' => array('di
 <h1>Automagically rendering of views through AJAX</h1>
 
 <div class="readcode">
-	<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 364, 'to' => 383))); ?>
+	<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 353, 'to' => 372))); ?>
 	<pre class="code"></pre>
 </div>
 
@@ -1745,7 +1996,7 @@ echo Phery::form_for('', 'form', array('id' => 'testform', 'submit' => array('di
 <?php
     /* No GA in localhost will ya? */
 	if (
-		in_array($_SERVER['HTTP_HOST'], array('localhost','127.0.0.1')) === false &&
+		in_array($_SERVER['HTTP_HOST'], array('localhost','127.0.0.1')) !== false &&
 		$_SERVER['REMOTE_ADDR'] !== '127.0.0.1' &&
 		$_SERVER['REMOTE_ADDR'] !== '::1'
 	):

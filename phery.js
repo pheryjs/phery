@@ -23,25 +23,41 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-/*jshint jquery:true,sub:true,evil:true,browser:true,devel:true */
-/*globals define:true amd:true*/
+/*jshint jquery:true,strict:true,quotmark:"single",regexp:true,evil:true,undef:true,unused:true,sub:true,browser:true,devel:true */
+/*global define:true */
 
-(function (factory) {
-	"use strict";
+(function (window, factory) {
+	'use strict';
 
-	if (typeof define === 'function' && define.amd) {
-		// AMD. Register as phery module.
-		define('phery', ['jquery'], factory);
+	if (typeof define === 'function' && typeof define['amd'] !== 'undefined') {
+		/* AMD. Register as phery module. */
+		define('phery', ['jquery'], function(jQuery){
+			return factory(window, jQuery);
+		});
 	} else {
-		// Browser globals
-		factory(jQuery);
+		/* Browser globals */
+		window.phery = factory(window, jQuery);
 	}
-}(function ($, undefined) {
-		"use strict";
+
+} ( /** @type {window} */
+	this,
+	/**
+	 * @param {HTMLElement} window
+	 * @param {jQuery} $
+	 * @param [undefined]
+	 * @return {phery}
+	 */
+	function (window, $, undefined) {
+		'use strict';
 
 		var
-			call_cache = [],
+			/* Expose internal functions for unit testing */
+			functions = {},
+			/* Expose important vars for unit testing */
+			vars = {},
+			$document = $(document),
 			/**
+			 * @readonly
 			 * @enum {Number}
 			 */
 			structural_html = {
@@ -63,39 +79,58 @@
 				'HGROUP':1,
 				'FIGURE':1
 			},
-			typedefs = {},
 			/**
 			 * @class
-			 * @version 2.3.2
+			 * @constructor
+			 * @version 2.4.0
 			 */
-			phery = window.phery = window.phery || {};
+			phery = function(){ return phery; };
 
-		phery.version = '2.3.2';
-
-		/* Code from http://javascriptweblog.wordpress.com/2011/08/08/fixing-the-javascript-typeof-operator/ */
-		Object.toType = (function toType(global) {
-			return function (obj) {
-				if (obj === global) {
-					return "global";
-				}
-				return typeof obj === 'undefined' ? 'undefined' : ({}).toString.call(obj).match(/\s([a-z]+)/i)[1].toLowerCase();
-			};
-		})(window);
+		vars.locked_config = false;
+		vars.inline_load = true;
+		vars.special_match = /\{([#~\+\-=!])[\d]+\}/;
+		vars.$version = $().jquery;
+		vars.has_formdata = ('FormData' in window);
+		vars.has_file = vars.has_formdata && ('File' in window);
+		vars.FormData = vars.has_formdata ? FormData : null;
 
 		/**
-		 * Assign a deep object property
+		 * Function cache
+		 *
+		 * @type {Array.<{str: String, fn: Function}>}
+		 */
+		vars.call_cache = [];
+		/**
+		 * Phery.js semver version
+		 *
+		 * @type {String}
+		 */
+		phery.version = '2.4.0';
+
+
+		/**
+		 * Assign a n-deep object property
 		 *
 		 * @param {Object} obj The initial object
 		 * @param {Array} keyPath Array containing the desired path
-		 * @param {null|undefined|Boolean} value Any value
-		 * @param {null|undefined|Boolean} create Create the path if it doesn't exist
-		 * @param {null|undefined|Boolean} force If the object is an array, it will be pushed. Force will rewrite the value regardless
-		 * @param {null|undefined|Boolean} as_obj Returns the object instead of [obj, lastKey]
-		 * @return {Object|Boolean}
+		 * @param {*} [value] Any value
+		 * @param {Boolean} [create] Create the path if it doesn't exist
+		 * @param {Boolean} [force] If the object is an array, it will be pushed. Force will rewrite the value regardless
+		 * @param {Boolean} [as_obj] Returns the object instead of [obj, lastKey]
+		 * @param {Boolean} [force_append] Force array concatenation
+		 * @return {Boolean|Object.<string, *>}
 		 */
-		var assign_object = function (obj, keyPath, value, create, force, as_obj) {
+		functions.assign_object = function (obj, keyPath, value, create, force, as_obj, force_append) {
 			if (!keyPath || !keyPath.length) {
 				return false;
+			}
+
+			if ($.type(keyPath) !== 'array') {
+				if ($.type(keyPath) === 'number' || $.type(keyPath) === 'string') {
+					keyPath = [keyPath];
+				} else {
+					return false;
+				}
 			}
 
 			var lastKeyIndex = keyPath.length - 1, key;
@@ -103,6 +138,7 @@
 			create = (create === undefined) ? true : create;
 			force = (force === undefined) ? false : force;
 			as_obj = (as_obj === undefined) ? false : as_obj;
+			force_append = (force_append === undefined) ? false : force_append;
 
 			if (value !== undefined && as_obj) {
 				as_obj = false;
@@ -123,10 +159,18 @@
 			}
 
 			if (typeof obj[keyPath[lastKeyIndex]] !== 'undefined' && value !== undefined) {
-				if (Object.toType(obj[keyPath[lastKeyIndex]]) === 'array' && !force) {
-					obj[keyPath[lastKeyIndex]].push(value);
+				if ($.type(obj[keyPath[lastKeyIndex]]) === 'array' && !force && !force_append) {
+					if ($.type(value) === 'array') {
+						obj[keyPath[lastKeyIndex]].concat(value);
+					} else {
+						obj[keyPath[lastKeyIndex]].push(value);
+					}
 				} else {
-					obj[keyPath[lastKeyIndex]] = value;
+					if (force_append) {
+						obj[keyPath[lastKeyIndex]] = obj[keyPath[lastKeyIndex]].concat(value);
+					} else {
+						obj[keyPath[lastKeyIndex]] = value;
+					}
 				}
 			} else {
 				if (value !== undefined) {
@@ -137,10 +181,80 @@
 			return as_obj ? obj[keyPath[lastKeyIndex]] : [obj, keyPath[lastKeyIndex]];
 		};
 
-		function per_data(this_data, args) {
+		/**
+		 * Make a javsacript object become a query string,
+		 * but still as an object
+		 *
+		 * @param {Object} obj Original object
+		 * @param {String} [prefix] Existing string
+		 * @param {Object} [result] Result object
+		 * @return {Object.<String, (String|Array|File)>}
+		 */
+		functions.obj_to_str = function(obj, prefix, result) {
+			result = (typeof result === 'object') ? result : {};
+
+			var prop, value, name;
+
+			for (prop in obj) {
+				if (obj.hasOwnProperty(prop)) {
+					value = obj[prop];
+					name = prefix ? prefix + '[' + (prop) + ']' : prop;
+					if (typeof value !== 'object' || (vars.has_file && (value instanceof window['File']))) {
+						result[name] = value;
+					} else {
+						functions.obj_to_str(value, name, result);
+					}
+				}
+			}
+
+			return result;
+		};
+
+		/**
+		 * Check for DOM input[type=file] and return their files as an array
+		 *
+		 * @param {HTMLInputElement|File} input
+		 * @return {String|File|Array.<File>}
+		 */
+		functions.files_to_array = function(input) {
+			var result = [];
+
+			if (vars.has_file) {
+				if (input instanceof window.File) {
+					result.push(input);
+				} else if (input instanceof window.FileList && input.length) {
+					result.push(input[0]);
+				} else if (input.files instanceof window.FileList && input.files.length) {
+					if (input.files.length > 1) {
+						for (var i = 0; i < input.files.length; i++) {
+							result.push(input.files[i]);
+						}
+					} else {
+						result.push(input.files[0]);
+					}
+				}
+			}
+			return result;
+		};
+
+		functions.to_formdata = function(obj){
+			obj = ($.type(obj) === 'object' ? functions.obj_to_str(obj) : obj);
 			var
-				type = Object.toType(this_data),
-				arg_type = Object.toType(args),
+				fd = new vars.FormData(),
+				x;
+
+			for (x in obj) {
+				if (obj.hasOwnProperty(x)) {
+					fd.append(x, obj[x]);
+				}
+			}
+			return fd;
+		};
+
+		functions.per_data = function(this_data, args) {
+			var
+				type = $.type(this_data),
+				arg_type = $.type(args),
 				x, i;
 
 			switch (type) {
@@ -195,38 +309,90 @@
 					break;
 			}
 			return this_data;
-		}
+		};
+
+		functions.filter_prop = function(type){
+			return function(){
+				return $(this).prop(type);
+			};
+		};
+
+		functions.form_element = function($this){
+			var
+				radios,
+				options,
+				name = $this.prop('name') || null,
+				value = null,
+				type = $this.prop('tagName').toLowerCase();
+
+			if ($this.is('[type="radio"]') || $this.is('[type="checkbox"]')) {
+				if ($this.is('[type="radio"]')) {
+					radios = $this.prop('form') ? $($this.prop('form')).find('[type="radio"][name="' + $this.prop('name') + '"]') : $('[type="radio"][name="' + $this.prop('name') + '"]');
+					if (radios.filter(functions.filter_prop('checked')).length) {
+						value = radios.filter(functions.filter_prop('checked')).val();
+					}
+				} else if ($this.prop('checked')) {
+					value = $this.is('[value]') ? $this.val() : true;
+				}
+			} else if ($this.is('select')) {
+				options = $this.find('option').filter(functions.filter_prop('selected'));
+				if ($this.prop('multiple')) {
+					value = options.map(function () {
+						return this.value || this.innerHTML;
+					}).get();
+				} else {
+					value = options.val();
+				}
+				name = name || '';
+			} else if ($this.is('[type="file"]')) {
+				if (vars.has_file) {
+					if (name) {
+						name = name.replace('[]', '');
+					}
+					value = functions.files_to_array($this[0]);
+					type = 'file';
+				} else {
+					name = null;
+				}
+			} else {
+				value = $this.val();
+			}
+
+			return {
+				'name': name,
+				'value':value,
+				'type': type
+			};
+		};
 
 		/**
 		 * @this {jQuery}
-		 * @param {*} args
+		 * @param {Object|Array} args
 		 */
-		function append_args(args) {
-			/*jshint validthis: true */
+		functions.append_args = function(args) {
 			var this_data, x;
 
-			if (args[0] && args[0].constructor === Array) {
+			if (typeof args[0] !== 'undefined' && args[0].constructor === Array) {
 				args = args[0];
 			}
 
 			for (x in args) {
 				if (args.hasOwnProperty(x)) {
-					this_data = this.data('args.phery');
-					this.data('args.phery', per_data(this_data, args[x]));
+					this_data = this.phery('data', 'args');
+					this.phery('data', 'args', functions.per_data(this_data, args[x]));
 				}
 			}
-		}
+		};
 
 		/**
 		 * @this {jQuery}
 		 * @param {*} args
 		 */
-		function set_args(args) {
-			/*jshint validthis: true */
-			if (Object.toType(args) !== 'function') {
-				this.data('args.phery', per_data(undefined, args[0]));
+		functions.set_args = function(args) {
+			if ($.type(args) !== 'function') {
+				this.phery('data', 'args', functions.per_data(undefined, args[0]));
 			}
-		}
+		};
 
 		/**
 		 * Compare two arrays
@@ -235,7 +401,7 @@
 		 * @param {Array} y
 		 * @return {Boolean}
 		 */
-		function compare_array(x, y) {
+		functions.compare_array = function(x, y) {
 			if (x === y) {
 				return true;
 			}
@@ -248,7 +414,7 @@
 				}
 			}
 			return true;
-		}
+		};
 
 		/**
 		 * Create a function from a string
@@ -257,7 +423,7 @@
 		 * @param {Boolean} process
 		 * @return {*}
 		 */
-		function str_is_function(str, process) {
+		functions.str_is_function = function(str, process) {
 			if (!str || typeof str['toString'] !== 'function') {
 				return false;
 			}
@@ -266,13 +432,13 @@
 
 			if (is_it && process) {
 				var
-					cache_len = call_cache.length,
+					cache_len = vars.call_cache.length,
 					fn = null,
 					i;
 
 				for (i = 0; i < cache_len; i++) {
-					if (call_cache[i].str === str) {
-						fn = call_cache[i].fn;
+					if (vars.call_cache[i].str === str) {
+						fn = vars.call_cache[i].fn;
 						break;
 					}
 				}
@@ -288,7 +454,7 @@
 
 					fn = new Function(f_args, f_body);
 
-					call_cache.push({
+					vars.call_cache.push({
 						'str':str,
 						'fn':fn
 					});
@@ -296,75 +462,86 @@
 				return fn;
 			}
 			return is_it;
-		}
-
-		var
-			options = {},
-			callbacks = $('<div/>'),
-			_log = [],
-			$original_cursor,
-			$body_html;
-
-		typedefs._callbacks = {
-			'before':function () {
-				return true;
-			},
-			'beforeSend':function () {
-				return true;
-			},
-			'params':function () {
-				return true;
-			},
-			'always':function () {
-				return true;
-			},
-			'fail':function () {
-				return true;
-			},
-			'done':function () {
-				return true;
-			},
-			'after':function () {
-				return true;
-			},
-			'exception':function () {
-				return true;
-			},
-			'json':function () {
-				return true;
-			}
 		};
 
-		typedefs.defaults = {
-			'cursor':true,
-			'default_href':false,
-			'ajax':{
-				'retries':0
+		vars.defaults = {
+			'cursor': true,
+			'default_href': false,
+			'ajax': {
+				'retries': 0
 			},
-			'enable':{
-				'log':false,
-				'log_history':false,
-				'per_element':{
-					'events':true
+			'enable': {
+				'log': false,
+				'autolock': false,
+				'file_uploads': false,
+				'log_history': false,
+				'per_element': {
+					'events': true
 				},
-				'clickable_structure':false
+				'clickable_structure': false
 			},
-			'debug':{
-				'enable':false,
-				'display':{
-					'events':true,
-					'remote':true,
-					'config':true
+			'inline': {
+				'enabled': false,
+				'once': true
+			},
+			'debug': {
+				'enable': false,
+				'display': {
+					'events': true,
+					'remote': true,
+					'config': true
 				}
 			},
-			'delegate':{
-				'confirm':['click'],
-				'form':['submit'],
-				'select_multiple':['blur'],
-				'select':['change'],
-				'tags':['click']
+			'delegate': {
+				'confirm': ['click'],
+				'form': ['submit'],
+				'select_multiple': ['blur'],
+				'select': ['change'],
+				'tags': ['click']
 			}
 		};
+
+		var
+			/**
+			 * @extends {vars.defaults}
+			 */
+			options = {},
+			callbacks = $('<div></div>'),
+			_log = [],
+			$original_cursor,
+			$body_html,
+			_callbacks = {
+				'before':function () {
+					return true;
+				},
+				'beforeSend':function () {
+					return true;
+				},
+				'params':function () {
+					return true;
+				},
+				'always':function () {
+					return true;
+				},
+				'fail':function () {
+					return true;
+				},
+				'progress':function () {
+					return true;
+				},
+				'done':function () {
+					return true;
+				},
+				'after':function () {
+					return true;
+				},
+				'exception':function () {
+					return true;
+				},
+				'json':function () {
+					return true;
+				}
+			};
 
 		function debug(data, type) {
 			if (options.debug.enable) {
@@ -386,7 +563,7 @@
 			}
 		}
 
-		function triggerAndReturn(el, name, data, context) {
+		functions.trigger_and_return = function(el, name, data, context, bubble) {
 			context = context || null;
 
 			var
@@ -397,9 +574,14 @@
 				event['target'] = context;
 			}
 
-			el.triggerHandler(event, data);
+			el.trigger(event, $.type(data) === 'array' ? data : [data]);
 
 			res = (event.result !== false);
+
+			if (bubble) {
+				event['target'] = el;
+				$document.trigger(event, $.type(data) === 'array' ? data : [data]);
+			}
 
 			debug(['event triggered', {
 				'name':name,
@@ -409,34 +591,42 @@
 			}], 'events');
 
 			return res;
-		}
+		};
 
-		function triggerPheryEvent(el, event_name, data, triggerData) {
+		/**
+		 *
+		 * @param {jQuery} el
+		 * @param {String} event_name
+		 * @param {*} [data]
+		 * @param {Boolean} [triggerData]
+		 * @returns {Boolean}
+		 */
+		functions.trigger_phery_event = function(el, event_name, data, triggerData) {
 			data = data || [];
 			triggerData = triggerData || false;
 
 			if (triggerData) {
-				triggerAndReturn(callbacks, event_name, data, el);
+				functions.trigger_and_return(callbacks, event_name, data, el);
 
 				if (el && options.enable.per_element.events) {
-					triggerAndReturn(el, 'phery:' + event_name, data);
+					functions.trigger_and_return(el, 'phery:' + event_name, data, null, true);
 				}
 
 				return true;
 			} else {
-				if (triggerAndReturn(callbacks, event_name, data, el) === false) {
+				if (functions.trigger_and_return(callbacks, event_name, data, el) === false) {
 					return false;
 				}
 
 				if (el && options.enable.per_element.events) {
-					return triggerAndReturn(el, 'phery:' + event_name, data);
+					return functions.trigger_and_return(el, 'phery:' + event_name, data, null, true);
 				}
 
 				return true;
 			}
-		}
+		};
 
-		function countProperties(obj) {
+		functions.countProperties = function(obj) {
 			var count = 0;
 
 			if (typeof obj === 'object') {
@@ -452,12 +642,11 @@
 			}
 
 			return count;
-		}
+		};
 
 		function clean_up(el) {
-			if (el.data('temp.phery')) {
+			if (el.phery('data', 'temp')) {
 				el.off();
-				el.removeProp();
 				$.removeData(el);
 				el.remove();
 			}
@@ -465,26 +654,47 @@
 
 		/**
 		 * @param {jQuery} $this
-		 * @return {boolean|jQuery.ajax}
+		 * @return {Boolean|jQuery.ajax}
 		 */
-		function form_submit($this) {
-			if ($this.data('confirm.phery')) {
-				if (!confirm($this.data('confirm.phery'))) {
+		functions.form_submit = function($this) {
+			var _confirm = $this.phery('data', 'confirm');
+			if (_confirm) {
+				if (!confirm(_confirm)) {
 					return false;
 				}
 			}
-			return ajax_call.call($this);
-		}
+			return functions.ajax_call.call($this);
+		};
 
 		/**
 		 * Ajax calls
 		 *
-		 * @param {Object} args
-		 * @return {*}
+		 * @this {jQuery}
+		 *
+		 * @param {Object} [args]
+		 * @param {jQuery} [element]
+		 *
+		 * @return {Boolean|jQuery.ajax}
 		 */
-		function ajax_call(args) {
-			/*jshint validthis:true*/
-			if (triggerPheryEvent(this, 'before') === false) {
+		functions.ajax_call = function(args, element) {
+			var dispatch_event;
+
+			if (this.phery('data', 'proxy') instanceof $) {
+				dispatch_event = this.phery('data', 'proxy');
+			} else if (element) {
+				dispatch_event = element;
+			} else {
+				dispatch_event = this;
+			}
+
+			if (functions.trigger_phery_event(dispatch_event, 'before') === false) {
+				functions.trigger_phery_event(dispatch_event, 'always', [null]);
+				clean_up(this);
+				return false;
+			}
+			if (!this.phery('data', 'remote') && !this.phery('data', 'view')){
+				functions.trigger_phery_event(dispatch_event, 'exception', [phery.log('Current element have no remote data information')]);
+				functions.trigger_phery_event(dispatch_event, 'always', [null]);
 				clean_up(this);
 				return false;
 			}
@@ -494,13 +704,19 @@
 					'X-Requested-With':'XMLHttpRequest',
 					'X-Phery':1
 				},
-				el = this,
-				url = el.attr('action') || el.attr('href') || el.data('target.phery') || options.default_href || window.location.href,
-				type = el.data('type.phery') || 'json',
-				method = el.attr('method') || el.data('method.phery') || 'GET',
+				el = element || this,
+				_this = this,
+				tmp,
+				url =  _this.attr('action') || _this.attr('href') || _this.phery('data', 'target') || el.attr('action') || el.attr('href') || el.phery('data', 'target') || options.default_href || window.location.href,
+				type = _this.phery('data', 'type') || el.phery('data', 'type') || 'json',
+				method = _this.attr('method') || el.attr('method') || el.phery('data', 'method') || 'GET',
 				submit_id = el.attr('id') || el.parent().attr('id') || null,
 				requested,
+				cache = !!_this.phery('data', 'cache') || !!el.phery('data', 'cache') || false,
 				ajax,
+				has_file,
+				i,
+				files = {},
 				$token,
 				data = {
 					'args':undefined,
@@ -509,102 +725,90 @@
 					}
 				};
 
-			if (($token = $('head meta#csrf-token')).size()) {
-				data.phery.csrf = $token.attr('content');
+			if (($token = $('head meta#csrf-token')).length) {
+				data.phery.csrf = $token.prop('content');
 			}
 
-			if (el.data('args.phery')) {
+			if (el.phery('data', 'args')) {
 				try {
-					data['args'] = per_data({}, el.data('args.phery'));
+					data['args'] = functions.per_data({}, el.phery('data', 'args'));
 				} catch (exception) {
-					triggerPheryEvent(el, 'exception', [phery.log(exception)]);
+					functions.trigger_phery_event(dispatch_event, 'exception', [phery.log(exception)]);
 				}
-			} else {
-				if (el.is('input')) {
-					if (el.attr('name')) {
-						var inputs = {};
-						if (!el.is('[type="checkbox"],[type="radio"]')) {
-							inputs[el.attr('name')] = el.val();
-						} else {
-							inputs[el.attr('name')] = {
-								'checked':el.prop('checked') ? 1 : 0,
-								'value':el.val()
-							};
-						}
-						data['args'] = per_data({}, inputs);
-					}
-				} else if (args !== undefined) {
-					data['args'] = per_data({}, args);
-				}
+			}
+
+			if (args) {
+				data['args'] = functions.per_data(data['args'], args);
 			}
 
 			if (el.is('form')) {
 				try {
-					data['args'] = per_data(
-						data['args'],
-						el.serializeForm(el.data('submit.phery') ? el.data('submit.phery') : {})
+					tmp = el.serializeForm(
+						el.phery('data', 'submit') ?
+							$.extend({}, el.phery('data', 'submit'), {'files_apart': true})
+							:
+							{'files_apart': true}
 					);
+
+					data['args'] = functions.per_data(
+						data['args'],
+						tmp.inputs
+					);
+
+					$.extend(files, tmp.files);
 				} catch (exception) {
-					triggerPheryEvent(el, 'exception', [phery.log(exception)]);
+					functions.trigger_phery_event(dispatch_event, 'exception', [phery.log(exception)]);
 				}
+			}
+
+			if (el.is('textarea,input[type!="file"]')) {
+				tmp = el.serializeForm();
+				data['args'] = functions.per_data(data['args'], tmp);
+			}
+
+			if (el.is('input[type="file"]') && vars.has_file) {
+				tmp = el.serializeForm();
+				$.extend(files, tmp);
 			}
 
 			if (el.is('select')) {
-				if (el.attr('multiple')) {
-					if (el.attr('name')) {
-						var select_multiple = {};
-						select_multiple[el.attr('name')] =
-							el
-								.find('option')
-								.filter(':selected')
-								.map(function () {
-									return $(this).val();
-								}).get();
-						data['args'] = per_data(data['args'], select_multiple);
-					} else {
-						data['args'] = per_data(
-							data['args'],
-							el
-								.find('option')
-								.filter(':selected')
-								.map(function () {
-									return $(this).val();
-								}).get()
-						);
-					}
+				var select = functions.form_element(el);
+
+				if (!select['name']) {
+					data['args'] = functions.per_data(data['args'], select['value']);
 				} else {
-					if (el.attr('name')) {
-						var select = {};
-						select[el.attr('name')] = el.val();
-						data['args'] = per_data(data['args'], select);
-					} else {
-						data['args'] = per_data(data['args'], el.val());
-					}
+					var tosend = {};
+					tosend[select['name']] = select['value'];
+					data['args'] = functions.per_data(data['args'], tosend);
 				}
 			}
 
-			if (el.data('related.phery')) {
+			if (el.phery('data', 'related')) {
 				try {
 					var
-						_related = el.data('related.phery'),
-						related, split, _selector;
+						_related = el.phery('data', 'related'),
+						related = $(), split, _selector;
 
 					switch (typeof _related) {
 						case 'string':
 							if (_related.indexOf(',') > -1) {
 								split = _related.split(',');
-								related = $();
-								for (var i = 0; i < split.length; i++) {
+								for (i = 0; i < split.length; i++) {
 									_selector = el.find(split[i]);
-									if (!_selector.size()) {
+									if (!_selector.length) {
 										_selector = $(split[i]);
 									}
-									related = related.add(_selector);
+									if (_selector.length) {
+										related = related.add(_selector);
+									}
 								}
 							} else {
-								related = el.find(_related);
-								if (!related.size()) {
-									related = $(_related);
+								_selector = el.find(_related);
+								if (!_selector.length) {
+									_selector = $(_related);
+								}
+								if (_selector.length) {
+									related = related.add(_selector);
 								}
 							}
 							break;
@@ -616,30 +820,34 @@
 					}
 
 					if (related !== false) {
-						if (related.size()) {
+						if (related.length) {
 							var tmprelated = {}, count = 0;
 
 							related.each(function () {
 								var $this = $(this);
 
 								if ($this.is('form')) {
-									tmprelated = per_data(tmprelated, $this.serializeForm());
-								} else if ($this.attr('id')) {
-									tmprelated[$this.attr('id')] = $this.val();
+									tmp = $this.serializeForm({'files_apart': true});
+
+									tmprelated = functions.per_data(tmprelated, tmp.inputs);
+
+									$.extend(files, tmp.files);
 								} else if ($this.attr('name')) {
 									tmprelated[$this.attr('name')] = $this.val();
+								} else if ($this.attr('id')) {
+									tmprelated[$this.attr('id')] = $this.val();
 								} else {
 									tmprelated[count++] = $this.val();
 								}
 							});
 
-							data['args'] = per_data(data['args'], tmprelated);
+							data['args'] = functions.per_data(data['args'], tmprelated);
 						} else {
-							triggerPheryEvent(el, 'exception', [phery.log('data-related selector found no elements')]);
+							functions.trigger_phery_event(dispatch_event, 'exception', [phery.log('related selector found no elements', el.phery('data', 'related'))]);
 						}
 					}
 				} catch (exception) {
-					triggerPheryEvent(el, 'exception', [phery.log(exception, 'invalid data-related info')]);
+					functions.trigger_phery_event(dispatch_event, 'exception', [phery.log(exception, 'invalid data-phery-related info')]);
 				}
 			}
 
@@ -647,14 +855,14 @@
 				data['phery']['submit_id'] = submit_id;
 			}
 
-			if (el.data('view.phery')) {
+			if (el.phery('data', 'view')) {
 				data['phery']['view'] = '#' + el.attr('id');
-			} else if (el.data('remote.phery')) {
-				data['phery']['remote'] = el.data('remote.phery');
+			} else if (_this.phery('data', 'remote') || el.phery('data', 'remote')) {
+				data['phery']['remote'] = _this.phery('data', 'remote') || el.phery('data', 'remote');
 			}
 
 			var _tmp = {};
-			triggerPheryEvent(el, 'params', _tmp, true);
+			functions.trigger_phery_event(dispatch_event, 'params', _tmp, true);
 			data['phery'] = $.extend(_tmp, data['phery']);
 
 			requested = new Date();
@@ -667,27 +875,41 @@
 
 			requested = requested.getTime();
 
+			has_file = functions.countProperties(files) > 0;
+
 			var opt = {
 				url:(
-					url.indexOf('_=') === -1 ?
-						(url + (url.indexOf('?') > -1 ? '&' : '?') + '_=' + requested)
-						:
-						(url.replace(/_=(\d+)/, '_=' + requested))
+					cache ? url : (
+						url.indexOf('_=') === -1 ?
+							(url + (url.indexOf('?') > -1 ? '&' : '?') + '_=' + requested)
+							:
+							(url.replace(/_=(\d+)/, '_=' + requested))
+						)
 					),
-				data:data,
+				data: has_file ? functions.to_formdata($.extend(files, data)) : data,
+				contentType: has_file ? false : 'application/x-www-form-urlencoded',
+				processData: !has_file,
 				dataType:type,
-				type:"POST",
-				el:el,
+				type:'POST',
+				el:_this,
 				global:false,
 				try_count:0,
 				retry_limit:options.ajax.retries,
-				cache:false,
-				processData:true,
+				cache:cache,
 				headers:_headers,
+				'xhr': function(){
+					var xhr = $.ajaxSettings.xhr();
+					if (typeof xhr['upload'] !== 'undefined') {
+						xhr['upload'].onprogress = function(progress){
+							functions.trigger_phery_event(dispatch_event,  'progress', [progress]);
+						};
+					}
+					return xhr;
+				},
 				'beforeSend':function (xhr, settings) {
 					do_cursor('wait');
 
-					return triggerPheryEvent(this.el, 'beforeSend', [xhr, settings]) !== false;
+					return functions.trigger_phery_event(dispatch_event, 'beforeSend', [xhr, settings]) !== false;
 				}
 			};
 
@@ -697,44 +919,51 @@
 						this.try_count++;
 
 						if (this.try_count <= this.retry_limit) {
-							this.dataType = "text " + type;
+							functions.trigger_phery_event(dispatch_event, 'before');
+
+							this.dataType = 'text ' + type;
 
 							this.url =
 								this.url.indexOf('_try_count=') === -1 ?
 									(this.url + '&_try_count=' + this.try_count) :
 									(this.url.replace(/_try_count=(\d+)/, '_try_count=' + this.try_count));
 
-							this.url = this.url.replace(/_=(\d+)/, '_=' + new Date().getTime());
+							if (!cache){
+								this.url = this.url.replace(/_=(\d+)/, '_=' + new Date().getTime());
+							}
 
-							set_ajax_opts(this);
+							ajax = set_ajax_opts(this);
 							return false;
 						}
 					}
 
 					do_cursor(false);
 
-					if (triggerPheryEvent(this.el, 'fail', [xhr, status, error]) === false) {
+					if (functions.trigger_phery_event(dispatch_event, 'fail', [xhr, status, error]) === false) {
 						clean_up(this.el);
 						return false;
 					}
+
 					clean_up(this.el);
 					return true;
 				},
 				_done = function (data, text, xhr) {
-					if (triggerPheryEvent(this.el, 'done', [data, text, xhr]) === false) {
+					if (functions.trigger_phery_event(dispatch_event, 'done', [data, text, xhr]) === false) {
 						return false;
 					}
-					processRequest.call(this.el, data);
+
+					functions.process_request.call(dispatch_event, data, dispatch_event !== _this);
 					return true;
 				},
 				_always = function (data, text, xhr) {
-					if (xhr.readyState !== 4 && this.try_count > 0 && this.try_count <= this.retry_limit) {
+					if (text === 'timeout' && data.readyState !== 4 && this.try_count > 0 && this.try_count <= this.retry_limit) {
+						functions.trigger_phery_event(dispatch_event, 'always', [data]);
 						return false;
 					}
 
 					do_cursor(false);
 
-					if (triggerPheryEvent(this.el, 'always', [xhr]) === false) {
+					if (functions.trigger_phery_event(dispatch_event, 'always', [text === 'timeout' ? data : xhr]) === false) {
 						clean_up(this.el);
 						return false;
 					}
@@ -757,17 +986,15 @@
 			ajax = set_ajax_opts(opt);
 
 			return ajax;
-		}
+		};
 
 		function set_events() {
-			var $document = $(document);
-
 			$document
 				.off('.phery');
 
 			$document
-				.on(options.delegate.confirm.join('.phery,') + '.phery', '[data-confirm]:not(form)', function (e) {
-					if (!confirm($(this).data('confirm.phery'))) {
+				.on(options.delegate.confirm.join('.phery,') + '.phery', ':phery-confirm:not(form)', function (e) {
+					if (!confirm($(this).phery('data', 'confirm'))) {
 						e.stopImmediatePropagation();
 					} else {
 						e.preventDefault();
@@ -775,23 +1002,23 @@
 				});
 
 			$document
-				.on(options.delegate.form.join('.phery,') + '.phery', 'form[data-remote]', function () {
+				.on(options.delegate.form.join('.phery,') + '.phery', 'form:phery-remote', function () {
 					var $this = $(this);
-					form_submit($this);
+					functions.form_submit($this);
 					return false;
 				});
 
 			$document
-				.on(options.delegate.tags.join('.phery,') + '.phery', '[data-remote]:not(form,select)', function (e) {
+				.on(options.delegate.tags.join('.phery,') + '.phery', ':phery-remote:not(form,select)', function (e) {
 					var $this = $(this);
 
 					if (!options.enable.clickable_structure) {
-						if (typeof structural_html[this.tagName] === 'number' && !$this.attr('data-clickable')) {
+						if (typeof structural_html[this.tagName] === 'number' && !$this.phery('data', 'clickable')) {
 							return false;
 						}
 					}
 
-					ajax_call.call($this);
+					functions.ajax_call.call($this);
 
 					if (!$this.is('input[type="text"],input[type="checkbox"],input[type="radio"],input[type="image"]')) {
 						e.preventDefault();
@@ -800,22 +1027,22 @@
 				});
 
 			$document
-				.on(options.delegate.select.join('.phery,') + '.phery', 'select[data-remote]:not([multiple])', function () {
-					ajax_call.call($(this));
+				.on(options.delegate.select.join('.phery,') + '.phery', 'select:phery-remote:not([multiple])', function (e) {
+					functions.ajax_call.call($(e.currentTarget));
 				});
 
 			$document
-				.on(options.delegate.select_multiple.join('.phery,') + '.phery', 'select[data-remote][multiple]', function () {
-					ajax_call.call($(this));
+				.on(options.delegate.select_multiple.join('.phery,') + '.phery', 'select:phery-remote[multiple]', function (e) {
+					functions.ajax_call.call($(e.currentTarget));
 				});
 		}
 
-		var convert_special = function ($this, obj) {
+		functions.convert_special = function ($this, obj) {
 			var func, x, data;
 
-			if (Object.toType(obj) === 'object') {
+			if ($.type(obj) === 'object') {
 				if (typeof obj['PF'] !== 'undefined') {
-					if ((func = str_is_function(obj['PF'], true))) {
+					if ((func = functions.str_is_function(obj['PF'], true))) {
 						obj = func;
 					} else {
 						obj = null;
@@ -824,7 +1051,7 @@
 					data = obj['PR'];
 					for (x in data) {
 						if (data.hasOwnProperty(x)) {
-							obj = process($this, selector($this, x, data), data[x]);
+							obj = functions.process($this, functions.selector($this, x, data), data[x]);
 						}
 					}
 				}
@@ -833,21 +1060,58 @@
 			return obj;
 		};
 
-		var selector = function ($this, x, data) {
-			var $jq = false, argv, special = x.match(/\{([#~\+\-])[\d]+\}/);
+		functions.selector = function ($this, x, data, $last_known) {
+			var $jq = false, argv, func, special = x.match(vars.special_match);
 
 			if (special !== null) {
 				special = special[1];
 			}
 
-			if (special === '+') {
+			if (special === '=' || special === '!') {
 				argv = data[x].shift();
-				var Obj = assign_object(window, argv['c'], undefined, false, false, true);
+				func = functions.process_parameters($this, argv['a'][0]);
+
+				if (func !== argv['a'][0]) {
+					if ($.type(func) === 'function') {
+						if (special === '=' && func.call($last_known || $this)) {
+							$jq = $last_known || $this;
+						} else if (special === '!' && !func.call($last_known || $this)) {
+							$jq = $last_known || $this;
+						}
+					} else if ($.type(func) === 'boolean') {
+						if (special === '=' && func) {
+							$jq = $last_known || $this;
+						} else if (special === '!' && !func) {
+							$jq = $last_known || $this;
+						}
+					} else if ($.type(func) === 'object' || $.type(func) === 'string') {
+						try {
+							if (special === '=') {
+								if (func instanceof $ && func.length) {
+									$jq = $last_known || $this;
+								} else if ($(func).length) {
+									$jq = $last_known || $this;
+								}
+							} else if (special === '!') {
+								if (func instanceof $ && !func.length) {
+									$jq = $last_known || $this;
+								} else if (!$(func).length) {
+									$jq = $last_known || $this;
+								}
+							}
+						} catch (exception) {
+							functions.trigger_phery_event($this, 'exception', [phery.log(exception)]);
+						}
+					}
+				}
+			} else if (special === '+') {
+				argv = data[x].shift();
+				var Obj = functions.assign_object((typeof argv['a'][1] === 'string' && argv['a'][1].match(vars.special_match)) ? functions.selector($this, argv['a'][1], data, $last_known) : window, argv['c'], undefined, false, false, true);
 
 				if (Obj) {
 					$jq = argv['a'][0] ? new Obj() : Obj;
 				} else {
-					triggerPheryEvent($this, 'exception', [phery.log('failed access to object', 'window.' + argv['c'].join('.'))]);
+					functions.trigger_phery_event($this, 'exception', [phery.log('failed access to object', 'window.' + argv['c'].join('.'))]);
 				}
 			} else if (special === '~') {
 				$jq = $this;
@@ -868,24 +1132,24 @@
 			return $jq;
 		};
 
-		var process_parameters = function ($this, args) {
-			args = convert_special($this, args);
+		functions.process_parameters = function ($this, args) {
+			args = functions.convert_special($this, args);
 
-			if (Object.toType(args) === 'object' || Object.toType(args) === 'array') {
+			if ($.type(args) === 'object' || $.type(args) === 'array') {
 				var i, x;
 
 				for (i in args) {
 					if (args.hasOwnProperty(i)) {
-						switch (Object.toType(args[i])) {
+						switch ($.type(args[i])) {
 							case 'array':
 								for (x in args[i]) {
 									if (args[i].hasOwnProperty(x)) {
-										args[i][x] = process_parameters($this, args[i][x]);
+										args[i][x] = functions.process_parameters($this, args[i][x]);
 									}
 								}
 								break;
 							case 'object':
-								args[i] = process_parameters($this, args[i]);
+								args[i] = functions.process_parameters($this, args[i]);
 								break;
 						}
 					}
@@ -895,7 +1159,14 @@
 			return args;
 		};
 
-		var process = function ($this, obj, item) {
+		/**
+		 *
+		 * @param {jQuery} $this
+		 * @param {jQuery|HTMLElement} obj
+		 * @param {Object} item
+		 * @returns {*}
+		 */
+		functions.process = function ($this, obj, item) {
 			var i, argv, func_name;
 
 			for (i in item) {
@@ -905,8 +1176,8 @@
 						func_name = item[i]['c'];
 						if (typeof obj[func_name] === 'function') {
 							if (typeof argv[0] !== 'undefined') {
-								argv = process_parameters($this, argv[0]);
-								if (Object.toType(argv) === 'array' && typeof argv[0] !== 'undefined') {
+								argv = functions.process_parameters($this, argv[0]);
+								if ($.type(argv) === 'array' && typeof argv[0] !== 'undefined') {
 									obj = obj[func_name].apply(obj, argv);
 								} else {
 									obj = obj[func_name].call(obj, argv);
@@ -918,33 +1189,33 @@
 							throw 'no function "' + func_name + '" found in object';
 						}
 					} catch (exception) {
-						triggerPheryEvent($this, 'exception', [phery.log(exception, argv)]);
+						functions.trigger_phery_event($this, 'exception', [phery.log(exception, argv)]);
 					}
 				}
 			}
 			return obj;
 		};
 
-		function processRequest(data) {
+		functions.process_request = function(data, proxied) {
 			/*jshint validthis:true */
-			if (!this.data('remote.phery') && !this.data('view.phery')) {
-				triggerPheryEvent(this, 'after', []);
+			if (!this.phery('data', 'remote') && !this.phery('data', 'view') && !proxied) {
+				functions.trigger_phery_event(this, 'after', []);
 				return;
 			}
 
-			if (Object.toType(data) !== 'object') {
-				triggerPheryEvent(this, 'after', []);
+			if ($.type(data) !== 'object') {
+				functions.trigger_phery_event(this, 'after', []);
 				return;
 			}
 
 			var $jq, argv, argc, $this = this, is_selector, funct, _data, _argv, special = null;
 
-			if (data && countProperties(data)) {
+			if (data && functions.countProperties(data)) {
 				var x;
 				for (x in data) {
 					if (data.hasOwnProperty(x)) {
 
-						special = x.match(/\{([#~\+\-])[\d]+\}/);
+						special = x.match(vars.special_match);
 
 						if (special !== null) {
 							special = special[1];
@@ -960,13 +1231,13 @@
 						if (is_selector) {
 							if (data[x].length) {
 
-								$jq = selector($this, x, data);
+								$jq = functions.selector($this, x, data, $jq);
 
-								if (special === '#' || (special === '+' && $jq !== false) || ($jq && typeof $jq['size'] === 'function' && $jq.size())) {
-									$jq = process($this, $jq, data[x]);
+								if (special === '#' || (special === '+' && $jq !== false) || ($jq && typeof $jq['length'] === 'number' && $jq.length)) {
+									$jq = functions.process($this, $jq, data[x]);
 								}
 							} else {
-								triggerPheryEvent($this, 'exception', [phery.log('no commands to issue, 0 length')]);
+								functions.trigger_phery_event($this, 'exception', [phery.log('no commands to issue, 0 length')]);
 							}
 						} else {
 							argc = data[x]['a'].length;
@@ -978,14 +1249,14 @@
 									if (typeof argv[0] !== 'undefined') {
 										alert(argv[0].toString());
 									} else {
-										triggerPheryEvent($this, 'exception', [phery.log('missing message for alert()', argv)]);
+										functions.trigger_phery_event($this, 'exception', [phery.log('missing message for alert()', argv)]);
 									}
 									break;
 								/* call */
 								case 2:
 									try {
 										funct = argv.shift();
-										funct = assign_object(window, funct, undefined, false);
+										funct = functions.assign_object(window, funct, undefined, false);
 
 										if (funct !== false && typeof funct[0][funct[1]] === 'function') {
 											funct[0][funct[1]].apply(null, argv[0] || []);
@@ -993,7 +1264,7 @@
 											throw 'no global function "' + funct + '" found';
 										}
 									} catch (exception) {
-										triggerPheryEvent($this, 'exception', [phery.log(exception, argv)]);
+										functions.trigger_phery_event($this, 'exception', [phery.log(exception, argv)]);
 									}
 									break;
 								/* script */
@@ -1001,28 +1272,28 @@
 									try {
 										eval('(function(){ ' + argv[0] + ' })();');
 									} catch (exception) {
-										triggerPheryEvent($this, 'exception', [phery.log(exception, argv[0])]);
+										functions.trigger_phery_event($this, 'exception', [phery.log(exception, argv[0])]);
 									}
 									break;
 								/* JSON */
 								case 4:
 									try {
-										triggerPheryEvent($this, 'json', [$.parseJSON(argv[0])]);
+										functions.trigger_phery_event($this, 'json', [$.parseJSON(argv[0])]);
 									} catch (exception) {
-										triggerPheryEvent($this, 'exception', [phery.log(exception, argv[0])]);
+										functions.trigger_phery_event($this, 'exception', [phery.log(exception, argv[0])]);
 									}
 									break;
 								/* Render View */
 								case 5:
-									_data = $this.data('view.phery');
+									_data = $this.phery('data', 'view');
 									_argv = $.extend(true, {}, {
-										'url':$this.data('target')
+										'url': $this.phery('data', 'target')
 									}, argv[1]);
 									var _pass;
 
-									if ($this.data('passdata.phery')) {
-										_pass = $this.data('passdata.phery');
-										$.removeData($this[0], 'passdata.phery');
+									if ($this.phery('data', 'passdata')) {
+										_pass = $this.phery('data', 'passdata');
+										$.removeData($this[0], 'phery-passdata');
 									} else {
 										_pass = {};
 									}
@@ -1051,7 +1322,7 @@
 											}
 										}
 									} catch (exception) {
-										triggerPheryEvent($this, 'exception', [phery.log(exception, argv[0])]);
+										functions.trigger_phery_event($this, 'exception', [phery.log(exception, argv[0])]);
 									}
 									break;
 								/* Trigger Exception */
@@ -1063,9 +1334,9 @@
 											_argv.push(argv.shift());
 										} while (argv.length);
 
-										triggerPheryEvent($this, 'exception', _argv);
+										functions.trigger_phery_event($this, 'exception', _argv);
 									} else {
-										triggerPheryEvent($this, 'exception', [argv[0]]);
+										functions.trigger_phery_event($this, 'exception', [argv[0]]);
 									}
 									break;
 								/* Redirect (internal or external) */
@@ -1080,16 +1351,16 @@
 									break;
 								/* Set/Unset a global variable with any type of data */
 								case 9:
-									var _obj = assign_object(window, argv[0], undefined, argc === 2, true);
+									var _obj = functions.assign_object(window, argv[0], undefined, argc === 2, true);
 
 									if (_obj && _obj.length > 0) {
 										if (argc === 2) {
-											_obj[0][_obj[1]] = process_parameters($this, argv[1][0]);
+											_obj[0][_obj[1]] = functions.process_parameters($this, argv[1][0]);
 										} else if (argc === 1) {
 											delete _obj[0][_obj[1]];
 										}
 									} else {
-										triggerPheryEvent($this, 'exception', [phery.log('object path not found in window' + argv[0].join('.'))]);
+										functions.trigger_phery_event($this, 'exception', [phery.log('object path not found in window' + argv[0].join('.'))]);
 									}
 									break;
 								/* Include script/stylesheet */
@@ -1106,7 +1377,7 @@
 														'id':i
 													});
 
-													if (!head.find('script#' + i).size()) {
+													if (!head.find('script#' + i).length) {
 														head[0].appendChild(file[0]);
 													} else {
 														if (argv[2]) {
@@ -1126,7 +1397,7 @@
 														'id':i
 													});
 
-													if (!head.find('link#' + i).size()) {
+													if (!head.find('link#' + i).length) {
 														head[0].appendChild(file[0]);
 													} else {
 														if (argv[2]) {
@@ -1139,7 +1410,7 @@
 									}
 									break;
 								default:
-									triggerPheryEvent($this, 'exception', [phery.log('invalid command "' + data[x]['c'] + '" issued')]);
+									functions.trigger_phery_event($this, 'exception', [phery.log('invalid command "' + data[x]['c'] + '" issued')]);
 
 									break;
 							}
@@ -1148,14 +1419,14 @@
 				}
 			}
 
-			triggerPheryEvent(this, 'after', []);
-		}
+			functions.trigger_phery_event(this, 'after', []);
+		};
 
-		var dot_notation_option = function (val, step, set) {
+		functions.dot_notation_option = function (val, step, set) {
 			if (val.indexOf('.') !== -1) {
 				var initial = val.split('.');
 				if (initial && initial[0] && typeof step[initial[0]] !== 'undefined') {
-					return dot_notation_option(initial.slice(1).join('.'), step[initial[0]], set);
+					return functions.dot_notation_option(initial.slice(1).join('.'), step[initial[0]], set);
 				}
 			} else if (typeof step[val] !== 'undefined') {
 				if (typeof set !== 'undefined') {
@@ -1172,30 +1443,44 @@
 			return null;
 		};
 
-		function _apply(original, force) {
+		function _apply(original, force, group) {
 			force = force || false;
 
 			for (var x in original) {
 				if (original.hasOwnProperty(x)) {
 					if (typeof original[x] === 'object' && original[x].constructor !== Array) {
-						if (_apply(original[x], force) === false) {
+						if (_apply(original[x], force, x) === false) {
 							return false;
 						}
 					} else {
 						debug(['config', {
+							'group': group,
 							'name':x,
 							'value':original[x]
 						}], 'config');
 
-						switch (x) {
-							case 'confirm':
-							case 'form':
-							case 'select_multiple':
-							case 'select':
-							case 'tags':
-								if (!compare_array(original[x], options.delegate[x]) || force) {
-									set_events();
-									return false;
+						switch (group) {
+							case 'inline':
+								switch (x) {
+									case 'enabled':
+										break;
+									case 'once':
+										vars.inline_load = true;
+										break;
+								}
+								break;
+							case 'delegate':
+								switch (x) {
+									case 'confirm':
+									case 'form':
+									case 'select_multiple':
+									case 'select':
+									case 'tags':
+										if (!functions.compare_array(original[x], options.delegate[x]) || force) {
+											set_events();
+											return false;
+										}
+										break;
 								}
 								break;
 						}
@@ -1210,20 +1495,24 @@
 			var
 				original = $.extend(true, {}, options);
 
+			if (vars.locked_config) {
+				return;
+			}
+
 			if (value === undefined) {
 				for (var x in key) {
 					if (key.hasOwnProperty(x)) {
-						dot_notation_option(x, options, key[x]);
+						functions.dot_notation_option(x, options, key[x]);
 					}
 				}
 			} else {
-				dot_notation_option(key, options, value);
+				functions.dot_notation_option(key, options, value);
 			}
 
 			_apply(original);
 		}
 
-		options = $.extend(true, {}, typedefs.defaults, options);
+		options = $.extend(true, {}, vars.defaults, options);
 
 		$(function () {
 			$body_html = $('body,html');
@@ -1232,12 +1521,23 @@
 			_apply(options, true);
 		});
 
+		$(window).on({
+			'load': function(){
+				if (options.enable.autolock) {
+					vars.locked_config = true;
+				}
+				if (options.inline.enabled && options.inline.once) {
+					vars.inline_load = false;
+				}
+			}
+		});
+
 		/**
-		 * Config phery singleton
+		 * Config phery instance
 		 *
-		 * @param {String|typedefs.defaults} key name using dot notation (group.subconfig)
-		 * @param {String|Boolean|undefined} value
-		 * @return {phery}
+		 * @param {String|<vars.defaults>} [key] name using dot notation (group.subconfig)
+		 * @param {String|Boolean} [value] The value of the config name
+		 * @return {<vars.defaults>|phery}
 		 */
 		phery.config = function (key, value) {
 			if (typeof key === 'object' && key.constructor === Object) {
@@ -1250,10 +1550,20 @@
 				if (key in options) {
 					return options[key];
 				}
-				return dot_notation_option(key, options);
+				return functions.dot_notation_option(key, options);
 			} else if (arguments.length === 0) {
 				return $.extend(true, {}, options);
 			}
+			return phery;
+		};
+
+		/**
+		 * Lock the config, so no subsequent changes can be made to it
+		 *
+		 * @returns {phery}
+		 */
+		phery.lock_config = function() {
+			vars.locked_config = true;
 			return phery;
 		};
 
@@ -1262,17 +1572,17 @@
 		 * @return {phery}
 		 */
 		phery.reset_to_defaults = function () {
-			options = $.extend(true, {}, typedefs.defaults);
+			options = $.extend(true, {}, vars.defaults);
 			_apply(options, true);
 			return phery;
 		};
 
 		/**
 		 * Log function
-		 * @param {...} varargs Any type of data
-		 * @return {String|Array}
+		 *
+		 * @return {String|Array.<String>}
 		 */
-		phery.log = function (varargs) {
+		phery.log = function () {
 			var
 				args = Array.prototype.slice.call(arguments);
 
@@ -1293,7 +1603,7 @@
 					}
 				}
 
-				return args.join("\n");
+				return args.join('\n');
 			} else {
 				if (options.enable.log_history) {
 					return _log;
@@ -1305,21 +1615,39 @@
 
 		/**
 		 * Function to call remote
+		 *
 		 * @param {String} function_name Name of the PHP function set through
+		 *
 		 * <pre>
-		 *    phery::instance()->set()
+		 *    Phery::instance()->set(array('function_name' => 'phpfunction'))
 		 * </pre>
-		 * @param {Object|null} [args] Optional Object containing arguments to be sent over. Set to null to skip it
-		 * @param {Object|null} [attr] Optional Attributes to append to the created element. Set to null to skip it
+		 *
+		 * @param {Object} [args] Optional Object containing arguments to be sent over. Set to null to skip it
+		 *
+		 * @param {Object} [attr] Optional Attributes to append to the created element. Set to null to skip it
+		 *
+		 * There are a couple of special attrs that aren't real attributes:
+		 * target: {String} Specify to which URL of the call will be made
+		 * method: {String} Specify the REST type of call, POST, GET, DELETE, PUT
+		 * type: {String} Specify the type of response, like xml, json, text, javascript, etc
+		 * proxy: {jQuery} Proxy the events to another element. Good for reusing code or not calling the element directly
+		 * el: {jQuery} Implies proxy, make the call on the behalf of another element. You can't mix this with arguments
+		 * cache: {Boolean} Cache the JSON response
+		 *
 		 * @param {Boolean} [direct_call] Default to true, call the AJAX function directly. If set to false, it
-		 * will return the created object that will further need the remote() call, like after binding
+		 * will return the created object that will further need the phery('remote') call, after binding
 		 * events to it.
-		 * @return {jQuery.ajax|jQuery}
+		 *
+		 * @return {jQuery.ajax|Boolean}
 		 */
 		phery.remote = function (function_name, args, attr, direct_call) {
+			if (!this) {
+				return false;
+			}
+
 			if (this === phery && !function_name) {
 				phery.log('first argument "function_name" on phery.remote() must be specified when calling directly');
-				return phery;
+				return false;
 			}
 
 			if (direct_call !== false) {
@@ -1327,30 +1655,45 @@
 			}
 
 			if (this !== phery) {
-				return ajax_call.call(this);
+				return functions.ajax_call.call(this);
 			}
 
-			var $a = $('<a/>', {
-				'data-remote':function_name
-			});
+			var
+				$a = $('<a></a>'),
+				apply = [args];
 
-			$a.data({
-				'remote.phery':function_name
-			});
+			$a.phery('data', 'remote', function_name);
 
 			if (direct_call) {
-				$a.data('temp.phery', true);
+				$a.phery('data', 'temp', true);
 			}
 
-			if (args !== undefined && args) {
-				$a.phery('set_args', args);
-			}
+			if (attr !== undefined && $.type(attr) === 'object') {
+				if (typeof attr['proxy'] !== 'undefined') {
+					if (attr['proxy'] instanceof $) {
+						attr['proxy'] = attr['proxy'];
+					} else if ($.type(attr['proxy']) === 'string') {
+						var jq = $(attr['proxy']);
+						if (jq.length) {
+							attr['proxy'] = jq;
+						} else {
+							delete attr['proxy'];
+						}
+					} else {
+						delete attr['proxy'];
+					}
+				}
 
-			if (attr !== undefined && Object.toType(attr) === 'object') {
+				if (typeof attr['el'] !== 'undefined') {
+					if (attr['el'] instanceof $) {
+						apply.push(attr['el']);
+					}
+					delete attr['el'];
+				}
 				for (var i in attr) {
 					if (attr.hasOwnProperty(i)) {
-						if ('target method type'.indexOf(i.toLowerCase())) {
-							$a.data(i + '.phery', attr[i]);
+						if ('target method type proxy cache'.indexOf(i.toLowerCase()) !== -1) {
+							$a.phery('data', i, attr[i]);
 						} else {
 							$a.attr(attr);
 						}
@@ -1358,17 +1701,117 @@
 				}
 			}
 
-			return (direct_call ? ajax_call.call($a) : $a);
+			return (direct_call ? functions.ajax_call.apply($a, apply) : $a);
 		};
 
 		/**
-		 * Set the global callbacks
-		 * @param {typedefs._callbacks|String} event Key:value containing events or string.
+		 * Call a series of AJAX calls in order, waiting for the last call to finish.
+		 * Returns a promise for all the queued calls and they will be made in sequence
+		 * regardless if they were successiful or not
+		 *
+		 * You may watch the progress by using:
+		 *
+		 * <code>
+		 *     phery.remotes([
+		 *       ['function3'],
+		 *       ['function4']
+		 *     ])
+		 *     .progress(function(current){
+		 *       // 'this' is the element in the array and 'current' argument is the current AJAX promise
+		 *       if (this instanceof jQuery) {
+		 *         if (this.hasClass('loader')){
+		 *           current.always(function(){
+		 *             phery.remote('accomplish', this.data('id'));
+		 *           });
+		 *         }
+		 *       } else if (this[0] === 'function3'){ // function
+		 *          this.abort();
+		 *       }
+		 *     })
+		 *     .done(function(){
+		 *       // all calls were made
+		 *     });
+		 * </code>
+		 *
+		 * @param {Array|jQuery} array An array of array of arguments, the same you'd call phery.remote with.
+		 *                        You may also pass a jQuery set of elements containing phery instructions
+		 * <pre>
+		 *     phery.remotes([
+		 *       ['function',{args:1}], //same as phery.remote('function', {args: 1});
+		 *       ['function2'], // same as phery.remote('function2');
+		 *       ['function3', null, {target:'/target'}] // same as phery.remote('function3', null, {target: '/target'});
+		 *     ]);
+		 * </pre>
+		 *
+		 * Passing jquery set of elements
+		 *
+		 * <pre>
+		 *      phery.remotes($('.containers:not(.loaded)'));
+		 * </pre>
+		 *
+		 * This isn't the same as doing $('.containers:not(.loaded)').phery('remote'),
+		 * because all elements will be called at the same time
+		 *
+		 * @return {jQuery.Deferred}
+		 */
+		phery.remotes = function(array) {
+			var
+				$d = $.Deferred(),
+				promises = [],
+				count = 0,
+				next = function() {
+					var current = array instanceof $ ? array.eq(count++) : array.shift();
+					if (current && current.length) {
+						var promise =
+							array instanceof $ ?
+								phery.remote.apply(current)
+								:
+								phery.remote.apply(phery, current);
+
+						if (promise instanceof $.Deferred) {
+							promises.push(promise);
+							$d.notifyWith(current, promise);
+							promise.always(next);
+						} else {
+							next();
+						}
+					} else {
+						$d.resolve(promises);
+					}
+				};
+
+			if ($.type(array) === 'array' && array.length) {
+				for (var i = 0; i < array.length; i++) {
+					if ($.type(array[i]) === 'array') {
+						if (array[i].length > 3) {
+							array[i] = array[i].slice(0, 3);
+						}
+					} else {
+						array.splice(i, 1);
+					}
+				}
+			} else if (!(array instanceof $)) {
+				$d.resolve([]);
+				return $d.promise();
+			}
+
+			next();
+
+			return $d.promise();
+		};
+
+		/**
+		 * Set the global events
+		 *
+		 * @param {Object.<_callbacks>|String} event Key:value containing events or string.
+		 *
 		 * <pre>
 		 *    phery.on('always', fn); // or
 		 *    phery.on({'always': fn});
 		 * </pre>
-		 * @param {Function} [cb] Callback for the event.
+		 *
+		 * @param {function(event:jQuery.Event, ...*):Boolean} [cb] Callback for the event.
+		 *
 		 * @return {phery}
 		 */
 		phery.on = function (event, cb) {
@@ -1379,19 +1822,22 @@
 					}
 				}
 			} else if (typeof event === 'string' && typeof cb === 'function') {
-				if (event in typedefs._callbacks) {
+				if (event in _callbacks) {
 					debug(['phery.on', {
 						event:event,
 						callback:cb
 					}], 'events');
-					callbacks.bind(event + '.phery', cb);
+
+					callbacks.on(event + '.phery', cb);
 				}
 			}
+
 			return phery;
 		};
 
 		/**
-		 * Unset the callback
+		 * Unset a global event
+		 *
 		 * @param {String} event Name of the event or space separated event names
 		 * @return {phery}
 		 */
@@ -1399,188 +1845,137 @@
 			debug(['phery.off', {
 				event:event
 			}], 'events');
+
 			callbacks.off(event + '.phery');
 			return phery;
 		};
 
-		var
-			_containers = {},
-			PheryView = function (config) {
-				/**
-				 * Container jQuery element
-				 * @type {jQuery}
-				 */
-				this.container = config;
+		/**
+		 * Load (once by default) inline answer without making an AJAX call through phery.remote
+		 * Using the inline_load() method in PheryResponse, you may load it once per page load, so you
+		 * can reuse PheryResponses in both AJAX and on page load
+		 *
+		 * @param {String} str PheryResponse string (using PheryResponse->inline_load())
+		 * @param {jQuery} [element] An element that will "respond" for this load. If its not provided, it will create a dummy element
+		 * @return {phery}
+		 */
+		phery.load = function(str, element){
+			if (options.inline.enabled) {
+				if (!vars.inline_load) {
+					return phery;
+				}
 
-				/**
-				 * Cloned data from jQuery.data('view.phery'), read-only
-				 * @type {*}
-				 */
-				this.data = $.extend({}, this.container.data('view.phery'));
+				if (!element) {
+					element = $('<a></a>');
+					element.phery('data', 'temp', true);
+				}
 
-				var _excluded_url =
-					function (href, urls) {
-						for (var x = 0; x < urls.length; x++) {
-							switch (typeof urls[x]) {
-								case 'string':
-									if (href.indexOf(urls[x]) !== -1) {
-										return true;
-									}
-									break;
-								case 'object':
-									if (href.search(urls[x]) !== -1) {
-										return true;
-									}
-									break;
-								case 'function':
-									if (urls[x].call(null, href) === true) {
-										return true;
-									}
-							}
-						}
-						return false;
-					};
-
-				/**
-				 * Check if a given url is excluded by the view config
-				 * @param {String} url Url to check if its excluded
-				 * @return {boolean} If its excluded or not
-				 */
-				this.is_excluded_url = function (url) {
-					var excludes = this.container.data('view.phery')['exclude'] || false;
-					if (excludes && url) {
-						return _excluded_url(url, excludes);
-					}
-					return false;
-				};
-				/**
-				 * AJAX navigation and partial rendering
-				 * @param {String} url URL to navigate inside the container
-				 * @param {*} [args] Any extra arguments to pass through AJAX
-				 * @param {*} [passdata] Any extra data to append after reaching the render, afterHtml, beforeHtml
-				 * @return {jQuery.ajax}
-				 */
-				this.navigate_to = function (url, args, passdata) {
-					if (url) {
-						this.container.data('target', url);
-					}
-					var ajax;
-					if (typeof passdata !== 'undefined') {
-						this.container.data('passdata.phery', passdata);
-					}
-					if (typeof args !== 'undefined' && args !== null) {
-						ajax = ajax_call.call(this.container, args);
-					} else {
-						ajax = ajax_call.call(this.container);
-					}
-					return ajax;
-				};
-			};
-
-		typedefs.viewopts = {
-			/**
-			 * Optional, function to call before the
-			 * HTML was set, can interact with existing elements on page
-			 * The context of the callback is the container
-			 * Passdata is a temp data that is kept between requests
-			 * @type {function(object,*)}
-			 */
-			'beforeHtml': 1,
-			/**
-			 * Optional, function to call to render the HTML,
-			 * in a custom way. This overwrites the original function,
-			 * so you might set this.html(html) manually.
-			 * The context of the callback is the container.
-			 * Passdata is a temp data that is kept between requests
-			 * @type {function(string,object,*)}
-			 */
-			'render': 1,
-			/**
-			 * Optional, function to call after the HTML was set,
-			 * can interact with the new contents of the page
-			 * The context of the callback is the container.
-			 * Passdata is a temp data that is kept between requests
-			 * @type {function(object,*)}
-			 */
-			'afterHtml': 1,
-			/**
-			 * Optional, defaults to a[href]:not(.no-phery,[target],[data-remote],[href*=":"],[rel~="nofollow"]).
-			 * Setting the selector manually will make it 'local' to the #container, like '#container a'
-			 * Links like <a rel="#nameofcontainer">click me!</a>, using the rel attribute will trigger too
-			 * @type {string}
-			 */
-			'selector':1,
-			/**
-			 * Optional, array containing conditions for links NOT to follow,
-			 * can be string, regex and function (that returns boolean, receives the url clicked, return true to exclude)
-			 * @type {Array.<{RegExp|String|function(string)}>}
-			 */
-			'exclude':1
+				if ($.type(str) === 'string' && element instanceof $) {
+					functions.process_request.call(element, $.parseJSON(str), true);
+				}
+			}
+			return phery;
 		};
 
-		typedefs.view = {
-			/**
-			 * Container data object
-			 * @type {*}
-			 */
-			data: 1,
-			/**
-			 * The container itself
-			 * @type {jQuery}
-			 */
-			container: 1,
-			/**
-			 * Load the URL in the container
-			 * @type {function(string): jQuery.ajax}
-			 * @return {jQuery.ajax}
-			 */
-			navigate_to: 1,
-			/**
-			 * Check if the URL is excluded
-			 * @type {function(string): Boolean}
-			 * @return {Boolean}
-			 */
-			is_excluded_url: 1
+		vars._containers = {};
+
+		functions.excluded_url = function (href, urls) {
+			if (href === '#') {
+				return true;
+			}
+			for (var x = 0; x < urls.length; x++) {
+				switch (typeof urls[x]) {
+					case 'string':
+						if (href.indexOf(urls[x]) !== -1) {
+							return true;
+						}
+						break;
+					case 'object':
+						if (href.search(urls[x]) !== -1) {
+							return true;
+						}
+						break;
+					case 'function':
+						if (urls[x].call(null, href) === true) {
+							return true;
+						}
+				}
+			}
+			return false;
 		};
 
 		/**
-		 * Enable AJAX partials for the site. Disable links that responds
-		 * to it using the <code>.no-phery</code> class
-		 * @param {typedefs.viewopts|String} config containing the view references to containers and respective configs.
-		 * It's easier to maintain using IDs (like "#container") instead of selectors, like "div > section:eq(0)"
-		 * <pre>
-		 * {
-		 *		'#container': {
-		 *		// Optional, function to call before the
-		 *		// HTML was set, can interact with existing elements on page
-		 *		// The context of the callback is the container
-		 *		// Passdata is a temp data that is kept between requests
-		 *		'beforeHtml': function(data, passdata),
-		 *		// Optional, function to call to render the HTML,
-		 *		// in a custom way. This overwrites the original function,
-		 *		// so you might set this.html(html) manually.
-		 *		// The context of the callback is the container.
-		 *		// Passdata is a temp data that is kept between requests
-		 *		'render': function(html, data, passdata),
-		 *		// Optional, function to call after the HTML was set,
-		 *		// can interact with the new contents of the page
-		 *		// The context of the callback is the container.
-		 *		// Passdata is a temp data that is kept between requests
-		 *		'afterHtml': function(data, passdata),
-		 *		// Optional, defaults to a[href]:not(.no-phery,[target],[data-remote],[href*=":"],[rel~="nofollow"]).
-		 *		// Setting the selector manually will make it 'local' to the #container, like '#container a'
-		 *		// Links like <a rel="#nameofcontainer">click me!</a>, using the rel attribute will trigger too
-		 *		'selector': 'a',
-		 *		// Optional, array containing conditions for links NOT to follow,
-		 *		// can be string, regex and function (that returns boolean, receives the url clicked, return true to exclude)
-		 *		'exclude': ['/contact', /\d$/, function]
-		 *		// any other phery event, like beforeSend, params, etc
-		 *		}
-		 * }
-		 * </pre>
+		 * @constructor
+		 * @param {jQuery} config
+		 */
+		functions.phery_view = function(config) {
+			/**
+			 * Container jQuery element
+			 *
+			 * @type {jQuery}
+			 */
+			this.container = config;
+
+			/**
+			 * Cloned data from jQuery.phery('data', 'view'), read-only
+			 *
+			 * @readonly
+			 * @type {*}
+			 */
+			this.data = $.extend({}, this.container.phery('data', 'view'));
+
+			/**
+			 * Check if a given url is excluded by the view config
+			 *
+			 * @method
+			 * @param {String} url Url to check if its excluded
+			 *
+			 * @return {boolean} If its excluded or not
+			 */
+			this.is_excluded_url = function (url) {
+				var excludes = this.container.phery('data', 'view')['exclude'] || false;
+				if (excludes && url) {
+					return functions.excluded_url(url, excludes);
+				}
+				return false;
+			};
+			/**
+			 * AJAX navigation and partial rendering
+			 *
+			 * @method
+			 *
+			 * @param {String} url URL to navigate inside the container
+			 * @param {*} [args] Any extra arguments to pass through AJAX
+			 * @param {*} [passdata] Any extra data to append after reaching the render, afterHtml, beforeHtml
+			 *
+			 * @return {jQuery.ajax}
+			 */
+			this.navigate_to = function (url, args, passdata) {
+				if (url) {
+					this.container.phery('data', 'target', url);
+				}
+				var ajax;
+				if (passdata !== undefined) {
+					this.container.phery('data', 'passdata', passdata);
+				}
+				if (args !== undefined && args !== null) {
+					ajax = functions.ajax_call.call(this.container, args);
+				} else {
+					ajax = functions.ajax_call.call(this.container);
+				}
+				return ajax;
+			};
+		};
+
+		/**
+		 * Enable AJAX partials for the site, allowing you to create multiple containers that work differently
+		 * from the rest of the page, with own links and content flow
+		 *
+		 * Disable links that responds to it using the <b>.no-phery</b> class
 		 * If you provide a string as the name of previously
 		 * set container, it will return an object associated
 		 * with the container as follows:
+		 *
 		 * <pre>
 		 * {
 		 *      'data': container.data,			// selector, callbacks, etc
@@ -1589,16 +1984,50 @@
 		 *      'is_excluded_url': function(url)// check if the URL is excluded
 		 * }
 		 * </pre>
+		 *
 		 * If you pass false value to the container, it will remove the view from the id
+		 *
 		 * <pre>
 		 * phery.view({'#container':false});
 		 * </pre>
-		 * @return {PheryView|typedefs.view|phery}
+		 *
+		 * @param {Object.<string, *>|String} config containing the view references to containers and respective configs.
+		 *
+		 * @param {function(data:Object,passData:*)} [config.beforeHtml]
+		 * Optional, function to call before the
+		 * HTML was set, can interact with existing elements on page
+		 * The context of the callback is the container
+		 * Passdata is a temp data that is kept between requests
+		 *
+		 * @param {function(data:String,data:Object,passData:*)} [config.render]
+		 * Optional, function to call to render the HTML,
+		 * in a custom way. This overwrites the original function,
+		 * so you might set this.html(html) manually.
+		 * The context of the callback is the container.
+		 * Passdata is a temp data that is kept between requests
+		 *
+		 * @param {function(data:Object,passData:*)} [config.afterHtml]
+		 * Optional, function to call after the HTML was set,
+		 * can interact with the new contents of the page
+		 * The context of the callback is the container.
+		 * Passdata is a temp data that is kept between requests
+		 *
+		 * @param {string} [config.selector]
+		 * Optional, defaults to a[href]:not(.no-phery,[target],[data-phery-remote],[href*=":"],[rel~="nofollow"]).
+		 * Setting the selector manually will make it 'local' to the #container, like '#container a'
+		 * Links like <a rel="#nameofcontainer">click me!</a>, using the rel attribute will trigger too
+		 *
+		 * @param {Array.<(RegExp|String|function(str:string):Boolean)>} [config.exclude]
+		 * Optional, array containing conditions for links NOT to follow,
+		 * can be string, regex and function (that returns boolean, receives the url clicked, return true to exclude)
+		 * It's easier to maintain using IDs (like "#container") instead of selectors, like "div > section:eq(0)"
+		 *
+		 * @return {functions.phery_view|phery}
 		 */
 		phery.view = function (config) {
 			if (typeof config === 'string') {
-				if (typeof _containers[config] !== 'undefined') {
-					return _containers[config];
+				if (typeof vars._containers[config] !== 'undefined') {
+					return vars._containers[config];
 				} else {
 					return phery;
 				}
@@ -1642,21 +2071,21 @@
 					return false;
 				};
 
-			$(document)
+			$document
 				.off('click.view');
 
 			for (_container in config) {
 				if (config.hasOwnProperty(_container)) {
 					$container = $(_container);
 
-					if ($container.size() === 1) {
-						_bound = _container.replace(/[#\.\s]/g, '');
+					if ($container.length === 1) {
+						_bound = _container.replace(/[#\.\s>:,~=\+\-_\*]/g, '');
 
 						if (config[_container] === false) {
 							/* Remove the view */
 
 							$container.off('.phery.view');
-							$(document).off('click.view.' + _bound);
+							$document.off('click.view.' + _bound);
 
 							debug(['phery.view uninstalled and events unbound', $container], 'config');
 							continue;
@@ -1668,22 +2097,22 @@
 							) {
 							selector = _container + ' ' + config[_container]['selector'];
 						} else {
-							selector = 'a[href]:not(.no-phery,[target],[data-remote],[href*=":"],[rel~="nofollow"])';
+							selector = 'a[href]:not(.no-phery,[target],[data-phery-remote],[href*=":"],[rel~="nofollow"])';
 						}
 
 						selector = selector + ',a[href][rel="' + (_container) + '"]';
 
-						$container.data('view.phery', $.extend(true, {}, config[_container], {
-							'selector':selector
+						$container.phery('data', 'view', $.extend(true, {}, config[_container], {
+							'selector': selector
 						}));
 
-						_containers[_container] = new PheryView($container);
+						vars._containers[_container] = new functions.phery_view($container);
 
-						$(document)
-							.on('click.view.' + _bound, selector, _containers[_container], event);
+						$document
+							.on('click.view.' + _bound, selector, vars._containers[_container], event);
 
 						for (var _x in config[_container]) {
-							if (config[_container].hasOwnProperty(_x) && typeof typedefs._callbacks[_x] !== 'undefined') {
+							if (config[_container].hasOwnProperty(_x) && typeof _callbacks[_x] !== 'undefined') {
 								$container.on('phery:' + (_x) + '.phery.view', config[_container][_x]);
 							}
 						}
@@ -1698,283 +2127,391 @@
 			return phery;
 		};
 
-		$.fn.extend({
-			reset:function () {
-				return this.each(function () {
-					if ($(this).is('form')) {
-						this.reset();
-					}
-				});
-			},
-			/**
-			 * Calls phery functions attached to the element
-			 *
-			 * @param {String|Object} name String name of the phery function or object containing all calls
-			 * @param {*} value Arguments for the functions
-			 * @return {*}
-			 * @memberOf {jQuery}
-			 */
-			phery:function (name, value) {
-				var
-					$this = this,
-					_out = {
-						/**
-						 * Trigger phery exception on the element
-						 *
-						 * @param {String} msg
-						 * @param {*} data
-						 * @return {jQuery}
-						 */
-						'exception':function (msg, data) {
-							return $this.each(function () {
-								var $this = $(this);
-								triggerPheryEvent($this, 'exception', [msg, data]);
-							});
-						},
-						/**
-						 * Call the bound remote function on the element
-						 * @return {jQuery}
-						 */
-						'remote':function () {
-							return $this.each(function () {
-								var $this = $(this);
+		/**
+		 * Reset form(s)
+		 *
+		 * @extends {jQuery.fn}
+		 * @return {jQuery}
+		 */
+		functions.reset = function () {
+			return this.each(function () {
+				if ($(this).is('form')) {
+					this.reset();
+				}
+			});
+		};
 
-								if ($this.is('form')) {
-									form_submit($this);
-								} else {
-									ajax_call.call($this);
-								}
-							});
-						},
-						/**
-						 * Append arguments to the element
-						 * @param {...} varargs
-						 * @return {Object}
-						 */
-						'append_args':function (varargs) {
-							var args = Array.prototype.slice.call(arguments);
-							$this.each(function () {
-								var $this = $(this);
-								append_args.apply($this, [args]);
-							});
-							return _out;
-						},
-						/**
-						 * Set the arguments of the element. Prefer using objects or arrays
-						 * @param {*} args
-						 * @return {Object}
-						 */
-						'set_args':function (args) {
-							$this.each(function () {
-								var $this = $(this);
-								set_args.call($this, [args]);
-							});
-							return _out;
-						},
-						/**
-						 * Current element arguments
-						 *
-						 * @return {*}
-						 */
-						'get_args':function () {
-							return $this.data('args.phery');
-						},
-						/**
-						 * Remove the DOM object from the page, doing some cleanups
-						 * @return void
-						 */
-						'remove':function () {
-							$this.each(function () {
-								var $this = $(this);
-								$this.data('temp.phery', true);
-								clean_up($this);
-							});
-						},
-						/**
-						 * Make the current elements ajaxified
-						 *
-						 * @param {String} func Name of the AJAX function
-						 * @param {*} args Arguments
-						 * @return {jQuery}
-						 */
-						'make':function (func, args) {
-							if (Object.toType(func) === 'string') {
-								return $this.each(function () {
-									var $this = $(this);
-									$this.attr('data-remote', func).data('remote.phery', func);
-									if (args) {
-										set_args.call($this, [args]);
-									}
-								});
-							}
+		/**
+		 * Calls phery functions attached to the element, pass parameters after the name
+		 *
+		 * @extends {jQuery}
+		 * @this {jQuery}
+		 * @param {String|Object} name String name of the phery function or object containing all calls
+		 * @return {*}
+		 */
+		functions.phery = function (name) {
+			var
+				/**
+				 * @type {jQuery}
+				 */
+				$this = this,
+				_out = {
+					/**
+					 * Trigger phery exception on the element
+					 *
+					 * @param {String} msg
+					 * @param {*} [data]
+					 * @return {jQuery}
+					 */
+					'exception':function (msg, data) {
+						return $this.each(function () {
+							var $this = $(this);
+							functions.trigger_phery_event($this, 'exception', [msg, data]);
+						});
+					},
+					/**
+					 * Set phery related data, namespaced to phery-
+					 *
+					 * @param {Object|String} [name] Name of the data item
+					 * @param {*} [data] The data itself
+					 * @returns {*}
+					 */
+					'data':function (name, data) {
+						var i;
+						if (data !== undefined) {
+							$this.data('phery-' + (name), data);
 							return $this;
-						},
-						/**
-						 * Remove phery from the current element.
-						 * @param {Boolean} unbind Unbind phery events
-						 * @return {jQuery}
-						 */
-						'unmake':function (unbind) {
+						} else if (name !== undefined) {
+							if ($.type(name) === 'object') {
+								for (i in name) {
+									if (name.hasOwnProperty(i)) {
+										$this.data('phery-' + (i), name[i]);
+									}
+								}
+								return $this;
+							}
+							return $this.data('phery-' + (name));
+						}
+
+						data = $this.data();
+						for (i in data) {
+							if (data.hasOwnProperty(i) && !/^phery\-/.test(i)) {
+								delete data[i];
+							}
+						}
+
+						return data;
+					},
+					'proxy':function (jq) {
+						return $this.each(function () {
+							var $_this = $(this);
+
+							if (jq instanceof $) {
+								if (jq.length) {
+									$_this.phery('data', 'proxy', jq);
+								}
+							} else if ($.type(jq) === 'string') {
+								try {
+									jq = $(jq);
+									if (jq.length) {
+										$_this.phery('data', 'proxy', jq);
+									}
+								} catch (exc) {}
+							} else {
+								$.removeData(this, 'phery-proxy');
+							}
+						});
+					},
+					/**
+					 * Call the bound remote function on the element
+					 *
+					 * @return {jQuery}
+					 */
+					'remote':function () {
+						return $this.each(function () {
+							var $this = $(this);
+
+							if ($this.is(':phery-remote')) {
+								if ($this.is('form')) {
+									functions.form_submit($this);
+								} else {
+									functions.ajax_call.call($this);
+								}
+							}
+						});
+					},
+					/**
+					 * Append arguments to the element, pass as many items you want
+					 *
+					 * @return {Object}
+					 */
+					'append_args':function () {
+						var args = Array.prototype.slice.call(arguments);
+						$this.each(function () {
+							var $this = $(this);
+							functions.append_args.apply($this, [args]);
+						});
+						return _out;
+					},
+					/**
+					 * Set the arguments of the element. Prefer using objects or arrays
+					 *
+					 * @param {*} args
+					 * @return {Object}
+					 */
+					'set_args':function (args) {
+						$this.each(function () {
+							var $this = $(this);
+							functions.set_args.call($this, [args]);
+						});
+						return _out;
+					},
+					/**
+					 * Current element arguments
+					 *
+					 * @return {*}
+					 */
+					'get_args':function () {
+						return $this.phery('data', 'args');
+					},
+					/**
+					 * Remove the DOM object from the page, doing some cleanups
+					 */
+					'remove':function () {
+						$this.each(function () {
+							var $this = $(this);
+							$this.phery('data', 'temp', true);
+							clean_up($this);
+						});
+					},
+					/**
+					 * Make the current elements ajaxified
+					 *
+					 * @param {String} func Name of the AJAX function
+					 * @param {Array.<*>|Object.<string, *>} [args] Arguments
+					 * @return {jQuery}
+					 */
+					'make':function (func, args) {
+						if ($.type(func) === 'string') {
 							return $this.each(function () {
 								var $this = $(this);
-								if (unbind) {
-									$this.off('.phery');
+								$this.attr('data-phery-remote', func).phery('data', 'remote', func);
+								if (args) {
+									functions.set_args.call($this, [args]);
 								}
-								$.removeData(this, '.phery');
-								$.removeData(this, 'remote');
-								$.removeData(this, 'remote.phery');
-								$this
-									.removeAttr('data-remote')
-									.removeAttr('data-remote.phery')
-									.removeAttr('data-args')
-									.removeAttr('data-args.phery')
-									.removeAttr('data-confirm')
-									.removeAttr('data-confirm.phery');
 							});
 						}
-					};
-
-				if (name && Object.toType(name) === 'object') {
-					var last;
-					for (var x in name) {
-						if (name.hasOwnProperty(x) && (x in _out)) {
-							last = _out[x].apply($this, name[x]);
-						}
+						return $this;
+					},
+					/**
+					 * Remove phery from the current elements.
+					 *
+					 * @param {Boolean} [unbind] Unbind phery events
+					 * @return {jQuery}
+					 */
+					'unmake':function (unbind) {
+						return $this.each(function () {
+							var $this = $(this);
+							if (unbind) {
+								$this.off('.phery');
+							}
+							$.removeData(this, 'remote');
+							$this
+								.removeAttr('data-phery-remote')
+								.removeAttr('data-phery-args')
+								.removeAttr('data-phery-confirm');
+						});
 					}
-					return last;
-				} else if (name && (name in _out)) {
-					return _out[name].apply($this, Array.prototype.slice.call(arguments, 1));
-				}
+				};
 
-				return _out;
-			},
-			serializeForm:function (opt) {
-				opt = $.extend({}, opt);
+			if (name && $.type(name) === 'object') {
+				var last;
+				for (var x in name) {
+					if (name.hasOwnProperty(x) && (x in _out)) {
+						last = _out[x].apply($this, name[x]);
+					}
+				}
+				return last;
+			} else if (name && (name in _out)) {
+				return _out[name].apply($this, Array.prototype.slice.call(arguments, 1));
+			}
 
-				if (typeof opt['disabled'] === 'undefined' || opt['disabled'] === null) {
-					opt['disabled'] = false;
-				}
-				if (typeof opt['all'] === 'undefined' || opt['all'] === null) {
-					opt['all'] = false;
-				}
-				if (typeof opt['empty'] === 'undefined' || opt['empty'] === null) {
-					opt['empty'] = true;
-				}
+			return _out;
+		};
 
-				var
-					$form = $(this),
-					result = {},
-					formValues =
-						$form
-							.find('input,textarea,select,keygen')
+		/**
+		 * Create an object from a form
+		 *
+		 * @param {Object} [opt] Config object
+		 *
+		 * @param {Boolean} [opt.disabled]
+		 * Process disabled form elements, defaults to false
+		 *
+		 * @param {Boolean} [opt.all]
+		 * Include all elements from a form, including null ones, assigning an empty string to the item, defaults to false
+		 *
+		 * @param {Boolean} [opt.empty]
+		 * Setting to false will skip empty fields (won't be submitted), setting to true will submit empty key:values pairs, this overrides "all" setting, defaults to true
+		 *
+		 * @param {Boolean} [opt.files_apart]
+		 * Setting this to true will make serializeForm return 2 objects, instead of one, one called inputs, and another called files
+		 *
+		 * @extends {jQuery.fn}
+		 * @return {Object.<String, (String|Array|File)>|{inputs: (String|Array|File), files: Object.<(String|File)>}}
+		 */
+		functions.serializeForm = function (opt) {
+			opt = $.extend({
+				'disabled':false,
+				'all':false,
+				'empty':true,
+				'files_apart':false
+			}, opt || {});
+
+			var
+				$form = $(this),
+				result = opt['files_apart'] ? {'inputs':{}, 'files':{}} : {},
+				map = function () {
+					var $this = $(this);
+					if (!vars.has_file && $this.is('input[type="file"]')) {
+						return null;
+					}
+					return functions.form_element($this);
+				},
+				formValues =
+					$form.is('form') ?
+						(
+							$form
+							.find('input,textarea,select')
 							.filter(function () {
 								var ret = true;
 								if (!opt['disabled']) {
 									ret = !this.disabled;
 								}
-								return ret && $.trim(this.name);
+								return ret && $.trim(this.name) !== '';
 							})
-							.map(function () {
-								var
-									$this = $(this),
-									radios,
-									options,
-									value = null;
+							.map(map)
+							.get()
+						)
+						:
+						(
+							$form.is('select,textarea,input') ?
+								[functions.form_element($form)]
+								:
+								[]
+						);
 
-								if ($this.is('[type="radio"]') || $this.is('[type="checkbox"]')) {
-									if ($this.is('[type="radio"]')) {
-										radios = $form.find('[type="radio"][name="' + this.name + '"]');
-										if (radios.filter('[checked]').size()) {
-											value = radios.filter('[checked]').val();
-										}
-									} else if ($this.prop('checked')) {
-										value = $this.is('[value]') ? $this.val() : 1;
-									}
-								} else if ($this.is('select')) {
-									options = $this.find('option').filter(':selected');
-									if ($this.prop('multiple')) {
-										value = options.map(function () {
-											return this.value || this.innerHTML;
-										}).get();
-									} else {
-										value = options.val();
-									}
-								} else {
-									value = $this.val();
-								}
+			if (formValues.length) {
+				var
+					i,
+					value,
+					name,
+					$matches,
+					len,
+					offset,
+					j,
+					type,
+					fields;
 
-								return {
-									'name':this.name || null,
-									'value':value
-								};
-							}).get();
+				for (i = 0; i < formValues.length; i++) {
+					name = formValues[i].name;
+					value = formValues[i].value;
+					type = formValues[i].type;
 
-				if (formValues) {
-					var
-						i,
-						value,
-						name,
-						$matches,
-						len,
-						offset,
-						j,
-						fields;
-
-					for (i = 0; i < formValues.length; i++) {
-						name = formValues[i].name;
-						value = formValues[i].value;
-
-						if (!opt['all']) {
-							if (value === null) {
-								continue;
-							}
-						} else {
-							if (value === null) {
-								value = '';
-							}
-						}
-
-						if (value === '' && !opt['empty']) {
+					if (!opt['all']) {
+						if (value === null) {
 							continue;
 						}
-
-						if (!name) {
-							continue;
-						}
-
-						$matches = name.split(/\[/);
-
-						len = $matches.length;
-
-						for (j = 1; j < len; j++) {
-							$matches[j] = $matches[j].replace(/\]/g, '');
-						}
-
-						fields = [];
-
-						for (j = 0; j < len; j++) {
-							if ($matches[j] || j < len - 1) {
-								fields.push($matches[j].replace("'", ''));
-							}
-						}
-
-						if ($matches[len - 1] === '') {
-							offset = assign_object(result, fields, [], true, false, false);
-
-							if (value.constructor === Array) {
-								offset[0][offset[1]].concat(value);
-							} else {
-								offset[0][offset[1]].push(value);
-							}
-						} else {
-							assign_object(result, fields, value);
+					} else {
+						if (value === null) {
+							value = '';
 						}
 					}
-				}
 
-				return result;
+					if (value === '' && !opt['empty']) {
+						continue;
+					}
+
+					if (type === 'file' && value.length === 0) {
+						continue;
+					}
+
+					if (!name) {
+						continue;
+					}
+
+					$matches = name.split(/\[/);
+
+					len = $matches.length;
+
+					for (j = 1; j < len; j++) {
+						$matches[j] = $matches[j].replace(/\]/g, '');
+					}
+
+					fields = [];
+
+					for (j = 0; j < len; j++) {
+						if ($matches[j] || j < len - 1) {
+							fields.push($matches[j].replace(/['"]+/g, ''));
+						}
+					}
+
+					if ($matches[len - 1] === '') {
+						offset = functions.assign_object(
+							opt['files_apart'] ?
+							(
+								(type === 'file') ? result['files'] : result['inputs']
+							) : result,
+							fields, [], true, false, false
+						);
+
+						if ($.type(value) === 'array') {
+							offset[0][offset[1]].concat(value);
+						} else {
+							offset[0][offset[1]].push(value);
+						}
+					} else {
+						functions.assign_object(
+							opt['files_apart'] ?
+							(
+								(type === 'file') ? result['files'] : result['inputs']
+							) : result,
+							fields, value, true, false, false, type === 'file'
+						);
+					}
+				}
+			}
+
+			return result;
+		};
+
+		$.extend($.expr[':'], {
+			'phery-remote': function(el){
+				return el instanceof $ ? el.phery('data', 'remote') : $(el).phery('data', 'remote');
+			},
+			'phery-confirm': function(el){
+				return el instanceof $ ? el.phery('data', 'confirm') : $(el).phery('data', 'confirm');
 			}
 		});
 
+		$.fn.extend({
+			reset: functions.reset,
+			phery: functions.phery,
+			serializeForm: functions.serializeForm
+		});
+
+		/**UNITTEST-BEGIN*/
+
+		phery.vars = vars;
+		phery.functions = functions;
+
+		/**UNITTEST-END*/
+
+		if (!('vars' in phery) && !('functions' in phery)) {
+			if (typeof Object['freeze'] === 'function') {
+				Object.freeze(phery);
+			}
+		}
+
+		return phery;
 	}
 ));

@@ -1,38 +1,71 @@
-# PHP + jQuery + AJAX = phery
+# PHP + jQuery + AJAX + File upload
+# Enter phery.js, the swiss army knife of jQuery and PHP
 
-## What do I need?
+## Highlights
 
-+    PHP 5.3.3+ with JSON functions (no legacy support for PHP 4 or 5.2 that had the support already dropped from PHP.net itself, relies on PHP 5.3 functions)
-+    jQuery 1.7+ (strongly suggested to use 1.8.1+, not compatible with version >=1.9)
-+    Firefox 3.6+, IE 8+, Chrome 12+, Safari 5+, Opera 10+
-
-## Introduction
-
-**This library is PSR-0 Compatible**
-
-This library is a much better alternative to XAJAX for those who work with jQuery and AJAX, while half of the lines. It unleashes everything you expect from an AJAX library, with nested responses, merging and unmerging responses, acessing directly the calling element.
-
-It's a straightforward and powerful AJAX library with direct integration and mapping of all jQuery functions in PHP, the mapping is extended to custom functions set by $.fn, can create elements just like `$('<div/>')` does, as **phery** creates a seamless integration with jQuery functions, through AJAX to PHP functions, as you can call a PHP function using AJAX
-
-All jQuery functions listed in here are available to call directly from the PheryResponse class: <http://api.jquery.com/browser/> including any new versions of jQuery that comes out, its compatible with jQuery forever. No need to update phery, as it will continue to work with future versions of jQuery automatically.
-
-Phery uses HTML5 `data` attributes to achieve this, and no additional libraries are needed, even for Internet Explorer. Links and forms will still be able to send GET/POST requests and function properly without triggering **phery** when javascript isn't enabled (or triggering it in case you still want to respond to POST requests anyway).
-
-W3C validator might complain about `data-*` if you're not using <!doctype html> (HTML5 DOCTYPE).
-
-Strict standards for PHP 5.3+ and advised to use jQuery 1.7+. Being just one PHP file, and one javascript file, it's pretty easy to 'carry' around or to implement in PHP auto-load scenarios, plus it's really FAST! Average processing time is around 2ms with vanilla PHP, according to Firebug and in the demo page
-
-PHP *magic\_quotes\_gpc* prefered to be off. you are always responsible for the security of your data, so escape your text accordingly to avoid SQL injection or XSS attacks.
-
-Also, relies on JSON on PHP. All AJAX requests are sent as POST only, so it can still interact with GET requests, like paginations and such (?p=1 / ?p=2 / ...).
-
-The code is mostly commented using phpDoc and jsDoc, for a steep learning curve, using doc-enabled IDEs, like Netbeans, Aptana or Eclipse based IDEs. Also, most of the important and most used functions in jQuery were added as phpDoc, as a magic method of the **PheryResponse** class.
+* AJAX file uploads for good browsers with no effort, just make the form pheryfied
+* Really small footprint, no external dependencies beside jQuery
+* Coded with performance and security in mind
+* Code, server and client side, completely commented, all methods have docs
+* Javascript config locking and Object.freeze to make it harder for tampering
+* The same way you write jQuery in Javascript, you write it in PHP
+* Turns static Javascript app code into a dynamic language with a chainable query builder style
+* Unit tested, mocha for the javascript and PHPUnit_Selenium for PHP
+* Support for old, new and upcoming jQuery functions out of the box, since nothing is hard coded
+* You may nest `PheryResponses` the way you would with jQuery
+* You may set Javascript callbacks directly from PHP
+* You can call jQuery plugin functions directly from PHP (think colorbox for example)
+* Built-in CSRF mechanism that makes each AJAX request signed
+* Access or call any Javascript code on the page, set/unset variables, add functions to the page on-the-fly
 
 ## Example code
 
 Check the a lot of examples and code at http://phery-php-ajax.net/demo.php
 
-## Full API Documentation
+## Introduction
+
+**This library is PSR-0 Compatible**
+
+The main goal of this library is to make jQuery (and Javascript), be completely dynamic instead of static and unchangeable code, returning commands on-the-fly from the server and execute them in order on the client, while still manipulating the DOM and dealing with callbacks.
+
+This library unleashes everything you expect from an AJAX library, with nested responses, merging and unmerging responses, direct access to the DOM element that is making the AJAX call. It's loosely based on jquery-ujs for Rails concept.
+
+It's a straightforward and powerful AJAX library with direct integration and mapping of all jQuery functions in PHP, the mapping is extended to custom functions set by $.fn, can create elements just like `$('<div/>')` does, as **phery.js** creates a seamless integration with jQuery functions, through AJAX to PHP functions, as you can call a PHP function using AJAX
+
+All jQuery functions listed in here are available to call directly from the _PheryResponse_ class: <http://api.jquery.com/> including any new versions of jQuery that comes out, its compatible with jQuery forever, since there are no hardcoded jQuery functions in the PHP code. No need to update phery.js, as it will continue to work with future versions of jQuery automatically (unless jQuery change anything in core that breaks any existing function).
+
+phery.js uses HTML5 `data` attributes to achieve this, and no additional libraries (besides jQuery, since it's a plugin) are needed, even for Internet Explorer. Links and forms will still be able to send GET/POST requests and function properly without when no javascript isn't enabled, because it doesn't use obtrusive techniques and relies on event delegation.
+
+Strict standards for PHP 5.3+ and advised to use jQuery 1.8+. Being just one PHP file, and one javascript file, it's pretty easy to _carry_ around or to implement in PHP auto-load scenarios, plus it's really FAST! Average processing time is around 2ms with vanilla PHP, according to Firebug and in the demo page
+
+The *magic\_quotes\_gpc* directive is **DEPRECATED** in 5.3 and **REMOVED** in 5.4, since you are always 100% responsible for the security of your data, so escape your text accordingly to avoid SQL injection or XSS attacks.
+
+All AJAX requests are sent as POST only, so it can still interact with GET query strings, like paginations and such (?p=1 / ?p=2 / ...).
+
+The code is mostly commented using phpDoc and jsDoc, for a steep learning curve, using doc-enabled IDEs, like Netbeans, Aptana, Phpstorm and Eclipse based IDEs. Also, most of the important and most used functions in jQuery were added as phpDoc (from <http://api.jquery.com/>), as a magic method of the _PheryResponse_ class .
+
+## What do I need?
+
+* PHP 5.3.3+
+* jQuery 1.8+
+* Firefox 3.6+, IE 8+, Chrome 12+, Safari 5+, Opera 10+
+
+## Upcoming
+
+* Mocha unit tests for the Javascript side running against multiple versions of jQuery on the repo
+* PHPUnit_Selenium test cases for Javascript/PHP testing sources on the repo
+
+## Upgrading from < 2.4.0
+
+Version 2.4.0 isn't a drop-in replacement because of some changes, so you might need to update your code
+
+* All the calls to `PheryResponse::factory()->this()` must be called to `PheryResponse::factory()->this`
+* All the calls to `PheryResponse::factory()->jquery()->somemethod()` must be called to `PheryResponse::factory()->jquery->somemethod()`
+* If you are using jQuery >=1.9, some functions were removed from the jQuery core, so fix your code accordingly
+* If you fond yourself adding `data-remote` manually to HTML elements like `<a data-remote="remote">stuff</a>`, you have to fix it manually or use the prefered way `Phery::link_to`, since the `data-remote` is now `data-phery-remote`
+* The same with `data-confirm`, you have to fix it manually or use the prefered way `Phery::link_to`, since the `data-confirm` is now `data-phery-confirm`
+
+## Full PHP API Documentation
 
 http://phery-php-ajax.net/docs/
 
@@ -65,16 +98,19 @@ It's really simple as
 		</script>
 	</head>
 	<body>
-		<a data-remote="function_name">Click me</a>
+	    <?php echo Phery::link_to('Click me', 'function_name'); ?>
 	</body>
 </html>
 ```
 
-When clicking a link with data-remote, it will automatically call the "function_name" callback, that will return a response and apply everything automagically
+When clicking a link with `data-phery-remote`, it will automatically call the "function_name" callback, that will return a response and apply everything automagically
 
 Complete class declarations and functions at http://phery-php-ajax.net/docs/
 
 ### PHP server-side
+
+There is an special global setting to make phery.js to not expose information about your server on exceptions, that is a static configuration `Phery::$expose_paths`, which is set to `false` by default.
+If you want to know exactly which file is generating the exception, use `Phery::$expose_paths = true;`
 
 #### Phery - The main class, that should be reused everywhere (singleton style), but you can create many instances just fine
 
@@ -86,7 +122,7 @@ Phery::instance($config)->(...);
 
 #### Phery::instance()->callback(array('before' => array(), 'after' => array()))
 
-Add a callback that will execute in all functions that are registered using Phery::instance()->set(), and can be any number of callbacks,
+Add a callback that will execute in all functions that are registered using `Phery::instance()->set()`, and can be any number of callbacks,
 useful when you're going to execute the same task for all AJAX requests.
 
 ```php
@@ -168,8 +204,8 @@ Doing it by hand can have some unwanted side effects, since the JSON must be per
 
 #### Phery::is_ajax($is_phery = false)
 
-Returns a boolean, checks if it's a AJAX request (checks for X-Requested-With header).
-Set `$is_phery` to true to check specifically for phery call
+Returns a boolean, checks if it's a AJAX request (checks for `X-Requested-With` header).
+Set `$is_phery` to true to check specifically for phery.js call
 
 ```php
 <?php
@@ -257,16 +293,32 @@ Takes just one parameter, $last_call, in case you want to call process() again l
 Set configuration for the current instance of phery. Passed as an associative array, and can be passed when creating a new
 instance.
 
-* `exit_allowed` => `true`, Defaults to true, stop further script execution. Set this to false on frameworks that need to do proper cleanup
-* `no_stripslashes` => `false`, Don't apply stripslashes on the args
-* `exceptions` => `false`, Throw exceptions on errors
-* `compress` => `false`, Enable/disable GZIP/DEFLATE compression, depending on the browser support. Don't enable it if you are using Apache DEFLATE/GZIP, or zlib.output_compression Most of the time, compression will hide exceptions, because it will output plain text while the content-type is gzip, unless you also enable `error_reporting`
-* `error_reporting` => `false|E_ALL|E_DEPRECATED|...`, Error reporting temporarily using error_reporting(). 'false' disables the error_reporting and wont try to catch any error. Anything else than false will throw a PheryResponse->exception() with the message, code, line and file
-* `csrf` => `false`, Enable CSRF protection, uses PHP sessions. The meta tag must go inside the head of your page using `<?php echo Phery::instance()->csrf(); ?>`
+* `exit_allowed` => `true`,
+Defaults to true, stop further script execution. Set this to false on frameworks that
+need to do proper cleanup and/or event triggering
+
+* `exceptions` => `false`,
+Throw exceptions on errors
+
+* `compress` => `false`, Enable/disable GZIP/DEFLATE compression, depending on the browser support. Don't enable it if
+you are using Apache DEFLATE/GZIP, or zlib.output_compression Most of the time, compression will hide exceptions,
+because it will output plain text while the content-type is gzip, unless you also enable `error_reporting`
+
+* `error_reporting` => `false|E_ALL|E_DEPRECATED|...`,
+Error reporting temporarily using error_reporting(). 'false' disables the error_reporting and wont try to catch any error.
+Anything else than false will throw a PheryResponse->exception() with the message, code, line and file
+
+* `csrf` => `false`,
+Enable CSRF protection, uses PHP sessions. The meta tag _MUST_ be inside the head of your page using
+`<?php echo Phery::instance()->csrf(); ?>`
+
+* `return` => `false`,
+Setting this to true will make `Phery::instance()->process()` method return the answer (and won't exit the code, overrides `exit_allowed`),
+so you may do your cleanups and set the answer where you may please
 
 #### Phery::instance($config = null)
 
-Singleton static method, ensures just one instance of phery, this is prefered over creating multiple instances
+Singleton static method, ensures just one instance of phery.js, this is prefered over creating multiple instances
 
 #### Phery::instance()->set(array $functions)
 
@@ -320,6 +372,10 @@ Callback/response function comprises of:
 ?>
 ```
 
+#### Phery::instance()->unset_function($name)
+
+Unset any previously function set with `Phery::instance()->set()`
+
 #### Phery::instance()->csrf($check = false)
 
 Create a new token inside PHP session to prevent CSRF attacks, and return as a `<meta>` tag.
@@ -333,7 +389,7 @@ Need to enable CSRF setting with `config()`
 
 #### Phery::factory(array $config = null)
 
-Creates a new instance of phery, that is chainable
+Creates a new instance of phery.js, that is chainable
 
 ```php
 <?php
@@ -389,8 +445,8 @@ Helper static method that returns the first non null/false/0 item (taken from MY
 #### PheryResponse - Used as a return value to any function called using AJAX
 
 Check the code completion using an IDE for a better view of the functions, read the source or check the examples
-Any jQuery function can be called through PheryResponse, even custom ones, defined through `$.fn.extend` or `$.function`
-Since version 2.0, you may nest PheryResponses, and the `this()` method was added, to access the calling element (or form)
+Any jQuery function can be called through `PheryResponse`, even custom ones, defined through `$.fn.extend` or `$.function`
+Since version 2.0, you may nest `PheryResponses`, and the `this` property was added, to access the calling element (or form)
 directly from PHP
 <http://phery-php-ajax.net/docs/class-PheryResponse.html>
 
@@ -439,7 +495,7 @@ function remote()
 {
 	return
 		PheryResponse::factory()
-		->this()
+		->this
 		->animate(
 			array('opacity' => 0.3),
 			1500,
@@ -458,13 +514,38 @@ Check the code completion using an IDE for a better view of the functions, read 
 
 ### Javascript client-side
 
+#### Special selectors
+
+There are two jQuery helper selectors: `:phery-remote` and `:phery-confirm`
+You may check elements that have phery.js enabled using
+
+```js
+$('.widget:eq(0)').is(':phery-remote');
+```
+
+or selecting all the elements for a class
+
+```js
+$('.widget:phery-remote:visible').phery('remote'); // call their remote functions
+```
+
+Or combine them in the `remotes` function, to execute them in order
+
+```js
+// call their remote functions in order
+phery.remotes($('.widget:phery-remote:visible')).done(function(){
+  // do your thing
+});
+```
+
 #### $('form').serializeForm(opts)
 
 Generate an object serialized with unlimited depth from forms. Opts can be defined as:
 
 * `disabled`: boolean, process disabled form elements, defaults to false
-* `all`: boolean, include all elements from a form, including null ones, assigning an empty string to the item, defaults to false
-* `empty`: boolean, setting to false will skip empty fields (won't be submitted), setting to true will submit empty key:values pairs, this overrides "all" setting, defaults to true
+* `all`: boolean, include all elements from a form, including null ones, assigning an integer to the item, defaults to false
+* `empty`: boolean, setting to false will skip empty fields (won't be submitted), setting to true will submit empty key:values pairs, including non checked radio and checkboxes, this overrides "all" setting, defaults to true
+* `files_apart`: boolean, Return
 
 ```js
 $('form').serializeForm({'disabled':true,'all':true,'empty':false});
@@ -483,6 +564,7 @@ $('form').serializeForm({'disabled':true,'all':true,'empty':false});
 		<option selected value="2">2</option>
 		<option value="3">3</option>
 	</select>
+	<input type="file" name="file">
 </form>
 ```
 
@@ -500,7 +582,31 @@ $('form').serializeForm({'disabled':true,'all':true,'empty':false});
 	"breakfast":"eggs & bacon",
 	"select":[
 		1, 2
-	]
+	],
+	"file": [object File]
+}
+```
+
+* if the `files_apart` is set to true :
+
+```js
+{
+    "inputs: {
+        "field":{
+            "gender":"male",
+            "name":"John Doe",
+            "info": {
+                "date":"12/12/1983"
+            }
+        },
+        "breakfast":"eggs & bacon",
+        "select":[
+            1, 2
+        ]
+	},
+	"files": {
+	    "file": [object File]
+	}
 }
 ```
 
@@ -510,11 +616,11 @@ An helper function that has been long missing from jQuery, to simply reset a for
 
 #### $('element').phery()
 
-Returns functions associated with phery and the element
+Returns functions associated with phery.js and the element
 
 #### $('element').phery('remote') or $('element').phery().remote()
 
-Trigger the AJAX call, takes no parameter. Executes the phery data associated with the element. Returns the jQuery AJAX object
+Trigger the AJAX call, takes no parameter. Executes the phery.js data associated with the element. Returns the jQuery AJAX object
 
 ```js
 $('element').phery().remote(); // or $('element').phery('remote');
@@ -522,7 +628,7 @@ $('element').phery().remote(); // or $('element').phery('remote');
 
 ##### $('element').phery().exception(msg, data); // or $('element').phery('exception', msg, data);
 
-Trigger the exception handler on the element, returns the $(element).phery()
+Trigger the exception handler on the element, returns the `$(element).phery()`
 
 ```js
 $('element').phery().exception('Exception!', {'data': true}); // or $('element').phery('exception', 'Exception!', {'data': true});
@@ -557,36 +663,65 @@ console.log($('element').phery().get_args()); // or console.log($('element').phe
 
 ##### $('element').phery().make(); // or $('element').phery('make');
 
-Add phery to the selected element, set the AJAX function name and you may pass arguments
+Add phery.js to the selected element, set the AJAX function name and you may pass arguments
 
 ```js
-$('element').phery().make('test', {'loaded':true}); // or $('element').phery('make', 'test', {'loaded': true});
+$('a.ajaxify-me').phery().make('test', {'loaded':true}); // or $('element').phery('make', 'test', {'loaded': true});
 ```
+
+It will make the `a` call `test` with arguments `{loaded: true}`
 
 ##### $('element').phery().remove(); // or $('element').phery('remove');
 
-Clean up the element, and remove it from the DOM. It removes all data before so it won't memory leak
+Clean up the element, and remove it from the DOM. It removes all data before so it won't memory leak on IE
 
 ```js
 $('element').phery().remove(); // or $('element').phery('remove');
 ```
-##### $('element').phery().unmake(); // or $('element').phery('unmake');
 
-Remove Phery AJAX functions on the select elements
+##### $('element').phery().unmake(unbind = false); // or $('element').phery('unmake');
+
+Remove phery.js AJAX functions on the select elements. Setting the unbind parameter to true will
+also unbind the phery.js events that were previously set
 
 ```js
 $('element').phery().unmake(); // or $('element').phery('unmake');
 ```
 
-#### phery.remote(functionName, arguments, attributes, directCall)
+#### phery.remotes(array)
+
+Call a series of AJAX calls in order, waiting for the last call to finish.
+Returns a promise for all the queued calls, so you can watch it with `progress`, and use `then` (or a chain of `then`).
+Calls will be made in sequence regardless if they were successiful or not
+
+An array of array of arguments, the same you'd call phery.remote with.
+
+```js
+phery.remotes([
+	['function',{args:1}], //same as phery.remote('function', {args: 1});
+	['function2'], // same as phery.remote('function2');
+	['function3', null, {target:'/target'}] // same as phery.remote('function3', null, {target: '/target'});
+]);
+```
+
+You may also pass a jQuery set of phery.js-ready elements
+
+```js
+phery.remotes($('.containers:not(.loaded)'));
+```
+
+This isn't the same as doing `$('.containers:not(.loaded)').phery('remote')`, because in that case
+elements will be called at once, asynchronously, with no progress or any feedback
+
+#### phery.remote(function_name, args, attr, direct_call)
 
 Calls an AJAX function directly, without binding to any existing elements, the DOM element is created and removed on-the-fly
-If directCall is false, it will return a `jQuery` element, if not, it will return an `jqXHR` object
+If directCall is false, it will return a `jQuery` `a` element, if not, it will return an `jqXHR` promise object
 
-* `functionName`: string, name of the alias defined in Phery::instance()->set() inside PHP
-* `arguments`: object or array or variable, the best practice is to pass an object, since it can be easily accessed later through PHP, but any kind of parameter can be passed, from strings, ints, floats, and can also be null (won't be passed through ajax)
-* `attributes`: object, set any additional information about the DOM element, usually for setting another href to it. eg: `{href: '/some/other/url?p=1'}`
-* `directCall`: boolean, defaults to true, setting this to false, will return the created DOM element (invisible to the user) and can have events bound to it
+* `function_name`: string, name of the alias defined in `Phery::instance()->set()` inside PHP
+* `args`: object or array or variable, the best practice is to pass an object, since it can be easily accessed later through PHP, but any kind of parameter can be passed, from strings, ints, floats, and can also be null (won't be passed through ajax)
+* `attr`: object, set any additional information about the DOM element, usually for setting another href to it. eg: `{href: '/some/other/url?p=1'}`
+* `direct_call`: boolean, defaults to true, setting this to false, will return the created DOM element (invisible to the user) and can have events bound to it
 
 ```js
 element = phery.remote('remote', {'key':'value'}, {'href': '/new/url'}, false);
@@ -600,21 +735,36 @@ element.bind({
 ### Options and global and element events
 
 Global events will always trigger, and they first come empty and do nothing.
-It's mainly useful to show/hide loading screens, update statuses, put an overlay over the page, or interact with other libraries
+It's mainly useful to show/hide loading screens, update statuses, put an overlay over the page, or interact with other libraries.
+Not to confuse with the document event bubble of these events.
 
 #### phery.on(event, cb)
 
 These events are triggered globally, independently if called from an existing DOM element or through `phery.remote()`
-The `event.target` points to the related DOM node (that was clicked, or the form that was submitted)
+The `event.target` points to the related DOM node (that was clicked, or the form that was submitted), if any.
+When calling `phery.remote`, the `event.target` will be the detached DOM element that were created on-the-fly
+to make the AJAX call, and isn't appended to the page. You may check if the element is temporary using `if (event.target.phery('data', 'temp')){ /* is temp */ }`
 
-* `before`: `function (event)` Triggered before everything, happens right after `phery.remote()` call
-* `after`: `function (event)` Triggered after all the data was parsed.
-* `beforeSend`: `function (event, xhr)` Triggered before sending the data through AJAX, Useful to add any CSRF protections here
-* `done`: `function (event, data, text, xhr)` Triggered just before the answer from the response was received successfully and will start to process the data. Returning false halts the processing, make sure to return true
-* `always`: `function (event, xhr)` Triggered after the data was processed. and is triggered if there was no error.
-* `fail`: `function (event, xhr, status, error)` When an error happens when requesting to the provided URL. It won't be triggered if the PHP code fails to execute
-* `exception`: `function (event, exception)` Will be called if any problem happens while processing data, or executing jquery calls
-* `json`: `function (event, obj)` Returns the json object sent from PHP
+* `before`: `function (event)`
+Triggered before everything, happens right after `phery.remote()` call
+* `after`: `function (event)`
+Triggered after all the data was parsed.
+* `beforeSend`: `function (event, xhr)`
+Triggered before sending the data through AJAX, Useful to add any CSRF protections here
+* `done`: `function (event, data, text, xhr)`
+Triggered just before the answer from the response was received successfully and will start to process the data. Returning false halts the processing, make sure to return true
+* `always`: `function (event, xhr)`
+Triggered after the data was processed. and is triggered if there was no error.
+* `fail`: `function (event, xhr, status, error)`
+When an error happens when requesting to the provided URL. It won't be triggered if the PHP code fails to execute
+* `exception`: `function (event, exception)`
+Will be called if any problem happens while processing data, or executing jquery calls
+* `json`: `function (event, obj)`
+Returns the json object sent from PHP
+* `progress`: `function (event, progress)`
+File upload progress (not available in <= IE9)
+* `params`: `function (event, params)`
+Pass extra params to the request. Won't overwrite existing params for security reasons
 
 ```js
 phery.on('before', function(){
@@ -660,7 +810,7 @@ Config the page to render AJAX partial views
 
 ```js
 phery.view({
-	// Must always be an ID and unique
+	// Any selector, prefered to be a ID
 	'#container': {
 		// Optional, function to call before the
 		// HTML was set, can interact with existing elements on page
@@ -775,38 +925,95 @@ phery.config({
 phery.config('debug.display.config', true);
 ```
 
+#### phery.lock_config()
+
+Locks the configuration, so that nobody can change the configuration again using `phery.config()`
+Works as an extra safety measure against
+
+```js
+phery.config({
+	'cursor': false,
+	'enable.per_element.events': false
+}).lock_config();
+```
+
 ### Misc options
 
-* `cursor` (true / false, defaults to true): change the cursor to **wait/busy** on any ajax call
-* `default_href` (string / false, defaults to false): set a common url to all calls, being able to override this to any `href` property attached to the element
-* `ajax.retries` (int, defaults to 0): number of retries on error before returning the error callback
-* `enable.log` (true / false, defaults to false): enable displaying of exceptions or errors, for debugging purposes
-* `enable.log_history` (true / false, defaults to false): keep the log of errors  that can be accessed through `phery.log()`
-* `enable.php_string_callbacks` (true / false, defaults to false): jQuery functions like `animate` or `each` that take callbacks, can have the callback defined as a string inside PHP if this is enabled.
-* `enable.per_element.events` (true / false, defaults to true): enable `phery:*` events on each element
-* `enable.clickable_structure` (true / false, defaults to false): enable clicking on HTML structural elements, like DIV, HTML, etc. They are disabled by default, but can be enabled per element using `data-clickable="1"`
+* `cursor` (true / false, defaults to true):
+Change the cursor to **wait/busy** on any ajax call
+* `default_href` (string / false, defaults to false):
+Set a common url to all calls, being able to override this to any `href` property
+attached to the element
+* `ajax.retries` (int, defaults to 0):
+Number of retries on error before returning the error callback
+* `enable.log` (true / false, defaults to false):
+Enable displaying of exceptions or errors, for debugging purposes
+* `enable.autolock` (true / false, defaults to false):
+Locks the config for the instance after the window has completly loaded, making it
+impossible to make changes to it, as an extra safety measure against tampering, and
+works the same way as calling `phery.lock_config()` but on `$(window).on('load')`.
+* `enable.log_history` (true / false, defaults to false):
+Keep the log of errors  that can be accessed through `phery.log()`
+* `enable.php_string_callbacks` (true / false, defaults to false):
+jQuery functions like `animate` or `each` that take callbacks, can have the callback
+defined as a string inside PHP if this is enabled. You may also create a function that
+will have the current calling element as context (the `this` keyword)
+* `enable.file_uploads` (true / false, defaults to false):
+Enable AJAX file uploads. Even if it's set to true and the browser doesn't support it (oldIE),
+no files will be uploaded
+* `enable.per_element.events` (true / false, defaults to true):
+Enable `phery:*` events on each element
+* `enable.clickable_structure` (true / false, defaults to false):
+Enable clicking on HTML structural elements, like DIV, HTML, etc. They are disabled by default,
+but can be enabled manually and locally per element using `data-phery-clickable="1"` to the tag,
+or using `$('div').phery('data', 'clickable', 1)`
+
+### Inline
+
+* `inline.enable` (true / false, defaults to false):
+Enables phery.js to load responses inline, using `phery.load('<?=PheryResponse::factory()->render(); ?>');`.
+* `inline.once` (true / false, defaults to false):
+Make it so it can only be loaded once on page load, and won't be able to call it again later, for security reasons.
 
 ### Debugging
 
-* `debug.enable` (true / false, defaults to false): enable verbose to keep track of each step defined below
-* `debug.display.events` (true / false, defaults to true): display events debug
-* `debug.display.remote` (true / false, defaults to true): display remote calls
-* `debug.display.config` (true / false, defaults to true): display config changes
+* `debug.enable` (true / false, defaults to false):
+Enable verbose to keep track of each step defined below. Don't enable it in production since it's really verbosely
+* `debug.display.events` (true / false, defaults to true):
+Display events debug
+* `debug.display.remote` (true / false, defaults to true):
+Display remote calls
+* `debug.display.config` (true / false, defaults to true):
+Display config changes
 
 ### Delegation
 
 If you specify a string, it will be appended `phery.config('delegate.confirm', 'focusin')` becomes `['click','focusin']`, passing a array, it wil be rewritten
 `phery.config('delegate.confirm', ['focusin'])` becomes `['focusin']`
 
-* `delegate.confirm` (selector => `[data-confirm]:not(form)`) (string, defaults to \['click'\]): Confirm alert
-* `delegate.form` (selector => `form[data-remote]`) (string, defaults to \['submit'\]): Form submission
-* `delegate.select_multiple` (selector => `select[data-remote][multiple]`) (string, defaults to \['blur'\]): Event on `select multiple` element
-* `delegate.select` (selector => `select[data-remote]:not([multiple])`) (string, defaults to \['change'\]): Event on `select` element
-* `delegate.tags` (selector => `[data-remote]:not(form,select)`) (string, defaults to \['click'\]): Clicks on elements, like `A`
+* `delegate.confirm` (selector => `[data-confirm]:not(form)`) (string, defaults to \['click'\]):
+Confirm alert
+* `delegate.form` (selector => `form[data-remote]`) (string, defaults to \['submit'\]):
+Form submission
+* `delegate.select_multiple` (selector => `select[data-remote][multiple]`) (string, defaults to \['blur'\]):
+Event on `select multiple` element
+* `delegate.select` (selector => `select[data-remote]:not([multiple])`) (string, defaults to \['change'\]):
+Event on `select` element
+* `delegate.tags` (selector => `[data-remote]:not(form,select)`) (string, defaults to \['click'\]):
+Clicks on elements, like `A`
 
 #### Per element events
 
 Per element events are the same from global events. Refer to `phery.on` above for description for each event.
+They can be disabled using `phery.config('enable.per_element.events', false);` since they are enabled by default
+These events will bubble to the document DOM, so you may catch them using, for example:
+
+```js
+$(document).on('phery:json', 'a.special', function(e, json){
+    // e.target is the current 'a' DOM node
+    // this will only trigger for a elements that have the .special class
+});
+```
 
 * `phery:before`: `function (event)`
 * `phery:beforeSend`: `function (event, xhr)`
@@ -830,6 +1037,7 @@ $('form').bind({
 	}
 });
 ```
+
 ## License
 
 Released under the MIT license

@@ -1,5 +1,39 @@
-### v2.3.2 - 2nd December 2012
-    * Currently incompatible with jQuery >=1.9, new version in the workings
+### v2.4.0 - 17th February 2013
+    * Refactored code for unit testing
+    * Had to change all the data attributes, because 1.9 removed the support for namespaced data. If you were manually writing data-remote without using the Phery::link_to, it's time to start using it
+	* Remade logic inside the process() method
+	* Fixed problem when exit_allowed is set to false
+	* Fixed CSRF renewing every call (when dynamically created in the server side)
+	* Rewrite of respond() and shutdown_handler() method
+	* Phery::set now overwrite previous functions, to allow polymorphism
+	* Added unset_function() to remove functions added by set()
+	* Added the "return" config option for frameworks that have problems with premature exit, and you can put the response where you may please, instead of echoing it
+	* Updated Javascript code to handle attribute for many input types, including formaction, formmethod, etc
+	* Added file upload through AJAX, only on good browsers, using XHR2
+	* this() was deprecated in favor of this (as a property), so PheryResponse::factory()->this instead of PheryResponse::factory()->this()
+	* jquery() have been exchanged for jquery (as a property) when using to access root jQuery functions, like `$.getJSON` or `$.when`
+    * Added phery.remotes, to execute many ajax calls in order, acts like an ajax queue
+    * Added proxy to attr in phery.remote, the context of all events will be the element passed in proxy
+    * Added data-phery-cache, if the attribute exists, the JSON request will be cached
+    * Added the progress event for any AJAX call (on good browsers and IE10)
+    * Improved merge data, you may specify jQuery objects now, and the library will try it's best to see if any value can be added
+    * Making use of the prop method instead of attr (since jQuery 1.8)
+    * Introducing the new method lock_config() that won't allow any configurations to be changed after it's been changed (security measure), and it can't be unlocked
+    * Introducing the new option autolock that locks the config after the page has been loaded
+    * Introducing the new option inline.enable so you can load direct PheryResponse's inside `<script>phery.load('<?=PheryResponse::factory()->render();?>')</script>` on page load, so you may reuse the same code you'd return from an AJAX response to a page load
+    * Applied Object.freeze (in browsers that support it) on phery, so no tampering on the library!
+    * Fixed when retrying, not calling the always callback again
+    * Added two helper jQuery selectors, :phery-remote and :phery-confirm
+    * Added unless operator in PheryResponse
+    * Added a helper function for file uploads, PheryResponse::files
+    * Removed no_stripslashes, since PHP 5.3 made magic_quotes_gpc deprecated (and removed in 5.4).
+    * Updated phpdoc magic methods from new jQuery versions (removed, deprecated, etc)
+    * Removed deprecated stuff from the js library
+    * Fixed excluded url that matches exactly # always
+    * Fixed event bubbling for custom events
+    * Element events now bubble to the document, making it possible to use event delegation with phery events
+    * Renamed the library to phery.js to follow the 'trend' plus the word I picked seems to be a person name somewhere in the world (and an item from a game)
+    * Exceptions now, since it passes sensitive information to the client (like the current full path of the file), it now returns only the filename.
 
 ### v2.3.1 - 2nd December 2012
 	* Fixed a serious ordering JSON problem in Chrome and IE (broken by design)
