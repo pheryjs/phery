@@ -82,7 +82,7 @@
 			/**
 			 * @class
 			 * @constructor
-			 * @version 2.4.0
+			 * @version 2.4.1
 			 */
 			phery = function(){ return phery; };
 
@@ -2499,12 +2499,12 @@
 			serializeForm: functions.serializeForm
 		});
 
-		/**UNITTEST-BEGIN*/
+		/**UNITTEST-BEGIN
 
 		phery.vars = vars;
 		phery.functions = functions;
 
-		/**UNITTEST-END*/
+		UNITTEST-END*/
 
 		if (!('vars' in phery) && !('functions' in phery)) {
 			if (typeof Object['freeze'] === 'function') {
