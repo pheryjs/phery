@@ -1,3 +1,19 @@
+### v2.4.2 - 18th March 2013
+    * Applied flyweight pattern on the process request to reuse most of the data that was being passed around in many functions
+    * Fixed Webkit random maximum stack size RangeError when using nested responses
+    * Preparing code for NodeJS version (2.5ish)
+    * Upcoming support for the <template> element
+    * Fixed remove data for temporary elements
+    * Added call_cache functionality to purge old unused functions (clear it every minute). It would hold too many items for similar functions that changed only 1-3 bytes for example
+    * Fixed event bubbling regression that the last version introduced
+    * Removed 'compress' parameter, it was doing more harm than good
+    * Fixed beforeSend that wasn't cancelling on return false
+    * dump_vars now will process PheryResponse, if any gets passed to it
+    * Fixed DOM elements that were being parsed as a plainobject, using unecessary CPU cycles
+    * Normalized event target and added $target, that is a $(target) version of the DOM node
+    * Implemented 'only' option, so just one task may run at a time
+    * Implemented the status 'inprogress' (that can be accessed through $(el).phery('inprogress') when there's an AJAX call going on
+
 ### v2.4.0 - 17th February 2013
     * Refactored code for unit testing
     * Had to change all the data attributes, because 1.9 removed the support for namespaced data. If you were manually writing data-remote without using the Phery::link_to, it's time to start using it

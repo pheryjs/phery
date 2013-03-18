@@ -7,7 +7,7 @@
 	<title>Class Phery | Phery</title>
 
 	<script type="text/javascript" src="resources/combined.js?3294260260"></script>
-	<script type="text/javascript" src="elementlist.js?412520557"></script>
+	<script type="text/javascript" src="elementlist.js?3200617014"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360" />
 
 	<script type="text/javascript">
@@ -125,7 +125,7 @@
 				<a href="http://opensource.org/licenses/MIT">MIT License</a><br />
 				<b>Author:</b>
 				Paulo Cesar<br />
-		<b>Located at</b> <a href="source-class-Phery.html#32-1485" title="Go to source code">Phery.php</a><br />
+		<b>Located at</b> <a href="source-class-Phery.html#32-1499" title="Go to source code">Phery.php</a><br />
 	</div>
 
 
@@ -719,7 +719,7 @@ Phery::instance()-&gt;views(array(
 
 		<td class="name"><div>
 		<a class="anchor" href="#_process">#</a>
-		<code><a href="source-class-Phery.html#800-817" title="Go to source code">process</a>( <span>boolean <var>$last_call</var> = <span class="php-keyword1">true</span></span> )</code>
+		<code><a href="source-class-Phery.html#778-795" title="Go to source code">process</a>( <span>boolean <var>$last_call</var> = <span class="php-keyword1">true</span></span> )</code>
 
 		<div class="description short">
 			
@@ -766,7 +766,7 @@ happen, otherwise it will exit</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_config">#</a>
-		<code><a href="source-class-Phery.html#819-922" title="Go to source code">config</a>( <span>string|array <var>$config</var> = <span class="php-keyword1">null</span></span> )</code>
+		<code><a href="source-class-Phery.html#797-894" title="Go to source code">config</a>( <span>string|array <var>$config</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
 			
@@ -802,19 +802,6 @@ class="php-keyword1">true</span>|<span
 class="php-keyword1">false</span>,
 
     <span
-class="php-comment">// Enable/disable GZIP/DEFLATE compression, depending on the browser support.</span>
-    <span
-class="php-comment">// Don't enable it if you are using Apache DEFLATE/GZIP, or zlib.output_compression</span>
-    <span
-class="php-comment">// Most of the time, compression will hide exceptions, because it will output plain</span>
-    <span
-class="php-comment">// text while the content-type is gzip</span>
-    <span
-class="php-quote">'compress'</span> =&gt; <span
-class="php-keyword1">true</span>|<span
-class="php-keyword1">false</span>,
-
-    <span
 class="php-comment">// Error reporting temporarily using error_reporting(). 'false' disables</span>
     <span
 class="php-comment">// the error_reporting and wont try to catch any error.</span>
@@ -826,6 +813,18 @@ class="php-comment">// the message</span>
 class="php-quote">'error_reporting'</span> =&gt; <span
 class="php-keyword1">false</span>|E_ALL|E_DEPRECATED|...
 
+    <span
+class="php-comment">// By default, the function Phery::instance()-&gt;set() will only</span>
+    <span
+class="php-comment">// register functions when the current request is an AJAX call,</span>
+    <span
+class="php-comment">// to save resources. In order to use Phery::instance()-&gt;get_function()</span>
+    <span
+class="php-comment">// anytime, you need to set this config value to true</span>
+    <span
+class="php-quote">'set_always_available'</span> =&gt; <span
+class="php-keyword1">false</span>|<span
+class="php-keyword1">true</span>
 );
 </pre>
 
@@ -862,7 +861,7 @@ Anything else, will output the current config as associative array</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_instance">#</a>
-		<code><a href="source-class-Phery.html#924-946" title="Go to source code">instance</a>( <span>array <var>$config</var> = <span class="php-keyword1">array</span>()</span> )</code>
+		<code><a href="source-class-Phery.html#896-918" title="Go to source code">instance</a>( <span>array <var>$config</var> = <span class="php-keyword1">array</span>()</span> )</code>
 
 		<div class="description short">
 			
@@ -911,13 +910,13 @@ Chainable</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_set">#</a>
-		<code><a href="source-class-Phery.html#948-1008" title="Go to source code">set</a>( <span>array <var>$functions</var></span> )</code>
+		<code><a href="source-class-Phery.html#920-984" title="Go to source code">set</a>( <span>array <var>$functions</var></span> )</code>
 
 		<div class="description short">
 			
 <p>Sets the functions to respond to the ajax call. For security reasons, these
 functions should not be reacheable through POST/GET requests. These will be set
-only for AJAX requests as it will only be called in case of an ajax request, to
+only for AJAX requests as it will only be set in case of an ajax request, to
 save resources.</p>
 
 		</div>
@@ -926,8 +925,12 @@ save resources.</p>
 			
 <p>Sets the functions to respond to the ajax call. For security reasons, these
 functions should not be reacheable through POST/GET requests. These will be set
-only for AJAX requests as it will only be called in case of an ajax request, to
+only for AJAX requests as it will only be set in case of an ajax request, to
 save resources.</p>
+
+<p>You may set the config option "set_always_available" to true to always
+register the functions regardless of if it's an AJAX function or not going
+on.</p>
 
 <p>The answer/process function, should have the following structure:</p>
 
@@ -953,7 +956,8 @@ class="php-comment">// $phery will be the current phery instance that called thi
 class="php-var">$r</span>-&gt;jquery(<span
 class="php-quote">'#id'</span>)-&gt;animate(...);
   <span
-class="php-keyword1">return</span> <span class="php-var">$r</span>;
+class="php-keyword1">return</span> <span class="php-var">$r</span>; <span
+class="php-comment">//Should always return the PheryResponse unless you are dealing with plain text</span>
 }
 </pre>
 
@@ -968,7 +972,8 @@ array(
   'function1' =&gt; 'function',
   'function2' =&gt; array($this, 'method'),
   'function3' =&gt; 'StaticClass::name',
-  'function4' =&gt; array(new ClassName, 'method')
+  'function4' =&gt; array(new ClassName, 'method'),
+  'function5' =&gt; function($data){}
 );
 </pre>
 </dd>
@@ -996,7 +1001,7 @@ array(
 
 		<td class="name"><div>
 		<a class="anchor" href="#_unset_function">#</a>
-		<code><a href="source-class-Phery.html#1010-1024" title="Go to source code">unset_function</a>( <span>string <var>$name</var></span> )</code>
+		<code><a href="source-class-Phery.html#986-1000" title="Go to source code">unset_function</a>( <span>string <var>$name</var></span> )</code>
 
 		<div class="description short">
 			
@@ -1031,6 +1036,62 @@ array(
 		</div>
 		</div></td>
 	</tr>
+	<tr data-order="get_function" id="_get_function">
+
+		<td class="attributes"><code>
+			 public 
+			callable|array|string|<code><a href="class-PheryResponse.html">PheryResponse</a></code>|null
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_function">#</a>
+		<code><a href="source-class-Phery.html#1002-1029" title="Go to source code">get_function</a>( <span>string <var>$function_name</var></span>, <span>array <var>$args</var> = <span class="php-keyword1">array</span>()</span> )</code>
+
+		<div class="description short">
+			
+<p>Get previously function set with set() method If you pass aditional
+arguments, the function will be executed and this function will return the
+PheryResponse associated with that function</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get previously function set with set() method If you pass aditional
+arguments, the function will be executed and this function will return the
+PheryResponse associated with that function</p>
+
+<pre>
+Phery::get_function('render', ['&lt;html&gt;&lt;/html&gt;'])-&gt;appendTo('body');
+</pre>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$function_name</var></dt>
+					<dd><code>string</code><br>$function_name The name of the function registed with set</dd>
+					<dt><var>$args</var></dt>
+					<dd><code>array</code><br>$args Any arguments to pass to the function</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>callable|array|string|<code><a href="class-PheryResponse.html">PheryResponse</a></code>|null</code><br />
+				</div>
+
+
+				<h4>See</h4>
+				<div class="list">
+						<code><code><a href="class-Phery.html#_set">Phery::set()</a></code></code><br />
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
 	<tr data-order="factory" id="_factory">
 
 		<td class="attributes"><code>
@@ -1042,7 +1103,7 @@ array(
 
 		<td class="name"><div>
 		<a class="anchor" href="#_factory">#</a>
-		<code><a href="source-class-Phery.html#1026-1038" title="Go to source code">factory</a>( <span>array <var>$config</var> = <span class="php-keyword1">array</span>()</span> )</code>
+		<code><a href="source-class-Phery.html#1031-1043" title="Go to source code">factory</a>( <span>array <var>$config</var> = <span class="php-keyword1">array</span>()</span> )</code>
 
 		<div class="description short">
 			
@@ -1090,7 +1151,7 @@ assigning it to a variable</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_common_check">#</a>
-		<code><a href="source-class-Phery.html#1040-1109" title="Go to source code">common_check</a>( <span>array <var>&amp; $attributes</var></span>, <span>boolean <var>$include_method</var> = <span class="php-keyword1">true</span></span> )</code>
+		<code><a href="source-class-Phery.html#1045-1120" title="Go to source code">common_check</a>( <span>array <var>&amp; $attributes</var></span>, <span>boolean <var>$include_method</var> = <span class="php-keyword1">true</span></span> )</code>
 
 		<div class="description short">
 			
@@ -1134,7 +1195,7 @@ assigning it to a variable</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_link_to">#</a>
-		<code><a href="source-class-Phery.html#1111-1229" title="Go to source code">link_to</a>( <span>string <var>$content</var></span>, <span>string <var>$function</var></span>, <span>array <var>$attributes</var> = <span class="php-keyword1">array</span>()</span>, <span><code><a href="class-Phery.html">Phery</a></code> <var>$phery</var> = <span class="php-keyword1">null</span></span>, <span>boolean <var>$no_close</var> = <span class="php-keyword1">false</span></span> )</code>
+		<code><a href="source-class-Phery.html#1122-1240" title="Go to source code">link_to</a>( <span>string <var>$content</var></span>, <span>string <var>$function</var></span>, <span>array <var>$attributes</var> = <span class="php-keyword1">array</span>()</span>, <span><code><a href="class-Phery.html">Phery</a></code> <var>$phery</var> = <span class="php-keyword1">null</span></span>, <span>boolean <var>$no_close</var> = <span class="php-keyword1">false</span></span> )</code>
 
 		<div class="description short">
 			
@@ -1250,7 +1311,7 @@ lot of content inside, but the DIV itself isn't clikable
 
 		<td class="name"><div>
 		<a class="anchor" href="#_form_for">#</a>
-		<code><a href="source-class-Phery.html#1231-1291" title="Go to source code">form_for</a>( <span>string <var>$action</var></span>, <span>string <var>$function</var></span>, <span>array <var>$attributes</var> = <span class="php-keyword1">array</span>()</span>, <span><code><a href="class-Phery.html">Phery</a></code> <var>$phery</var> = <span class="php-keyword1">null</span></span> )</code>
+		<code><a href="source-class-Phery.html#1242-1305" title="Go to source code">form_for</a>( <span>string <var>$action</var></span>, <span>string <var>$function</var></span>, <span>array <var>$attributes</var> = <span class="php-keyword1">array</span>()</span>, <span><code><a href="class-Phery.html">Phery</a></code> <var>$phery</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
 			
@@ -1286,6 +1347,9 @@ array(
     // 'disabled' enables submitting disabled elements
     'submit' =&gt; array('all' =&gt; true, 'disabled' =&gt; true),
 
+    // Disables the AJAX on element while the last action is not completed
+    'only' =&gt; true,
+
     // Set the encoding of the data, defaults to UTF-8
     'encoding' =&gt; 'UTF-8',
 );
@@ -1318,7 +1382,7 @@ defined, and throw exceptions</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_select_for">#</a>
-		<code><a href="source-class-Phery.html#1293-1381" title="Go to source code">select_for</a>( <span>string <var>$function</var></span>, <span>array <var>$items</var></span>, <span>array <var>$attributes</var> = <span class="php-keyword1">array</span>()</span>, <span><code><a href="class-Phery.html">Phery</a></code> <var>$phery</var> = <span class="php-keyword1">null</span></span> )</code>
+		<code><a href="source-class-Phery.html#1307-1395" title="Go to source code">select_for</a>( <span>string <var>$function</var></span>, <span>array <var>$items</var></span>, <span>array <var>$attributes</var> = <span class="php-keyword1">array</span>()</span>, <span><code><a href="class-Phery.html">Phery</a></code> <var>$phery</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
 			
@@ -1393,7 +1457,7 @@ defined, and throw exceptions</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_offsetExists">#</a>
-		<code><a href="source-class-Phery.html#1383-1393" title="Go to source code">offsetExists</a>( <span>mixed <var>$offset</var></span> )</code>
+		<code><a href="source-class-Phery.html#1397-1407" title="Go to source code">offsetExists</a>( <span>mixed <var>$offset</var></span> )</code>
 
 		<div class="description short">
 			
@@ -1437,7 +1501,7 @@ defined, and throw exceptions</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_offsetUnset">#</a>
-		<code><a href="source-class-Phery.html#1395-1406" title="Go to source code">offsetUnset</a>( <span>mixed <var>$offset</var></span> )</code>
+		<code><a href="source-class-Phery.html#1409-1420" title="Go to source code">offsetUnset</a>( <span>mixed <var>$offset</var></span> )</code>
 
 		<div class="description short">
 			
@@ -1477,7 +1541,7 @@ defined, and throw exceptions</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_offsetGet">#</a>
-		<code><a href="source-class-Phery.html#1408-1423" title="Go to source code">offsetGet</a>( <span>mixed <var>$offset</var></span> )</code>
+		<code><a href="source-class-Phery.html#1422-1437" title="Go to source code">offsetGet</a>( <span>mixed <var>$offset</var></span> )</code>
 
 		<div class="description short">
 			
@@ -1521,7 +1585,7 @@ defined, and throw exceptions</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_offsetSet">#</a>
-		<code><a href="source-class-Phery.html#1425-1434" title="Go to source code">offsetSet</a>( <span>mixed <var>$offset</var></span>, <span>mixed <var>$value</var></span> )</code>
+		<code><a href="source-class-Phery.html#1439-1448" title="Go to source code">offsetSet</a>( <span>mixed <var>$offset</var></span>, <span>mixed <var>$value</var></span> )</code>
 
 		<div class="description short">
 			
@@ -1563,7 +1627,7 @@ defined, and throw exceptions</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#___set">#</a>
-		<code><a href="source-class-Phery.html#1436-1444" title="Go to source code">__set</a>( <span>string <var>$name</var></span>, <span>mixed <var>$value</var></span> )</code>
+		<code><a href="source-class-Phery.html#1450-1458" title="Go to source code">__set</a>( <span>string <var>$name</var></span>, <span>mixed <var>$value</var></span> )</code>
 
 		<div class="description short">
 			
@@ -1603,7 +1667,7 @@ defined, and throw exceptions</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#___get">#</a>
-		<code><a href="source-class-Phery.html#1446-1461" title="Go to source code">__get</a>( <span>string <var>$name</var></span> )</code>
+		<code><a href="source-class-Phery.html#1460-1475" title="Go to source code">__get</a>( <span>string <var>$name</var></span> )</code>
 
 		<div class="description short">
 			
@@ -1645,7 +1709,7 @@ defined, and throw exceptions</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_coalesce">#</a>
-		<code><a href="source-class-Phery.html#1463-1484" title="Go to source code">coalesce</a>( <span>mixed <var>$args</var>,…</span> )</code>
+		<code><a href="source-class-Phery.html#1477-1498" title="Go to source code">coalesce</a>( <span>mixed <var>$args</var>,…</span> )</code>
 
 		<div class="description short">
 			
@@ -2038,9 +2102,9 @@ class="php-quote">'return'</span> (boolean)
 <span
 class="php-quote">'error_reporting'</span> (int)
 <span
-class="php-quote">'compress'</span> (boolean)
-<span
 class="php-quote">'csrf'</span> (boolean)
+<span
+class="php-quote">'set_always_available'</span> (boolean)
 </pre>
 
 

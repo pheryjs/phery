@@ -9,13 +9,13 @@ if (version_compare(PHP_VERSION, '5.3.3', '<'))
 
 ini_set('display_errors', 1);
 
-$end_line = 867; date_default_timezone_set('UTC');
+$end_line = 890; date_default_timezone_set('UTC');
 $memory_start = 0;
 $start_time = microtime(true);
 
 require_once 'Phery.php';
 
-PheryResponse::set_global('global', true);
+PheryResponse::set_global('global', true); //sleep(2); // uncomment to emulate latency
 
 // Create a named response so we can include it later by the name
 PheryResponse::factory()
@@ -205,7 +205,7 @@ function timeout($data, $parameters)
 	if (isset($data['callback']) && !empty($parameters['retries']))
 	{
 		// The URL will have a retries when doing a retry
-		return $r->call(array('console', 'log'), 'Second time it worked, no error callback call ;)');
+		return $r->dump_vars('Second time it worked, no error callback call ;)');
 	}
 	sleep(5); // Sleep for 5 seconds to timeout the AJAX request, and trigger our retry
 	return $r;
@@ -333,12 +333,6 @@ try
 			 */
 			'exceptions' => true,
 			/**
-			 * Compress using DEFLATE or GZIP, in this order, whichever is available
-			 * in the browser. Check if APACHE is already compressing it with gzip.
-			 * If its already compressing, don't enable it.
-			 */
-			'compress' => false,
-			/**
 			 * Enable CSRF protection, needs to use Phery::instance()->csrf() on your
 			 * HTML head, to print the meta
 			 */
@@ -434,22 +428,23 @@ try
 		'dumpvars' => function ($data)
 		{
 			$r = new PheryResponse;
-			$r['dummy_info'] = 'dummy to show in print/dump';
+			$d = array();
+			$d['dummy_info'] = 'dummy to show in print/dump';
 
 			foreach ($data as $name => $value)
 			{
 				if ($name !== 'is_print')
 				{
-					$r[$name] = $value;
+					$d[$name] = $value;
 				}
 			}
 			if (!empty($data['is_print']))
 			{
-				$r->print_vars($r);
+				$r->print_vars($d);
 			}
 			else
 			{
-				$r->dump_vars($r);
+				$r->dump_vars($d);
 			}
 
 			return $r->this->phery('append_args', array('wow' => 'true'));
@@ -669,7 +664,7 @@ try
 	 * process(true)/process() to end the processing, so it doesn't
 	 * block the execution of the other process() call
 	 */
-	->process(false);
+	->process(false);	$csrf_token = $phery->csrf();
 
 	/**
 	 * To separate the callback from the rest of the other functions,
@@ -742,8 +737,8 @@ try
 			{
 				return
 					PheryResponse::factory()
-					//->jquery->colorbox->close() or ->call(array('$', 'colorbox', 'close'));
-					// or
+					//->jquery->colorbox->close(); // or
+					// ->call(array('$', 'colorbox', 'close')); // or
 					->access(array('$','colorbox'))->close();
 			}
 			if (empty($data['other-way-around']))
@@ -840,6 +835,30 @@ try
 
 			$r->this->find('ul')->html(join('', $lis));
 			return $r;
+		},
+		'unless' => function(){
+			$r = new PheryResponse;
+
+			return $r->jquery('<div>HELLO!</div>')->css('backgroundColor', 'red')->unless(PheryFunction::factory('return false;'))->appendTo('body')->alert('done!');
+		},
+		'incase' => function(){
+			$r = new PheryResponse;
+
+			return $r->incase(PheryResponse::factory()->this->phery('data', 'temp'))->alert('hi')->alert('2');
+		},
+		'getjson' => function(){
+			$r = new PheryResponse;
+
+			return $r->jquery->getJSON('https://api.twitter.com/1/statuses/user_timeline.json?include_entities=true&include_rts=true&screen_name=twitterapi&count=2');
+		},
+		'setvar' => function(){
+			return PheryResponse::factory()->set_var('doh', array(1, PheryResponse::factory()->this));
+		},
+		'unsetvar' => function(){
+			return PheryResponse::factory()->unset_var('doh');
+		},
+		'getvar' => function(){
+			return PheryResponse::factory()->dump_vars('colorbox entry point', PheryResponse::factory()->access(array('$','colorbox')));
 		}
 	))
 	->process();
@@ -869,7 +888,7 @@ $exception = array('from' => (__LINE__ - 17), 'to' => (__LINE__ - 2));
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
 <meta charset="utf-8">
 <title>phery.js AJAX jQuery</title>
-<?php echo $phery->csrf(); ?>
+<?php echo $csrf_token; ?>
 <script src="colorbox/colorbox/jquery.colorbox.js" id="colorbox-script" type="text/javascript"></script>
 <link rel="stylesheet" href="colorbox/example1/colorbox.css">
 <script src="phery.js" type="text/javascript"></script>
@@ -897,6 +916,19 @@ $(function () {
 			$(this).show(0).text('triggered custom event "TEST"!');
 		}
 	});
+
+	$.scrollTo = function(el, speed){
+		el = $(el);
+
+		if (el.length) {
+			var top = el.offset().top;
+			if (speed) {
+				$(window).animate({'scrollTop': top}, speed);
+			} else {
+				$(window).scrollTop(top);
+			}
+		}
+	};
 
 	/*****************************
 	 *  RECEIVE ANY TYPE OF DATA *
@@ -988,6 +1020,10 @@ $(function () {
 			$this.data('target').addClass('focus');
 		}
 	})
+	.on('click', '#exceptions a', function(){
+		var $this = $(this);
+		$.scrollTo($this.data('target'));
+	})
 	.on('mouseout', '#exceptions a', function(){
 		var $this = $(this);
 		if ($this.data('target'))
@@ -999,8 +1035,8 @@ $(function () {
 	/*****************************
 	 *  SEE PHP CODE/TOGGLE CODE *
 	 *****************************/
-	$('.togglecode')
-	.on('phery:beforeSend', function(e, xhr, settings){
+	$(document)
+	.on('phery:beforeSend', '.togglecode', function(e){
 		var
 			$this = $(this),
 			code = $this.parent().find('.code'),
@@ -1011,6 +1047,7 @@ $(function () {
 			code.toggle();
 			return false;
 		}
+
 		$this.text('Toggle PHP code');
 		code.show();
 		return true;
@@ -1028,40 +1065,41 @@ $(function () {
 	 */
 	phery.on({
 		'before':function (event) {
-			$loading.removeClass('error').fadeIn('fast');
+			$loading.removeClass('error').stop(true).fadeIn('fast');
 
 			// catch all event to apply some classes and arguments
-			if (event.target.is('#modify')) {
-				event.target.phery('set_args', {
-					'alert':event.target.next('input').val(),
+			if (event.$target.is('#modify')) {
+				event.$target.phery('set_args', {
+					'alert':event.$target.next('input').val(),
 					'callback':'callme'
 				});
 			} else {
 				// disable for our AJAX container and autocomplete
-				if (!event.target.is('div#container,div.autocomplete')) {
-					$(event.target).addClass('loading');
+				if (!event.$target.is('div#container,div.autocomplete')) {
+					$(event.$target).addClass('loading');
 				}
 			}
 		},
 		'always':function (event, xhr) {
-			$loading.fadeOut('fast');
-			$(event.target).removeClass('loading');
+			$loading.stop(true).fadeOut('fast');
+			$(event.$target).removeClass('loading');
 		},
 		'fail':function (event, xhr, status) {
 			if (status !== 'canceled') {
 				$loading.addClass('error');
 			}
 			if (status === 'timeout') {
-				event.target.phery('exception', 'Timeout and gave up retrying!!');
-				// or event.target.phery().exception('Timeout and gave up retrying!!');
+				event.$target.phery('exception', 'Timeout and gave up retrying!!');
+				// or event.$target.phery().exception('Timeout and gave up retrying!!');
 			}
 		},
 		'exception':function (event, exception, data) {
 			var $exceptions = $('#exceptions');
 
 			var a = $('<a/>', {
-				'text': event.target[0].tagName + (event.target.attr('id') ? ' (' + event.target.attr('id') + ')' : '')
-			}).data('target', event.target);
+				'text': event.$target[0].tagName + (event.$target.attr('id') ? ' (' + event.$target.attr('id') + ')' : ''),
+				'title': 'Click to scroll into view'
+			}).data('target', event.$target);
 
 			if (data && 'code' in data) {
 				var type = '';
@@ -1112,19 +1150,9 @@ $(function () {
 		 */
 		'enable.per_element.events':true,
 		/*
-		 * Enable sending "function(){}" closure callbacks
-		 * directly from PHP. This is disabled by default,
-		 * since it can lead to problems with other libraries
-		 */
-		'enable.php_string_callbacks':true,
-		/*
-		 * Enable options per element
-		 */
-		'enable.per_element.options':true,
-		/*
 		 * Enable logging and output to console.log.
 		 * Shouldn't be enabled on production because
-		 * of leaks
+		 * of building up an internal log of messages
 		 */
 		'enable.log':true,
 		/*
