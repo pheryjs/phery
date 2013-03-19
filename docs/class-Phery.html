@@ -125,7 +125,7 @@
 				<a href="http://opensource.org/licenses/MIT">MIT License</a><br />
 				<b>Author:</b>
 				Paulo Cesar<br />
-		<b>Located at</b> <a href="source-class-Phery.html#32-1499" title="Go to source code">Phery.php</a><br />
+		<b>Located at</b> <a href="source-class-Phery.html#32-1505" title="Go to source code">Phery.php</a><br />
 	</div>
 
 
@@ -1195,7 +1195,7 @@ assigning it to a variable</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_link_to">#</a>
-		<code><a href="source-class-Phery.html#1122-1240" title="Go to source code">link_to</a>( <span>string <var>$content</var></span>, <span>string <var>$function</var></span>, <span>array <var>$attributes</var> = <span class="php-keyword1">array</span>()</span>, <span><code><a href="class-Phery.html">Phery</a></code> <var>$phery</var> = <span class="php-keyword1">null</span></span>, <span>boolean <var>$no_close</var> = <span class="php-keyword1">false</span></span> )</code>
+		<code><a href="source-class-Phery.html#1122-1243" title="Go to source code">link_to</a>( <span>string <var>$content</var></span>, <span>string <var>$function</var></span>, <span>array <var>$attributes</var> = <span class="php-keyword1">array</span>()</span>, <span><code><a href="class-Phery.html">Phery</a></code> <var>$phery</var> = <span class="php-keyword1">null</span></span>, <span>boolean <var>$no_close</var> = <span class="php-keyword1">false</span></span> )</code>
 
 		<div class="description short">
 			
@@ -1258,6 +1258,9 @@ array(
     // $('#element').phery('data', 'related', $('#other_element'));
     'related' =&gt; true,
 
+    // Disables the AJAX on element while the last action is not completed
+    'only' =&gt; true,
+
     // Set the encoding of the data, defaults to UTF-8
     'encoding' =&gt; 'UTF-8',
 
@@ -1311,7 +1314,7 @@ lot of content inside, but the DIV itself isn't clikable
 
 		<td class="name"><div>
 		<a class="anchor" href="#_form_for">#</a>
-		<code><a href="source-class-Phery.html#1242-1305" title="Go to source code">form_for</a>( <span>string <var>$action</var></span>, <span>string <var>$function</var></span>, <span>array <var>$attributes</var> = <span class="php-keyword1">array</span>()</span>, <span><code><a href="class-Phery.html">Phery</a></code> <var>$phery</var> = <span class="php-keyword1">null</span></span> )</code>
+		<code><a href="source-class-Phery.html#1245-1308" title="Go to source code">form_for</a>( <span>string <var>$action</var></span>, <span>string <var>$function</var></span>, <span>array <var>$attributes</var> = <span class="php-keyword1">array</span>()</span>, <span><code><a href="class-Phery.html">Phery</a></code> <var>$phery</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
 			
@@ -1341,7 +1344,7 @@ array(
     'confirm' =&gt; 'Are you sure?',
 
     // Type of call, defaults to JSON (to use PheryResponse)
-    'data-phery-type' =&gt; 'json',
+    'phery-type' =&gt; 'json',
 
     // 'all' submits all elements on the form, even empty ones
     // 'disabled' enables submitting disabled elements
@@ -1382,7 +1385,7 @@ defined, and throw exceptions</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_select_for">#</a>
-		<code><a href="source-class-Phery.html#1307-1395" title="Go to source code">select_for</a>( <span>string <var>$function</var></span>, <span>array <var>$items</var></span>, <span>array <var>$attributes</var> = <span class="php-keyword1">array</span>()</span>, <span><code><a href="class-Phery.html">Phery</a></code> <var>$phery</var> = <span class="php-keyword1">null</span></span> )</code>
+		<code><a href="source-class-Phery.html#1310-1401" title="Go to source code">select_for</a>( <span>string <var>$function</var></span>, <span>array <var>$items</var></span>, <span>array <var>$attributes</var> = <span class="php-keyword1">array</span>()</span>, <span><code><a href="class-Phery.html">Phery</a></code> <var>$phery</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
 			
@@ -1410,7 +1413,7 @@ array(
     'confirm' =&gt; 'Are you sure?',
 
     // Type of call, defaults to JSON (to use PheryResponse)
-    'data-phery-type' =&gt; 'json',
+    'phery-type' =&gt; 'json',
 
     // The URL where it should call, translates to data-phery-target
     'target' =&gt; '/path/to/php',
@@ -1421,6 +1424,9 @@ array(
 
     // Set the encoding of the data, defaults to UTF-8
     'encoding' =&gt; 'UTF-8',
+
+    // Disables the AJAX on element while the last action is not completed
+    'only' =&gt; true,
 
     // The current selected value, or array(1,2) for multiple
     'selected' =&gt; 1
@@ -1457,7 +1463,7 @@ defined, and throw exceptions</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_offsetExists">#</a>
-		<code><a href="source-class-Phery.html#1397-1407" title="Go to source code">offsetExists</a>( <span>mixed <var>$offset</var></span> )</code>
+		<code><a href="source-class-Phery.html#1403-1413" title="Go to source code">offsetExists</a>( <span>mixed <var>$offset</var></span> )</code>
 
 		<div class="description short">
 			
@@ -1501,7 +1507,7 @@ defined, and throw exceptions</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_offsetUnset">#</a>
-		<code><a href="source-class-Phery.html#1409-1420" title="Go to source code">offsetUnset</a>( <span>mixed <var>$offset</var></span> )</code>
+		<code><a href="source-class-Phery.html#1415-1426" title="Go to source code">offsetUnset</a>( <span>mixed <var>$offset</var></span> )</code>
 
 		<div class="description short">
 			
@@ -1541,7 +1547,7 @@ defined, and throw exceptions</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_offsetGet">#</a>
-		<code><a href="source-class-Phery.html#1422-1437" title="Go to source code">offsetGet</a>( <span>mixed <var>$offset</var></span> )</code>
+		<code><a href="source-class-Phery.html#1428-1443" title="Go to source code">offsetGet</a>( <span>mixed <var>$offset</var></span> )</code>
 
 		<div class="description short">
 			
@@ -1585,7 +1591,7 @@ defined, and throw exceptions</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_offsetSet">#</a>
-		<code><a href="source-class-Phery.html#1439-1448" title="Go to source code">offsetSet</a>( <span>mixed <var>$offset</var></span>, <span>mixed <var>$value</var></span> )</code>
+		<code><a href="source-class-Phery.html#1445-1454" title="Go to source code">offsetSet</a>( <span>mixed <var>$offset</var></span>, <span>mixed <var>$value</var></span> )</code>
 
 		<div class="description short">
 			
@@ -1627,7 +1633,7 @@ defined, and throw exceptions</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#___set">#</a>
-		<code><a href="source-class-Phery.html#1450-1458" title="Go to source code">__set</a>( <span>string <var>$name</var></span>, <span>mixed <var>$value</var></span> )</code>
+		<code><a href="source-class-Phery.html#1456-1464" title="Go to source code">__set</a>( <span>string <var>$name</var></span>, <span>mixed <var>$value</var></span> )</code>
 
 		<div class="description short">
 			
@@ -1667,7 +1673,7 @@ defined, and throw exceptions</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#___get">#</a>
-		<code><a href="source-class-Phery.html#1460-1475" title="Go to source code">__get</a>( <span>string <var>$name</var></span> )</code>
+		<code><a href="source-class-Phery.html#1466-1481" title="Go to source code">__get</a>( <span>string <var>$name</var></span> )</code>
 
 		<div class="description short">
 			
@@ -1709,7 +1715,7 @@ defined, and throw exceptions</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_coalesce">#</a>
-		<code><a href="source-class-Phery.html#1477-1498" title="Go to source code">coalesce</a>( <span>mixed <var>$args</var>,…</span> )</code>
+		<code><a href="source-class-Phery.html#1483-1504" title="Go to source code">coalesce</a>( <span>mixed <var>$args</var>,…</span> )</code>
 
 		<div class="description short">
 			

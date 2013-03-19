@@ -107,7 +107,7 @@
 		 *
 		 * @type {String}
 		 */
-		phery.version = '2.4.2';
+		phery.version = '2.4.3';
 
 
 		/**
@@ -198,7 +198,7 @@
 			var prop, value, name;
 
 			for (prop in obj) {
-				if (obj.hasOwnProperty(prop)) {
+				if (Object.prototype.hasOwnProperty.call(obj, prop)) {
 					value = obj[prop];
 					name = prefix ? prefix + '[' + (prop) + ']' : prop;
 					if (typeof value !== 'object' || (vars.has_file && (value instanceof window['File']))) {
@@ -253,7 +253,7 @@
 				x;
 
 			for (x in obj) {
-				if (obj.hasOwnProperty(x)) {
+				if (Object.prototype.hasOwnProperty.call(obj, x)) {
 					fd.append(x, obj[x]);
 				}
 			}
@@ -313,7 +313,7 @@
 					if (arg_type === 'object') {
 						this_data = args;
 					} else {
-						this_data = [].concat(args);
+						this_data = Array.prototype.concat.call(args);
 					}
 					break;
 			}
@@ -386,7 +386,7 @@
 			}
 
 			for (x in args) {
-				if (args.hasOwnProperty(x)) {
+				if (Object.prototype.hasOwnProperty.call(args, x)) {
 					this_data = this.phery('data', 'args');
 					this.phery('data', 'args', functions.per_data(this_data, args[x]));
 				}
@@ -489,7 +489,6 @@
 			'enable': {
 				'log': false,
 				'autolock': false,
-				'file_uploads': false,
 				'log_history': false,
 				'per_element': {
 					'events': true
@@ -660,7 +659,7 @@
 
 			if (typeof obj === 'object') {
 				for (var prop in obj) {
-					if (obj.hasOwnProperty(prop)) {
+					if (Object.prototype.hasOwnProperty.call(obj, prop)) {
 						++count;
 					}
 				}
@@ -1092,7 +1091,9 @@
 		}
 
 		/**
-		 *
+		 * @param {jQuery} $element
+		 * @param {*} data
+		 * @param {Boolean|undefined} force_current
 		 */
 		functions.convertible = function($element, data, force_current) {
 			var self = this, special, selector, cmd;
@@ -1375,6 +1376,7 @@
 						if (argc > 1) {
 							args = [].concat(argv);
 							self.trigger(args);
+							args = null;
 						} else {
 							self.trigger([argv[0]]);
 						}
@@ -1418,7 +1420,7 @@
 						switch (argv[0]) {
 							case 'j':
 								for (i in argv[1]) {
-									if (argv[1].hasOwnProperty(i)) {
+									if (Object.prototype.hasOwnProperty.call(argv[1], i)) {
 										file = $('<script></script>', {
 											'type': 'text/javascript',
 											'src': argv[1][i],
@@ -1437,7 +1439,7 @@
 								break;
 							case 'c':
 								for (i in argv[1]) {
-									if (argv[1].hasOwnProperty(i)) {
+									if (Object.prototype.hasOwnProperty.call(argv[1], i)) {
 										file = $('<link/>', {
 											'type': 'text/css',
 											'rel': 'stylesheet',
@@ -1574,7 +1576,7 @@
 			force = force || false;
 
 			for (var x in original) {
-				if (original.hasOwnProperty(x)) {
+				if (Object.prototype.hasOwnProperty.call(original, x)) {
 					if (typeof original[x] === 'object' && original[x].constructor !== Array) {
 						if (_apply(original[x], force, x) === false) {
 							return false;
@@ -1628,7 +1630,7 @@
 
 			if (value === undefined) {
 				for (var x in key) {
-					if (key.hasOwnProperty(x)) {
+					if (Object.prototype.hasOwnProperty.call(key, x)) {
 						functions.dot_notation_option(x, options, key[x]);
 					}
 				}
@@ -1879,7 +1881,7 @@
 					delete attr['el'];
 				}
 				for (var i in attr) {
-					if (attr.hasOwnProperty(i)) {
+					if (Object.prototype.hasOwnProperty.call(attr, i)) {
 						if ('target method type proxy cache'.indexOf(i.toLowerCase()) !== -1) {
 							$a.phery('data', i, attr[i]);
 						} else {
@@ -2034,9 +2036,11 @@
 		 */
 		phery.on = function (event, cb) {
 			if (typeof event === 'object') {
-				for (var x in event) {
-					if (event.hasOwnProperty(x)) {
-						phery.on(x, event[x]);
+				if ($.isPlainObject(event)) {
+					for (var x in event) {
+						if (Object.prototype.hasOwnProperty.call(event, x)) {
+							phery.on(x, event[x]);
+						}
 					}
 				}
 			} else if (typeof event === 'string' && typeof cb === 'function') {
@@ -2256,6 +2260,11 @@
 				return phery;
 			}
 
+			if (!$.isPlainObject(config)) {
+				debug(['phery.view needs a plain object'], 'config');
+				return phery;
+			}
+
 			var
 				_container,
 				_bound,
@@ -2293,7 +2302,7 @@
 				.off('click.view');
 
 			for (_container in config) {
-				if (config.hasOwnProperty(_container)) {
+				if (Object.prototype.hasOwnProperty.call(config, _container)) {
 					$container = $(_container);
 
 					if ($container.length === 1) {
@@ -2321,7 +2330,7 @@
 						selector = selector + ',a[href][rel="' + (_container) + '"]';
 
 						for (var _x in config[_container]) {
-							if (Object.prototype.hasOwnProperty(config[_container], _x) && typeof _x === 'string' && typeof vars._callbacks[_x] !== 'undefined') {
+							if (Object.prototype.hasOwnProperty.call(config[_container], _x) && typeof _x === 'string' && typeof vars._callbacks[_x] !== 'undefined') {
 								$container.on('phery:' + (_x) + '.pheryview', config[_container][_x]);
 								delete config[_container][_x];
 							}
@@ -2428,7 +2437,7 @@
 							} else if (name !== undefined) {
 								if ($.isPlainObject(name)) {
 									for (i in name) {
-										if (name.hasOwnProperty(i)) {
+										if (Object.prototype.hasOwnProperty.call(name, i)) {
 											$this.data('phery-' + (i), name[i]);
 										}
 									}
@@ -2439,7 +2448,7 @@
 
 							data = $this.data();
 							for (i in data) {
-								if (data.hasOwnProperty(i) && !/^phery\-/.test(i)) {
+								if (Object.prototype.hasOwnProperty.call(data, i) && !/^phery\-/.test(i)) {
 									delete data[i];
 								}
 							}
@@ -2604,7 +2613,7 @@
 			if (name && $.isPlainObject(name)) {
 				var last;
 				for (var x in name) {
-					if (name.hasOwnProperty(x) && (x in _out)) {
+					if (Object.prototype.hasOwnProperty.call(name, x) && (x in _out)) {
 						last = _out[x].apply($this, name[x]);
 					}
 				}

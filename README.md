@@ -65,7 +65,7 @@ Version 2.4.0 isn't a drop-in replacement because of some changes, so you might 
 * All the calls to `PheryResponse::factory()->this()` must be called to `PheryResponse::factory()->this`
 * All the calls to `PheryResponse::factory()->jquery()->somemethod()` must be called to `PheryResponse::factory()->jquery->somemethod()`
 * If you are using jQuery >=1.9, some functions were removed from the jQuery core, so fix your code accordingly
-* If you fond yourself adding `data-remote` manually to HTML elements like `<a data-remote="remote">stuff</a>`, you have to fix it manually or use the prefered way `Phery::link_to`, since the `data-remote` is now `data-phery-remote`
+* If you found yourself adding `data-remote` manually to HTML elements like `<a data-remote="remote">stuff</a>`, you have to fix it manually or use the prefered way `Phery::link_to`, since the `data-remote` is now `data-phery-remote`
 * The same with `data-confirm`, you have to fix it manually or use the prefered way `Phery::link_to`, since the `data-confirm` is now `data-phery-confirm`
 
 ## Full PHP API Documentation
@@ -231,12 +231,12 @@ May be registered as a handler using `set_error_handler('Phery::error_handler', 
 Public static function that should be used only with `register_shutdown_function('Phery::shutdown_handler');`
 having no other useful meaning
 
-#### Phery::respond($response, $compress = false)
+#### Phery::respond($response, $echo = false)
 
 Static function that makes it easy to return a `PheryResponse` anywhere.
 
 ```php
-function error_handler(){
+function my_own_error_handler(){
 	Phery::respond(PheryResponse::factory()->exception('ERROR!'));
 	exit;
 }
@@ -303,10 +303,10 @@ need to do proper cleanup and/or event triggering
 * `exceptions` => `false`
 Throw exceptions on errors
 
-* `compress` => `false`
-Enable/disable GZIP/DEFLATE compression, depending on the browser support. Don't enable it if
-you are using Apache DEFLATE/GZIP, or zlib.output_compression Most of the time, compression will hide exceptions,
-because it will output plain text while the content-type is gzip, unless you also enable `error_reporting`
+* `set_always_available` => `false`
+By default, the function Phery::instance()->set() will only register functions when the current
+request is an AJAX call, to save resources. In order to use Phery::instance()->get_function()
+anytime, you need to set this config value to true
 
 * `error_reporting` => `false|E_ALL|E_DEPRECATED|...`
 Error reporting temporarily using error_reporting(). 'false' disables the error_reporting and wont try to catch any error.
@@ -625,7 +625,7 @@ $('form').serializeForm({'disabled':true,'all':true,'empty':false});
 
 ```js
 {
-    "inputs: {
+    "inputs": {
         "field":{
             "gender":"male",
             "name":"John Doe",
@@ -652,7 +652,8 @@ An helper function that has been long missing from jQuery, to simply reset a for
 
 Returns functions associated with phery.js and the element, they extend the `$.fn` part of jQuery
 
-#### $(el).phery('remote', \[args\]) or $(el).phery().remote(args)
+##### $(el).phery('remote', \[args\])
+###### $(el).phery().remote(args)
 
 Trigger the AJAX call, can pass an additional object.
 Executes the phery.js data associated with the element.
@@ -661,7 +662,8 @@ The data that is passed to the function will overwrite
 the variables in the object if the have the same name.
 
 ```js
-$(el).phery().remote(); // or $(el).phery('remote');
+$(el).phery().remote();
+// or $(el).phery('remote');
 ```
 
 An element created with
@@ -674,24 +676,28 @@ When calling e.g: `$('a').phery('remote', {'append': false});`, the `append` set
 when passing temporary arguments to the `phery('remote')` function. All arguments passed using this function
 are temporary, they don't get stored in the element, even if the value already exists in the element.
 
-##### $(el).phery().data(key, value); // or $(el).phery('data', key, value);
+##### $(el).phery().data(key, value);
+###### $(el).phery('data', key, value);
 
 If this function is called without any arguments, will return all phery data associated with the current element.
 
 ```js
-$(el).
+$(el).phery('data');
 ```
 
-##### $(el).phery().exception(msg, data); // or $(el).phery('exception', msg, data);
+##### $(el).phery().exception(msg, data);
+###### $(el).phery('exception', msg, data);
 
-Trigger the exception handler on the element, returns the `$(element).phery()`.
+Trigger the exception handler on the element.
 Returns the current jQuery elements.
 
 ```js
-$(el).phery().exception('Exception!', {'data': true}); // or $(el).phery('exception', 'Exception!', {'data': true});
+$(el).phery().exception('Exception!', {'data': true});
+// or $(el).phery('exception', 'Exception!', {'data': true});
 ```
 
-##### $(el).phery().append_args(...); // or $(el).phery('append_args', ...);
+##### $(el).phery().append_args(...);
+###### $(el).phery('append_args', ...);
 
 Append arguments to the current element. The initial value will decide how the parameters will behave in the future.
 These changes are not temporary, they last as long the DOM element is on the page
@@ -703,7 +709,8 @@ $(el).phery().append_args({'data': true}).remote();
 // or $(el).phery('append_args', {'data': true});
 ```
 
-##### $(el).phery().set_args(...); // or $(el).phery('set_args', ...);
+##### $(el).phery().set_args(...);
+###### $(el).phery('set_args', ...);
 
 Set arguments to the current element. Overwrites any data previously set.
 It cannot use single values, any string, number, etc will become a `[value]`
@@ -716,34 +723,41 @@ $(el).phery().set_args({'data': true}).remote();
 // or $(el).phery('set_args', {'data': true});
 ```
 
-##### $(el).phery().get_args(...); // or $(el).phery('get_args');
+##### $(el).phery().get_args(...);
+###### $(el).phery('get_args');
 
 Get data arguments of the current element.
 
 ```js
-console.log($(el).phery().get_args()); // or console.log($(el).phery('get_args'));
+console.log($(el).phery().get_args());
+// or console.log($(el).phery('get_args'));
 ```
 
-##### $(el).phery().make(); // or $(el).phery('make');
+##### $(el).phery().make();
+###### $(el).phery('make');
 
 Add phery.js to the selected element, set the AJAX function name and you may pass arguments.
 Returns the current jQuery elements.
 
 ```js
-$('a.ajaxify-me').phery().make('test', {'loaded':true}); // or $(el).phery('make', 'test', {'loaded': true});
+$('a.ajaxify-me').phery().make('test', {'loaded':true});
+// or $(el).phery('make', 'test', {'loaded': true});
 ```
 
 It will make the `a` call `test` with arguments `{loaded: true}`
 
-##### $(el).phery().remove(); // or $(el).phery('remove');
+##### $(el).phery().remove();
+###### $(el).phery('remove');
 
 Clean up the element, and remove it from the DOM. It removes all data before so it won't memory leak on IE
 
 ```js
-$(el).phery().remove(); // or $(el).phery('remove');
+$(el).phery().remove();
+// or $(el).phery('remove');
 ```
 
-##### $(el).phery().inprogress(); // or $(el).phery('inprogress');
+##### $(el).phery().inprogress();
+###### $(el).phery('inprogress');
 
 Returns boolean if there's already an AJAX call going on. You may prevent double form submissions for example
 checking if element is in progress, returning false if there's already another in progress
@@ -761,14 +775,16 @@ You may disabled it automatically per element, when creating the element with `P
 passing `array(only => true)` or you may set it programatically using `el.phery('data', 'only', true);`
 Notice that animations and asynchronous functions won't count as "in progress".
 
-##### $(el).phery().unmake(unbind = false); // or $(el).phery('unmake');
+##### $(el).phery().unmake(unbind = false);
+###### $(el).phery('unmake');
 
 Remove phery.js AJAX functions on the select elements. Setting the unbind parameter to true will
 also unbind the phery.js events that were previously set
 Returns the current jQuery elements.
 
 ```js
-$(el).phery().unmake(); // or $(el).phery('unmake');
+$(el).phery().unmake();
+ $(el).phery('unmake');
 ```
 
 #### phery.remotes(array)
@@ -794,7 +810,16 @@ phery.remotes($('.containers:not(.loaded)'));
 ```
 
 This isn't the same as doing `$('.containers:not(.loaded)').phery('remote')`, because in that case
-elements will be called at once, asynchronously, with no progress or any feedback
+elements will be called at once, asynchronously, with no progress or any feedback.
+Also you may observe the progress of the functions using the `progress` as part of the promise:
+
+```js
+phery.remotes($('.containers:not(.loaded)')).progress(function(jqxhr){
+  //'this' is the current element or item in the array
+  //'jqxhr' is the current AJAX jqXHR object from jQuery.
+  // you may watch the progress of each jqxhr in case of multiple uploads
+});
+```
 
 #### phery.remote(function_name, args, attr, direct_call)
 
@@ -838,7 +863,8 @@ Also, phery provides a shortcut to the event jQuery element through `event.$targ
 but it's ready to use.
 
 * `before`: `function (event)`
-Triggered before everything, happens right after `phery.remote()` call
+Triggered before everything, happens right after `phery.remote()` call. Issuing an `event.stopImmediatePropagation()` after
+returning false inside the `before` callback, will make it so the `always` event won't trigger.
 * `after`: `function (event)`
 Triggered after all the data was parsed.
 * `beforeSend`: `function (event, xhr)`
@@ -854,7 +880,7 @@ Will be called if any problem happens while processing data, or executing jquery
 * `json`: `function (event, obj)`
 Returns the json object sent from PHP
 * `progress`: `function (event, progress)`
-File upload progress (not available in <= IE9)
+File upload progress (not available in <= IE9). Can be accessed through the promise `progress(callback)` too
 * `params`: `function (event, params)`
 Pass extra params to the request. Won't overwrite existing params for security reasons
 
@@ -1020,7 +1046,7 @@ phery.config('debug.display.config', true);
 #### phery.lock_config()
 
 Locks the configuration, so that nobody can change the configuration again using `phery.config()`
-Works as an extra safety measure against people messing with your projet settings
+Works as an extra safety measure against people messing with your project settings
 
 ```js
 phery.config({
@@ -1050,9 +1076,6 @@ Keep the log of errors  that can be accessed through `phery.log()`
 jQuery functions like `animate` or `each` that take callbacks, can have the callback
 defined as a string inside PHP if this is enabled. You may also create a function that
 will have the current calling element as context (the `this` keyword)
-* `enable.file_uploads` (true / false, defaults to false):
-Enable AJAX file uploads. Even if it's set to true and the browser doesn't support it (oldIE),
-no files will be uploaded
 * `enable.per_element.events` (true / false, defaults to true):
 Enable `phery:*` events on each element
 * `enable.clickable_structure` (true / false, defaults to false):

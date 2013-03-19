@@ -25,7 +25,7 @@
  *
  * @link       http://phery-php-ajax.net/
  * @author     Paulo Cesar
- * @version    2.4.2
+ * @version    2.4.3
  * @license    http://opensource.org/licenses/MIT MIT License
  */
 
@@ -1164,6 +1164,9 @@ class Phery implements ArrayAccess {
 	 *     // $('#element').phery('data', 'related', $('#other_element'));
 	 *     'related' => true,
 	 *
+	 *     // Disables the AJAX on element while the last action is not completed
+	 *     'only' => true,
+	 *
 	 *     // Set the encoding of the data, defaults to UTF-8
 	 *     'encoding' => 'UTF-8',
 	 *
@@ -1252,7 +1255,7 @@ class Phery implements ArrayAccess {
 	 *     'confirm' => 'Are you sure?',
 	 *
 	 *     // Type of call, defaults to JSON (to use PheryResponse)
-	 *     'data-phery-type' => 'json',
+	 *     'phery-type' => 'json',
 	 *
 	 *     // 'all' submits all elements on the form, even empty ones
 	 *     // 'disabled' enables submitting disabled elements
@@ -1317,7 +1320,7 @@ class Phery implements ArrayAccess {
 	 *     'confirm' => 'Are you sure?',
 	 *
 	 *     // Type of call, defaults to JSON (to use PheryResponse)
-	 *     'data-phery-type' => 'json',
+	 *     'phery-type' => 'json',
 	 *
 	 *     // The URL where it should call, translates to data-phery-target
 	 *     'target' => '/path/to/php',
@@ -1328,6 +1331,9 @@ class Phery implements ArrayAccess {
 	 *
 	 *     // Set the encoding of the data, defaults to UTF-8
 	 *     'encoding' => 'UTF-8',
+	 *
+	 *     // Disables the AJAX on element while the last action is not completed
+	 *     'only' => true,
 	 *
 	 *     // The current selected value, or array(1,2) for multiple
 	 *     'selected' => 1

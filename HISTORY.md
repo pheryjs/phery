@@ -1,3 +1,9 @@
+### v2.4.3 - 19th March 2013
+    * Removed file_upload js config
+    * Fixed the README.md
+    * Cleaned up the php file
+    * Fixed include_stylesheet and phery view event assignment (messed up hasOwnProperty there)
+
 ### v2.4.2 - 18th March 2013
     * Applied flyweight pattern on the process request to reuse most of the data that was being passed around in many functions
     * Fixed Webkit random maximum stack size RangeError when using nested responses
