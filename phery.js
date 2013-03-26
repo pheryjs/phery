@@ -83,7 +83,7 @@
 			/**
 			 * @class
 			 * @constructor
-			 * @version 2.4.2
+			 * @version 2.4.4
 			 */
 			phery = (function(){ return function(){ return phery; }; })();
 
@@ -107,7 +107,7 @@
 		 *
 		 * @type {String}
 		 */
-		phery.version = '2.4.3';
+		phery.version = '2.4.4';
 
 
 		/**
@@ -329,7 +329,7 @@
 		functions.form_element = function($this){
 			var
 				radios,
-				options,
+				opts,
 				name = $this.prop('name') || null,
 				value = null,
 				type = $this.prop('tagName').toLowerCase();
@@ -344,13 +344,13 @@
 					value = $this.is('[value]') ? $this.val() : true;
 				}
 			} else if ($this.is('select')) {
-				options = $this.find('option').filter(functions.filter_prop('selected'));
+				opts = $this.find('option').filter(functions.filter_prop('selected'));
 				if ($this.prop('multiple')) {
-					value = options.map(function () {
+					value = opts.map(function () {
 						return this.value || this.innerHTML;
 					}).get();
 				} else {
-					value = options.val();
+					value = opts.val();
 				}
 				name = name || '';
 			} else if ($this.is('[type="file"]')) {
@@ -493,7 +493,8 @@
 				'per_element': {
 					'events': true
 				},
-				'clickable_structure': false
+				'clickable_structure': false,
+				'only': false
 			},
 			'inline': {
 				'enabled': false,
@@ -758,7 +759,7 @@
 					}
 				};
 
-			if (!!el.phery('data', 'only') && el.phery('inprogress')) {
+			if ((!!el.phery('data', 'only') || options.enable.only === true) && el.phery('inprogress')) {
 				return false;
 			}
 

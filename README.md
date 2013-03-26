@@ -1072,6 +1072,10 @@ impossible to make changes to it, as an extra safety measure against tampering, 
 works the same way as calling `phery.lock_config()` but on `$(window).on('load')`.
 * `enable.log_history` (true / false, defaults to false):
 Keep the log of errors  that can be accessed through `phery.log()`
+* `enable.only` (true / false, defaults to false):
+Make all AJAX calls, per element, be called one at a time. Multiple clicks or form submissions
+won't make new AJAX until the last one is done. This option can be set using `$(el).phery('data', 'only', true);`
+or creating the element using `<?php Phery::link_to('Clicky', 'function', array('only' => true)); ?>` or `data-phery-only="1"`
 * `enable.php_string_callbacks` (true / false, defaults to false):
 jQuery functions like `animate` or `each` that take callbacks, can have the callback
 defined as a string inside PHP if this is enabled. You may also create a function that

@@ -909,7 +909,7 @@ $(function () {
 	// cache our DOM elements that will receive the memory info
 	$peak = $('#peak');
 	$usage = $('#usage');
-	$('#version').text('jQuery Version: ' + $().jquery);
+	$('#version').text('jQuery Version: ' + $().jquery + ' / phery: ' + phery.version);
 
 	$('div.test').on({
 		'test':function () { // bind a custom event to the DIVs
@@ -1129,6 +1129,12 @@ $(function () {
 						'text':exception + ' on '
 					}).append(a)
 				);
+			}
+
+			var $window = $(window);
+
+			while ($exceptions.height() > $window.height() + 10) {
+				$exceptions.find('li:not(.clear):first').remove();
 			}
 		}
 	});
@@ -2018,7 +2024,7 @@ echo Phery::form_for('', 'form', array('id' => 'testform', 'submit' => array('di
 </div>
 
 <ul id="exceptions">
-	<li style="cursor:pointer" onclick="$(this).parent().find('li').not(this).remove()">[ Clear ]</li>
+	<li style="cursor:pointer" onclick="$(this).parent().find('li').not(this).remove()" class="clear">[ Clear ]</li>
 </ul>
 
 <?php

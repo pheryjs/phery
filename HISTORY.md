@@ -1,3 +1,7 @@
+### v2.4.4 - 26th March 2013
+    * Implemented the enable.only option, so the AJAX calls (per element) can be called once a time
+    * Minor doc adjustments
+
 ### v2.4.3 - 19th March 2013
     * Removed file_upload js config
     * Fixed the README.md
