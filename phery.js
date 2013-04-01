@@ -107,7 +107,7 @@
 		 *
 		 * @type {String}
 		 */
-		phery.version = '2.4.4';
+		phery.version = '2.4.5';
 
 
 		/**
@@ -1387,6 +1387,7 @@
 						if (argc === 2) {
 							if (argv[1]) {
 								try {
+									self.phery.data('inprogress', false);
 									phery.view(argv[1]).navigate_to(argv[0]);
 								} catch (e) {
 									self.trigger([phery.log('phery view "'+(argv[1])+'" not found')]);

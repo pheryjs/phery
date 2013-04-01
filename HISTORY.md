@@ -1,3 +1,6 @@
+### v2.4.5 - 1st April 2013
+    * Fix bug navigate_to wasn't working with enable.only option set to true
+
 ### v2.4.4 - 26th March 2013
     * Implemented the enable.only option, so the AJAX calls (per element) can be called once a time
     * Minor doc adjustments
