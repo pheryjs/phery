@@ -1,3 +1,7 @@
+### v2.4.6 - 211st April 2013
+    * Removed dependency on document ready (wasn't working on AngularJS)
+    * Added the phery.json() shorthand for phery.remote(..., false).on('phery:json', cb).phery('remote')
+
 ### v2.4.5 - 1st April 2013
     * Fix bug navigate_to wasn't working with enable.only option set to true
 

@@ -821,6 +821,32 @@ phery.remotes($('.containers:not(.loaded)')).progress(function(jqxhr){
 });
 ```
 
+#### phery.json(function_name, args, callback)
+
+Calls an AJAX function, pass some args if needed (pass null for no arguments) and the callback, containing a `function(data){}`
+Usage:
+
+```js
+phery.json('remotefunc', {id: 4, first: true}, function(data){
+    console.log(data);
+});
+```
+
+It's a shorthand for the following code:
+
+```js
+    var el = phery.remote(remote, null, null, false);
+    el.on('phery:json', function(event, data){
+        return cb(data);
+    });
+    if (args !== undefined && args !== null) {
+        el.phery('remote', args);
+    } else  {
+        el.phery('remote');
+    }
+```
+
+
 #### phery.remote(function_name, args, attr, direct_call)
 
 Calls an AJAX function directly, without binding to any existing elements, the DOM element is **created** and **removed** on-the-fly

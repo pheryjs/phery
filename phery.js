@@ -107,7 +107,7 @@
 		 *
 		 * @type {String}
 		 */
-		phery.version = '2.4.5';
+		phery.version = '2.4.6';
 
 
 		/**
@@ -525,7 +525,7 @@
 			callbacks = $('<div></div>'),
 			_log = [],
 			$original_cursor,
-			$body_html;
+			$body_html = null;
 
 		vars._callbacks = {
 			'before':function () {
@@ -572,6 +572,11 @@
 
 		function do_cursor(cursor) {
 			if (options.cursor) {
+				if ($body_html === null) {
+					$body_html = $('body,html');
+					$original_cursor = $body_html.css('cursor');
+				}
+
 				if (!cursor) {
 					$body_html.css('cursor', $original_cursor);
 				} else {
@@ -1645,13 +1650,6 @@
 
 		options = $.extend(true, {}, vars.defaults, options);
 
-		$(function () {
-			$body_html = $('body,html');
-			$original_cursor = $body_html.css('cursor');
-
-			_apply(options, true);
-		});
-
 		$window.on({
 			'load': function(){
 				if (options.enable.autolock) {
@@ -1831,7 +1829,7 @@
 		 * will return the created object that will further need the phery('remote') call, after binding
 		 * events to it.
 		 *
-		 * @return {jQuery.ajax|Boolean}
+		 * @return {jQuery.ajax|Boolean|jQuery}
 		 */
 		phery.remote = function (function_name, args, attr, direct_call) {
 			if (!this) {
@@ -1894,6 +1892,29 @@
 			}
 
 			return (direct_call ? functions.ajax_call.apply($a, apply) : $a);
+		};
+
+		/**
+		 * Shorthand for JSON callback:
+		 * phery.remote(remote, null, null, false).on('phery:json', cb).phery('remote', args)
+		 *
+		 * @param {String} remote Remote function name
+		 * @param {Object|Array} args Extra arguments to pass to the remote function
+		 * @param {Function} cb Callback with function(data){  }
+		 *
+		 * @return {jQuery}
+		 */
+		phery.json = function(remote, args, cb){
+			var el = phery.remote(remote, null, null, false);
+			el.on('phery:json', function(event, data){
+				return cb(data);
+			});
+			if (args !== undefined && args !== null) {
+				el.phery('remote', args);
+			} else  {
+				el.phery('remote');
+			}
+			return el;
 		};
 
 		/**
@@ -2812,6 +2833,8 @@
 				Object.freeze(phery);
 			}
 		}
+
+		_apply(options, true);
 
 		return phery;
 	}
