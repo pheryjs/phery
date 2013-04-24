@@ -83,7 +83,7 @@
 			/**
 			 * @class
 			 * @constructor
-			 * @version 2.4.4
+			 * @version 2.4.7
 			 */
 			phery = (function(){ return function(){ return phery; }; })();
 
@@ -107,7 +107,7 @@
 		 *
 		 * @type {String}
 		 */
-		phery.version = '2.4.6';
+		phery.version = '2.4.7';
 
 
 		/**

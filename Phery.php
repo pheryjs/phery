@@ -25,7 +25,7 @@
  *
  * @link       http://phery-php-ajax.net/
  * @author     Paulo Cesar
- * @version    2.4.6
+ * @version    2.4.7
  * @license    http://opensource.org/licenses/MIT MIT License
  */
 
@@ -64,6 +64,11 @@ class Phery implements ArrayAccess {
 	 * @see form_for()
 	 */
 	const ERROR_TO = 3;
+	/**
+	 * Default encoding for your application
+	 * @var string
+	 */
+	public static $encoding = 'UTF-8';
 	/**
 	 * Expose the paths on PheryResponse exceptions
 	 * @var bool
@@ -504,7 +509,7 @@ class Phery implements ArrayAccess {
 
 				header('Cache-Control: no-cache, must-revalidate', true);
 				header('Expires: Sat, 26 Jul 1997 05:00:00 GMT', true);
-				header('Content-Type: application/json', true);
+				header('Content-Type: application/json; charset='.(strtolower(Phery::$encoding)), true);
 				header('Connection: close', true);
 			}
 		}

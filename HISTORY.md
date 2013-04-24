@@ -1,4 +1,8 @@
-### v2.4.6 - 211st April 2013
+### v2.4.7 - 24th April 2013
+    * IE9 is another ugly monster and randomly fails on UTF-8 AJAX responses without explicitly setting it from PHP
+    * Added global static Phery::$encoding, defaults to UTF-8
+
+### v2.4.6 - 21st April 2013
     * Removed dependency on document ready (wasn't working on AngularJS)
     * Added the phery.json() shorthand for phery.remote(..., false).on('phery:json', cb).phery('remote')
 
