@@ -9,7 +9,7 @@ if (version_compare(PHP_VERSION, '5.3.3', '<'))
 
 ini_set('display_errors', 1);
 
-$end_line = 890; date_default_timezone_set('UTC');
+$end_line = 902; date_default_timezone_set('UTC');
 $memory_start = 0;
 $start_time = microtime(true);
 
@@ -859,6 +859,24 @@ try
 		},
 		'getvar' => function(){
 			return PheryResponse::factory()->dump_vars('colorbox entry point', PheryResponse::factory()->access(array('$','colorbox')));
+		},
+		'pubsub' => function(){
+			$r = new PheryResponse;
+			switch (rand(1,4)):
+				case 1:
+					$r->publish('test', array(PheryResponse::factory()->this))->dump_vars(1);
+					break;
+				case 2:
+					$r->publish('test2')->dump_vars(2);
+					break;
+				case 3:
+					$r->publish('test2', array('hooray'))->dump_vars(3);
+					break;
+				case 4:
+					$r->phery_broadcast('test', array('hooray'))->dump_vars(4);
+					break;
+			endswitch;
+			return $r;
 		}
 	))
 	->process();
@@ -1320,6 +1338,16 @@ $(function () {
 		clearTimeout(typing_interval);
 	});
 
+	var test = phery.remote('pubsub', null, null, false);
+	test.phery('subscribe', {
+		'test': function(){
+			console.log('pub/sub "test" topic', arguments);
+		},
+		'test2': function(){
+			console.log('pub/sub "test2" topic', arguments);
+		}
+	});
+	test.phery('remote');
 	/**************************
 	 *  INLINE LOAD          *
 	 *************************/

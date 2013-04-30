@@ -25,7 +25,7 @@
  *
  * @link       http://phery-php-ajax.net/
  * @author     Paulo Cesar
- * @version    2.4.7
+ * @version    2.5.0
  * @license    http://opensource.org/licenses/MIT MIT License
  */
 
@@ -1740,6 +1740,36 @@ class PheryResponse extends ArrayObject {
 		self::$responses[$this->name] = $this;
 
 		return $this;
+	}
+
+	/**
+	 * Broadcast a remote message to the client to all elements that
+	 * are subscribed to them. This removes the current selector if any
+	 *
+	 * @param string $name Name of the browser subscribed topic on the element
+	 * @param array [$params] Any params to pass to the subscribed topic
+	 *
+	 * @return PheryResponse
+	 */
+	public function phery_broadcast($name, array $params = array())
+	{
+		$this->last_selector = null;
+		return $this->cmd(12, array($name, array(self::typecast($params, true, true)), true));
+	}
+
+	/**
+	 * Publish a remote message to the client that is subscribed to them
+	 * This removes the current selector (if any)
+	 *
+	 * @param string $name Name of the browser subscribed topic on the element
+	 * @param array [$params] Any params to pass to the subscribed topic
+	 *
+	 * @return PheryResponse
+	 */
+	public function publish($name, array $params = array())
+	{
+		$this->last_selector = null;
+		return $this->cmd(12, array($name, array(self::typecast($params, true, true))));
 	}
 
 	/**

@@ -82,8 +82,8 @@
 			},
 			/**
 			 * @class
-			 * @constructor
-			 * @version 2.4.7
+			 * @version 2.5.0
+			 * @extends {jQuery}
 			 */
 			phery = (function(){ return function(){ return phery; }; })();
 
@@ -94,6 +94,7 @@
 		vars.has_formdata = ('FormData' in window);
 		vars.has_file = vars.has_formdata && ('File' in window);
 		vars.FormData = vars.has_formdata ? FormData : null;
+		vars.subscribed = [];
 
 		/**
 		 * Function cache
@@ -107,8 +108,64 @@
 		 *
 		 * @type {String}
 		 */
-		phery.version = '2.4.7';
+		phery.version = '2.5.0';
 
+		/**
+		 *
+		 * @param {Object|Array} obj
+		 * @param {String|Number} i
+		 * @returns {Boolean}
+		 */
+		functions.hop = function(obj, i) {
+			return Object.prototype.hasOwnProperty.call(obj, i);
+		};
+
+		/**
+		 *
+		 * @param {String} func_name
+		 * @param {Boolean} do_new
+		 * @param {jQuery|Undefined} element
+		 *
+		 * @return {jQuery.Callbacks|Boolean}
+		 */
+		functions.is_subscribed = function(func_name, do_new, element)
+		{
+			if (!element) { return false; }
+			var i, len, topic = null;
+			do_new = do_new === undefined ? true : !!do_new;
+
+			for (i = 0, len = vars.subscribed.length; i < len; i++){
+				if (vars.subscribed[i].topic === func_name && vars.subscribed[i].element.is(element)){
+					return vars.subscribed[i];
+				}
+			}
+
+			if (do_new === true) {
+				var cb = $.Callbacks();
+				topic = {
+					callback: cb,
+					pub: function(args){
+						args = args || [];
+						topic.callback.fireWith(element, args);
+						return topic;
+					},
+					sub: function(fn){
+						topic.callback.add(fn);
+						return topic;
+					},
+					unsub: function(fn){
+						topic.callback.remove(fn);
+						return topic;
+					},
+					element: element,
+					topic: func_name
+				};
+
+				vars.subscribed.push(topic);
+				return topic;
+			}
+			return false;
+		};
 
 		/**
 		 * Assign a n-deep object property
@@ -198,7 +255,7 @@
 			var prop, value, name;
 
 			for (prop in obj) {
-				if (Object.prototype.hasOwnProperty.call(obj, prop)) {
+				if (functions.hop(obj, prop)) {
 					value = obj[prop];
 					name = prefix ? prefix + '[' + (prop) + ']' : prop;
 					if (typeof value !== 'object' || (vars.has_file && (value instanceof window['File']))) {
@@ -253,7 +310,7 @@
 				x;
 
 			for (x in obj) {
-				if (Object.prototype.hasOwnProperty.call(obj, x)) {
+				if (functions.hop(obj, x)) {
 					fd.append(x, obj[x]);
 				}
 			}
@@ -310,7 +367,7 @@
 					this_data = [].concat(this_data, args);
 					break;
 				case 'undefined':
-					if (arg_type === 'object') {
+					if (arg_type === 'object' || args == null) {
 						this_data = args;
 					} else {
 						this_data = Array.prototype.concat.call(args);
@@ -386,7 +443,7 @@
 			}
 
 			for (x in args) {
-				if (Object.prototype.hasOwnProperty.call(args, x)) {
+				if (functions.hop(args, x)) {
 					this_data = this.phery('data', 'args');
 					this.phery('data', 'args', functions.per_data(this_data, args[x]));
 				}
@@ -665,7 +722,7 @@
 
 			if (typeof obj === 'object') {
 				for (var prop in obj) {
-					if (Object.prototype.hasOwnProperty.call(obj, prop)) {
+					if (functions.hop(obj, prop)) {
 						++count;
 					}
 				}
@@ -683,6 +740,7 @@
 				el.off();
 				$.removeData(el[0]);
 				el.remove();
+				el = null;
 			}
 		}
 
@@ -1099,7 +1157,7 @@
 		/**
 		 * @param {jQuery} $element
 		 * @param {*} data
-		 * @param {Boolean|undefined} force_current
+		 * @param {Boolean|undefined} [force_current]
 		 */
 		functions.convertible = function($element, data, force_current) {
 			var self = this, special, selector, cmd;
@@ -1162,7 +1220,7 @@
 						func = null;
 					} else {
 						for (var i in obj) {
-							if (Object.prototype.hasOwnProperty.call(obj, i)) {
+							if (functions.hop(obj, i)) {
 								obj[i] = self.convert_special(obj[i], depth);
 							}
 						}
@@ -1276,7 +1334,7 @@
 			self.process_parameters = function(){
 				if (cmd && typeof cmd['a'] !== 'undefined') {
 					for (var i in cmd['a']) {
-						if (Object.prototype.hasOwnProperty.call(cmd['a'], i)) {
+						if (functions.hop(cmd['a'], i)) {
 							cmd['a'][i] = self.convert_special(cmd['a'][i]);
 						}
 					}
@@ -1427,7 +1485,7 @@
 						switch (argv[0]) {
 							case 'j':
 								for (i in argv[1]) {
-									if (Object.prototype.hasOwnProperty.call(argv[1], i)) {
+									if (functions.hop(argv[1], i)) {
 										file = $('<script></script>', {
 											'type': 'text/javascript',
 											'src': argv[1][i],
@@ -1446,7 +1504,7 @@
 								break;
 							case 'c':
 								for (i in argv[1]) {
-									if (Object.prototype.hasOwnProperty.call(argv[1], i)) {
+									if (functions.hop(argv[1], i)) {
 										file = $('<link/>', {
 											'type': 'text/css',
 											'rel': 'stylesheet',
@@ -1472,6 +1530,20 @@
 					/* templating */
 					case 11:
 						break;
+					/* pub/sub/broadcast */
+					case 12:
+						try {
+							if (argc === 3) {
+								/* broadcast */
+								phery.broadcast(argv[0], argv[1][0]);
+							} else if (argc === 2) {
+								/* publish */
+								self.phery.publish(argv[0], argv[1][0]);
+							}
+						} catch (e) {
+							self.trigger([phery.log('invalid pub/sub operation')]);
+						}
+						break;
 					default:
 						self.trigger([phery.log('invalid command "' + (cmd['c']) + '" issued')]);
 						break;
@@ -1492,7 +1564,7 @@
 					}
 					self.selector();
 					for (var i in data[selector]) {
-						if (Object.prototype.hasOwnProperty.call(data[selector], i)) {
+						if (functions.hop(data[selector], i)) {
 							if (data[selector][i] === cmd) {
 								continue;
 							}
@@ -1528,7 +1600,7 @@
 				self.set_selector(self.convert_special(data));
 			} else if ($.isPlainObject(data)) {
 				for (selector in data) {
-					if (Object.prototype.hasOwnProperty.call(data, selector)) {
+					if (functions.hop(data, selector)) {
 						if (self.skip) {
 							self.skip = false;
 							continue;
@@ -1583,7 +1655,7 @@
 			force = force || false;
 
 			for (var x in original) {
-				if (Object.prototype.hasOwnProperty.call(original, x)) {
+				if (functions.hop(original, x)) {
 					if (typeof original[x] === 'object' && original[x].constructor !== Array) {
 						if (_apply(original[x], force, x) === false) {
 							return false;
@@ -1637,7 +1709,7 @@
 
 			if (value === undefined) {
 				for (var x in key) {
-					if (Object.prototype.hasOwnProperty.call(key, x)) {
+					if (functions.hop(key, x)) {
 						functions.dot_notation_option(x, options, key[x]);
 					}
 				}
@@ -1751,7 +1823,7 @@
 		/**
 		 * Lock the config, so no subsequent changes can be made to it
 		 *
-		 * @returns {phery}
+		 * @return {phery}
 		 */
 		phery.lock_config = function() {
 			vars.locked_config = true;
@@ -1805,6 +1877,99 @@
 		};
 
 		/**
+		 * Brodcast a topic to all elements that have it subscribed
+		 *
+		 * @param name
+		 * @param args
+		 *
+		 * @return phery
+		 */
+		phery.broadcast = function(name, args){
+			var i, len, sub;
+			for (i = 0, len = vars.subscribed.length; i < len; i++){
+				sub = vars.subscribed[i];
+				if (sub.topic === name) {
+					sub.pub(args);
+				}
+			}
+			return phery;
+		};
+
+		/**
+		 * Shorthand for setting topic subscription on memory without
+		 * attaching it to DOM
+		 *
+		 * phery.remote('function', args, attr, false).phery('subscribe', subs);
+		 *
+		 * @return {jQuery}
+		 */
+		phery.subscribe = function(func_name, subs, args, attr){
+			var remote = phery.remote(func_name, args, attr, false);
+			remote.phery('subscribe', subs);
+			return remote;
+		};
+
+		/**
+		 * Poll the server every x miliseconds. You may start and stop the timer at will
+		 *
+		 * @param {jQuery|Array} element
+		 * Element with phery attributes or array of phery elements. If you pass an array, it will call
+		 * phery.remotes() instead, and will wait each call to succeed
+		 *
+		 * @param {Number} [interval]
+		 * Interval in miliseconds to poll. If you dont pass an interval, you'll have to start the timer
+		 * manually using start(interval)
+		 *
+		 * @return {Object<{start:Function, stop:Function}>}
+		 */
+		phery.timer = function(element, interval){
+			var
+				stop = false,
+				handler = null,
+				_interval = interval,
+				timeout = function(){
+					if (element.constructor === Array) {
+						var arr = $.makeArray(element);
+						phery.remotes(arr).done(function () {
+							if (stop === false) {
+								handler = setTimeout(timeout, _interval);
+							}
+						});
+					} else {
+						var promise = functions.ajax_call.call(element);
+						if (promise){
+							promise.always(function () {
+								if (stop === false) {
+									handler = setTimeout(timeout, _interval);
+								}
+							});
+						}
+					}
+				};
+
+			if (interval !== undefined) {
+				timeout();
+			}
+
+			return {
+				'start': function(interval){
+					if (interval !== undefined){
+						stop = false;
+						_interval = interval;
+						clearTimeout(handler);
+						timeout();
+					}
+					return this;
+				},
+				'stop': function(){
+					stop = true;
+					clearTimeout(handler);
+					return this;
+				}
+			};
+		};
+
+		/**
 		 * Function to call remote
 		 *
 		 * @param {String} function_name Name of the PHP function set through
@@ -1851,12 +2016,26 @@
 
 			var
 				$a = $('<a></a>'),
-				apply = [args];
+				apply = [args],
+				is_temp = false;
 
-			$a.phery('data', {
-				'remote': function_name,
-				'temp': true
-			});
+			$a.phery('data', 'remote', function_name);
+
+			if (direct_call === true)
+			{
+				if (attr !== undefined){
+					if (typeof attr['temp'] !== 'undefined') {
+						$a.phery('data', 'temp', true);
+						is_temp = true;
+					} else if (typeof attr['proxy'] === 'undefined' && typeof attr['el'] === 'undefined')  {
+						$a.phery('data', 'temp', true);
+						is_temp = true;
+					}
+				} else {
+					$a.phery('data', 'temp', true);
+					is_temp = true;
+				}
+			}
 
 			if (attr !== undefined && $.isPlainObject(attr)) {
 				if (typeof attr['proxy'] !== 'undefined') {
@@ -1880,8 +2059,9 @@
 					}
 					delete attr['el'];
 				}
+
 				for (var i in attr) {
-					if (Object.prototype.hasOwnProperty.call(attr, i)) {
+					if (functions.hop(attr, i)) {
 						if ('target method type proxy cache'.indexOf(i.toLowerCase()) !== -1) {
 							$a.phery('data', i, attr[i]);
 						} else {
@@ -1889,6 +2069,10 @@
 						}
 					}
 				}
+			}
+
+			if (is_temp === false && args) {
+				$a.phery('set_args', args);
 			}
 
 			return (direct_call ? functions.ajax_call.apply($a, apply) : $a);
@@ -1905,7 +2089,7 @@
 		 * @return {jQuery}
 		 */
 		phery.json = function(remote, args, cb){
-			var el = phery.remote(remote, null, null, false);
+			var el = phery.remote(remote, null, {'temp': true}, false);
 			el.on('phery:json', function(event, data){
 				return cb(data);
 			});
@@ -2061,7 +2245,7 @@
 			if (typeof event === 'object') {
 				if ($.isPlainObject(event)) {
 					for (var x in event) {
-						if (Object.prototype.hasOwnProperty.call(event, x)) {
+						if (functions.hop(event, x)) {
 							phery.on(x, event[x]);
 						}
 					}
@@ -2325,7 +2509,7 @@
 				.off('click.view');
 
 			for (_container in config) {
-				if (Object.prototype.hasOwnProperty.call(config, _container)) {
+				if (functions.hop(config, _container)) {
 					$container = $(_container);
 
 					if ($container.length === 1) {
@@ -2353,7 +2537,7 @@
 						selector = selector + ',a[href][rel="' + (_container) + '"]';
 
 						for (var _x in config[_container]) {
-							if (Object.prototype.hasOwnProperty.call(config[_container], _x) && typeof _x === 'string' && typeof vars._callbacks[_x] !== 'undefined') {
+							if (functions.hop(config[_container], _x) && typeof _x === 'string' && typeof vars._callbacks[_x] !== 'undefined') {
 								$container.on('phery:' + (_x) + '.pheryview', config[_container][_x]);
 								delete config[_container][_x];
 							}
@@ -2433,6 +2617,52 @@
 				_out = (function(){
 					return {
 						/**
+						 * Publish a message to the element
+						 *
+						 * @param {String} name
+						 * @param {Array} args
+						 *
+						 * @return {jQuery}
+						 */
+						'publish':function (name, args) {
+							return $this.each(function(){
+								var $this = $(this), subs;
+								subs = functions.is_subscribed(name, false, $this);
+								if (subs !== false) {
+									subs.pub(args);
+								}
+							});
+						},
+						/**
+						 * Bind a list of subscriptions to listen from the server
+						 *
+						 * @param {Object} obj
+						 * Key value pair of topics to subscribe to
+						 *
+						 * @param {Boolean} [remove]
+						 * If you want to remove the functions instead of adding them
+						 * to the element
+						 *
+						 * @return {jQuery}
+						 */
+						'subscribe':function (obj, remove) {
+							return $this.each(function(){
+								var v, $this = $(this), sub;
+								for (v in obj) {
+									if (functions.hop(obj, v)){
+										sub = functions.is_subscribed(v, true, $this);
+										if (sub !== false){
+											if (remove === true) {
+												sub.unsub(obj[v]);
+											} else {
+												sub.sub(obj[v]);
+											}
+										}
+									}
+								}
+							});
+						},
+						/**
 						 * Trigger phery exception on the element
 						 *
 						 * @param {String} msg
@@ -2460,7 +2690,7 @@
 							} else if (name !== undefined) {
 								if ($.isPlainObject(name)) {
 									for (i in name) {
-										if (Object.prototype.hasOwnProperty.call(name, i)) {
+										if (functions.hop(name, i)) {
 											$this.data('phery-' + (i), name[i]);
 										}
 									}
@@ -2469,9 +2699,9 @@
 								return $this.data('phery-' + (name));
 							}
 
-							data = $this.data();
+							data = $.extend({}, $this.data());
 							for (i in data) {
-								if (Object.prototype.hasOwnProperty.call(data, i) && !/^phery\-/.test(i)) {
+								if (functions.hop(data, i) && !/^phery/.test(i)) {
 									delete data[i];
 								}
 							}
@@ -2636,7 +2866,7 @@
 			if (name && $.isPlainObject(name)) {
 				var last;
 				for (var x in name) {
-					if (Object.prototype.hasOwnProperty.call(name, x) && (x in _out)) {
+					if (functions.hop(name, x) && (x in _out)) {
 						last = _out[x].apply($this, name[x]);
 					}
 				}

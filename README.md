@@ -775,6 +775,34 @@ You may disabled it automatically per element, when creating the element with `P
 passing `array(only => true)` or you may set it programatically using `el.phery('data', 'only', true);`
 Notice that animations and asynchronous functions won't count as "in progress".
 
+##### $(el).phery().subscribe({'name': function(){}), remove);
+###### $(el).phery('subscribe', {'name': function(){}}, remove);
+
+Subscribe to a topic and receive data from the server (or other part of the client code through `publish`)
+Internally, it uses `jQuery.Callbacks`, so they will fire in order they were added.
+
+```js
+var fn = {
+            'login': function(login, message){
+                // true / 'message'
+            }
+         };
+$(el).phery('subscribe', fn);
+// remove it
+$(el).phery('subscribe', fn, true);
+```
+
+if you set the `remove` argument to `true`, the callback will be removed
+
+##### $(el).phery().publish('name', args);
+###### $(el).phery('publish', 'name', args);
+
+Publish a message on the topic with arguments (that are optional). The args passed must be an array (think jQuery `trigger`)
+
+```js
+   $('#login').phery('publish', 'login', [true, 'message']);
+```
+
 ##### $(el).phery().unmake(unbind = false);
 ###### $(el).phery('unmake');
 
@@ -786,6 +814,53 @@ Returns the current jQuery elements.
 $(el).phery().unmake();
  $(el).phery('unmake');
 ```
+
+#### phery.subscribe(name, args)
+
+Create a subscription without attaching to any DOM elements. Takes almost the same parameters as `phery.remote`
+
+```js
+var triggery = phery.subscribe('reset', {
+    'subscription1': function(){
+        // do your stuff
+    },
+    'subscription2': function(data){
+        // json data ;)
+    }
+}, {id: 1}, {target: '/ajax/'});
+
+phery.timer(triggery, 100); // poll every 100 miliseconds
+```
+
+#### phery.timer(element, miliseconds)
+
+Make an ajax call automatically every miliseconds. It uses setTimeout instead of setInterval, returns two functions
+to start or stop the timer. You can't pass a `phery.remote()` call directly to this function, it need to be either
+a DOM element or in form of an array that you would pass in `phery.remotes`
+
+```js
+var call1 = phery.remote('remote1', null, null, false);
+var call2 = phery.remote('remote2', null, null, false);
+
+var timer = phery.timer(call1);
+var timer2 = phery.timer(call2, 1000);
+timer2.stop();
+timer.start(1000);
+
+phery.timer([
+    ['remote1'],
+    ['remote2']
+], 1000);
+```
+
+#### phery.broadcast(name, args)
+
+Broadcast a topic to all elements that has this topic subscribed. The args must be passed as an array.
+
+```js
+phery.broadcast('reset', ['param1','param2']);
+```
+
 
 #### phery.remotes(array)
 
@@ -835,7 +910,7 @@ phery.json('remotefunc', {id: 4, first: true}, function(data){
 It's a shorthand for the following code:
 
 ```js
-    var el = phery.remote(remote, null, null, false);
+    var el = phery.remote(remote, null, {'temp':true}, false);
     el.on('phery:json', function(event, data){
         return cb(data);
     });
@@ -867,6 +942,17 @@ phery
 })
 .phery('remote');
 ```
+
+When setting `direct_call` to `false`, the returned element can be reused many times, using `phery('remote')`, to explicitly remove it, you need
+to call `phery('remove')`
+
+If you wish to remove it as soon as the call ends, pass in the `attr` parameter, the `temp` option:
+
+```js
+phery.remote('remote', {'id': 1}, {'temp': true}, false).phery('remote');
+```
+
+If `direct_call` is `undefined` or `true` (the default) the element is removed and cleaned after each remote call.
 
 ### Options and global and element events
 

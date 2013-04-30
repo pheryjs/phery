@@ -1,3 +1,9 @@
+### v2.5.0 - 30th April 2013
+    * Added remote publish/subscribe/broadcast. Ideal to respond to commands without needing to use call(), apply(), or DOM manipulation.
+    * The behavior of phery.remote changed, the same element, when passing direct_call to false, can be reused many times using phery('remote'), so to free the memory, it needs to call phery('remove')
+    * Added the phery.timer function to execute polling in a set interval
+    * Made a exclusive shortcut for Object.prototype.hasOwnProperty.call, kinda hard to keep writing that huge line before loops
+
 ### v2.4.7 - 24th April 2013
     * IE9 is another ugly monster and randomly fails on UTF-8 AJAX responses without explicitly setting it from PHP
     * Added global static Phery::$encoding, defaults to UTF-8
