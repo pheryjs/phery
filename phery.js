@@ -984,7 +984,7 @@
 				url:(
 					cache ? url : (
 						url.indexOf('_=') === -1 ?
-							(url + (url.indexOf('?') > -1 ? '&' : '?') + '_=' + requested)
+							((url.indexOf('#') !== -1 ? url.substr(0, url.indexOf('#')) : url) + (url.indexOf('?') > -1 ? '&' : '?') + '_=' + requested)
 							:
 							(url.replace(/_=(\d+)/, '_=' + requested))
 						)
