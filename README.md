@@ -3,6 +3,7 @@
 
 ## Highlights
 
+* Subscribe on the client and publish on the server, and execute functions bound to elements fast and easy, within their own contexts.
 * Declarative and unobstrusive HTML instead of imperative Javascript
 * AJAX file uploads for good browsers with no effort, just make the form pheryfied
 * Really small footprint, no external dependencies beside jQuery

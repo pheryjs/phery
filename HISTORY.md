@@ -1,3 +1,6 @@
+### v2.5.1 - 14th May 2013
+    * Fixed urls with hash fragments, thanks to [m-hume](https://github.com/m-hume)
+
 ### v2.5.0 - 30th April 2013
     * Added remote publish/subscribe/broadcast. Ideal to respond to commands without needing to use call(), apply(), or DOM manipulation.
     * The behavior of phery.remote changed, the same element, when passing direct_call to false, can be reused many times using phery('remote'), so to free the memory, it needs to call phery('remove')

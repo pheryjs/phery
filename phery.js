@@ -82,7 +82,7 @@
 			},
 			/**
 			 * @class
-			 * @version 2.5.0
+			 * @version 2.5.1
 			 * @extends {jQuery}
 			 */
 			phery = (function(){ return function(){ return phery; }; })();
@@ -108,7 +108,7 @@
 		 *
 		 * @type {String}
 		 */
-		phery.version = '2.5.0';
+		phery.version = '2.5.1';
 
 		/**
 		 *
