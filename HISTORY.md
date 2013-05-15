@@ -1,3 +1,7 @@
+### v2.5.3 - 15th May 2013
+    * Added retry event, thanks to [m-hume](https://github.com/m-hume)
+    * Added minified version of the script
+
 ### v2.5.2 - 14th May 2013
     * Depending on latency, session_write_close() would fire too late and block parallel AJAX calls, this was fixed
 
