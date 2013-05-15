@@ -1,3 +1,6 @@
+### v2.5.2 - 14th May 2013
+    * Depending on latency, session_write_close() would fire too late and block parallel AJAX calls, this was fixed
+
 ### v2.5.1 - 14th May 2013
     * Fixed urls with hash fragments, thanks to [m-hume](https://github.com/m-hume)
 

@@ -25,7 +25,7 @@
  *
  * @link       http://phery-php-ajax.net/
  * @author     Paulo Cesar
- * @version    2.5.1
+ * @version    2.5.2
  * @license    http://opensource.org/licenses/MIT MIT License
  */
 
@@ -505,8 +505,6 @@ class Phery implements ArrayAccess {
 		{
 			if (!headers_sent())
 			{
-				session_write_close();
-
 				header('Cache-Control: no-cache, must-revalidate', true);
 				header('Expires: Sat, 26 Jul 1997 05:00:00 GMT', true);
 				header('Content-Type: application/json; charset='.(strtolower(Phery::$encoding)), true);
