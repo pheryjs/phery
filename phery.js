@@ -600,6 +600,9 @@
 			'fail':function () {
 				return true;
 			},
+			'retry':function () {
+				return true;
+			},
 			'progress':function () {
 				return true;
 			},
@@ -1029,6 +1032,7 @@
 
 						if (this.try_count <= this.retry_limit) {
 							functions.trigger_phery_event(dispatch_event, 'before');
+							functions.trigger_phery_event(dispatch_event, 'retry', [xhr, this.try_count]);
 
 							this.dataType = 'text ' + type;
 
