@@ -82,7 +82,7 @@
 			},
 			/**
 			 * @class
-			 * @version 2.5.3
+			 * @version 2.5.4
 			 * @extends {jQuery}
 			 */
 			phery = (function(){ return function(){ return phery; }; })();
@@ -108,10 +108,10 @@
 		 *
 		 * @type {String}
 		 */
-		phery.version = '2.5.3';
+		phery.version = '2.5.4';
 
 		/**
-		 *
+		 * @lends {Object.prototype.hasOwnProperty}
 		 * @param {Object|Array} obj
 		 * @param {String|Number} i
 		 * @returns {Boolean}
@@ -541,7 +541,8 @@
 			'cursor': true,
 			'default_href': false,
 			'ajax': {
-				'retries': 0
+				'retries': 0,
+				'timeout': 0
 			},
 			'enable': {
 				'log': false,
@@ -598,9 +599,6 @@
 				return true;
 			},
 			'fail':function () {
-				return true;
-			},
-			'retry':function () {
 				return true;
 			},
 			'progress':function () {
@@ -1000,6 +998,7 @@
 				el:self,
 				global:false,
 				try_count:0,
+				timeout:options.ajax.timeout,
 				retry_limit:options.ajax.retries,
 				cache:cache,
 				headers:_headers,
@@ -1032,7 +1031,6 @@
 
 						if (this.try_count <= this.retry_limit) {
 							functions.trigger_phery_event(dispatch_event, 'before');
-							functions.trigger_phery_event(dispatch_event, 'retry', [xhr, this.try_count]);
 
 							this.dataType = 'text ' + type;
 
@@ -1751,6 +1749,9 @@
 		 * @param {Number} [key.ajax.retries]
 		 * Number of retries before returning fail callback
 		 *
+		 * @param {Number} [key.ajax.timeout]
+		 * Timeout in milliseconds
+		 *
 		 * @param {Boolean} [key.enable.log]
 		 * Enable internal log, can be accessed through phery.log()
 		 *
@@ -2080,6 +2081,26 @@
 			}
 
 			return (direct_call ? functions.ajax_call.apply($a, apply) : $a);
+		};
+
+		/**
+		 * Shorthand for phery.remote('remote', null, null, false);
+		 * It's mainly to create a reusable element to make many ajax calls
+		 * using
+		 * <pre>
+		 * var element = phery.element('function');
+		 * element.phery('remote', [1,2,3]);
+		 * element.phery().remote({id: 1});
+		 * </pre>
+		 *
+		 * @param {String} remote Remote function
+		 * @param {Object} attrs The attrs parameter for phery.remote
+		 *
+		 * @return {jQuery}
+		 */
+		phery.element = function(remote, attrs){
+			attrs = attrs || null;
+			return phery.remote(remote, null, attrs, false);
 		};
 
 		/**

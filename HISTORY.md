@@ -1,3 +1,7 @@
+### v2.5.4 - 17th May 2013
+    * Added ajax config for timeout
+    * Added shorthand for reusable AJAX element created on-the-fly for phery.remote('remote', null, null, false)
+
 ### v2.5.3 - 15th May 2013
     * Added retry event, thanks to [m-hume](https://github.com/m-hume)
     * Added minified version of the script

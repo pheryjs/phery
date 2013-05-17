@@ -923,6 +923,24 @@ It's a shorthand for the following code:
 ```
 
 
+#### phery.element(function_name, attrs)
+
+Shorthand for `phery.remote('function', null, attrs, false)` to create reusable AJAX elements with their own element that isn't bound to the DOM (but may eventually be appended to the DOM)
+
+* `function_name`: string, name of the alias defined in `Phery::instance()->set()` inside PHP
+* `attr`: object, set any additional information about the DOM element, usually for setting another href to it. eg: `{href: '/some/other/url?p=1'}`
+
+```js
+var element = phery.element('function');
+element.phery('remote', {id: 1});
+element.on('phery:json', function(data){
+  console.log(data);
+});
+element.subscribe('hello', function(){
+  alert('Hello');
+});
+```
+
 #### phery.remote(function_name, args, attr, direct_call)
 
 Calls an AJAX function directly, without binding to any existing elements, the DOM element is **created** and **removed** on-the-fly

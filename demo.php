@@ -1169,6 +1169,10 @@ $(function () {
 		 * Retry one more time, if fails, then trigger events.error
 		 */
 		'ajax.retries':1,
+		/* 2 seconds timeout for AJAX
+		/* any AJAX option can be set through jQuery
+		 */
+		'ajax.timeout': 5000,
 		/*
 		 * Enable phery:* events on elements
 		 */
@@ -1188,10 +1192,6 @@ $(function () {
 		 */
 		'inline.enabled': true
 	});
-
-	// 2 seconds timeout for AJAX
-	// any AJAX option can be set through jQuery
-	$.ajaxSetup({timeout:5000});
 
 	$loading.fadeOut(0);
 
