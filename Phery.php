@@ -25,7 +25,7 @@
  *
  * @link       http://phery-php-ajax.net/
  * @author     Paulo Cesar
- * @version    2.5.4
+ * @version    2.5.5
  * @license    http://opensource.org/licenses/MIT MIT License
  */
 
@@ -1652,6 +1652,11 @@ class PheryResponse extends ArrayObject {
 	 */
 	protected $merged = array();
 	/**
+	 * This response config
+	 * @var array
+	 */
+	protected $config = array();
+	/**
 	 * Name of the current response
 	 * @var string
 	 */
@@ -1681,12 +1686,45 @@ class PheryResponse extends ArrayObject {
 	public function __construct($selector = null, array $constructor = array())
 	{
 		parent::__construct();
-
+		
+		$this->config = array(
+			'typecast_objects' => true,
+			'convert_integers' => true,
+		);
+		
 		$this->jquery($selector, $constructor);
 
 		$this->set_response_name(uniqid("", true));
 	}
 
+	/**
+	 * Change the config for this response
+	 * You may pass in an associative array of your config
+	 * 
+	 * @param array $config
+	 * <pre>
+	 * array(
+	 *   'convert_integers' => true/false
+	 *   'typecast_objects' => true/false
+	 * </pre>
+	 * 
+	 * @return PheryResponse
+	 */
+	public function set_config(array $config)
+	{
+		if (isset($config['convert_integers']))
+		{
+			$this->config['convert_integers'] = (bool)$config['convert_integers'];
+		}
+		
+		if (isset($config['typecast_objects']))
+		{
+			$this->config['typecast_objects'] = (bool)$config['typecast_objects'];
+		}
+		
+		return $this;
+	}
+	
 	/**
 	 * Increment the internal counter, so there are no conflicting stacked commands
 	 *
@@ -1752,7 +1790,7 @@ class PheryResponse extends ArrayObject {
 	public function phery_broadcast($name, array $params = array())
 	{
 		$this->last_selector = null;
-		return $this->cmd(12, array($name, array(self::typecast($params, true, true)), true));
+		return $this->cmd(12, array($name, array($this->typecast($params, true, true)), true));
 	}
 
 	/**
@@ -1767,7 +1805,7 @@ class PheryResponse extends ArrayObject {
 	public function publish($name, array $params = array())
 	{
 		$this->last_selector = null;
-		return $this->cmd(12, array($name, array(self::typecast($params, true, true))));
+		return $this->cmd(12, array($name, array($this->typecast($params, true, true))));
 	}
 
 	/**
@@ -1821,7 +1859,7 @@ class PheryResponse extends ArrayObject {
 		else
 		{
 			$this->set_internal_counter('!', true);
-			$this->cmd(0xff, array(self::typecast($condition, true, true)));
+			$this->cmd(0xff, array($this->typecast($condition, true, true)));
 		}
 
 		return $this;
@@ -1866,7 +1904,7 @@ class PheryResponse extends ArrayObject {
 		else
 		{
 			$this->set_internal_counter('=', true);
-			$this->cmd(0xff, array(self::typecast($condition, true, true)));
+			$this->cmd(0xff, array($this->typecast($condition, true, true)));
 		}
 
 		return $this;
@@ -2142,12 +2180,12 @@ class PheryResponse extends ArrayObject {
 		{
 			foreach ($data as $name => $d)
 			{
-				$data[$name] = self::typecast($d, true, true);
+				$data[$name] = $this->typecast($d, true, true);
 			}
 		}
 		else
 		{
-			$data = self::typecast($data, true, true);
+			$data = $this->typecast($data, true, true);
 		}
 
 		return $this->cmd(9, array(
@@ -2339,7 +2377,7 @@ class PheryResponse extends ArrayObject {
 		{
 			if ($func instanceof PheryResponse || $func instanceof PheryFunction)
 			{
-				$args[$index] = array(self::typecast($func, true, true));
+				$args[$index] = array($this->typecast($func, true, true));
 			}
 			elseif (is_object($func))
 			{
@@ -2428,7 +2466,7 @@ class PheryResponse extends ArrayObject {
 
 		$this->last_selector = null;
 
-		return $this->cmd(1, array(self::typecast($msg, true)));
+		return $this->cmd(1, array($this->typecast($msg, true)));
 	}
 
 	/**
@@ -2622,7 +2660,7 @@ class PheryResponse extends ArrayObject {
 		}
 
 		return $this->cmd('html', array(
-			self::typecast($content, true, true)
+			$this->typecast($content, true, true)
 		), $selector);
 	}
 
@@ -2644,7 +2682,7 @@ class PheryResponse extends ArrayObject {
 		}
 
 		return $this->cmd('text', array(
-			self::typecast($content, true, true)
+			$this->typecast($content, true, true)
 		), $selector);
 	}
 
@@ -2723,7 +2761,7 @@ class PheryResponse extends ArrayObject {
 		}
 
 		return $this->cmd(5, array(
-			self::typecast($html, true, true),
+			$this->typecast($html, true, true),
 			$data
 		));
 	}
@@ -2799,7 +2837,7 @@ class PheryResponse extends ArrayObject {
 		}
 
 		return $this->cmd('prepend', array(
-			self::typecast($content, true, true)
+			$this->typecast($content, true, true)
 		), $selector);
 	}
 
@@ -2831,7 +2869,7 @@ class PheryResponse extends ArrayObject {
 		}
 
 		return $this->cmd('append', array(
-			self::typecast($content, true, true)
+			$this->typecast($content, true, true)
 		), $selector);
 	}
 
@@ -2891,7 +2929,7 @@ class PheryResponse extends ArrayObject {
 			{
 				foreach ($arguments as $_name => $argument)
 				{
-					$arguments[$_name] = self::typecast($argument, true, true);
+					$arguments[$_name] = $this->typecast($argument, true, true);
 				}
 
 				$this->cmd($name, $arguments);
@@ -2949,7 +2987,7 @@ class PheryResponse extends ArrayObject {
 	 * @param int $depth Max depth
 	 * @return mixed
 	 */
-	protected static function typecast($argument, $toString = true, $nested = false, $depth = 4)
+	protected function typecast($argument, $toString = true, $nested = false, $depth = 4)
 	{
 		if ($nested)
 		{
@@ -2965,7 +3003,7 @@ class PheryResponse extends ArrayObject {
 			elseif ($depth > 0 && is_array($argument))
 			{
 				foreach ($argument as $name => $arg) {
-					$argument[$name] = self::typecast($arg, $toString, $nested, $depth);
+					$argument[$name] = $this->typecast($arg, $toString, $nested, $depth);
 				}
 			}
 		}
@@ -2974,9 +3012,12 @@ class PheryResponse extends ArrayObject {
 		{
 			if (is_string($argument) && ctype_digit($argument))
 			{
-				$argument = (int)$argument;
+				if ($this->config['convert_integers'] === true)
+				{
+					$argument = (int)$argument;
+				}
 			}
-			elseif (is_object($argument))
+			elseif (is_object($argument) && $this->config['typecast_objects'] === true)
 			{
 				$class = get_class($argument);
 				if ($class !== false)

@@ -1,3 +1,8 @@
+### v2.5.5 - 3rd June 2013
+    * Added server side config per response
+    * Added the option to not try to convert integers (if they are strings, leave as string)
+    * Added the option to not try to convert classes and objects to string (that has __toString)
+    
 ### v2.5.4 - 17th May 2013
     * Added ajax config for timeout
     * Added shorthand for reusable AJAX element created on-the-fly for phery.remote('remote', null, null, false)

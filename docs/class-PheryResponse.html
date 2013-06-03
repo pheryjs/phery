@@ -7,7 +7,7 @@
 	<title>Class PheryResponse | Phery</title>
 
 	<script type="text/javascript" src="resources/combined.js?3294260260"></script>
-	<script type="text/javascript" src="elementlist.js?650897764"></script>
+	<script type="text/javascript" src="elementlist.js?4189810165"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360" />
 
 	<script type="text/javascript">
@@ -139,7 +139,7 @@ ArrayObject
 				<a href="http://opensource.org/licenses/MIT">MIT License</a><br />
 				<b>Author:</b>
 				Paulo Cesar<br />
-		<b>Located at</b> <a href="source-class-PheryResponse.html#1510-3151" title="Go to source code">Phery.php</a><br />
+		<b>Located at</b> <a href="source-class-PheryResponse.html#1510-3192" title="Go to source code">Phery.php</a><br />
 	</div>
 
 
@@ -157,7 +157,7 @@ ArrayObject
 
 		<td class="name"><div>
 		<a class="anchor" href="#___construct">#</a>
-		<code><a href="source-class-PheryResponse.html#1675-1688" title="Go to source code">__construct</a>( <span>string <var>$selector</var> = <span class="php-keyword1">null</span></span>, <span>array <var>$constructor</var> = <span class="php-keyword1">array</span>()</span> )</code>
+		<code><a href="source-class-PheryResponse.html#1680-1698" title="Go to source code">__construct</a>( <span>string <var>$selector</var> = <span class="php-keyword1">null</span></span>, <span>array <var>$constructor</var> = <span class="php-keyword1">array</span>()</span> )</code>
 
 		<div class="description short">
 			
@@ -188,6 +188,56 @@ ArrayObject
 		</div>
 		</div></td>
 	</tr>
+	<tr data-order="set_config" id="_set_config">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-PheryResponse.html">PheryResponse</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_set_config">#</a>
+		<code><a href="source-class-PheryResponse.html#1700-1726" title="Go to source code">set_config</a>( <span>array <var>$config</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Change the config for this response You may pass in an associative array of
+your config</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Change the config for this response You may pass in an associative array of
+your config</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$config</var></dt>
+					<dd><code>array</code><br>$config
+<pre>
+array(
+  'convert_integers' =&gt; true/false
+  'typecast_objects' =&gt; true/false
+</pre>
+</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-PheryResponse.html">PheryResponse</a></code></code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
 	<tr data-order="set_internal_counter" id="_set_internal_counter">
 
 		<td class="attributes"><code>
@@ -199,7 +249,7 @@ ArrayObject
 
 		<td class="name"><div>
 		<a class="anchor" href="#_set_internal_counter">#</a>
-		<code><a href="source-class-PheryResponse.html#1690-1705" title="Go to source code">set_internal_counter</a>( <span>string <var>$type</var></span>, <span>boolean <var>$force</var> = <span class="php-keyword1">false</span></span> )</code>
+		<code><a href="source-class-PheryResponse.html#1728-1743" title="Go to source code">set_internal_counter</a>( <span>string <var>$type</var></span>, <span>boolean <var>$force</var> = <span class="php-keyword1">false</span></span> )</code>
 
 		<div class="description short">
 			
@@ -245,7 +295,7 @@ commands</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_renew_csrf">#</a>
-		<code><a href="source-class-PheryResponse.html#1707-1722" title="Go to source code">renew_csrf</a>( <span><code><a href="class-Phery.html">Phery</a></code> <var>$instance</var></span> )</code>
+		<code><a href="source-class-PheryResponse.html#1745-1760" title="Go to source code">renew_csrf</a>( <span><code><a href="class-Phery.html">Phery</a></code> <var>$instance</var></span> )</code>
 
 		<div class="description short">
 			
@@ -289,7 +339,7 @@ being chained before</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_set_response_name">#</a>
-		<code><a href="source-class-PheryResponse.html#1724-1741" title="Go to source code">set_response_name</a>( <span>string <var>$name</var></span> )</code>
+		<code><a href="source-class-PheryResponse.html#1762-1779" title="Go to source code">set_response_name</a>( <span>string <var>$name</var></span> )</code>
 
 		<div class="description short">
 			
@@ -331,7 +381,7 @@ being chained before</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_phery_broadcast">#</a>
-		<code><a href="source-class-PheryResponse.html#1743-1756" title="Go to source code">phery_broadcast</a>( <span>string <var>$name</var></span>, <span>array <var>$params</var> = <span class="php-keyword1">array</span>()</span> )</code>
+		<code><a href="source-class-PheryResponse.html#1781-1794" title="Go to source code">phery_broadcast</a>( <span>string <var>$name</var></span>, <span>array <var>$params</var> = <span class="php-keyword1">array</span>()</span> )</code>
 
 		<div class="description short">
 			
@@ -377,7 +427,7 @@ to them. This removes the current selector if any</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_publish">#</a>
-		<code><a href="source-class-PheryResponse.html#1758-1771" title="Go to source code">publish</a>( <span>string <var>$name</var></span>, <span>array <var>$params</var> = <span class="php-keyword1">array</span>()</span> )</code>
+		<code><a href="source-class-PheryResponse.html#1796-1809" title="Go to source code">publish</a>( <span>string <var>$name</var></span>, <span>array <var>$params</var> = <span class="php-keyword1">array</span>()</span> )</code>
 
 		<div class="description short">
 			
@@ -423,7 +473,7 @@ removes the current selector (if any)</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_response_name">#</a>
-		<code><a href="source-class-PheryResponse.html#1773-1781" title="Go to source code">get_response_name</a>( )</code>
+		<code><a href="source-class-PheryResponse.html#1811-1819" title="Go to source code">get_response_name</a>( )</code>
 
 		<div class="description short">
 			
@@ -460,7 +510,7 @@ removes the current selector (if any)</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_unless">#</a>
-		<code><a href="source-class-PheryResponse.html#1783-1828" title="Go to source code">unless</a>( <span>boolean|<code><a href="class-PheryFunction.html">PheryFunction</a></code> <var>$condition</var></span>, <span>boolean <var>$remote</var> = <span class="php-keyword1">false</span></span> )</code>
+		<code><a href="source-class-PheryResponse.html#1821-1866" title="Go to source code">unless</a>( <span>boolean|<code><a href="class-PheryFunction.html">PheryFunction</a></code> <var>$condition</var></span>, <span>boolean <var>$remote</var> = <span class="php-keyword1">false</span></span> )</code>
 
 		<div class="description short">
 			
@@ -535,7 +585,7 @@ will be the last selected element or the calling element.</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_incase">#</a>
-		<code><a href="source-class-PheryResponse.html#1830-1873" title="Go to source code">incase</a>( <span>boolean|callable|<code><a href="class-PheryFunction.html">PheryFunction</a></code> <var>$condition</var></span>, <span>boolean <var>$remote</var> = <span class="php-keyword1">false</span></span> )</code>
+		<code><a href="source-class-PheryResponse.html#1868-1911" title="Go to source code">incase</a>( <span>boolean|callable|<code><a href="class-PheryFunction.html">PheryFunction</a></code> <var>$condition</var></span>, <span>boolean <var>$remote</var> = <span class="php-keyword1">false</span></span> )</code>
 
 		<div class="description short">
 			
@@ -609,7 +659,7 @@ will be the last selected element or the calling element.</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_files">#</a>
-		<code><a href="source-class-PheryResponse.html#1875-1964" title="Go to source code">files</a>( <span>string|boolean <var>$group</var> = <span class="php-keyword1">false</span></span> )</code>
+		<code><a href="source-class-PheryResponse.html#1913-2002" title="Go to source code">files</a>( <span>string|boolean <var>$group</var> = <span class="php-keyword1">false</span></span> )</code>
 
 		<div class="description short">
 			
@@ -749,7 +799,7 @@ class="xlang">?&gt;</span>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_set_global">#</a>
-		<code><a href="source-class-PheryResponse.html#1966-1986" title="Go to source code">set_global</a>( <span>array|string <var>$name</var></span>, <span>mixed <var>$value</var> = <span class="php-keyword1">null</span></span> )</code>
+		<code><a href="source-class-PheryResponse.html#2004-2024" title="Go to source code">set_global</a>( <span>array|string <var>$name</var></span>, <span>mixed <var>$value</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
 			
@@ -791,7 +841,7 @@ available in all responses, and can also be acessed using self['value']</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_unset_global">#</a>
-		<code><a href="source-class-PheryResponse.html#1988-1996" title="Go to source code">unset_global</a>( <span>string <var>$name</var></span> )</code>
+		<code><a href="source-class-PheryResponse.html#2026-2034" title="Go to source code">unset_global</a>( <span>string <var>$name</var></span> )</code>
 
 		<div class="description short">
 			
@@ -829,7 +879,7 @@ available in all responses, and can also be acessed using self['value']</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_offsetExists">#</a>
-		<code><a href="source-class-PheryResponse.html#1998-2013" title="Go to source code">offsetExists</a>( <span>string|integer <var>$index</var></span> )</code>
+		<code><a href="source-class-PheryResponse.html#2036-2051" title="Go to source code">offsetExists</a>( <span>string|integer <var>$index</var></span> )</code>
 
 		<div class="description short">
 			
@@ -873,7 +923,7 @@ available in all responses, and can also be acessed using self['value']</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_offsetSet">#</a>
-		<code><a href="source-class-PheryResponse.html#2015-2033" title="Go to source code">offsetSet</a>( <span>string|integer|null <var>$index</var></span>, <span>mixed <var>$newval</var></span> )</code>
+		<code><a href="source-class-PheryResponse.html#2053-2071" title="Go to source code">offsetSet</a>( <span>string|integer|null <var>$index</var></span>, <span>mixed <var>$newval</var></span> )</code>
 
 		<div class="description short">
 			
@@ -915,7 +965,7 @@ available in all responses, and can also be acessed using self['value']</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_offsetGet">#</a>
-		<code><a href="source-class-PheryResponse.html#2035-2054" title="Go to source code">offsetGet</a>( <span>mixed <var>$index</var></span> )</code>
+		<code><a href="source-class-PheryResponse.html#2073-2092" title="Go to source code">offsetGet</a>( <span>mixed <var>$index</var></span> )</code>
 
 		<div class="description short">
 			
@@ -959,7 +1009,7 @@ available in all responses, and can also be acessed using self['value']</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_response">#</a>
-		<code><a href="source-class-PheryResponse.html#2056-2071" title="Go to source code">get_response</a>( <span>string <var>$name</var></span> )</code>
+		<code><a href="source-class-PheryResponse.html#2094-2109" title="Go to source code">get_response</a>( <span>string <var>$name</var></span> )</code>
 
 		<div class="description short">
 			
@@ -1001,7 +1051,7 @@ available in all responses, and can also be acessed using self['value']</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_merged">#</a>
-		<code><a href="source-class-PheryResponse.html#2073-2093" title="Go to source code">get_merged</a>( <span>string <var>$name</var></span> )</code>
+		<code><a href="source-class-PheryResponse.html#2111-2131" title="Go to source code">get_merged</a>( <span>string <var>$name</var></span> )</code>
 
 		<div class="description short">
 			
@@ -1045,7 +1095,7 @@ constructor if the previous response was destroyed</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_phery_remote">#</a>
-		<code><a href="source-class-PheryResponse.html#2095-2116" title="Go to source code">phery_remote</a>( <span>string <var>$remote</var></span>, <span>array <var>$args</var> = <span class="php-keyword1">array</span>()</span>, <span>array <var>$attr</var> = <span class="php-keyword1">array</span>()</span>, <span>boolean <var>$directCall</var> = <span class="php-keyword1">true</span></span> )</code>
+		<code><a href="source-class-PheryResponse.html#2133-2154" title="Go to source code">phery_remote</a>( <span>string <var>$remote</var></span>, <span>array <var>$args</var> = <span class="php-keyword1">array</span>()</span>, <span>array <var>$attr</var> = <span class="php-keyword1">array</span>()</span>, <span>boolean <var>$directCall</var> = <span class="php-keyword1">true</span></span> )</code>
 
 		<div class="description short">
 			
@@ -1094,7 +1144,7 @@ append to DOM, etc</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_set_var">#</a>
-		<code><a href="source-class-PheryResponse.html#2118-2157" title="Go to source code">set_var</a>( <span>string|array <var>$variable</var></span>, <span>mixed <var>$data</var></span> )</code>
+		<code><a href="source-class-PheryResponse.html#2156-2195" title="Go to source code">set_var</a>( <span>string|array <var>$variable</var></span>, <span>mixed <var>$data</var></span> )</code>
 
 		<div class="description short">
 			
@@ -1164,7 +1214,7 @@ class="php-quote">'name'</span>), <span class="php-quote">'John'</span>);
 
 		<td class="name"><div>
 		<a class="anchor" href="#_unset_var">#</a>
-		<code><a href="source-class-PheryResponse.html#2159-2181" title="Go to source code">unset_var</a>( <span>string|array <var>$variable</var></span> )</code>
+		<code><a href="source-class-PheryResponse.html#2197-2219" title="Go to source code">unset_var</a>( <span>string|array <var>$variable</var></span> )</code>
 
 		<div class="description short">
 			
@@ -1221,7 +1271,7 @@ class="php-comment">// translates to delete customer_info['name']</span>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_factory">#</a>
-		<code><a href="source-class-PheryResponse.html#2183-2205" title="Go to source code">factory</a>( <span>string <var>$selector</var> = <span class="php-keyword1">null</span></span>, <span>array <var>$constructor</var> = <span class="php-keyword1">array</span>()</span> )</code>
+		<code><a href="source-class-PheryResponse.html#2221-2243" title="Go to source code">factory</a>( <span>string <var>$selector</var> = <span class="php-keyword1">null</span></span>, <span>array <var>$constructor</var> = <span class="php-keyword1">array</span>()</span> )</code>
 
 		<div class="description short">
 			
@@ -1284,7 +1334,7 @@ class="php-quote">'done'</span>);
 
 		<td class="name"><div>
 		<a class="anchor" href="#_remove_selector">#</a>
-		<code><a href="source-class-PheryResponse.html#2207-2224" title="Go to source code">remove_selector</a>( <span>string|integer <var>$selector</var></span> )</code>
+		<code><a href="source-class-PheryResponse.html#2245-2262" title="Go to source code">remove_selector</a>( <span>string|integer <var>$selector</var></span> )</code>
 
 		<div class="description short">
 			
@@ -1330,7 +1380,7 @@ order they were called</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_merge">#</a>
-		<code><a href="source-class-PheryResponse.html#2238-2273" title="Go to source code">merge</a>( <span><code><a href="class-PheryResponse.html">PheryResponse</a></code>|string <var>$phery_response</var></span> )</code>
+		<code><a href="source-class-PheryResponse.html#2276-2311" title="Go to source code">merge</a>( <span><code><a href="class-PheryResponse.html">PheryResponse</a></code>|string <var>$phery_response</var></span> )</code>
 
 		<div class="description short">
 			
@@ -1397,7 +1447,7 @@ class="php-var">$response2</span>);
 
 		<td class="name"><div>
 		<a class="anchor" href="#_unmerge">#</a>
-		<code><a href="source-class-PheryResponse.html#2275-2301" title="Go to source code">unmerge</a>( <span><code><a href="class-PheryResponse.html">PheryResponse</a></code>|string|boolean <var>$phery_response</var></span> )</code>
+		<code><a href="source-class-PheryResponse.html#2313-2339" title="Go to source code">unmerge</a>( <span><code><a href="class-PheryResponse.html">PheryResponse</a></code>|string|boolean <var>$phery_response</var></span> )</code>
 
 		<div class="description short">
 			
@@ -1441,7 +1491,7 @@ responses</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_print_vars">#</a>
-		<code><a href="source-class-PheryResponse.html#2303-2325" title="Go to source code">print_vars</a>( <span>mixed <var>$vars</var>,…</span> )</code>
+		<code><a href="source-class-PheryResponse.html#2341-2363" title="Go to source code">print_vars</a>( <span>mixed <var>$vars</var>,…</span> )</code>
 
 		<div class="description short">
 			
@@ -1483,7 +1533,7 @@ responses</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_dump_vars">#</a>
-		<code><a href="source-class-PheryResponse.html#2327-2355" title="Go to source code">dump_vars</a>( <span>mixed <var>$vars</var>,…</span> )</code>
+		<code><a href="source-class-PheryResponse.html#2365-2393" title="Go to source code">dump_vars</a>( <span>mixed <var>$vars</var>,…</span> )</code>
 
 		<div class="description short">
 			
@@ -1525,7 +1575,7 @@ responses</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_jquery">#</a>
-		<code><a href="source-class-PheryResponse.html#2357-2400" title="Go to source code">jquery</a>( <span>string <var>$selector</var></span>, <span>array <var>$constructor</var> = <span class="php-keyword1">array</span>()</span> )</code>
+		<code><a href="source-class-PheryResponse.html#2395-2438" title="Go to source code">jquery</a>( <span>string <var>$selector</var></span>, <span>array <var>$constructor</var> = <span class="php-keyword1">array</span>()</span> )</code>
 
 		<div class="description short">
 			
@@ -1606,7 +1656,7 @@ $('&lt;p/&gt;', {'class': 'classname'})</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_j">#</a>
-		<code><a href="source-class-PheryResponse.html#2402-2413" title="Go to source code">j</a>( <span>string <var>$selector</var></span>, <span>array <var>$constructor</var> = <span class="php-keyword1">array</span>()</span> )</code>
+		<code><a href="source-class-PheryResponse.html#2440-2451" title="Go to source code">j</a>( <span>string <var>$selector</var></span>, <span>array <var>$constructor</var> = <span class="php-keyword1">array</span>()</span> )</code>
 
 		<div class="description short">
 			
@@ -1651,7 +1701,7 @@ $('&lt;p/&gt;', {})</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_alert">#</a>
-		<code><a href="source-class-PheryResponse.html#2415-2432" title="Go to source code">alert</a>( <span>string <var>$msg</var></span> )</code>
+		<code><a href="source-class-PheryResponse.html#2453-2470" title="Go to source code">alert</a>( <span>string <var>$msg</var></span> )</code>
 
 		<div class="description short">
 			
@@ -1693,7 +1743,7 @@ $('&lt;p/&gt;', {})</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_json">#</a>
-		<code><a href="source-class-PheryResponse.html#2434-2446" title="Go to source code">json</a>( <span>mixed <var>$obj</var></span> )</code>
+		<code><a href="source-class-PheryResponse.html#2472-2484" title="Go to source code">json</a>( <span>mixed <var>$obj</var></span> )</code>
 
 		<div class="description short">
 			
@@ -1735,7 +1785,7 @@ $('&lt;p/&gt;', {})</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_remove">#</a>
-		<code><a href="source-class-PheryResponse.html#2448-2458" title="Go to source code">remove</a>( <span>string|boolean <var>$selector</var> = <span class="php-keyword1">null</span></span> )</code>
+		<code><a href="source-class-PheryResponse.html#2486-2496" title="Go to source code">remove</a>( <span>string|boolean <var>$selector</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
 			
@@ -1777,7 +1827,7 @@ $('&lt;p/&gt;', {})</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_cmd">#</a>
-		<code><a href="source-class-PheryResponse.html#2460-2505" title="Go to source code">cmd</a>( <span>integer|string|array <var>$cmd</var></span>, <span>array <var>$args</var> = <span class="php-keyword1">array</span>()</span>, <span>string <var>$selector</var> = <span class="php-keyword1">null</span></span> )</code>
+		<code><a href="source-class-PheryResponse.html#2498-2543" title="Go to source code">cmd</a>( <span>integer|string|array <var>$cmd</var></span>, <span>array <var>$args</var> = <span class="php-keyword1">array</span>()</span>, <span>string <var>$selector</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
 			
@@ -1823,7 +1873,7 @@ $('&lt;p/&gt;', {})</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_attr">#</a>
-		<code><a href="source-class-PheryResponse.html#2507-2529" title="Go to source code">attr</a>( <span>string <var>$attr</var></span>, <span>string <var>$data</var></span>, <span>string <var>$selector</var> = <span class="php-keyword1">null</span></span> )</code>
+		<code><a href="source-class-PheryResponse.html#2545-2567" title="Go to source code">attr</a>( <span>string <var>$attr</var></span>, <span>string <var>$data</var></span>, <span>string <var>$selector</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
 			
@@ -1880,7 +1930,7 @@ class="php-quote">'id'</span>]);
 
 		<td class="name"><div>
 		<a class="anchor" href="#_exception">#</a>
-		<code><a href="source-class-PheryResponse.html#2531-2548" title="Go to source code">exception</a>( <span>string <var>$msg</var></span>, <span>mixed <var>$data</var> = <span class="php-keyword1">null</span></span> )</code>
+		<code><a href="source-class-PheryResponse.html#2569-2586" title="Go to source code">exception</a>( <span>string <var>$msg</var></span>, <span>mixed <var>$data</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
 			
@@ -1926,7 +1976,7 @@ data</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_call">#</a>
-		<code><a href="source-class-PheryResponse.html#2550-2570" title="Go to source code">call</a>( <span>string|array <var>$func_name</var></span>, <span>mixed <var>$args</var>,…</span> )</code>
+		<code><a href="source-class-PheryResponse.html#2588-2608" title="Go to source code">call</a>( <span>string|array <var>$func_name</var></span>, <span>mixed <var>$args</var>,…</span> )</code>
 
 		<div class="description short">
 			
@@ -1974,7 +2024,7 @@ array('object', 'property', 'function')</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_apply">#</a>
-		<code><a href="source-class-PheryResponse.html#2572-2589" title="Go to source code">apply</a>( <span>string|array <var>$func_name</var></span>, <span>array <var>$args</var> = <span class="php-keyword1">array</span>()</span> )</code>
+		<code><a href="source-class-PheryResponse.html#2610-2627" title="Go to source code">apply</a>( <span>string|array <var>$func_name</var></span>, <span>array <var>$args</var> = <span class="php-keyword1">array</span>()</span> )</code>
 
 		<div class="description short">
 			
@@ -2020,7 +2070,7 @@ reset the selector jQuery selector previously stated</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_clear">#</a>
-		<code><a href="source-class-PheryResponse.html#2591-2605" title="Go to source code">clear</a>( <span>string <var>$attr</var></span>, <span>string <var>$selector</var> = <span class="php-keyword1">null</span></span> )</code>
+		<code><a href="source-class-PheryResponse.html#2629-2643" title="Go to source code">clear</a>( <span>string <var>$attr</var></span>, <span>string <var>$selector</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
 			
@@ -2069,7 +2119,7 @@ etc not the jQuery counterparts</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_html">#</a>
-		<code><a href="source-class-PheryResponse.html#2607-2627" title="Go to source code">html</a>( <span>string <var>$content</var></span>, <span>string <var>$selector</var> = <span class="php-keyword1">null</span></span> )</code>
+		<code><a href="source-class-PheryResponse.html#2645-2665" title="Go to source code">html</a>( <span>string <var>$content</var></span>, <span>string <var>$selector</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
 			
@@ -2115,7 +2165,7 @@ classes that respond to __toString() will be converted automatically</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_text">#</a>
-		<code><a href="source-class-PheryResponse.html#2629-2649" title="Go to source code">text</a>( <span>string <var>$content</var></span>, <span>string <var>$selector</var> = <span class="php-keyword1">null</span></span> )</code>
+		<code><a href="source-class-PheryResponse.html#2667-2687" title="Go to source code">text</a>( <span>string <var>$content</var></span>, <span>string <var>$selector</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
 			
@@ -2161,7 +2211,7 @@ that respond to __toString() will be converted automatically</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_script">#</a>
-		<code><a href="source-class-PheryResponse.html#2651-2678" title="Go to source code">script</a>( <span>string|array <var>$script</var></span> )</code>
+		<code><a href="source-class-PheryResponse.html#2689-2716" title="Go to source code">script</a>( <span>string|array <var>$script</var></span> )</code>
 
 		<div class="description short">
 			
@@ -2214,7 +2264,7 @@ PheryResponse::factory()
 
 		<td class="name"><div>
 		<a class="anchor" href="#_access">#</a>
-		<code><a href="source-class-PheryResponse.html#2680-2705" title="Go to source code">access</a>( <span>string|string[] <var>$namespace</var></span>, <span>boolean <var>$new</var> = <span class="php-keyword1">false</span></span> )</code>
+		<code><a href="source-class-PheryResponse.html#2718-2743" title="Go to source code">access</a>( <span>string|string[] <var>$namespace</var></span>, <span>boolean <var>$new</var> = <span class="php-keyword1">false</span></span> )</code>
 
 		<div class="description short">
 			
@@ -2268,7 +2318,7 @@ instantiated</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_render_view">#</a>
-		<code><a href="source-class-PheryResponse.html#2707-2729" title="Go to source code">render_view</a>( <span>string <var>$html</var></span>, <span>array <var>$data</var> = <span class="php-keyword1">array</span>()</span> )</code>
+		<code><a href="source-class-PheryResponse.html#2745-2767" title="Go to source code">render_view</a>( <span>string <var>$html</var></span>, <span>array <var>$data</var> = <span class="php-keyword1">array</span>()</span> )</code>
 
 		<div class="description short">
 			
@@ -2316,7 +2366,7 @@ instantiated</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_redirect">#</a>
-		<code><a href="source-class-PheryResponse.html#2731-2784" title="Go to source code">redirect</a>( <span>string <var>$url</var></span>, <span>boolean|string <var>$view</var> = <span class="php-keyword1">false</span></span> )</code>
+		<code><a href="source-class-PheryResponse.html#2769-2822" title="Go to source code">redirect</a>( <span>string <var>$url</var></span>, <span>boolean|string <var>$view</var> = <span class="php-keyword1">false</span></span> )</code>
 
 		<div class="description short">
 			
@@ -2364,7 +2414,7 @@ will issue a browser redirect</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_prepend">#</a>
-		<code><a href="source-class-PheryResponse.html#2786-2804" title="Go to source code">prepend</a>( <span>string <var>$content</var></span>, <span>string <var>$selector</var> = <span class="php-keyword1">null</span></span> )</code>
+		<code><a href="source-class-PheryResponse.html#2824-2842" title="Go to source code">prepend</a>( <span>string <var>$content</var></span>, <span>string <var>$selector</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
 			
@@ -2408,7 +2458,7 @@ will issue a browser redirect</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_reset_response">#</a>
-		<code><a href="source-class-PheryResponse.html#2806-2816" title="Go to source code">reset_response</a>( )</code>
+		<code><a href="source-class-PheryResponse.html#2844-2854" title="Go to source code">reset_response</a>( )</code>
 
 		<div class="description short">
 			
@@ -2445,7 +2495,7 @@ will issue a browser redirect</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_append">#</a>
-		<code><a href="source-class-PheryResponse.html#2818-2836" title="Go to source code">append</a>( <span>string <var>$content</var></span>, <span>string <var>$selector</var> = <span class="php-keyword1">null</span></span> )</code>
+		<code><a href="source-class-PheryResponse.html#2856-2874" title="Go to source code">append</a>( <span>string <var>$content</var></span>, <span>string <var>$selector</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
 			
@@ -2491,7 +2541,7 @@ will issue a browser redirect</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_include_stylesheet">#</a>
-		<code><a href="source-class-PheryResponse.html#2838-2854" title="Go to source code">include_stylesheet</a>( <span>array <var>$path</var></span>, <span>boolean <var>$replace</var> = <span class="php-keyword1">false</span></span> )</code>
+		<code><a href="source-class-PheryResponse.html#2876-2892" title="Go to source code">include_stylesheet</a>( <span>array <var>$path</var></span>, <span>boolean <var>$replace</var> = <span class="php-keyword1">false</span></span> )</code>
 
 		<div class="description short">
 			
@@ -2535,7 +2585,7 @@ will issue a browser redirect</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_include_script">#</a>
-		<code><a href="source-class-PheryResponse.html#2856-2872" title="Go to source code">include_script</a>( <span>array <var>$path</var></span>, <span>boolean <var>$replace</var> = <span class="php-keyword1">false</span></span> )</code>
+		<code><a href="source-class-PheryResponse.html#2894-2910" title="Go to source code">include_script</a>( <span>array <var>$path</var></span>, <span>boolean <var>$replace</var> = <span class="php-keyword1">false</span></span> )</code>
 
 		<div class="description short">
 			
@@ -2579,7 +2629,7 @@ will issue a browser redirect</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#___call">#</a>
-		<code><a href="source-class-PheryResponse.html#2874-2907" title="Go to source code">__call</a>( <span>string <var>$name</var></span>, <span>array <var>$arguments</var></span> )</code>
+		<code><a href="source-class-PheryResponse.html#2912-2945" title="Go to source code">__call</a>( <span>string <var>$name</var></span>, <span>array <var>$arguments</var></span> )</code>
 
 		<div class="description short">
 			
@@ -2632,7 +2682,7 @@ specific call</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#___get">#</a>
-		<code><a href="source-class-PheryResponse.html#2909-2941" title="Go to source code">__get</a>( <span>string <var>$name</var></span> )</code>
+		<code><a href="source-class-PheryResponse.html#2947-2979" title="Go to source code">__get</a>( <span>string <var>$name</var></span> )</code>
 
 		<div class="description short">
 			
@@ -2666,7 +2716,7 @@ specific call</p>
 	<tr data-order="typecast" id="_typecast">
 
 		<td class="attributes"><code>
-			 protected static
+			 protected 
 			mixed
 			
 			</code>
@@ -2674,7 +2724,7 @@ specific call</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_typecast">#</a>
-		<code><a href="source-class-PheryResponse.html#2943-3002" title="Go to source code">typecast</a>( <span>mixed <var>$argument</var></span>, <span>boolean <var>$toString</var> = <span class="php-keyword1">true</span></span>, <span>boolean <var>$nested</var> = <span class="php-keyword1">false</span></span>, <span>integer <var>$depth</var> = <span class="php-num">4</span></span> )</code>
+		<code><a href="source-class-PheryResponse.html#2981-3043" title="Go to source code">typecast</a>( <span>mixed <var>$argument</var></span>, <span>boolean <var>$toString</var> = <span class="php-keyword1">true</span></span>, <span>boolean <var>$nested</var> = <span class="php-keyword1">false</span></span>, <span>integer <var>$depth</var> = <span class="php-num">4</span></span> )</code>
 
 		<div class="description short">
 			
@@ -2722,7 +2772,7 @@ specific call</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_process_merged">#</a>
-		<code><a href="source-class-PheryResponse.html#3004-3045" title="Go to source code">process_merged</a>( )</code>
+		<code><a href="source-class-PheryResponse.html#3045-3086" title="Go to source code">process_merged</a>( )</code>
 
 		<div class="description short">
 			
@@ -2759,7 +2809,7 @@ specific call</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_render">#</a>
-		<code><a href="source-class-PheryResponse.html#3047-3054" title="Go to source code">render</a>( )</code>
+		<code><a href="source-class-PheryResponse.html#3088-3095" title="Go to source code">render</a>( )</code>
 
 		<div class="description short">
 			
@@ -2796,7 +2846,7 @@ specific call</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_inline_load">#</a>
-		<code><a href="source-class-PheryResponse.html#3056-3078" title="Go to source code">inline_load</a>( <span>boolean <var>$echo</var> = <span class="php-keyword1">false</span></span> )</code>
+		<code><a href="source-class-PheryResponse.html#3097-3119" title="Go to source code">inline_load</a>( <span>boolean <var>$echo</var> = <span class="php-keyword1">false</span></span> )</code>
 
 		<div class="description short">
 			
@@ -2842,7 +2892,7 @@ specific call</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#___toString">#</a>
-		<code><a href="source-class-PheryResponse.html#3080-3088" title="Go to source code">__toString</a>( )</code>
+		<code><a href="source-class-PheryResponse.html#3121-3129" title="Go to source code">__toString</a>( )</code>
 
 		<div class="description short">
 			
@@ -2879,7 +2929,7 @@ specific call</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_unserialize">#</a>
-		<code><a href="source-class-PheryResponse.html#3090-3112" title="Go to source code">unserialize</a>( <span>string <var>$serialized</var></span> )</code>
+		<code><a href="source-class-PheryResponse.html#3131-3153" title="Go to source code">unserialize</a>( <span>string <var>$serialized</var></span> )</code>
 
 		<div class="description short">
 			
@@ -2927,7 +2977,7 @@ specific call</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_serialize">#</a>
-		<code><a href="source-class-PheryResponse.html#3114-3126" title="Go to source code">serialize</a>( )</code>
+		<code><a href="source-class-PheryResponse.html#3155-3167" title="Go to source code">serialize</a>( )</code>
 
 		<div class="description short">
 			
@@ -2966,7 +3016,7 @@ specific call</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_is_special_selector">#</a>
-		<code><a href="source-class-PheryResponse.html#3128-3150" title="Go to source code">is_special_selector</a>( <span>string <var>$type</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$selector</var> = <span class="php-keyword1">null</span></span> )</code>
+		<code><a href="source-class-PheryResponse.html#3169-3191" title="Go to source code">is_special_selector</a>( <span>string <var>$type</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$selector</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
 			
@@ -7646,6 +7696,33 @@ name</p>
 			</div>
 		</div></td>
 	</tr>
+	<tr data-order="config" id="$config">
+		<td class="attributes"><code>
+			protected  
+			array
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-PheryResponse.html#1654-1658" title="Go to source code"><var>$config</var></a>
+		</td>
+		<td class="value"><code><span class="php-keyword1">array</span>()</code></td>
+		<td class="description"><div>
+			<a href="#$config" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>This response config</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>This response config</p>
+
+
+			</div>
+		</div></td>
+	</tr>
 	<tr data-order="name" id="$name">
 		<td class="attributes"><code>
 			protected  
@@ -7653,7 +7730,7 @@ name</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-PheryResponse.html#1654-1658" title="Go to source code"><var>$name</var></a>
+				<a href="source-class-PheryResponse.html#1659-1663" title="Go to source code"><var>$name</var></a>
 		</td>
 		<td class="value"><code><span class="php-keyword1">null</span></code></td>
 		<td class="description"><div>
@@ -7680,7 +7757,7 @@ name</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-PheryResponse.html#1659-1663" title="Go to source code"><var>$internal_count</var></a>
+				<a href="source-class-PheryResponse.html#1664-1668" title="Go to source code"><var>$internal_count</var></a>
 		</td>
 		<td class="value"><code><span class="php-num">0</span></code></td>
 		<td class="description"><div>
@@ -7707,7 +7784,7 @@ name</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-PheryResponse.html#1664-1668" title="Go to source code"><var>$internal_cmd_count</var></a>
+				<a href="source-class-PheryResponse.html#1669-1673" title="Go to source code"><var>$internal_cmd_count</var></a>
 		</td>
 		<td class="value"><code><span class="php-num">0</span></code></td>
 		<td class="description"><div>
@@ -7734,7 +7811,7 @@ name</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-PheryResponse.html#1669-1673" title="Go to source code"><var>$matched</var></a>
+				<a href="source-class-PheryResponse.html#1674-1678" title="Go to source code"><var>$matched</var></a>
 		</td>
 		<td class="value"><code><span class="php-keyword1">true</span></code></td>
 		<td class="description"><div>
