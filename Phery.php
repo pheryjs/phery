@@ -25,7 +25,7 @@
  *
  * @link       http://phery-php-ajax.net/
  * @author     Paulo Cesar
- * @version    2.5.5
+ * @version    2.5.6
  * @license    http://opensource.org/licenses/MIT MIT License
  */
 

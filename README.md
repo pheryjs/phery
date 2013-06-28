@@ -804,6 +804,16 @@ Publish a message on the topic with arguments (that are optional). The args pass
    $('#login').phery('publish', 'login', [true, 'message']);
 ```
 
+##### $(el).phery().one(args);
+###### $(el).phery('one', args);
+
+Executes the phery.remote on only one element from the jQuery element stack and returns a promise (like `phery.remote` does)
+
+```js
+$(el).phery('one', {id: 1}).fail($(el2).phery().one); //executes the phery.remote on el2 only if the ajax on el fails
+```
+
+
 ##### $(el).phery().unmake(unbind = false);
 ###### $(el).phery('unmake');
 

@@ -1,3 +1,7 @@
+### v2.5.6 - 28th June 2013
+    * Fixed 
+    * Added "one" to el.phery('one'), so you can test the returned promised
+
 ### v2.5.5 - 3rd June 2013
     * Added server side config per response
     * Added the option to not try to convert integers (if they are strings, leave as string)

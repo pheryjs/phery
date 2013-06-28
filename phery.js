@@ -82,7 +82,7 @@
 			},
 			/**
 			 * @class
-			 * @version 2.5.5
+			 * @version 2.5.6
 			 * @extends {jQuery}
 			 */
 			phery = (function(){ return function(){ return phery; }; })();
@@ -2783,6 +2783,23 @@
 									}
 								}
 							});
+						},
+						/**
+						 * Call the bound remote function on the element
+						 * You may pass any arguments with it, that will execute the same
+						 * arguments on the first element only. Returns a promise
+						 *
+						 * @param {Object} [args] Pass additional args, either an array or an object
+						 * @return {jQuery}
+						 */
+						'one':function (args) {
+              if ($this.is(':phery-remote')) {
+                if ($this.is('form')) {
+                  return functions.form_submit($this);
+                } else {
+                  return functions.ajax_call.call($this, args);
+                }
+              }
 						},
 						/**
 						 * Append arguments to the element, pass as many items you want
