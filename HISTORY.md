@@ -1,12 +1,16 @@
+### v2.6.0 - 27th July 2013
+    * Fixed context of `call`, thanks to [m-hume](https://github.com/m-hume), changed README to reflect the change. May break code, althought not sure of the extension of it
+    * Fixed composer package, thanks to [logical-and][https://github.com/logical-and)
+    * Re-added session_write_close to respond
+
 ### v2.5.6 - 28th June 2013
-    * Fixed 
     * Added "one" to el.phery('one'), so you can test the returned promised
 
 ### v2.5.5 - 3rd June 2013
     * Added server side config per response
     * Added the option to not try to convert integers (if they are strings, leave as string)
     * Added the option to not try to convert classes and objects to string (that has __toString)
-    
+
 ### v2.5.4 - 17th May 2013
     * Added ajax config for timeout
     * Added shorthand for reusable AJAX element created on-the-fly for phery.remote('remote', null, null, false)

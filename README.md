@@ -500,13 +500,15 @@ directly from PHP
 A few special attributes:
 
 * Responses can be serialized and saved on the database without any special effort
-* You may pass functions and nest many responses, either as setters or getters
+* You may pass functions and nest many responses, either as setters or getters (check the `demo.php` file)
 * The method chaining nature of the response make it easy to return, in any order, everything you need
-* You can execute methods conditionally using `unless` and `incase` (act as `if not` and `if`)
+* You can execute next-in-chain methods conditionally using `unless` and `incase` (act as `if not` and `if`)
 * `->this->` refer to the calling DOM element, like doing `$(this).`
 * `->window->` translates to `$(window).`
 * `->document->` translate to `$(document).`
 * `->jquery->` translate to `$.`
+* `->anyobj->` makes you able to access ANY global object and call methods on it. For example `$r->my_obj->execute('param1');` will do a `window.my_obj.execute('param1');`. It's a shortcut to the `PheryResponse->access()` method
+* `PheryResponse->call` and `PheryResponse->apply` sets the context (`this`) of the called function to the passed object, for example `PheryResponse->call(array('obj', 'method'))`, the `this` inside method is `obj`
 
 #### PheryFunction - On-the-fly function callbacks
 
@@ -810,7 +812,12 @@ Publish a message on the topic with arguments (that are optional). The args pass
 Executes the phery.remote on only one element from the jQuery element stack and returns a promise (like `phery.remote` does)
 
 ```js
-$(el).phery('one', {id: 1}).fail($(el2).phery().one); //executes the phery.remote on el2 only if the ajax on el fails
+$(el).phery('one', {id: 1}).then(
+    function(){
+        alert('success!');
+    },
+    $(el2).phery().one
+); //executes the phery.remote on el2 only if the ajax on el fails
 ```
 
 

@@ -25,7 +25,7 @@
  *
  * @link       http://phery-php-ajax.net/
  * @author     Paulo Cesar
- * @version    2.5.6
+ * @version    2.6.0
  * @license    http://opensource.org/licenses/MIT MIT License
  */
 
@@ -505,6 +505,8 @@ class Phery implements ArrayAccess {
 		{
 			if (!headers_sent())
 			{
+				session_write_close();
+
 				header('Cache-Control: no-cache, must-revalidate', true);
 				header('Expires: Sat, 26 Jul 1997 05:00:00 GMT', true);
 				header('Content-Type: application/json; charset='.(strtolower(Phery::$encoding)), true);
@@ -1686,12 +1688,12 @@ class PheryResponse extends ArrayObject {
 	public function __construct($selector = null, array $constructor = array())
 	{
 		parent::__construct();
-		
+
 		$this->config = array(
 			'typecast_objects' => true,
 			'convert_integers' => true,
 		);
-		
+
 		$this->jquery($selector, $constructor);
 
 		$this->set_response_name(uniqid("", true));
@@ -1700,14 +1702,14 @@ class PheryResponse extends ArrayObject {
 	/**
 	 * Change the config for this response
 	 * You may pass in an associative array of your config
-	 * 
+	 *
 	 * @param array $config
 	 * <pre>
 	 * array(
 	 *   'convert_integers' => true/false
 	 *   'typecast_objects' => true/false
 	 * </pre>
-	 * 
+	 *
 	 * @return PheryResponse
 	 */
 	public function set_config(array $config)
@@ -1716,15 +1718,15 @@ class PheryResponse extends ArrayObject {
 		{
 			$this->config['convert_integers'] = (bool)$config['convert_integers'];
 		}
-		
+
 		if (isset($config['typecast_objects']))
 		{
 			$this->config['typecast_objects'] = (bool)$config['typecast_objects'];
 		}
-		
+
 		return $this;
 	}
-	
+
 	/**
 	 * Increment the internal counter, so there are no conflicting stacked commands
 	 *
@@ -2589,6 +2591,8 @@ class PheryResponse extends ArrayObject {
 	 * Call a javascript function.
 	 * Warning: calling this function will reset the selector jQuery selector previously stated
 	 *
+	 * The context of `this` call is the object in the $func_name path or window, if not provided
+	 *
 	 * @param string|array $func_name Function name. If you pass a string, it will be accessed on window.func.
 	 *                                If you pass an array, it will access a member of an object, like array('object', 'property', 'function')
 	 * @param              mixed      $args,... Any additional arguments to pass to the function
@@ -2610,6 +2614,8 @@ class PheryResponse extends ArrayObject {
 	/**
 	 * Call 'apply' on a javascript function.
 	 * Warning: calling this function will reset the selector jQuery selector previously stated
+	 *
+	 * The context of `this` call is the object in the $func_name path or window, if not provided
 	 *
 	 * @param string|array $func_name Function name
 	 * @param array        $args      Any additional arguments to pass to the function

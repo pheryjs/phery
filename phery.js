@@ -82,7 +82,7 @@
 			},
 			/**
 			 * @class
-			 * @version 2.5.6
+			 * @version 2.6.0
 			 * @extends {jQuery}
 			 */
 			phery = (function(){ return function(){ return phery; }; })();
@@ -108,7 +108,7 @@
 		 *
 		 * @type {String}
 		 */
-		phery.version = '2.5.5';
+		phery.version = '2.6.0';
 
 		/**
 		 * @lends {Object.prototype.hasOwnProperty}
@@ -1369,7 +1369,7 @@
 							tmp = functions.assign_object(window, argv[0], undefined, false);
 
 							if (tmp !== false && typeof tmp[0][tmp[1]] === 'function') {
-								tmp[0][tmp[1]].apply(null, argv[1] || []);
+								tmp[0][tmp[1]].apply(tmp[0], argv[1] || []);
 							} else {
 								throw 'no function "' + (tmp.join('.')) + '" found';
 							}

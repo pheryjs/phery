@@ -9,7 +9,7 @@ if (version_compare(PHP_VERSION, '5.3.3', '<'))
 
 ini_set('display_errors', 1);
 
-$end_line = 902; date_default_timezone_set('UTC');
+$end_line = 907; date_default_timezone_set('UTC');
 $memory_start = 0;
 $start_time = microtime(true);
 
@@ -472,7 +472,7 @@ try
 		'surprise' => function ($data)
 		{
 			return
-			PheryResponse::factory()->script('window.location.reload(true)');
+			PheryResponse::factory()->call(array('location','reload'), true);
 		},
 		// Invalid Javascript to trigger "EXCEPTION" callback
 		'invalid' => function ()
@@ -877,6 +877,10 @@ try
 					break;
 			endswitch;
 			return $r;
+		},
+		'objcall' => function(){
+			$r = new PheryResponse;
+			return $r->objinstance->blob('param');
 		}
 	))
 	->process();
@@ -903,7 +907,7 @@ $exception = array('from' => (__LINE__ - 17), 'to' => (__LINE__ - 2));
 <!doctype html>
 <html>
 <head>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.js"></script>
 <meta charset="utf-8">
 <title>phery.js AJAX jQuery</title>
 <?php echo $csrf_token; ?>
@@ -986,6 +990,23 @@ $(function () {
 			}
 		}
 	});
+
+	window.obj = function(blob){
+		this.hello = 'world';
+		this.blob = function(){
+			console.log(blob, Array.prototype.concat.call(arguments));
+		};
+	};
+
+	window.obj._private = function(msg){
+		console.log(msg);
+	};
+
+	window.obj.method = function(){
+		this._private('Private this');
+	};
+
+	window.objinstance = new window.obj('blob');
 
 	/****************************
 	 *  FORMAT CODE FROM TABLES *

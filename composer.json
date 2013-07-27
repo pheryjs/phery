@@ -13,10 +13,10 @@
 		}
 	],
 	"require":{
-		"php":">=5.3.3",
-		"ext-jquery":">=1.8"
+		"php":">=5.3.3"
 	},
 	"suggest":{
-		"kohana-modules/phery":"Module with straightfoward, transparent and seamless integration with Kohana 3.x"
+		"kohana-modules/phery":"Module with straightfoward, transparent and seamless integration with Kohana 3.x",
+    "components/jquery":">=1.8"
 	}
 }
