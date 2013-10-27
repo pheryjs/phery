@@ -936,7 +936,16 @@
 									tmprelated = functions.per_data(tmprelated, tmp.inputs);
 
 									$.extend(files, tmp.files);
-								} else if ($this.attr('name')) {
+								} else if (($this.is("input[type='checkbox']")) && ($this.attr('name').indexOf('[') != -1) && ($this.attr('name').indexOf(']') != -1)){
+                                    var tName = $this.attr('name');
+                                    var value = $this.val();
+                                    tName = tName.substring(0, tName.length - 2);
+                                    if(tmprelated[tName] == undefined)
+                                    {
+                                        tmprelated[tName] = [];
+                                    }
+                                    tmprelated[tName].push(value);
+                                } else if ($this.attr('name')) {
 									tmprelated[$this.attr('name')] = $this.val();
 								} else if ($this.attr('id')) {
 									tmprelated[$this.attr('id')] = $this.val();
