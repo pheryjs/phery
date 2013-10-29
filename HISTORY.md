@@ -1,3 +1,7 @@
+### v2.6.1 - 28th October 2013
+    * `related` now has support for checkboxes with array names, such as `name[]` by @findstar
+    * Fixed some long standing bugs with concating arrays. Also changed to `Array.prototype.push.apply` for performance. Some existing behavior _might_ have changed because of this code update.
+
 ### v2.6.0 - 27th July 2013
     * Fixed context of `call`, thanks to [m-hume](https://github.com/m-hume), changed README to reflect the change. May break code, althought not sure of the extension of it
     * Fixed composer package, thanks to [logical-and][https://github.com/logical-and)

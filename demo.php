@@ -564,6 +564,9 @@ try
 			{
 				foreach ($data as $d)
 				{
+					if (is_array($d)) {
+						$d = json_encode($d);
+					}
 					$r->append(strip_tags($d).' ');
 				}
 			}
@@ -907,7 +910,7 @@ $exception = array('from' => (__LINE__ - 17), 'to' => (__LINE__ - 2));
 <!doctype html>
 <html>
 <head>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 <meta charset="utf-8">
 <title>phery.js AJAX jQuery</title>
 <?php echo $csrf_token; ?>
@@ -1633,7 +1636,7 @@ function memusage(peak, usage, time) {
 		<h2>Call a lambda function that returns an alert according to the parameters passed, which is 'first', then 'second', set to uppercase by the callback function</h2>
 		<?php echo Phery::link_to('Call to lambda', 'test3', array('args' => array('first', 'second'))); ?>
 		<div class="readcode">
-			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 683, 'to' => 693))); ?>
+			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 685, 'to' => 696))); ?>
 			<pre class="code"></pre>
 		</div>
 	</li>
@@ -1673,7 +1676,7 @@ function memusage(peak, usage, time) {
 		<h2>Nested PheryResponse call</h2>
 		<?php echo Phery::link_to('Nested!', 'nested'); ?>
 		<div class="readcode">
-			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 645, 'to' => 660))); ?>
+			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 648, 'to' => 663))); ?>
 			<pre class="code"></pre>
 		</div>
 	</li>
@@ -1681,7 +1684,7 @@ function memusage(peak, usage, time) {
 		<h2>Deep nesting PheryResponse and PheryFunction calls</h2>
 		<?php echo Phery::link_to('Deep Nested!', 'deep-nesting'); ?>
 		<div class="readcode">
-			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 721, 'to' => 734))); ?>
+			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 724, 'to' => 737))); ?>
 			<pre class="code"></pre>
 		</div>
 	</li>
@@ -1733,7 +1736,7 @@ function memusage(peak, usage, time) {
 		<h2>Custom error reporting for a bit of code</h2>
 		<?php echo Phery::link_to('Exception', 'on_purpose_exception'); ?>
 		<div class="readcode">
-			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 717, 'to' => 720))); ?>
+			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 720, 'to' => 723))); ?>
 			<pre class="code"></pre>
 		</div>
 	</li>
@@ -1767,7 +1770,7 @@ function memusage(peak, usage, time) {
 		<h2>Image tag click (using the <i>Phery::link_to</i> builder)</h2>
 		<?php echo Phery::link_to(null, 'img', array('src' => '//upload.wikimedia.org/wikipedia/commons/6/63/Wikipedia-logo.png', 'alt' => 'Wikipedia Logo', 'tag' => 'img', 'style' => 'cursor:pointer')) ?>
 		<div class="readcode">
-			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 573, 'to' => 578))); ?>
+			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 576, 'to' => 581))); ?>
 			<pre class="code"></pre>
 		</div>
 	</li>
@@ -1778,7 +1781,7 @@ function memusage(peak, usage, time) {
 		</p>
 		<a id="colorbox-btn">Colorbox!</a> <?php echo Phery::link_to('Colorbox! (add this parent &lt;li&gt; inside the colorbox using this and the links still works as it should)', 'colorbox', array('args' => array('other-way-around' => true))); ?>
 		<div class="readcode">
-			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 735, 'to' => 761))); ?>
+			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 738, 'to' => 764))); ?>
 			<pre class="code"></pre>
 		</div>
 	</li>
@@ -1787,7 +1790,7 @@ function memusage(peak, usage, time) {
 		<input type="file" id="files" name="files" multiple="multiple">
 		<progress max="100" value="0"></progress>
 		<div class="readcode">
-			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 762, 'to' => 769))); ?>
+			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 765, 'to' => 772))); ?>
 			<pre class="code"></pre>
 		</div>
 	</li>
@@ -1808,7 +1811,7 @@ function memusage(peak, usage, time) {
 <?php echo '</div>'; ?>
 
 <div class="readcode">
-	<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 770, 'to' => 838))); ?>
+	<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 773, 'to' => 841))); ?>
 	<pre class="code"></pre>
 </div>
 
@@ -1891,6 +1894,21 @@ function memusage(peak, usage, time) {
 					The current value
 				</div>
 				<input type="hidden" class="send" value="with class ">
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<div id="id5">
+				<?php echo Phery::link_to("Open (notice the 'local' data-phery-related)", 'reuse', array('related' => ':checkbox[name="check[]"]')); ?>
+				<div style="display: none">
+					The current value
+				</div>
+				<p>
+					<input type="checkbox" name="check[]" value="1"> 1<br>
+					<input type="checkbox" name="check[]" value="2"> 2<br>
+					<input type="checkbox" name="check[]" value="3"> 3
+				</p>
 			</div>
 		</td>
 	</tr>

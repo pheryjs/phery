@@ -82,7 +82,7 @@
 			},
 			/**
 			 * @class
-			 * @version 2.6.0
+			 * @version 2.6.1
 			 * @extends {jQuery}
 			 */
 			phery = (function(){ return function(){ return phery; }; })();
@@ -108,7 +108,7 @@
 		 *
 		 * @type {String}
 		 */
-		phery.version = '2.6.0';
+		phery.version = '2.6.1';
 
 		/**
 		 * @lends {Object.prototype.hasOwnProperty}
@@ -220,13 +220,13 @@
 			if (typeof obj[keyPath[lastKeyIndex]] !== 'undefined' && value !== undefined) {
 				if ($.type(obj[keyPath[lastKeyIndex]]) === 'array' && !force && !force_append) {
 					if ($.type(value) === 'array') {
-						obj[keyPath[lastKeyIndex]].concat(value);
+						Array.prototype.push.apply(obj[keyPath[lastKeyIndex]], value);
 					} else {
 						obj[keyPath[lastKeyIndex]].push(value);
 					}
 				} else {
 					if (force_append) {
-						obj[keyPath[lastKeyIndex]] = obj[keyPath[lastKeyIndex]].concat(value);
+						obj[keyPath[lastKeyIndex]] = Array.prototype.concat.call(obj[keyPath[lastKeyIndex]], value);
 					} else {
 						obj[keyPath[lastKeyIndex]] = value;
 					}
@@ -327,7 +327,7 @@
 				case 'array':
 					switch (arg_type) {
 						case 'array':
-							this_data.concat(args);
+							Array.prototype.push.apply(this_data, args);
 							break;
 						case 'object':
 						case 'string':
@@ -364,7 +364,7 @@
 				case 'number':
 				case 'null':
 				case 'boolean':
-					this_data = [].concat(this_data, args);
+					this_data = Array.prototype.concat.call(args);
 					break;
 				case 'undefined':
 					if (arg_type === 'object' || args == null) {
@@ -936,7 +936,16 @@
 									tmprelated = functions.per_data(tmprelated, tmp.inputs);
 
 									$.extend(files, tmp.files);
-								} else if ($this.attr('name')) {
+                } else if ($this.is('input[type="checkbox"]') && $this.attr('name') && $this.attr('name').indexOf('[') > 0 && $this.attr('name').indexOf(']') > 0) {
+                  var name = $this.serializeForm();
+
+                  for (var i in name) {
+                    if (tmprelated[i] === undefined) {
+                      tmprelated[i] = [];
+                    }
+                    tmprelated[i] = functions.per_data(tmprelated[i], name[i]);
+                  }
+                } else if ($this.attr('name')) {
 									tmprelated[$this.attr('name')] = $this.val();
 								} else if ($this.attr('id')) {
 									tmprelated[$this.attr('id')] = $this.val();
@@ -1440,7 +1449,7 @@
 					/* Trigger Exception */
 					case 7:
 						if (argc > 1) {
-							args = [].concat(argv);
+							args = Array.prototype.concat.call(argv);
 							self.trigger(args);
 							args = null;
 						} else {
@@ -3046,7 +3055,7 @@
 						);
 
 						if ($.type(value) === 'array') {
-							offset[0][offset[1]].concat(value);
+							Array.prototype.push.apply(offset[0][offset[1]], value);
 						} else {
 							offset[0][offset[1]].push(value);
 						}
