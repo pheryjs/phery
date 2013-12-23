@@ -25,7 +25,7 @@
  *
  * @link       http://phery-php-ajax.net/
  * @author     Paulo Cesar
- * @version    2.6.1
+ * @version    2.7.0
  * @license    http://opensource.org/licenses/MIT MIT License
  */
 
@@ -1755,7 +1755,7 @@ class PheryResponse extends ArrayObject {
 	{
 		if ($instance->config('csrf') === true)
 		{
-			$this->jquery('head meta#csrf-token')->replaceWith($instance->csrf());
+			$this->cmd(13, array($instance->csrf()));
 		}
 
 		return $this;

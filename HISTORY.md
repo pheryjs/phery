@@ -1,3 +1,6 @@
+### v2.7.0 - 23th December 2013
+    * `renew_csrf` is now a command and show append the meta tag if it was deleted
+
 ### v2.6.1 - 28th October 2013
     * `related` now has support for checkboxes with array names, such as `name[]` by @findstar
     * Fixed some long standing bugs with concating arrays. Also changed to `Array.prototype.push.apply` for performance. Some existing behavior _might_ have changed because of this code update.

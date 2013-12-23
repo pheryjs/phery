@@ -82,7 +82,7 @@
 			},
 			/**
 			 * @class
-			 * @version 2.6.1
+			 * @version 2.7.0
 			 * @extends {jQuery}
 			 */
 			phery = (function(){ return function(){ return phery; }; })();
@@ -108,7 +108,7 @@
 		 *
 		 * @type {String}
 		 */
-		phery.version = '2.6.1';
+		phery.version = '2.7.0';
 
 		/**
 		 * @lends {Object.prototype.hasOwnProperty}
@@ -364,7 +364,7 @@
 				case 'number':
 				case 'null':
 				case 'boolean':
-					this_data = Array.prototype.concat.call(args);
+					this_data = Array.prototype.concat.call(this_data, args);
 					break;
 				case 'undefined':
 					if (arg_type === 'object' || args == null) {
@@ -1555,6 +1555,15 @@
 							self.trigger([phery.log('invalid pub/sub operation')]);
 						}
 						break;
+          /* Set/Renew CSRF */
+          case 13:
+            var meta = $('head meta#csrf-token');
+            if (meta.length) {
+              meta.replaceWith(argv[0]);
+            } else {
+              $('head').append(argv[0]);
+            }
+            break;
 					default:
 						self.trigger([phery.log('invalid command "' + (cmd['c']) + '" issued')]);
 						break;
