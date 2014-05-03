@@ -1,3 +1,7 @@
+### v2.7.2 - 2nd May 2014
+    * Added option to skip `session_start()` through `auto_session` option
+    * Added `get_csrf_token()` to `Phery` that gets the current token from the `$_SESSION` variable
+
 ### v2.7.0 - 23th December 2013
     * `renew_csrf` is now a command and show append the meta tag if it was deleted
 

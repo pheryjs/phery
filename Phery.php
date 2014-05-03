@@ -25,7 +25,7 @@
  *
  * @link       http://phery-php-ajax.net/
  * @author     Paulo Cesar
- * @version    2.7.0
+ * @version    2.7.2
  * @license    http://opensource.org/licenses/MIT MIT License
  */
 
@@ -110,6 +110,7 @@ class Phery implements ArrayAccess {
 	 * 'error_reporting' (int)
 	 * 'csrf' (boolean)
 	 * 'set_always_available' (boolean)
+	 * 'auto_session' (boolean)
 	 * </code>
 	 * @var array
 	 *
@@ -140,7 +141,8 @@ class Phery implements ArrayAccess {
 				'return' => false,
 				'csrf' => false,
 				'set_always_available' => false,
-				'error_reporting' => false
+				'error_reporting' => false,
+				'auto_session' => true,
 			), $config
 		);
 
@@ -326,6 +328,21 @@ class Phery implements ArrayAccess {
 		return htmlentities(json_encode($data), ENT_COMPAT, $encoding, false);
 	}
 
+    /**
+     * Get the current token from the $_SESSION
+     *
+     * @return bool
+     */
+    public function get_csrf_token()
+    {
+        if (!empty($_SESSION['phery']['csrf']))
+        {
+            return $_SESSION['phery']['csrf'];
+        }
+
+        return false;
+    }
+
 	/**
 	 * Output the meta HTML with the token.
 	 * This method needs to use sessions through session_start
@@ -341,14 +358,16 @@ class Phery implements ArrayAccess {
 			return !empty($check) ? true : '';
 		}
 
-		if (session_id() == '')
+		if (session_id() == '' && $this->config['auto_session'] === true)
 		{
 			@session_start();
 		}
 
 		if ($check === false)
 		{
-			if ((!empty($_SESSION['phery']['csrf']) && $force) || empty($_SESSION['phery']['csrf']))
+            $current_token = $this->get_csrf_token();
+
+			if (($current_token !== false && $force) || $current_token === false)
 			{
 				$token = sha1(uniqid(microtime(true), true));
 
@@ -482,7 +501,7 @@ class Phery implements ArrayAccess {
 			self::flush();
 		}
 
-		if (!session_id())
+		if (session_id() != '')
 		{
 			session_write_close();
 		}
@@ -505,7 +524,9 @@ class Phery implements ArrayAccess {
 		{
 			if (!headers_sent())
 			{
-				session_write_close();
+                if (session_id() != '') {
+				    session_write_close();
+                }
 
 				header('Cache-Control: no-cache, must-revalidate', true);
 				header('Expires: Sat, 26 Jul 1997 05:00:00 GMT', true);
@@ -845,6 +866,11 @@ class Phery implements ArrayAccess {
 				if (isset($config['exit_allowed']))
 				{
 					$this->config['exit_allowed'] = (bool)$config['exit_allowed'];
+				}
+
+				if (isset($config['auto_session']))
+				{
+					$this->config['auto_session'] = (bool)$config['auto_session'];
 				}
 
 				if (isset($config['return']))

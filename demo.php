@@ -910,7 +910,7 @@ $exception = array('from' => (__LINE__ - 17), 'to' => (__LINE__ - 2));
 <!doctype html>
 <html>
 <head>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
 <meta charset="utf-8">
 <title>phery.js AJAX jQuery</title>
 <?php echo $csrf_token; ?>
