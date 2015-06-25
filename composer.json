@@ -1,26 +1,45 @@
 {
-	"name":"phery/phery.js",
-	"type":"library",
-	"description":"XAJAX alternative, phery.js is a library in PHP that maps to all jQuery functions, DOM manipulation, meta arguments and serialization, seamless ajax integration, RESTful emulation, form submission and partial rendering views, plus its PSR-0 compatible",
-	"keywords":["ajax", "unobtrusive", "CSRF","html5", "php", "json", "javascript", "jquery", "form", "serialization", "mapping", "DOM", "manipulation", "RESTful", "delegation", "PSR-0", "fileupload", "upload"],
-	"homepage":"http://phery-php-ajax.net",
-	"license":"MIT",
-	"authors":[
-		{
-			"name":"Paulo Cesar",
-			"homepage":"http://phery-php-ajax.net",
-			"role":"Developer"
-		}
-	],
-	"require":{
-		"php":">=5.3.3"
-	},
-	"autoload": {
-    	"classmap": [
-    		"vendor/phery/phery/Phery.php"
-    	]
+    "name": "phery/phery.js",
+    "type": "library",
+    "description": "XAJAX alternative, phery.js is a library in PHP that maps to all jQuery functions, DOM manipulation, meta arguments and serialization, seamless ajax integration, RESTful emulation, form submission and partial rendering views, plus its PSR-0 compatible",
+    "keywords": [
+        "ajax",
+        "unobtrusive",
+        "CSRF",
+        "html5",
+        "php",
+        "json",
+        "javascript",
+        "jquery",
+        "form",
+        "serialization",
+        "mapping",
+        "DOM",
+        "manipulation",
+        "RESTful",
+        "delegation",
+        "PSR-0",
+        "fileupload",
+        "upload"
+    ],
+    "homepage": "http://phery-php-ajax.net",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Paulo Cesar",
+            "homepage": "http://phery-php-ajax.net",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3"
     },
-	"suggest":{
-		"kohana-modules/phery":"Module with straightfoward, transparent and seamless integration with Kohana 3.x"
-	}
+    "autoload": {
+        "classmap": [
+            "vendor/phery/phery/Phery.php"
+        ]
+    },
+    "suggest": {
+        "kohana-modules/phery": "Module with straightfoward, transparent and seamless integration with Kohana 3.x"
+    }
 }
