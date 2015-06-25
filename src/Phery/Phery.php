@@ -458,7 +458,7 @@ class Phery implements ArrayAccess
 
         $response = PheryResponse::factory()->exception($errstr, array(
             'code' => $errno,
-            'file' => Phery::$expose_paths ? $errfile : pathinfo($errfile, PATHINFO_BASENAME),
+            'file' => self::$expose_paths ? $errfile : pathinfo($errfile, PATHINFO_BASENAME),
             'line' => $errline
         ));
 
@@ -512,7 +512,7 @@ class Phery implements ArrayAccess
 
                 header('Cache-Control: no-cache, must-revalidate', true);
                 header('Expires: Sat, 26 Jul 1997 05:00:00 GMT', true);
-                header('Content-Type: application/json; charset=' . (strtolower(Phery::$encoding)), true);
+                header('Content-Type: application/json; charset=' . (strtolower(self::$encoding)), true);
                 header('Connection: close', true);
             }
         }
@@ -569,7 +569,7 @@ class Phery implements ArrayAccess
     protected function before_user_func()
     {
         if ($this->config['error_reporting'] !== false) {
-            set_error_handler('Phery::error_handler', $this->config['error_reporting']);
+            set_error_handler(sprintf('%s::error_handler', __CLASS__), $this->config['error_reporting']);
         }
 
         if (empty($_POST['phery']['csrf'])) {
@@ -824,7 +824,7 @@ class Phery implements ArrayAccess
                 }
 
                 if ($register_function || $this->init) {
-                    register_shutdown_function('Phery::shutdown_handler', $this->config['error_reporting'] !== false);
+                    register_shutdown_function(sprintf('%s::shutdown_handler', __CLASS__), $this->config['error_reporting'] !== false);
                     $this->init = false;
                 }
 
