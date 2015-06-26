@@ -199,11 +199,11 @@ Add any additional data, that will be accessible to either process functions or 
 
 #### Phery::args(array $data, $encoding = 'UTF-8')
 
-Encode arguments that phery can understand (json_encode'd) that does inside data-args.
+Encode arguments that phery can understand (json_encode'd) that goes inside ```data-phery-args```.
 Doing it by hand can have some unwanted side effects, since the JSON must be perfectly made
 
 ```html
-<a data-args="<?=Phery::args(array('id' => 1));?>" data-remote="remote">Click me</a>
+<a data-phery-args="<?=Phery::args(array('id' => 1));?>" data-phery-remote="remote">Click me</a>
 ```
 
 #### Phery::is_ajax($is_phery = false)
@@ -408,7 +408,7 @@ Creates a new instance of phery.js, that is chainable
 
 Helper static method to create any element with AJAX enabled. Check sources, phpDocs or an IDE code hinting
 for a better scoop and detailed info <http://phery-php-ajax.net/docs/class-Phery.html#_link_to>
-When creating this element, if you use `data-related`, you can merge multiple forms in one AJAX call
+When creating this element, if you use `data-phery-related`, you can merge multiple forms in one AJAX call
 
 ```php
 <?php echo Phery::link_to('link title', 'function_name', array('class' => 'red', 'href' => '/url')); ?>
@@ -429,7 +429,7 @@ Using `link_to` as the following:
 Helper static method to open a form that will be able to execute AJAX submits.
 Check sources, phpDocs or an IDE code hinting for a better scoop and detailed info
 <http://phery-php-ajax.net/docs/class-Phery.html#_form_for>
-When creating this element, if you use `data-related`, you can merge multiple forms in one AJAX call
+When creating this element, if you use `data-phery-related`, you can merge multiple forms in one AJAX call
 
 ```php
 <?php echo Phery::form_for('/url-to-action/or/empty-means-current-url', 'function_name', array('class' => 'form', 'id' => 'form_id', 'submit' => array('disabled' => true, 'all' => true))) ?>
@@ -443,7 +443,7 @@ When creating this element, if you use `data-related`, you can merge multiple fo
 
 Helper static method to display a select element that make AJAX calls on change.
 <http://phery-php-ajax.net/docs/class-Phery.html#_select_for>
-When creating this element, if you use `data-related`, you can merge multiple forms in one AJAX call
+When creating this element, if you use `data-phery-related`, you can merge multiple forms in one AJAX call
 
 ```php
 <?php echo Phery::select_for('function_name', array(1 => 'true', 2 => 'hello', 3 => 'control'), array('selected' => 2)) ?>
@@ -1102,7 +1102,7 @@ phery.view({
 				window.history.pushState(data, data.title, data.url);
 			}
 		},
-		// Optional, defaults to a[href]:not(.no-phery,[target],[data-remote],[href*=":"],[rel~="nofollow"]).
+		// Optional, defaults to a[href]:not(.no-phery,[target],[data-phery-remote],[href*=":"],[rel~="nofollow"]).
 		// Setting the selector manually will make it 'local' to the #container, like '#container a'
 		// Links like <a rel="#nameofcontainer">click me!</a>, using the rel attribute will trigger too
 		'selector': 'a',
@@ -1245,27 +1245,23 @@ Make it so it can only be loaded once on page load, and won't be able to call it
 
 ### Debugging
 
-* `debug.enable` (true / false, defaults to false):
-Enable verbose to keep track of each step defined below. Don't enable it in production since it's really verbosely
-* `debug.display.events` (true / false, defaults to true):
-Display events debug
-* `debug.display.remote` (true / false, defaults to true):
-Display remote calls
-* `debug.display.config` (true / false, defaults to true):
-Display config changes
+* `debug.enable` (true / false, defaults to false): enable verbose to keep track of each step defined below. Don't enable it in production since it's really verbosely
+* `debug.display.events` (true / false, defaults to true): display events debug
+* `debug.display.remote` (true / false, defaults to true): display remote calls
+* `debug.display.config` (true / false, defaults to true): display config changes
 
 ### Delegation
 
 If you specify a string, it will be appended `phery.config('delegate.confirm', 'focusin')` becomes `['click','focusin']`, passing a array, it wil be rewritten
 `phery.config('delegate.confirm', ['focusin'])` becomes `['focusin']`
 
-* `delegate.confirm` (selector => `[data-confirm]:not(form)`) (string, defaults to \['click'\]):
+* `delegate.confirm` (selector => `[data-phery-confirm]:not(form)`) (string, defaults to \['click'\]):
 Confirm alert
-* `delegate.form` (selector => `form[data-remote]`) (string, defaults to \['submit'\]):
+* `delegate.form` (selector => `form[data-pheryremote]`) (string, defaults to \['submit'\]):
 Form submission
-* `delegate.select_multiple` (selector => `select[data-remote][multiple]`) (string, defaults to \['blur'\]):
+* `delegate.select_multiple` (selector => `select[data-phery-remote][multiple]`) (string, defaults to \['blur'\]):
 Event on `select multiple` element
-* `delegate.select` (selector => `select[data-remote]:not([multiple])`) (string, defaults to \['change'\]):
+* `delegate.select` (selector => `select[data-phery-remote]:not([multiple])`) (string, defaults to \['change'\]):
 Event on `select` element
 * `delegate.tags` (selector => `[data-remote]:not(form,select)`) (string, defaults to \['click'\]):
 Clicks on elements, like `A`
