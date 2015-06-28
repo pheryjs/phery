@@ -236,7 +236,7 @@ Set `$is_phery` to true to check specifically for phery.js call
 Public static function that throws a exception and return a PheryResponse with the exception.
 May be registered as a handler using `set_error_handler('Phery::error_handler', E_ALL);` for example
 
-#### Phery::shudown_handler()
+#### Phery::shutdown_handler()
 
 Public static function that should be used only with `register_shutdown_function('Phery::shutdown_handler');`
 having no other useful meaning
