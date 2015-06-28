@@ -28,7 +28,7 @@ Check the a lot of examples and code at http://phery-php-ajax.net/demo.php
 
 ## Introduction
 
-**This library is PSR-0 Compatible**
+**This library is PSR-4 Compatible**
 
 The main goal of this library is to make jQuery (and Javascript), be completely dynamic instead of static and unchangeable code, returning commands on-the-fly from the server and execute them in order on the client, while still manipulating the DOM and dealing with callbacks.
 
@@ -73,12 +73,21 @@ Version 2.4.0 isn't a drop-in replacement because of some changes, so you might 
 
 http://phery-php-ajax.net/docs/
 
+## Installation
+Install Phery with [Composer](http://getcomposer.org):
+
+```json
+composer require phery/phery
+```
+
 ## Documentation
 
-It's really simple as
+It's really simple as:
 
 ```php
 <?php
+    require_once 'vendor/autoload.php';
+    use Phery\Phery;
 	Phery::instance()
 	->set(array(
 		'function_name' => function($data){
