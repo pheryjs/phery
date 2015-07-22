@@ -1,0 +1,40 @@
+{
+  "name": "phery.js",
+  "homepage": "http://phery-php-ajax.net",
+  "description": "The bridge from jQuery to PHP, and vice-versa through AJAX.",
+  "keywords": [
+    "AJAX",
+    "event",
+    "unobtrusive",
+    "fileupload",
+    "PHP",
+    "form",
+    "serialization",
+    "partial",
+    "REST",
+    "upload",
+    "FormData",
+    "jquery",
+    "dom",
+    "HTML5",
+    "JSON"
+  ],
+  "authors": [
+    {
+      "name": "Paulo Cesar",
+      "homepage": "http://github.com/pocesar"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/pheryjs/phery.git"
+  },
+  "main": [
+    "phery.js",
+    "phery.min.js"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "jquery": ">=1.8"
+  }
+}
