@@ -1578,7 +1578,7 @@
 				}
 
 				if (special || selector.charAt(0) === '<' || selector.search(/^[0-9]+$/) === -1) {
-					if (special === '!' || special === '=' || special === '+') {
+					if (special === '!' || special === '=' || special === '+' || special === '-' ) {
 						cmd = data[selector][0];
 						self.process_parameters();
 					}
