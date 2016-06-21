@@ -52,7 +52,7 @@ The code is mostly commented using phpDoc and jsDoc, for a steep learning curve,
 
 * PHP 5.3.3+
 * jQuery 1.8+
-* Firefox 3.6+, IE 8+, Chrome 12+, Safari 5+, Opera 10+
+* Firefox 3.6+, IE 9+, Chrome 12+, Safari 7+
 
 ## Upcoming
 
