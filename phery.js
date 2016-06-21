@@ -1104,9 +1104,8 @@
 				var _ajax = $.ajax(opt);
 
 				_ajax
-					.done(_done)
-					.always(_always)
-					.fail(_fail);
+					.then(_done,_fail)
+					.then(_always, _always);
 
 				return _ajax;
 			};
@@ -1555,15 +1554,15 @@
 							self.trigger([phery.log('invalid pub/sub operation')]);
 						}
 						break;
-          /* Set/Renew CSRF */
-          case 13:
-            var meta = $('head meta#csrf-token');
-            if (meta.length) {
-              meta.replaceWith(argv[0]);
-            } else {
-              $('head').append(argv[0]);
-            }
-            break;
+				        /* Set/Renew CSRF */
+				        case 13:
+						var meta = $('head meta#csrf-token');
+						if (meta.length) {
+							meta.replaceWith(argv[0]);
+						} else {
+							$('head').append(argv[0]);
+						}
+						break;
 					default:
 						self.trigger([phery.log('invalid command "' + (cmd['c']) + '" issued')]);
 						break;
@@ -1953,7 +1952,7 @@
 				timeout = function(){
 					if (element.constructor === Array) {
 						var arr = $.makeArray(element);
-						phery.remotes(arr).done(function () {
+						phery.remotes(arr).then(function () {
 							if (stop === false) {
 								handler = setTimeout(timeout, _interval);
 							}
@@ -1961,11 +1960,12 @@
 					} else {
 						var promise = functions.ajax_call.call(element);
 						if (promise){
-							promise.always(function () {
+							var ret = function () {
 								if (stop === false) {
 									handler = setTimeout(timeout, _interval);
 								}
-							});
+							};
+							promise.then(ret, ret);
 						}
 					}
 				};
@@ -2160,7 +2160,7 @@
 		 *       // 'this' is the element in the array and 'current' argument is the current AJAX promise
 		 *       if (this instanceof jQuery) {
 		 *         if (this.hasClass('loader')){
-		 *           current.always(function(){
+		 *           current.then(function(){
 		 *             phery.remote('accomplish', this.data('id'));
 		 *           });
 		 *         }
@@ -2168,7 +2168,7 @@
 		 *          this.abort();
 		 *       }
 		 *     })
-		 *     .done(function(){
+		 *     .then(function(){
 		 *       // all calls were made
 		 *     });
 		 * </code>
@@ -2195,30 +2195,8 @@
 		 * @return {jQuery.Deferred}
 		 */
 		phery.remotes = function(array) {
-			var
-				$d = $.Deferred(),
-				promises = [],
-				count = 0,
-				next = function() {
-					var current = array instanceof $ ? array.eq(count++) : array.shift();
-					if (current && current.length) {
-						var promise =
-							array instanceof $ ?
-								phery.remote.apply(current)
-								:
-								phery.remote.apply(phery, current);
-
-						if (promise instanceof $.Deferred) {
-							promises.push(promise);
-							$d.notifyWith(current, promise);
-							promise.always(next);
-						} else {
-							next();
-						}
-					} else {
-						$d.resolve(promises);
-					}
-				};
+			var promises = [];
+			var count = 0;
 
 			if ($.type(array) === 'array' && array.length) {
 				for (var i = 0; i < array.length; i++) {
@@ -2231,13 +2209,34 @@
 					}
 				}
 			} else if (!(array instanceof $)) {
-				$d.resolve([]);
-				return $d.promise();
+				return $.when([]);
 			}
+			
+			var defer = new $.Deferred();
+			var next = function () {
+				var current = array instanceof $ ? array.eq(count++) : array.shift();
+				if (current && current.length) {
+					var promise =
+						array instanceof $ ?
+							phery.remote.apply(current)
+							:
+							phery.remote.apply(phery, current);
 
+					if (promise instanceof $.Deferred) {
+						promises.push(promise);
+						defer.notifyWith(current, promise);
+						promise.then(next, next);
+					} else {
+						next();
+					}
+				} else {
+					defer.resolve(promises);
+				}
+			}
+			
 			next();
-
-			return $d.promise();
+			
+			return defer.promise();
 		};
 
 		/**
