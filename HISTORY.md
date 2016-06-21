@@ -1,3 +1,6 @@
+### v3.0.0-alpha.3 - 21 June 2016
+    * Works with jQuery 3.0.0 only
+
 ### v2.7.2 - 2nd May 2014
     * Added option to skip `session_start()` through `auto_session` option
     * Added `get_csrf_token()` to `Phery` that gets the current token from the `$_SESSION` variable
