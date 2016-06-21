@@ -1,0 +1,9 @@
+{
+  "name": "phery",
+  "version": "3.0.0-alpha.3",
+  "dependencies": {
+    "jquery":"^3.0.0"
+  },
+  "browser":"./phery.js",
+  "main": "./phery.js"
+}
