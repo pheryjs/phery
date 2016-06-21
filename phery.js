@@ -28,8 +28,10 @@
 
 (function (window, factory) {
 	'use strict';
-
-	if (typeof define === 'function' && typeof define['amd'] !== 'undefined') {
+	
+	if (typeof module === 'object' && module.exports) {
+		module.exports = factory(window, require('jquery'));
+	} else if (typeof define === 'function' && define.amd) {
 		/* AMD. Register as phery module. */
 		define('phery', ['jquery'], function(jQuery){
 			return factory(window, jQuery);
