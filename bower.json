@@ -29,12 +29,9 @@
     "type": "git",
     "url": "git://github.com/pheryjs/phery.git"
   },
-  "main": [
-    "phery.js",
-    "phery.min.js"
-  ],
+  "main": "phery.js",
   "license": "MIT",
   "dependencies": {
-    "jquery": ">=1.8"
+    "jquery": "~3.0.0"
   }
 }
