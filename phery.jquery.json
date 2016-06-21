@@ -1,6 +1,6 @@
 {
 	"name":"phery",
-	"version":"2.7.2",
+	"version":"3.0.0-alpha.3",
 	"title":"Phery.js PHP Ajax",
 	"author":{
 		"name":"Paulo Cesar",
@@ -13,7 +13,7 @@
 		}
 	],
 	"dependencies":{
-		"jquery":">=1.8"
+		"jquery":"~3.0.0"
 	},
 	"description":"The bridge from jQuery to PHP, and vice-versa through AJAX. Using event delegation, forms and links can call PHP functions with only some data-* attributes, and perform RESTful requests using GET, POST, PUT, DELETE without any manual event binding, everything just works. You can also render partial views using ajax, loading only parts of the page. This plugin also allows you to upload files using AJAX on good browsers and IE10",
 	"keywords":["ajax", "event", "unobtrusive", "fileupload", "php", "form", "serialization", "partial", "REST","upload","FormData","jquery","dom","html5","json"],
