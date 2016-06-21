@@ -3084,7 +3084,7 @@
 			return result;
 		};
 
-		$.extend($.expr.pseudos[':'], {
+		$.extend($.expr.pseudos, {
 			'phery-remote': function(el){
 				return typeof (el instanceof $ ? el.phery('data', 'remote') : $(el).phery('data', 'remote')) === 'string';
 			},
