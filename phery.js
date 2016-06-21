@@ -1397,7 +1397,7 @@
 					/* JSON */
 					case 4:
 						try {
-							self.trigger([$.parseJSON(argv[0])], 'json');
+							self.trigger([JSON.parse(argv[0])], 'json');
 						} catch (exception) {
 							self.trigger([phery.log(exception, argv[0])]);
 						}
@@ -2343,7 +2343,7 @@
 				}
 
 				if ($.type(str) === 'string' && element instanceof $) {
-					functions.process_request.call(element, $.parseJSON(str), true);
+					functions.process_request.call(element, JSON.parse(str), true);
 				}
 			}
 			return phery;
@@ -3083,7 +3083,7 @@
 			return result;
 		};
 
-		$.extend($.expr[':'], {
+		$.extend($.expr.pseudos[':'], {
 			'phery-remote': function(el){
 				return typeof (el instanceof $ ? el.phery('data', 'remote') : $(el).phery('data', 'remote')) === 'string';
 			},
