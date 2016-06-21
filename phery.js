@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  *
- * Copyright © 2010-2013 Paulo Cesar, http://phery-php-ajax.net/
+ * Copyright © 2010-2016 Paulo Cesar, http://phery-php-ajax.net/
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -110,7 +110,7 @@
 		 *
 		 * @type {String}
 		 */
-		phery.version = '2.7.2';
+		phery.version = '3.0.0-alpha.3';
 
 		/**
 		 * @lends {Object.prototype.hasOwnProperty}
