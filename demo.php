@@ -1,10 +1,5 @@
 <?php
 
-use Phery\Phery;
-use Phery\PheryException;
-use Phery\PheryFunction;
-use Phery\PheryResponse;
-
 //Ensure that it's completly compatible with strict mode and throws no notices or warnings, and not using any deprecated code
 error_reporting(-1);
 
@@ -19,7 +14,7 @@ $end_line = 907; date_default_timezone_set('UTC');
 $memory_start = 0;
 $start_time = microtime(true);
 
-require_once 'vendor/autoload.php';
+require_once 'Phery.php';
 
 PheryResponse::set_global('global', true); //sleep(2); // uncomment to emulate latency
 
