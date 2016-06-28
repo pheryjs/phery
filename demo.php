@@ -1,4 +1,10 @@
 <?php
+
+use Phery\Phery;
+use Phery\PheryException;
+use Phery\PheryFunction;
+use Phery\PheryResponse;
+
 //Ensure that it's completly compatible with strict mode and throws no notices or warnings, and not using any deprecated code
 error_reporting(-1);
 
@@ -13,7 +19,7 @@ $end_line = 907; date_default_timezone_set('UTC');
 $memory_start = 0;
 $start_time = microtime(true);
 
-require_once 'Phery.php';
+require_once 'vendor/autoload.php';
 
 PheryResponse::set_global('global', true); //sleep(2); // uncomment to emulate latency
 
@@ -914,8 +920,8 @@ $exception = array('from' => (__LINE__ - 17), 'to' => (__LINE__ - 2));
 <meta charset="utf-8">
 <title>phery.js AJAX jQuery</title>
 <?php echo $csrf_token; ?>
-<script src="colorbox/colorbox/jquery.colorbox.js" id="colorbox-script" type="text/javascript"></script>
-<link rel="stylesheet" href="colorbox/example1/colorbox.css">
+<script src="//cdn.rawgit.com/jackmoore/colorbox/master/jquery.colorbox-min.js" id="colorbox-script" type="text/javascript"></script>
+<link rel="stylesheet" href="//cdn.rawgit.com/jackmoore/colorbox/master/example1/colorbox.css">
 <script src="phery.js" type="text/javascript"></script>
 <script type="text/javascript">
 function test(number_array) {
