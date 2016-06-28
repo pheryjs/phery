@@ -920,8 +920,8 @@ $exception = array('from' => (__LINE__ - 17), 'to' => (__LINE__ - 2));
 <meta charset="utf-8">
 <title>phery.js AJAX jQuery</title>
 <?php echo $csrf_token; ?>
-<script src="colorbox/colorbox/jquery.colorbox.js" id="colorbox-script" type="text/javascript"></script>
-<link rel="stylesheet" href="colorbox/example1/colorbox.css">
+<script src="//cdn.rawgit.com/jackmoore/colorbox/master/jquery.colorbox-min.js" id="colorbox-script" type="text/javascript"></script>
+<link rel="stylesheet" href="//cdn.rawgit.com/jackmoore/colorbox/master/example1/colorbox.css">
 <script src="phery.js" type="text/javascript"></script>
 <script type="text/javascript">
 function test(number_array) {
