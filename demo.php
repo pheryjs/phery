@@ -1647,7 +1647,7 @@ function memusage(peak, usage, time) {
 		</div>
 	</li>
 	<li>
-		<h2>Call to an existing javascript function an array of integers</h2>
+		<h2>Pass an array of integers to an existing javascript function</h2>
 		<?php echo Phery::link_to('Static call from class', 'test4', array('args' => array(1, 2, 4, 6, 19))); ?>
 		<div class="readcode">
 			<?php echo Phery::link_to('See the PHP code', 'readcode', array('class' => 'togglecode', 'args' => array('from' => 66, 'to' => 78))); ?>
