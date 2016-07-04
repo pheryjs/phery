@@ -19,6 +19,16 @@
     "HTML5",
     "JSON"
   ],
+  "ignore": [
+    "docs",
+    "src",
+    "CHANGELOG.md",
+    "README.md",
+    "composer.json",
+    "demo.php",
+    ".npmignore",
+    "phery.jquery.json"
+  ],
   "authors": [
     {
       "name": "Paulo Cesar",
