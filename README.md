@@ -75,18 +75,12 @@ http://phery-php-ajax.net/docs/
 
 ## Documentation
 
-It's really simple as
-
 ```php
 <?php
 	Phery::instance()
 	->set(array(
-		'function_name' => function($data){
-				return
-					PheryResponse::factory()
-						->jquery('<div/>', array('text' => 'text content'))
-						->appendTo('body')
-						->call('func', 'list', true);
+		'show_alert' => function($data){
+			return PheryResponse::factory()->alert("I'm an alert!");
 		}
 	))->process();
 ?>
@@ -95,19 +89,17 @@ It's really simple as
 	<head>
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 		<script src="phery.js"></script>
-		<script>
-			function func(name, override){
-				/* function */
-			}
-		</script>
 	</head>
 	<body>
-	    <?php echo Phery::link_to('Click me', 'function_name'); ?>
+	    <?php echo Phery::link_to('Show an alert', 'show_alert'); ?>
+	    <!-- 
+	    	will generate an element like <a data-phery-remote="show_alert">Show an alert</a>
+	    -->
 	</body>
 </html>
 ```
 
-When clicking a link with `data-phery-remote`, it will automatically call the "function_name" callback, that will return a response and apply everything automagically
+When clicking a link with `data-phery-remote`, it will automatically call the "show_alert" AJAX function on the server, that will return a response.
 
 Complete class declarations and functions at http://phery-php-ajax.net/docs/
 
@@ -1006,9 +998,9 @@ These events are triggered globally, independently if called from an existing DO
 The `event.target` points to the related DOM node (that was clicked, or the form that was submitted), if any.
 When calling `phery.remote`, the `event.target` will be the detached DOM element that were created on-the-fly
 to make the AJAX call, and isn't appended to the page.
+
 You may check if the element is temporary using `if (event.$target.phery('data', 'temp')){ /* is temp */ }`
-Also, phery provides a shortcut to the event jQuery element through `event.$target`, that is the same as doing `$(event.target)`,
-but it's ready to use.
+Also, phery provides a shortcut to the event jQuery element through `event.$target`, that is the same as doing `$(event.target)`, but it's ready to use.
 
 * `before`: `function (event)`
 Triggered before everything, happens right after `phery.remote()` call. Issuing an `event.stopImmediatePropagation()` after
@@ -1033,21 +1025,21 @@ File upload progress (not available in <= IE9). Can be accessed through the prom
 Pass extra params to the request. Won't overwrite existing params for security reasons
 
 ```js
-phery.on('before', function(){
-	$('#loading').fadeIn();
+phery.on('before', function(event /* jQuery event */){
+	$('#loading').fadeIn(); 
 });
 
-phery.on('always', function(){
+phery.on('always', function(event /* jQuery event */, xhr /* jQuery XHR object instance */){
 	$('#loading').fadeOut();
 });
 
 //or
 
 phery.on({
-	'before': function(){
+	'before': function(event /* jQuery event */){
 		$('#loading').fadeIn();
 	},
-	'always': function(){
+	'always': function(event /* jQuery event */, xhr /* jQuery XHR object instance */){
 		$('#loading').fadeOut();
 	}
 });
@@ -1298,7 +1290,7 @@ phery.on({
 * `phery:params`: `function (event, obj)`
 
 ```js
-$('form').bind({
+$('form').on({
 	// Enable them again
 	'phery:always': function(){
 		$(this).find('input').removeAttr('disabled');
