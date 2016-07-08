@@ -1033,6 +1033,11 @@ phery.on('always', function(event /* jQuery event */, xhr /* jQuery XHR object i
 	$('#loading').fadeOut();
 });
 
+phery.on('fail', function(event /* jQuery event */, xhr /* jQuery XHR object instance */, status, error) {
+	// 'status' can be: "timeout", "error", "abort", and "parsererror", or null if no error
+	// 'error' is the associated HTTP error such as "Not Found", or "Internal Server Error" if the problem is related to a server error. 
+});
+
 //or
 
 phery.on({
