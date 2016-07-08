@@ -992,12 +992,14 @@ side effects for events that propagated from the children elements, so when you 
 if you execute any other phery event that isn't the selector for your in-view link, the `beforeSend` of the child element
 will propagate to the view container, and will trigger it's event.
 
-#### phery.on(event, cb)
+#### phery.on(event, cb) | phery.on(events)
+
+Refer to https://api.jquery.com/on/
 
 These events are triggered globally, independently if called from an existing DOM element or through `phery.remote()`
 The `event.target` points to the related DOM node (that was clicked, or the form that was submitted), if any.
 When calling `phery.remote`, the `event.target` will be the detached DOM element that were created on-the-fly
-to make the AJAX call, and isn't appended to the page.
+to make the AJAX call, and isn't appended to the page. 
 
 You may check if the element is temporary using `if (event.$target.phery('data', 'temp')){ /* is temp */ }`
 Also, phery provides a shortcut to the event jQuery element through `event.$target`, that is the same as doing `$(event.target)`, but it's ready to use.
