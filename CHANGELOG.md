@@ -1,3 +1,18 @@
+### v2.7.5 - 11st July 2016
+    * README.md changes
+    * Update minified version
+    * Updates to demo.php
+    * Update LICENSE file
+    * Remove internal versions from files
+    * Update docs
+
+### v2.7.4 - 28th June 2016
+    * README.md changes
+    * Don't include jQuery 3 by default
+
+### v2.7.3 - 2nd May 2015
+    * Autoload fix for composer
+
 ### v2.7.2 - 2nd May 2014
     * Added option to skip `session_start()` through `auto_session` option
     * Added `get_csrf_token()` to `Phery` that gets the current token from the `$_SESSION` variable

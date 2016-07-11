@@ -82,7 +82,6 @@
 			},
 			/**
 			 * @class
-			 * @version 2.7.4
 			 * @extends {jQuery}
 			 */
 			phery = (function(){ return function(){ return phery; }; })();
@@ -102,13 +101,6 @@
 		 * @type {Array.<{str: String, fn: Function}>}
 		 */
 		vars.call_cache = [];
-
-		/**
-		 * Phery.js semver version
-		 *
-		 * @type {String}
-		 */
-		phery.version = '2.7.4';
 
 		/**
 		 * @lends {Object.prototype.hasOwnProperty}
