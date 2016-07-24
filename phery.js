@@ -28,12 +28,12 @@
 
 (function (window, factory) {
 	'use strict';
-	
+
 	if (typeof module === 'object' && module.exports) {
 		module.exports = factory(window, require('jquery'));
 	} else if (typeof define === 'function' && define.amd) {
 		/* AMD. Register as phery module. */
-		define('phery', ['jquery'], function(jQuery){
+		define(['jquery'], function (jQuery) {
 			return factory(window, jQuery);
 		});
 	} else {
@@ -64,30 +64,29 @@
 			 * @enum {Number}
 			 */
 			structural_html = {
-				'HTML':1,
-				'BODY':1,
-				'DIV':1,
-				'BLOCKQUOTE':1,
-				'BR':1,
-				'HR':1,
-				'HEAD':1,
-				'H1':1, 'H2':1, 'H3':1, 'H4':1, 'H5':1, 'H6':1,
-				'P':1,
-				'HEADER':1,
-				'FOOTER':1,
-				'NAV':1,
-				'SECTION':1,
-				'ASIDE':1,
-				'ARTICLE':1,
-				'HGROUP':1,
-				'FIGURE':1
+				'HTML': 1,
+				'BODY': 1,
+				'DIV': 1,
+				'BLOCKQUOTE': 1,
+				'BR': 1,
+				'HR': 1,
+				'HEAD': 1,
+				'H1': 1, 'H2': 1, 'H3': 1, 'H4': 1, 'H5': 1, 'H6': 1,
+				'P': 1,
+				'HEADER': 1,
+				'FOOTER': 1,
+				'NAV': 1,
+				'SECTION': 1,
+				'ASIDE': 1,
+				'ARTICLE': 1,
+				'HGROUP': 1,
+				'FIGURE': 1
 			},
 			/**
 			 * @class
-			 * @version 2.7.2
 			 * @extends {jQuery}
 			 */
-			phery = (function(){ return function(){ return phery; }; })();
+			phery = (function () { return function () { return phery; }; })();
 
 		vars.locked_config = false;
 		vars.inline_load = true;
@@ -106,19 +105,12 @@
 		vars.call_cache = [];
 
 		/**
-		 * Phery.js semver version
-		 *
-		 * @type {String}
-		 */
-		phery.version = '3.0.0-alpha.3';
-
-		/**
 		 * @lends {Object.prototype.hasOwnProperty}
 		 * @param {Object|Array} obj
 		 * @param {String|Number} i
 		 * @returns {Boolean}
 		 */
-		functions.hop = function(obj, i) {
+		functions.hop = function (obj, i) {
 			return Object.prototype.hasOwnProperty.call(obj, i);
 		};
 
@@ -130,14 +122,13 @@
 		 *
 		 * @return {jQuery.Callbacks|Boolean}
 		 */
-		functions.is_subscribed = function(func_name, do_new, element)
-		{
+		functions.is_subscribed = function (func_name, do_new, element) {
 			if (!element) { return false; }
 			var i, len, topic = null;
 			do_new = do_new === undefined ? true : !!do_new;
 
-			for (i = 0, len = vars.subscribed.length; i < len; i++){
-				if (vars.subscribed[i].topic === func_name && vars.subscribed[i].element.is(element)){
+			for (i = 0, len = vars.subscribed.length; i < len; i++) {
+				if (vars.subscribed[i].topic === func_name && vars.subscribed[i].element.is(element)) {
 					return vars.subscribed[i];
 				}
 			}
@@ -146,16 +137,16 @@
 				var cb = $.Callbacks();
 				topic = {
 					callback: cb,
-					pub: function(args){
+					pub: function (args) {
 						args = args || [];
 						topic.callback.fireWith(element, args);
 						return topic;
 					},
-					sub: function(fn){
+					sub: function (fn) {
 						topic.callback.add(fn);
 						return topic;
 					},
-					unsub: function(fn){
+					unsub: function (fn) {
 						topic.callback.remove(fn);
 						return topic;
 					},
@@ -251,7 +242,7 @@
 		 * @param {Object} [result] Result object
 		 * @return {Object.<String, (String|Array|File)>}
 		 */
-		functions.obj_to_str = function(obj, prefix, result) {
+		functions.obj_to_str = function (obj, prefix, result) {
 			result = (typeof result === 'object') ? result : {};
 
 			var prop, value, name;
@@ -277,7 +268,7 @@
 		 * @param {HTMLInputElement|File} input
 		 * @return {String|File|Array.<File>}
 		 */
-		functions.files_to_array = function(input) {
+		functions.files_to_array = function (input) {
 			var result = [];
 
 			if (vars.has_file) {
@@ -304,7 +295,7 @@
 		 * @param {Object.<String, String|Array|File>|Object} obj
 		 * @returns {vars.FormData}
 		 */
-		functions.to_formdata = function(obj){
+		functions.to_formdata = function (obj) {
 			obj = ($.type(obj) === 'object' ? functions.obj_to_str(obj) : obj);
 
 			var
@@ -319,7 +310,7 @@
 			return fd;
 		};
 
-		functions.per_data = function(this_data, args) {
+		functions.per_data = function (this_data, args) {
 			var
 				type = $.type(this_data),
 				arg_type = $.type(args),
@@ -379,13 +370,13 @@
 			return this_data;
 		};
 
-		functions.filter_prop = function(type){
-			return function(){
+		functions.filter_prop = function (type) {
+			return function () {
 				return $(this).prop(type);
 			};
 		};
 
-		functions.form_element = function($this){
+		functions.form_element = function ($this) {
 			var
 				radios,
 				opts,
@@ -428,7 +419,7 @@
 
 			return {
 				'name': name,
-				'value':value,
+				'value': value,
 				'type': type
 			};
 		};
@@ -437,7 +428,7 @@
 		 * @this {jQuery}
 		 * @param {Object|Array} args
 		 */
-		functions.append_args = function(args) {
+		functions.append_args = function (args) {
 			var this_data, x;
 
 			if (typeof args[0] !== 'undefined' && args[0].constructor === Array) {
@@ -456,7 +447,7 @@
 		 * @this {jQuery}
 		 * @param {*} args
 		 */
-		functions.set_args = function(args) {
+		functions.set_args = function (args) {
 			if ($.type(args) !== 'function') {
 				this.phery('data', 'args', functions.per_data(undefined, args[0]));
 			}
@@ -469,7 +460,7 @@
 		 * @param {Array} y
 		 * @return {Boolean}
 		 */
-		functions.compare_array = function(x, y) {
+		functions.compare_array = function (x, y) {
 			if (x === y) {
 				return true;
 			}
@@ -491,7 +482,7 @@
 		 * @param {Boolean} process
 		 * @return {*}
 		 */
-		functions.str_is_function = function(str, process) {
+		functions.str_is_function = function (str, process) {
 			if (!str || typeof str['toString'] !== 'function') {
 				return false;
 			}
@@ -511,7 +502,7 @@
 					}
 				}
 
-				for (i = cache_len-1; i >= 0; i--) {
+				for (i = cache_len - 1; i >= 0; i--) {
 					if ((vars.call_cache[i]['lu'] + 60000) < now) {
 						vars.call_cache.splice(i, 1);
 					}
@@ -529,9 +520,9 @@
 					fn = new Function(f_args, f_body);
 
 					vars.call_cache.push({
-						'str':str,
-						'fn':fn,
-						'lu':now
+						'str': str,
+						'fn': fn,
+						'lu': now
 					});
 				}
 				return fn;
@@ -588,34 +579,34 @@
 			$body_html = null;
 
 		vars._callbacks = {
-			'before':function () {
+			'before': function () {
 				return true;
 			},
-			'beforeSend':function () {
+			'beforeSend': function () {
 				return true;
 			},
-			'params':function () {
+			'params': function () {
 				return true;
 			},
-			'always':function () {
+			'always': function () {
 				return true;
 			},
-			'fail':function () {
+			'fail': function () {
 				return true;
 			},
-			'progress':function () {
+			'progress': function () {
 				return true;
 			},
-			'done':function () {
+			'done': function () {
 				return true;
 			},
-			'after':function () {
+			'after': function () {
 				return true;
 			},
-			'exception':function () {
+			'exception': function () {
 				return true;
 			},
-			'json':function () {
+			'json': function () {
 				return true;
 			}
 		};
@@ -645,7 +636,7 @@
 			}
 		}
 
-		functions.trigger_and_return = function(el, name, data, context, bubble) {
+		functions.trigger_and_return = function (el, name, data, context, bubble) {
 			context = context || null;
 
 			var
@@ -663,16 +654,16 @@
 			if (bubble) {
 				el.trigger(event, data);
 			} else {
-				el.each(function(){
+				el.each(function () {
 					$.event.trigger(event, data, this, true);
 				});
 			}
 
 			debug(['event triggered', {
-				'name':name,
+				'name': name,
 				'event result': event.result,
-				'element':el,
-				'data':data
+				'element': el,
+				'data': data
 			}], 'events');
 
 			return event;
@@ -686,7 +677,7 @@
 		 * @param {Boolean} [triggerData]
 		 * @returns {Boolean}
 		 */
-		functions.trigger_phery_event = function(el, event_name, data, triggerData) {
+		functions.trigger_phery_event = function (el, event_name, data, triggerData) {
 			data = data || [];
 			triggerData = triggerData === undefined ? false : triggerData;
 
@@ -720,7 +711,7 @@
 			return res;
 		};
 
-		functions.count_properties = function(obj) {
+		functions.count_properties = function (obj) {
 			var count = 0;
 
 			if (typeof obj === 'object') {
@@ -751,7 +742,7 @@
 		 * @param {jQuery} $this
 		 * @return {Boolean|jQuery.ajax}
 		 */
-		functions.form_submit = function($this) {
+		functions.form_submit = function ($this) {
 			var _confirm = $this.phery('data', 'confirm');
 			if (_confirm) {
 				if (!confirm(_confirm)) {
@@ -771,7 +762,7 @@
 		 *
 		 * @return {Boolean|jQuery.ajax}
 		 */
-		functions.ajax_call = function(args, element) {
+		functions.ajax_call = function (args, element) {
 			var dispatch_event, event_result;
 
 			if (this.phery('data', 'proxy') instanceof $) {
@@ -792,7 +783,7 @@
 				return false;
 			}
 
-			if (!this.phery('data', 'remote') && !this.phery('data', 'view')){
+			if (!this.phery('data', 'remote') && !this.phery('data', 'view')) {
 				functions.trigger_phery_event(dispatch_event, 'exception', [phery.log('Current element have no remote data information')]);
 				functions.trigger_phery_event(dispatch_event, 'always', [null]);
 				clean_up(this);
@@ -801,13 +792,13 @@
 
 			var
 				_headers = {
-					'X-Requested-With':'XMLHttpRequest',
-					'X-Phery':1
+					'X-Requested-With': 'XMLHttpRequest',
+					'X-Phery': 1
 				},
 				el = element || this,
 				self = this,
 				tmp,
-				url =  self.attr('action') || self.attr('href') || self.phery('data', 'target') || el.attr('action') || el.attr('href') || el.phery('data', 'target') || options.default_href || window.location.href,
+				url = self.attr('action') || self.attr('href') || self.phery('data', 'target') || el.attr('action') || el.attr('href') || el.phery('data', 'target') || options.default_href || window.location.href,
 				type = self.phery('data', 'type') || el.phery('data', 'type') || 'json',
 				method = self.attr('method') || el.attr('method') || el.phery('data', 'method') || 'GET',
 				submit_id = el.attr('id') || el.parent().attr('id') || null,
@@ -819,9 +810,9 @@
 				files = {},
 				$token,
 				data = {
-					'args':undefined,
-					'phery':{
-						'method':method
+					'args': undefined,
+					'phery': {
+						'method': method
 					}
 				};
 
@@ -851,9 +842,9 @@
 				try {
 					tmp = el.serializeForm(
 						el.phery('data', 'submit') ?
-							$.extend({}, el.phery('data', 'submit'), {'files_apart': true})
+							$.extend({}, el.phery('data', 'submit'), { 'files_apart': true })
 							:
-							{'files_apart': true}
+							{ 'files_apart': true }
 					);
 
 					data['args'] = functions.per_data(
@@ -933,21 +924,21 @@
 								var $this = $(this);
 
 								if ($this.is('form')) {
-									tmp = $this.serializeForm({'files_apart': true});
+									tmp = $this.serializeForm({ 'files_apart': true });
 
 									tmprelated = functions.per_data(tmprelated, tmp.inputs);
 
 									$.extend(files, tmp.files);
-                } else if ($this.is('input[type="checkbox"]') && $this.attr('name') && $this.attr('name').indexOf('[') > 0 && $this.attr('name').indexOf(']') > 0) {
-                  var name = $this.serializeForm();
+								} else if ($this.is('input[type="checkbox"]') && $this.attr('name') && $this.attr('name').indexOf('[') > 0 && $this.attr('name').indexOf(']') > 0) {
+									var name = $this.serializeForm();
 
-                  for (var i in name) {
-                    if (tmprelated[i] === undefined) {
-                      tmprelated[i] = [];
-                    }
-                    tmprelated[i] = functions.per_data(tmprelated[i], name[i]);
-                  }
-                } else if ($this.attr('name')) {
+									for (var i in name) {
+										if (tmprelated[i] === undefined) {
+											tmprelated[i] = [];
+										}
+										tmprelated[i] = functions.per_data(tmprelated[i], name[i]);
+									}
+								} else if ($this.attr('name')) {
 									tmprelated[$this.attr('name')] = $this.val();
 								} else if ($this.attr('id')) {
 									tmprelated[$this.attr('id')] = $this.val();
@@ -983,9 +974,9 @@
 			requested = new Date();
 
 			debug(['remote call', {
-				'data':data,
-				'timestamp':requested.getTime(),
-				'time':requested.toLocaleString()
+				'data': data,
+				'timestamp': requested.getTime(),
+				'time': requested.toLocaleString()
 			}], 'remote');
 
 			requested = requested.getTime();
@@ -993,36 +984,36 @@
 			has_file = functions.count_properties(files) > 0;
 
 			var opt = {
-				url:(
+				url: (
 					cache ? url : (
 						url.indexOf('_=') === -1 ?
 							((url.indexOf('#') !== -1 ? url.substr(0, url.indexOf('#')) : url) + (url.indexOf('?') > -1 ? '&' : '?') + '_=' + requested)
 							:
 							(url.replace(/_=(\d+)/, '_=' + requested))
-						)
-					),
+					)
+				),
 				data: has_file ? functions.to_formdata($.extend(files, data)) : data,
 				contentType: has_file ? false : 'application/x-www-form-urlencoded',
 				processData: !has_file,
-				dataType:type,
-				type:'POST',
-				el:self,
-				global:false,
-				try_count:0,
-				timeout:options.ajax.timeout,
-				retry_limit:options.ajax.retries,
-				cache:cache,
-				headers:_headers,
-				'xhr': function(){
+				dataType: type,
+				type: 'POST',
+				el: self,
+				global: false,
+				try_count: 0,
+				timeout: options.ajax.timeout,
+				retry_limit: options.ajax.retries,
+				cache: cache,
+				headers: _headers,
+				'xhr': function () {
 					var xhr = $.ajaxSettings.xhr();
 					if (typeof xhr['upload'] !== 'undefined') {
-						xhr['upload'].onprogress = function(progress){
-							functions.trigger_phery_event(dispatch_event,  'progress', [progress]);
+						xhr['upload'].onprogress = function (progress) {
+							functions.trigger_phery_event(dispatch_event, 'progress', [progress]);
 						};
 					}
 					return xhr;
 				},
-				'beforeSend':function (xhr, settings) {
+				'beforeSend': function (xhr, settings) {
 					do_cursor('wait');
 
 					var res = functions.trigger_phery_event(dispatch_event, 'beforeSend', [xhr, settings]);
@@ -1035,78 +1026,78 @@
 				}
 			};
 
-			var
-				_fail = function (xhr, status, error) {
-					if (this.retry_limit > 0 && status === 'timeout') {
-						this.try_count++;
+			var _fail = function (xhr, status, error) {
+				if (opt.retry_limit > 0 && status === 'timeout') {
+					opt.try_count++;
 
-						if (this.try_count <= this.retry_limit) {
-							functions.trigger_phery_event(dispatch_event, 'before');
+					if (opt.try_count <= opt.retry_limit) {
+						functions.trigger_phery_event(dispatch_event, 'before');
 
-							this.dataType = 'text ' + type;
+						opt.dataType = 'text ' + type;
 
-							this.url =
-								this.url.indexOf('_try_count=') === -1 ?
-									(this.url + '&_try_count=' + this.try_count) :
-									(this.url.replace(/_try_count=(\d+)/, '_try_count=' + this.try_count));
+						opt.url =
+							opt.url.indexOf('_try_count=') === -1 ?
+								(opt.url + '&_try_count=' + opt.try_count) :
+								(opt.url.replace(/_try_count=(\d+)/, '_try_count=' + opt.try_count));
 
-							if (!cache){
-								this.url = this.url.replace(/_=(\d+)/, '_=' + new Date().getTime());
-							}
-
-							ajax = set_ajax_opts(this);
-							return false;
+						if (!cache) {
+							opt.url = opt.url.replace(/_=(\d+)/, '_=' + new Date().getTime());
 						}
+
+						ajax = set_ajax_opts(opt);
+						return false;
 					}
+				}
 
-					do_cursor(false);
+				do_cursor(false);
 
+				el.phery('data', 'inprogress', false);
+
+				if (functions.trigger_phery_event(dispatch_event, 'fail', [xhr, status, error]).result === false) {
+					clean_up(opt.el);
+					return false;
+				}
+
+				clean_up(opt.el);
+				return true;
+			};
+
+			var _done = function (data, text, xhr) {
+				if (functions.trigger_phery_event(dispatch_event, 'done', [data, text, xhr]).result === false) {
+					return false;
+				}
+
+				functions.process_request.call(dispatch_event, data, dispatch_event !== self);
+
+				return true;
+			};
+
+			var _always = function (data, text, xhr) {
+				if (text === 'timeout' && data.readyState !== 4 && opt.try_count > 0 && opt.try_count <= opt.retry_limit) {
+					functions.trigger_phery_event(dispatch_event, 'always', [data]);
+					return false;
+				}
+
+				do_cursor(false);
+
+				if (text !== 'timeout') {
 					el.phery('data', 'inprogress', false);
+				}
 
-					if (functions.trigger_phery_event(dispatch_event, 'fail', [xhr, status, error]).result === false) {
-						clean_up(this.el);
-						return false;
-					}
+				if (functions.trigger_phery_event(dispatch_event, 'always', [text === 'timeout' ? data : xhr]).result === false) {
+					clean_up(opt.el);
+					return false;
+				}
 
-					clean_up(this.el);
-					return true;
-				},
-				_done = function (data, text, xhr) {
-					if (functions.trigger_phery_event(dispatch_event, 'done', [data, text, xhr]).result === false) {
-						return false;
-					}
-
-					functions.process_request.call(dispatch_event, data, dispatch_event !== self);
-
-					return true;
-				},
-				_always = function (data, text, xhr) {
-					if (text === 'timeout' && data.readyState !== 4 && this.try_count > 0 && this.try_count <= this.retry_limit) {
-						functions.trigger_phery_event(dispatch_event, 'always', [data]);
-						return false;
-					}
-
-					do_cursor(false);
-
-					if (text !== 'timeout')
-					{
-						el.phery('data', 'inprogress', false);
-					}
-
-					if (functions.trigger_phery_event(dispatch_event, 'always', [text === 'timeout' ? data : xhr]).result === false) {
-						clean_up(this.el);
-						return false;
-					}
-
-					clean_up(this.el);
-					return true;
-				};
+				clean_up(opt.el);
+				return true;
+			};
 
 			var set_ajax_opts = function (opt) {
 				var _ajax = $.ajax(opt);
 
 				_ajax
-					.then(_done,_fail)
+					.then(_done, _fail)
 					.then(_always, _always);
 
 				return _ajax;
@@ -1171,7 +1162,7 @@
 		 * @param {*} data
 		 * @param {Boolean|undefined} [force_current]
 		 */
-		functions.convertible = function($element, data, force_current) {
+		functions.convertible = function ($element, data, force_current) {
 			var self = this, special, selector, cmd;
 			self.$current = null;
 			self.$last = null;
@@ -1181,20 +1172,20 @@
 
 			force_current = force_current === undefined ? false : force_current;
 
-			self.set_selector = function(current) {
+			self.set_selector = function (current) {
 				self.$last = self.$current;
 				self.$current = current;
 				self.stack.push(current);
 			};
 
-			self.restore_selector = function() {
+			self.restore_selector = function () {
 				if (self.$last !== null) {
 					self.$current = self.$last;
 					self.$last = self.$current;
 				}
 			};
 
-			self.convert_special = function(obj, depth){
+			self.convert_special = function (obj, depth) {
 				var func;
 
 				if (depth === undefined) {
@@ -1242,7 +1233,7 @@
 				return obj;
 			};
 
-			self.selector = function() {
+			self.selector = function () {
 				var func, Obj;
 
 				if (special === '=' || special === '!') {
@@ -1338,12 +1329,12 @@
 				}
 			};
 
-			self.trigger = function(data, event) {
+			self.trigger = function (data, event) {
 				event = event || 'exception';
 				functions.trigger_phery_event($element, event, data);
 			};
 
-			self.process_parameters = function(){
+			self.process_parameters = function () {
 				if (cmd && typeof cmd['a'] !== 'undefined') {
 					for (var i in cmd['a']) {
 						if (functions.hop(cmd['a'], i)) {
@@ -1353,7 +1344,7 @@
 				}
 			};
 
-			self.command = function(){
+			self.command = function () {
 				var argc, argv, command, tmp, view, pass, args;
 
 				if (!cmd) {
@@ -1465,7 +1456,7 @@
 									self.phery.data('inprogress', false);
 									phery.view(argv[1]).navigate_to(argv[0]);
 								} catch (e) {
-									self.trigger([phery.log('phery view "'+(argv[1])+'" not found')]);
+									self.trigger([phery.log('phery view "' + (argv[1]) + '" not found')]);
 								}
 							} else {
 								window.location.assign(argv[0]);
@@ -1556,8 +1547,8 @@
 							self.trigger([phery.log('invalid pub/sub operation')]);
 						}
 						break;
-				        /* Set/Renew CSRF */
-				        case 13:
+					/* Set/Renew CSRF */
+					case 13:
 						var meta = $('head meta#csrf-token');
 						if (meta.length) {
 							meta.replaceWith(argv[0]);
@@ -1571,7 +1562,7 @@
 				}
 			};
 
-			self.select = function(){
+			self.select = function () {
 				special = selector.match(vars.special_match);
 
 				if (special !== null) {
@@ -1579,7 +1570,7 @@
 				}
 
 				if (special || selector.charAt(0) === '<' || selector.search(/^[0-9]+$/) === -1) {
-					if (special === '!' || special === '=' || special === '+' || special === '-' ) {
+					if (special === '!' || special === '=' || special === '+' || special === '-') {
 						cmd = data[selector][0];
 						self.process_parameters();
 					}
@@ -1613,7 +1604,7 @@
 				}
 			};
 
-			self.destroy = function(){
+			self.destroy = function () {
 				self.stack = self.$current = self.$last = self.phery = data = cmd = null;
 			};
 
@@ -1637,7 +1628,7 @@
 		 * @param {Object} data
 		 * @param {Boolean} proxied
 		 */
-		functions.process_request = function(data, proxied) {
+		functions.process_request = function (data, proxied) {
 			if (!this.phery('data', 'remote') && !this.phery('data', 'view') && !proxied) {
 				functions.trigger_phery_event(this, 'after', [null]);
 				return;
@@ -1684,8 +1675,8 @@
 					} else {
 						debug(['config', {
 							'group': group,
-							'name':x,
-							'value':original[x]
+							'name': x,
+							'value': original[x]
 						}], 'config');
 
 						switch (group) {
@@ -1744,7 +1735,7 @@
 		options = $.extend(true, {}, vars.defaults, options);
 
 		$window.on({
-			'load': function(){
+			'load': function () {
 				if (options.enable.autolock) {
 					vars.locked_config = true;
 				}
@@ -1849,7 +1840,7 @@
 		 *
 		 * @return {phery}
 		 */
-		phery.lock_config = function() {
+		phery.lock_config = function () {
 			vars.locked_config = true;
 			return phery;
 		};
@@ -1908,9 +1899,9 @@
 		 *
 		 * @return phery
 		 */
-		phery.broadcast = function(name, args){
+		phery.broadcast = function (name, args) {
 			var i, len, sub;
-			for (i = 0, len = vars.subscribed.length; i < len; i++){
+			for (i = 0, len = vars.subscribed.length; i < len; i++) {
 				sub = vars.subscribed[i];
 				if (sub.topic === name) {
 					sub.pub(args);
@@ -1927,7 +1918,7 @@
 		 *
 		 * @return {jQuery}
 		 */
-		phery.subscribe = function(func_name, subs, args, attr){
+		phery.subscribe = function (func_name, subs, args, attr) {
 			var remote = phery.remote(func_name, args, attr, false);
 			remote.phery('subscribe', subs);
 			return remote;
@@ -1946,12 +1937,12 @@
 		 *
 		 * @return {Object<{start:Function, stop:Function}>}
 		 */
-		phery.timer = function(element, interval){
+		phery.timer = function (element, interval) {
 			var
 				stop = false,
 				handler = null,
 				_interval = interval,
-				timeout = function(){
+				timeout = function () {
 					if (element.constructor === Array) {
 						var arr = $.makeArray(element);
 						phery.remotes(arr).then(function () {
@@ -1961,7 +1952,7 @@
 						});
 					} else {
 						var promise = functions.ajax_call.call(element);
-						if (promise){
+						if (promise) {
 							var ret = function () {
 								if (stop === false) {
 									handler = setTimeout(timeout, _interval);
@@ -1977,8 +1968,8 @@
 			}
 
 			return {
-				'start': function(interval){
-					if (interval !== undefined){
+				'start': function (interval) {
+					if (interval !== undefined) {
 						stop = false;
 						_interval = interval;
 						clearTimeout(handler);
@@ -1986,7 +1977,7 @@
 					}
 					return this;
 				},
-				'stop': function(){
+				'stop': function () {
 					stop = true;
 					clearTimeout(handler);
 					return this;
@@ -2046,13 +2037,12 @@
 
 			$a.phery('data', 'remote', function_name);
 
-			if (direct_call === true)
-			{
-				if (attr !== undefined){
+			if (direct_call === true) {
+				if (attr !== undefined) {
 					if (typeof attr['temp'] !== 'undefined') {
 						$a.phery('data', 'temp', true);
 						is_temp = true;
-					} else if (typeof attr['proxy'] === 'undefined' && typeof attr['el'] === 'undefined')  {
+					} else if (typeof attr['proxy'] === 'undefined' && typeof attr['el'] === 'undefined') {
 						$a.phery('data', 'temp', true);
 						is_temp = true;
 					}
@@ -2118,7 +2108,7 @@
 		 *
 		 * @return {jQuery}
 		 */
-		phery.element = function(remote, attrs){
+		phery.element = function (remote, attrs) {
 			attrs = attrs || null;
 			return phery.remote(remote, null, attrs, false);
 		};
@@ -2133,14 +2123,14 @@
 		 *
 		 * @return {jQuery}
 		 */
-		phery.json = function(remote, args, cb){
-			var el = phery.remote(remote, null, {'temp': true}, false);
-			el.on('phery:json', function(event, data){
+		phery.json = function (remote, args, cb) {
+			var el = phery.remote(remote, null, { 'temp': true }, false);
+			el.on('phery:json', function (event, data) {
 				return cb(data);
 			});
 			if (args !== undefined && args !== null) {
 				el.phery('remote', args);
-			} else  {
+			} else {
 				el.phery('remote');
 			}
 			return el;
@@ -2196,7 +2186,7 @@
 		 *
 		 * @return {jQuery.Deferred}
 		 */
-		phery.remotes = function(array) {
+		phery.remotes = function (array) {
 			var promises = [];
 			var count = 0;
 
@@ -2213,7 +2203,7 @@
 			} else if (!(array instanceof $)) {
 				return $.when([]);
 			}
-			
+
 			var defer = new $.Deferred();
 			var next = function () {
 				var current = array instanceof $ ? array.eq(count++) : array.shift();
@@ -2235,9 +2225,9 @@
 					defer.resolve(promises);
 				}
 			}
-			
+
 			next();
-			
+
 			return defer.promise();
 		};
 
@@ -2297,8 +2287,8 @@
 			} else if (typeof event === 'string' && typeof cb === 'function') {
 				if (event in vars._callbacks) {
 					debug(['phery.on', {
-						event:event,
-						callback:cb
+						event: event,
+						callback: cb
 					}], 'events');
 
 					callbacks.on(event + '.phery', cb);
@@ -2316,7 +2306,7 @@
 		 */
 		phery.off = function (event) {
 			debug(['phery.off', {
-				event:event
+				event: event
 			}], 'events');
 
 			callbacks.off(event + '.phery');
@@ -2332,7 +2322,7 @@
 		 * @param {jQuery} [element] An element that will "respond" for this load. If its not provided, it will create a dummy element
 		 * @return {phery}
 		 */
-		phery.load = function(str, element){
+		phery.load = function (str, element) {
 			if (options.inline.enabled) {
 				if (!vars.inline_load) {
 					return phery;
@@ -2381,7 +2371,7 @@
 		 * @constructor
 		 * @param {jQuery} config
 		 */
-		functions.phery_view = function(config) {
+		functions.phery_view = function (config) {
 			/**
 			 * Container jQuery element
 			 *
@@ -2571,8 +2561,8 @@
 
 						if (
 							typeof config[_container]['selector'] === 'string' &&
-								config[_container]['selector'].search(/(^|\s)a($|\s|\.)/i) !== -1
-							) {
+							config[_container]['selector'].search(/(^|\s)a($|\s|\.)/i) !== -1
+						) {
 							selector = _container + ' ' + config[_container]['selector'];
 						} else {
 							selector = 'a[href]:not(.no-phery,[target],[data-phery-remote],[href*=":"],[rel~="nofollow"])';
@@ -2658,7 +2648,7 @@
 				 * @type {jQuery}
 				 */
 				$this = this,
-				_out = (function(){
+				_out = (function () {
 					return {
 						/**
 						 * Publish a message to the element
@@ -2668,8 +2658,8 @@
 						 *
 						 * @return {jQuery}
 						 */
-						'publish':function (name, args) {
-							return $this.each(function(){
+						'publish': function (name, args) {
+							return $this.each(function () {
 								var $this = $(this), subs;
 								subs = functions.is_subscribed(name, false, $this);
 								if (subs !== false) {
@@ -2689,13 +2679,13 @@
 						 *
 						 * @return {jQuery}
 						 */
-						'subscribe':function (obj, remove) {
-							return $this.each(function(){
+						'subscribe': function (obj, remove) {
+							return $this.each(function () {
 								var v, $this = $(this), sub;
 								for (v in obj) {
-									if (functions.hop(obj, v)){
+									if (functions.hop(obj, v)) {
 										sub = functions.is_subscribed(v, true, $this);
-										if (sub !== false){
+										if (sub !== false) {
 											if (remove === true) {
 												sub.unsub(obj[v]);
 											} else {
@@ -2713,7 +2703,7 @@
 						 * @param {*} [data]
 						 * @return {jQuery}
 						 */
-						'exception':function (msg, data) {
+						'exception': function (msg, data) {
 							return $this.each(function () {
 								var $this = $(this);
 								functions.trigger_phery_event($this, 'exception', [msg, data]);
@@ -2726,7 +2716,7 @@
 						 * @param {*} [data] The data itself
 						 * @returns {*}
 						 */
-						'data':function (name, data) {
+						'data': function (name, data) {
 							var i;
 							if (data !== undefined) {
 								$this.data('phery-' + (name), data);
@@ -2762,7 +2752,7 @@
 						 *
 						 * @returns {jQuery}
 						 */
-						'proxy':function (jq) {
+						'proxy': function (jq) {
 							return $this.each(function () {
 								var $_this = $(this);
 
@@ -2776,7 +2766,7 @@
 										if (jq.length) {
 											$_this.phery('data', 'proxy', jq);
 										}
-									} catch (exc) {}
+									} catch (exc) { }
 								} else {
 									$.removeData(this, 'phery-proxy');
 								}
@@ -2790,7 +2780,7 @@
 						 * @param {Object} [args] Pass additional args, either an array or an object
 						 * @return {jQuery}
 						 */
-						'remote':function (args) {
+						'remote': function (args) {
 							return $this.each(function () {
 								var $this = $(this);
 
@@ -2811,21 +2801,21 @@
 						 * @param {Object} [args] Pass additional args, either an array or an object
 						 * @return {jQuery}
 						 */
-						'one':function (args) {
-              if ($this.is(':phery-remote')) {
-                if ($this.is('form')) {
-                  return functions.form_submit($this);
-                } else {
-                  return functions.ajax_call.call($this, args);
-                }
-              }
+						'one': function (args) {
+							if ($this.is(':phery-remote')) {
+								if ($this.is('form')) {
+									return functions.form_submit($this);
+								} else {
+									return functions.ajax_call.call($this, args);
+								}
+							}
 						},
 						/**
 						 * Append arguments to the element, pass as many items you want
 						 *
 						 * @return {_out}
 						 */
-						'append_args':function () {
+						'append_args': function () {
 							var args = Array.prototype.slice.call(arguments);
 
 							if (args.length) {
@@ -2843,7 +2833,7 @@
 						 * @param {*} args Prefer using objects or arrays
 						 * @return {_out}
 						 */
-						'set_args':function (args) {
+						'set_args': function (args) {
 							$this.each(function () {
 								var $this = $(this);
 								functions.set_args.call($this, [args]);
@@ -2855,13 +2845,13 @@
 						 *
 						 * @return {*}
 						 */
-						'get_args':function () {
+						'get_args': function () {
 							return _out.data('args');
 						},
 						/**
 						 * Remove the DOM object from the page, doing some cleanups
 						 */
-						'remove':function () {
+						'remove': function () {
 							$this.each(function () {
 								var $this = $(this);
 								$this.phery('data', 'temp', true);
@@ -2875,7 +2865,7 @@
 						 * @param {Array.<*>|Object.<string, *>} [args] Arguments
 						 * @return {jQuery}
 						 */
-						'make':function (func, args) {
+						'make': function (func, args) {
 							if ($.type(func) === 'string') {
 								return $this.each(function () {
 									var $this = $(this);
@@ -2899,7 +2889,7 @@
 						 *
 						 * @returns {Boolean}
 						 */
-						'inprogress':function() {
+						'inprogress': function () {
 							return !!_out.data('inprogress');
 						},
 						/**
@@ -2908,7 +2898,7 @@
 						 * @param {Boolean} [unbind] Unbind phery events
 						 * @return {jQuery}
 						 */
-						'unmake':function (unbind) {
+						'unmake': function (unbind) {
 							return $this.each(function () {
 								var $this = $(this);
 								if (unbind) {
@@ -2961,15 +2951,15 @@
 		 */
 		functions.serializeForm = function (opt) {
 			opt = $.extend({
-				'disabled':false,
-				'all':false,
-				'empty':true,
-				'files_apart':false
+				'disabled': false,
+				'all': false,
+				'empty': true,
+				'files_apart': false
 			}, opt || {});
 
 			var
 				$form = $(this),
-				result = opt['files_apart'] ? {'inputs':{}, 'files':{}} : {},
+				result = opt['files_apart'] ? { 'inputs': {}, 'files': {} } : {},
 				map = function () {
 					var $this = $(this);
 					if (!vars.has_file && $this.is('input[type="file"]')) {
@@ -2981,16 +2971,16 @@
 					$form.is('form') ?
 						(
 							$form
-							.find('input,textarea,select')
-							.filter(function () {
-								var ret = true;
-								if (!opt['disabled']) {
-									ret = !this.disabled;
-								}
-								return ret && $.trim(this.name) !== '';
-							})
-							.map(map)
-							.get()
+								.find('input,textarea,select')
+								.filter(function () {
+									var ret = true;
+									if (!opt['disabled']) {
+										ret = !this.disabled;
+									}
+									return ret && $.trim(this.name) !== '';
+								})
+								.map(map)
+								.get()
 						)
 						:
 						(
@@ -3058,9 +3048,9 @@
 					if ($matches[len - 1] === '') {
 						offset = functions.assign_object(
 							opt['files_apart'] ?
-							(
-								(type === 'file') ? result['files'] : result['inputs']
-							) : result,
+								(
+									(type === 'file') ? result['files'] : result['inputs']
+								) : result,
 							fields, [], true, false, false
 						);
 
@@ -3072,9 +3062,9 @@
 					} else {
 						functions.assign_object(
 							opt['files_apart'] ?
-							(
-								(type === 'file') ? result['files'] : result['inputs']
-							) : result,
+								(
+									(type === 'file') ? result['files'] : result['inputs']
+								) : result,
 							fields, value, true, false, false, type === 'file'
 						);
 					}
@@ -3085,13 +3075,13 @@
 		};
 
 		$.extend($.expr.pseudos, {
-			'phery-remote': function(el){
+			'phery-remote': function (el) {
 				return typeof (el instanceof $ ? el.phery('data', 'remote') : $(el).phery('data', 'remote')) === 'string';
 			},
-			'phery-confirm': function(el){
+			'phery-confirm': function (el) {
 				return typeof (el instanceof $ ? el.phery('data', 'confirm') : $(el).phery('data', 'confirm')) === 'string';
 			},
-			'phery-view': function(el){
+			'phery-view': function (el) {
 				return !!(el instanceof $ ? el.phery('data', 'view') : $(el).phery('data', 'view'));
 			}
 		});
@@ -3113,7 +3103,7 @@
 		$.fn.serializeForm = functions.serializeForm;
 
 		/**UNITTEST-BEGIN RUNS ON LOCALHOST ONLY*/
-		if ($.inArray(window.location.host, ['127.0.0.1','::1','localhost']) > -1) {
+		if ($.inArray(window.location.host, ['127.0.0.1', '::1', 'localhost']) > -1) {
 			phery.vars = vars;
 			phery.functions = functions;
 		}
