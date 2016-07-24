@@ -1,3 +1,6 @@
+### v3.0.0-alpha.5 - 24 July 2016
+    * Fixes for options
+    
 ### v3.0.0-alpha.3 - 21 June 2016
     * Works with jQuery 3.0.0 only
 
