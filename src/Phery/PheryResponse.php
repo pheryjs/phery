@@ -60,10 +60,10 @@ use ArrayObject;
  * @method PheryResponse animate(array $prop, int $dur, string $easing = null, PheryFunction $cb = null) Perform a custom animation of a set of CSS properties.
  * @method PheryResponse trigger(string $eventName, array $args = null) Trigger an event
  * @method PheryResponse triggerHandler(string $eventType, array $extraParameters = null) Execute all handlers attached to an element for an event.
- * @method PheryResponse fadeIn(string $speed) Fade in an element
+ * @method PheryResponse fadeIn(int|string $speed = null) Fade in an element
  * @method PheryResponse filter(string $selector) Reduce the set of matched elements to those that match the selector or pass the function's test.
  * @method PheryResponse fadeTo(int $dur, float $opacity) Fade an element to opacity
- * @method PheryResponse fadeOut(string $speed) Fade out an element
+ * @method PheryResponse fadeOut(int|string $speed = null) Fade out an element
  * @method PheryResponse slideUp(int $dur, PheryFunction $cb = null) Hide with slide up animation
  * @method PheryResponse slideDown(int $dur, PheryFunction $cb = null) Show with slide down animation
  * @method PheryResponse slideToggle(int $dur, PheryFunction $cb = null) Toggle show/hide the element, using slide animation
@@ -142,7 +142,7 @@ use ArrayObject;
  * @method PheryResponse reset() Reset a form element.
  * @method PheryResponse toArray() Retrieve all the DOM elements contained in the jQuery set, as an array.
  * @property PheryResponse this The DOM element that is making the AJAX call
- * @property PheryResponse jquery The $ jQuery object, can be used to call $.getJSON, $.getScript, etc
+ * @property JQuery jquery The $ jQuery object, can be used to call $.getJSON, $.getScript, etc
  * @property PheryResponse window Shortcut for jquery('window') / $(window)
  * @property PheryResponse document Shortcut for jquery('document') / $(document)
  */
