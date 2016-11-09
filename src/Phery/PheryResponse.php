@@ -32,6 +32,7 @@
 namespace Phery;
 
 use ArrayObject;
+use ReflectionClass;
 
 /**
  * Standard response for the json parser
