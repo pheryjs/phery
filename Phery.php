@@ -343,6 +343,23 @@ class Phery implements ArrayAccess {
     }
 
 	/**
+	 * Generates csrf token.
+	 *
+	 * @return string
+	 */
+	
+	private function generate_csrf_token()
+	{
+		$token = sha1(uniqid(microtime(true), true));
+
+		$_SESSION['phery'] = array(
+			'csrf' => $token
+		);
+
+		return $token;
+	}
+
+	/**
 	 * Output the meta HTML with the token.
 	 * This method needs to use sessions through session_start
 	 *
@@ -368,13 +385,7 @@ class Phery implements ArrayAccess {
 
 			if (($current_token !== false && $force) || $current_token === false)
 			{
-				$token = sha1(uniqid(microtime(true), true));
-
-				$_SESSION['phery'] = array(
-					'csrf' => $token
-				);
-
-				$token = base64_encode($token);
+				$token = base64_encode($this->generate_csrf_token());
 			}
 			else
 			{
@@ -387,6 +398,8 @@ class Phery implements ArrayAccess {
 		{
 			if (empty($_SESSION['phery']['csrf']))
 			{
+				$this->generate_csrf_token();
+				
 				return false;
 			}
 
