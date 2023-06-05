@@ -32,7 +32,10 @@
         }
     ],
     "require": {
-        "php": ">=5.3.3"
+        "php": ">=8.0"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^1.10"
     },
     "autoload": {
         "psr-4": {

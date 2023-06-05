@@ -568,10 +568,8 @@ class PheryResponse extends ArrayObject
      * Will check for globals and local values
      *
      * @param string|int $index
-     *
-     * @return mixed
      */
-    public function offsetExists($index)
+    public function offsetExists($index) : bool
     {
         if (isset(self::$global[$index])) {
             return true;
@@ -585,10 +583,8 @@ class PheryResponse extends ArrayObject
      *
      * @param string|int|null $index
      * @param mixed $newval
-     *
-     * @return void
      */
-    public function offsetSet($index, $newval)
+    public function offsetSet($index, $newval) : void
     {
         if ($index === null) {
             $this[] = $newval;
@@ -601,10 +597,8 @@ class PheryResponse extends ArrayObject
      * Return null if no value
      *
      * @param mixed $index
-     *
-     * @return mixed|null
      */
-    public function offsetGet($index)
+    public function offsetGet($index) : mixed
     {
         if (parent::offsetExists($index)) {
             return parent::offsetGet($index);
@@ -1339,6 +1333,7 @@ class PheryResponse extends ArrayObject
      *
      * @return PheryResponse
      */
+    #[\ReturnTypeWillChange]
     public function append($content, $selector = null)
     {
         if (is_array($content)) {
