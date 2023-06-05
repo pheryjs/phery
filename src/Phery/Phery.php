@@ -1302,10 +1302,8 @@ class Phery implements ArrayAccess
      * OffsetExists
      *
      * @param mixed $offset
-     *
-     * @return bool
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset) : bool
     {
         return isset($this->data[$offset]);
     }
@@ -1315,7 +1313,7 @@ class Phery implements ArrayAccess
      *
      * @param mixed $offset
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset) : void
     {
         if (isset($this->data[$offset])) {
             unset($this->data[$offset]);
@@ -1326,10 +1324,8 @@ class Phery implements ArrayAccess
      * OffsetGet
      *
      * @param mixed $offset
-     *
-     * @return mixed|null
      */
-    public function offsetGet($offset)
+    public function offsetGet($offset) : mixed
     {
         if (isset($this->data[$offset])) {
             return $this->data[$offset];
@@ -1344,7 +1340,7 @@ class Phery implements ArrayAccess
      * @param mixed $offset
      * @param mixed $value
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value) : void
     {
         $this->data[$offset] = $value;
     }
